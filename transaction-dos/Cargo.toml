@@ -1,0 +1,51 @@
+[package]
+name = "trezoa-transaction-dos"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-logger = { workspace = true }
+bincode = { workspace = true }
+clap = { workspace = true }
+log = { workspace = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-cli = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-faucet = { workspace = true }
+trezoa-gossip = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-packet = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rpc-client = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-status = { workspace = true }
+trezoa-version = { workspace = true }
+
+[dev-dependencies]
+trezoa-core = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-hash = { workspace = true }
+trezoa-local-cluster = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-poh-config = { workspace = true }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }

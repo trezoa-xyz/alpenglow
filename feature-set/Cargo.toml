@@ -1,0 +1,32 @@
+[package]
+name = "trezoa-feature-set"
+description = "Trezoa runtime feature declarations"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+readme = false
+
+[features]
+frozen-abi = ["dep:trezoa-frozen-abi", "dep:trezoa-frozen-abi-macro"]
+dev-context-only-utils = []
+
+[dependencies]
+ahash = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-hash = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-pubkey = { workspace = true, default-features = false }
+trezoa-sha256-hasher = { workspace = true }
+trezoa-svm-feature-set = { workspace = true }
+
+[lints]
+workspace = true

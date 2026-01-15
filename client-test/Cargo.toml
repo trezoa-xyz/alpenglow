@@ -1,0 +1,51 @@
+[package]
+name = "trezoa-client-test"
+description = "Trezoa RPC Test"
+documentation = "https://docs.rs/trezoa-client-test"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+futures-util = { workspace = true }
+serde_json = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-ledger = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-merkle-tree = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-native-token = { workspace = true }
+trezoa-perf = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-pubsub-client = { workspace = true }
+trezoa-rayon-threadlimit = { workspace = true }
+trezoa-rpc = { workspace = true }
+trezoa-rpc-client = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-system-transaction = { workspace = true }
+trezoa-test-validator = { workspace = true }
+trezoa-transaction-status = { workspace = true }
+trezoa-version = { workspace = true }
+systemstat = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-rpc = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }

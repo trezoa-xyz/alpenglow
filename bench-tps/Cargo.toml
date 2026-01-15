@@ -1,0 +1,84 @@
+[package]
+name = "trezoa-bench-tps"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-logger = { workspace = true }
+chrono = { workspace = true }
+clap = { workspace = true }
+crossbeam-channel = { workspace = true }
+csv = { workspace = true }
+log = { workspace = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-cli-config = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-compute-budget-interface = { workspace = true }
+trezoa-connection-cache = { workspace = true }
+trezoa-core = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-fee-calculator = { workspace = true }
+trezoa-genesis = { workspace = true }
+trezoa-genesis-config = { workspace = true }
+trezoa-gossip = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-metrics = { workspace = true }
+trezoa-native-token = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-nonce = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-quic-client = { workspace = true }
+trezoa-rpc = { workspace = true }
+trezoa-rpc-client = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-rpc-client-nonce-utils = { workspace = true }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-time-utils = { workspace = true }
+trezoa-tps-client = { workspace = true }
+trezoa-tpu-client = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-status = { workspace = true }
+trezoa-version = { workspace = true }
+tpl-instruction-padding-interface = { version = "=1.0.0" }
+thiserror = { workspace = true }
+
+[target.'cfg(not(any(target_env = "msvc", target_os = "freebsd")))'.dependencies]
+jemallocator = { workspace = true }
+
+[dev-dependencies]
+trezoa-feature-set = { workspace = true }
+serial_test = { workspace = true }
+trezoa-faucet = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-local-cluster = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-sdk-ids = { workspace = true }
+trezoa-test-validator = { workspace = true }
+trezoa-tps-client = { workspace = true, features = ["bank-client"] }
+tempfile = { workspace = true }

@@ -1,0 +1,58 @@
+[package]
+name = "trezoa-dos"
+publish = false
+description = "Tool to send various requests to cluster in order to evaluate the effect on performance"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-logger = { workspace = true }
+bincode = { workspace = true }
+clap = { version = "3.1.5", features = ["derive", "cargo"] }
+crossbeam-channel = { workspace = true }
+itertools = { workspace = true }
+log = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true }
+trezoa-bench-tps = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-connection-cache = { workspace = true }
+trezoa-core = { workspace = true }
+trezoa-gossip = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-perf = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-quic-client = { workspace = true }
+trezoa-rpc = { workspace = true }
+trezoa-rpc-client = { workspace = true }
+trezoa-signature = { workspace = true, features = ["rand"] }
+trezoa-signer = { workspace = true }
+trezoa-stake-interface = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-time-utils = { workspace = true }
+trezoa-tps-client = { workspace = true }
+trezoa-tpu-client = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-version = { workspace = true }
+
+[dev-dependencies]
+trezoa-core = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-faucet = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-local-cluster = { workspace = true }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }

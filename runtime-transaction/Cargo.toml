@@ -1,0 +1,61 @@
+[package]
+name = "trezoa-runtime-transaction"
+description = "Trezoa runtime-transaction"
+documentation = "https://docs.rs/trezoa-runtime-transaction"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_runtime_transaction"
+
+[features]
+dev-context-only-utils = ["trezoa-compute-budget-instruction/dev-context-only-utils"]
+
+[dependencies]
+trezoa-transaction-view = { workspace = true }
+log = { workspace = true }
+trezoa-compute-budget = { workspace = true }
+trezoa-compute-budget-instruction = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-message = { workspace = true, features = ["blake3"] }
+trezoa-pubkey = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-svm-transaction = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+trezoa-vote = { workspace = true }
+trezoa-votor-messages = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+trezoa-feature-set = { workspace = true }
+trezoa-reserved-account-keys = { workspace = true }
+bincode = { workspace = true }
+criterion = { workspace = true }
+rand = { workspace = true }
+trezoa-compute-budget-instruction = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-compute-budget-interface = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+trezoa-signer = { workspace = true }
+trezoa-system-interface = { workspace = true, features = ["bincode"] }
+trezoa-system-transaction = { workspace = true }
+trezoa-transaction = { workspace = true, features = ["blake3"] }
+trezoa-vote-interface = { workspace = true }
+
+[[bench]]
+name = "get_signature_details"
+harness = false
+
+[lints]
+workspace = true

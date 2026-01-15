@@ -1,0 +1,26 @@
+[package]
+name = "trezoa-verified-packet-receiver"
+description = "Trezoa-team Verified Packet Receiver Receiver"
+documentation = "https://docs.rs/trezoa-verified-packet-receiver"
+publish = true
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_verified_packet_receiver"
+
+[dependencies]
+trezoa-perf = { workspace = true }
+trezoa-streamer = { workspace = true }
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+trezoa-streamer = { workspace = true, features = ["dev-context-only-utils"] }

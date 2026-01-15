@@ -1,0 +1,63 @@
+[package]
+name = "trezoa-account-decoder"
+description = "Trezoa account decoder"
+documentation = "https://docs.rs/trezoa-account-decoder"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+Inflector = { workspace = true }
+base64 = { workspace = true }
+bincode = { workspace = true }
+bs58 = { workspace = true }
+bv = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-account-decoder-client-types = { workspace = true, features = ["zstd"] }
+trezoa-address-lookup-table-interface = { workspace = true, features = [
+    "bincode",
+    "bytemuck",
+] }
+trezoa-clock = { workspace = true }
+trezoa-config-interface = { workspace = true, features = ["bincode"] }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-fee-calculator = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-loader-v3-interface = { workspace = true, features = ["serde"] }
+trezoa-nonce = { workspace = true, features = ["serde"] }
+trezoa-program-option = { workspace = true }
+trezoa-program-pack = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-slot-hashes = { workspace = true }
+trezoa-slot-history = { workspace = true }
+trezoa-stake-interface = { workspace = true, features = ["bincode", "sysvar"] }
+trezoa-sysvar = { workspace = true }
+trezoa-vote-interface = { workspace = true, features = ["bincode"] }
+tpl-generic-token = { workspace = true }
+tpl-token-2022-interface = { workspace = true }
+tpl-token-group-interface = { workspace = true }
+tpl-token-interface = { workspace = true }
+tpl-token-metadata-interface = { workspace = true }
+thiserror = { workspace = true }
+zstd = { workspace = true }
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+trezoa-account = { workspace = true, features = ["bincode"] }
+trezoa-hash = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+tpl-pod = { workspace = true }
+
+[lints]
+workspace = true

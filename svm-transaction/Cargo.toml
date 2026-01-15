@@ -1,0 +1,25 @@
+[package]
+name = "trezoa-svm-transaction"
+description = "Trezoa SVM Transaction"
+documentation = "https://docs.rs/trezoa-svm-transaction"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+trezoa-hash = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-transaction = { workspace = true }
+
+[dev-dependencies]
+trezoa-message = { workspace = true, features = ["bincode"] }
+trezoa-nonce = { workspace = true }
+trezoa-system-interface = { workspace = true, features = ["bincode"] }
+static_assertions = { workspace = true }
+test-case = { workspace = true }

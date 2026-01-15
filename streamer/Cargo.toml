@@ -1,0 +1,70 @@
+[package]
+name = "trezoa-streamer"
+description = "Trezoa Streamer"
+documentation = "https://docs.rs/trezoa-streamer"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_streamer"
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+arc-swap = { workspace = true }
+bytes = { workspace = true }
+crossbeam-channel = { workspace = true }
+dashmap = { workspace = true }
+futures = { workspace = true }
+futures-util = { workspace = true }
+governor = { workspace = true }
+histogram = { workspace = true }
+indexmap = { workspace = true }
+itertools = { workspace = true }
+libc = { workspace = true }
+log = { workspace = true }
+nix = { workspace = true, features = ["net", "poll", "signal"] }
+num_cpus = { workspace = true }
+pem = { workspace = true }
+percentage = { workspace = true }
+quinn = { workspace = true }
+quinn-proto = { workspace = true }
+rand = { workspace = true }
+rustls = { workspace = true }
+smallvec = { workspace = true }
+socket2 = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-metrics = { workspace = true }
+trezoa-net-utils = { workspace = true, features = ["trezoa-unstable-api"] }
+trezoa-packet = { workspace = true }
+trezoa-perf = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-quic-definitions = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-time-utils = { workspace = true }
+trezoa-tls-utils = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+trezoa-transaction-metrics-tracker = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+tokio-util = { workspace = true, features = ["rt"] }
+x509-parser = { workspace = true }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+anyhow = { workspace = true }
+assert_matches = { workspace = true }
+clap = { version = "4.5.31", features = ["cargo", "derive", "error-context"] }
+trezoa-net-utils = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-streamer = { path = ".", features = ["dev-context-only-utils"] }

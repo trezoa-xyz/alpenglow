@@ -1,0 +1,55 @@
+[package]
+name = "trezoa-faucet"
+description = "Trezoa Faucet"
+documentation = "https://docs.rs/trezoa-faucet"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_faucet"
+
+[[bin]]
+name = "trezoa-faucet"
+path = "src/bin/faucet.rs"
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-logger = { workspace = true }
+bincode = { workspace = true }
+clap = { workspace = true }
+crossbeam-channel = { workspace = true }
+log = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-cli-config = { workspace = true }
+trezoa-cli-output = { workspace = true }
+trezoa-hash = "=3.0.0"
+trezoa-instruction = "=3.0.0"
+trezoa-keypair = "=3.0.1"
+trezoa-message = "=3.0.1"
+trezoa-metrics = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-packet = "=3.0.0"
+trezoa-pubkey = { version = "=3.0.0", features = ["rand"] }
+trezoa-signer = "=3.0.0"
+trezoa-system-interface = "=2.0"
+trezoa-system-transaction = "=3.0.0"
+trezoa-transaction = "=3.0.1"
+trezoa-version = { workspace = true }
+tpl-memo-interface = { version = "=2.0.0" }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+
+[dev-dependencies]
+trezoa-faucet = { path = ".", features = ["dev-context-only-utils"] }

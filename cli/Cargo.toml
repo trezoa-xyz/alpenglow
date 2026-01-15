@@ -1,0 +1,120 @@
+[package]
+name = "trezoa-cli"
+description = "Blockchain, Rebuilt for Scale"
+documentation = "https://docs.rs/trezoa-cli"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[[bin]]
+name = "trezoa"
+path = "src/main.rs"
+
+[features]
+dev-context-only-utils = ["trezoa-faucet/dev-context-only-utils"]
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+trezoa-logger = { workspace = true }
+trezoa-syscalls = { workspace = true }
+bincode = { workspace = true }
+bs58 = { workspace = true }
+clap = { workspace = true }
+console = { workspace = true }
+const_format = { workspace = true }
+criterion-stats = { workspace = true }
+crossbeam-channel = { workspace = true }
+ctrlc = { workspace = true, features = ["termination"] }
+hex = { workspace = true }
+humantime = { workspace = true }
+log = { workspace = true }
+num-traits = { workspace = true }
+pretty-hex = { workspace = true }
+reqwest = { workspace = true, features = ["blocking", "brotli", "deflate", "gzip", "rustls-tls", "json"] }
+semver = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account = "=3.1.0"
+trezoa-account-decoder = { workspace = true }
+trezoa-address-lookup-table-interface = { workspace = true }
+trezoa-bls-signatures = { workspace = true, features = ["trezoa-signer-derive"] }
+trezoa-borsh = "=3.0.0"
+trezoa-bpf-loader-program = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-cli-config = { workspace = true }
+trezoa-cli-output = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-clock = "=3.0.0"
+trezoa-cluster-type = "=3.0.0"
+trezoa-commitment-config = "=3.0.0"
+trezoa-compute-budget-interface = { version = "=3.0.0", features = ["borsh"] }
+trezoa-config-interface = "=2.0.0"
+trezoa-connection-cache = { workspace = true }
+trezoa-epoch-schedule = "=3.0.0"
+trezoa-feature-gate-interface = { version = "=3.0.0", features = ["bincode"] }
+trezoa-fee-calculator = "=3.0.0"
+trezoa-fee-structure = "=3.0.0"
+trezoa-hash = "=3.0.0"
+trezoa-instruction = "=3.0.0"
+trezoa-keypair = "=3.0.1"
+trezoa-loader-v3-interface = { version = "=6.1.0", features = ["bincode"] }
+trezoa-loader-v4-interface = "=3.1.0"
+trezoa-loader-v4-program = { workspace = true }
+trezoa-message = "=3.0.1"
+trezoa-native-token = "=3.0.0"
+trezoa-nonce = "=3.0.0"
+trezoa-offchain-message = { version = "=3.0.0", features = ["verify"] }
+trezoa-packet = "=3.0.0"
+trezoa-program-runtime = { workspace = true }
+trezoa-pubkey = { version = "=3.0.0", default-features = false }
+trezoa-pubsub-client = { workspace = true }
+trezoa-quic-client = { workspace = true }
+trezoa-remote-wallet = { workspace = true, features = ["default"] }
+trezoa-rent = "=3.0.0"
+trezoa-rpc-client = { workspace = true, features = ["default"] }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-rpc-client-nonce-utils = { workspace = true, features = ["clap"] }
+trezoa-sbpf = { workspace = true }
+trezoa-sdk-ids = "=3.0.0"
+trezoa-signature = { version = "=3.1.0", default-features = false }
+trezoa-signer = "=3.0.0"
+trezoa-slot-history = "=3.0.0"
+trezoa-stake-interface = "=2.0.1"
+trezoa-streamer = { workspace = true }
+trezoa-system-interface = { version = "=2.0", features = ["bincode"] }
+trezoa-sysvar = "=3.0.0"
+trezoa-tps-client = { workspace = true }
+trezoa-tpu-client = { workspace = true, features = ["default"] }
+trezoa-transaction = "=3.0.1"
+trezoa-transaction-error = "=3.0.0"
+trezoa-transaction-status = { workspace = true }
+trezoa-transaction-status-client-types = { workspace = true }
+trezoa-udp-client = { workspace = true }
+trezoa-version = { workspace = true }
+trezoa-vote = { workspace = true }
+trezoa-vote-program = { workspace = true }
+trezoa-votor-messages = { workspace = true }
+tpl-memo-interface = { version = "=2.0.0" }
+thiserror = { workspace = true }
+tiny-bip39 = { workspace = true }
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+trezoa-client = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-faucet = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-nonce-account = { workspace = true }
+trezoa-presigner = { workspace = true }
+trezoa-rpc = { workspace = true }
+trezoa-sha256-hasher = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-test-validator = { workspace = true }
+trezoa-tps-client = { workspace = true, features = ["dev-context-only-utils"] }
+tempfile = { workspace = true }
+test-case = { workspace = true }

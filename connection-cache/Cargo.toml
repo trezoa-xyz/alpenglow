@@ -1,0 +1,33 @@
+[package]
+name = "trezoa-connection-cache"
+description = "Trezoa Connection Cache"
+documentation = "https://docs.rs/trezoa-connection-cache"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+async-trait = { workspace = true }
+bincode = { workspace = true }
+crossbeam-channel = { workspace = true }
+futures-util = { workspace = true }
+indexmap = { workspace = true }
+indicatif = { workspace = true, optional = true }
+log = { workspace = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-metrics = { workspace = true }
+trezoa-time-utils = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+rand_chacha = { workspace = true }
+trezoa-net-utils = { workspace = true }

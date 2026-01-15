@@ -1,0 +1,31 @@
+[package]
+name = "trezoa-builtins"
+description = "Trezoa builtin programs"
+documentation = "https://docs.rs/trezoa-builtins"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+trezoa-bpf-loader-program = { workspace = true }
+trezoa-compute-budget-program = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-loader-v4-program = { workspace = true }
+trezoa-program-runtime = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-stake-program = { workspace = true }
+trezoa-system-program = { workspace = true }
+trezoa-vote-program = { workspace = true }
+trezoa-zk-elgamal-proof-program = { workspace = true }
+trezoa-zk-token-proof-program = { workspace = true }
+
+[lints]
+workspace = true

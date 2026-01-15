@@ -1,0 +1,68 @@
+[package]
+name = "trezoa-poh"
+description = "Trezoa PoH"
+documentation = "https://docs.rs/trezoa-poh"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_poh"
+
+[features]
+dev-context-only-utils = []
+shuttle-test = ["dep:shuttle"]
+
+[dependencies]
+arc-swap = { workspace = true }
+core_affinity = { workspace = true }
+crossbeam-channel = { workspace = true }
+log = { workspace = true }
+qualifier_attr = { workspace = true }
+shuttle = { workspace = true, optional = true }
+trezoa-clock = { workspace = true }
+trezoa-entry = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-ledger = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-metrics = { workspace = true }
+trezoa-poh-config = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-time-utils = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-version = { workspace = true }
+trezoa-votor-messages = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+assert_matches = { workspace = true }
+bincode = { workspace = true }
+criterion = { workspace = true }
+rand = { workspace = true }
+trezoa-entry = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-keypair = { workspace = true }
+trezoa-perf = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-poh = { path = ".", features = ["dev-context-only-utils"] }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-sha256-hasher = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-system-transaction = { workspace = true }
+
+[target.'cfg(not(any(target_env = "msvc", target_os = "freebsd")))'.dev-dependencies]
+jemallocator = { workspace = true }
+
+[[bench]]
+name = "poh"
+
+[[bench]]
+name = "transaction_recorder"
+harness = false

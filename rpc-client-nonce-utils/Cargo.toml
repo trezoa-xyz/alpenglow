@@ -1,0 +1,44 @@
+[package]
+name = "trezoa-rpc-client-nonce-utils"
+description = "Trezoa RPC Client Nonce Utilities"
+documentation = "https://docs.rs/trezoa-rpc-client-nonce-utils"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+default = []
+clap = ["dep:clap", "dep:trezoa-clap-utils"]
+
+[dependencies]
+clap = { version = "2.33.0", optional = true }
+trezoa-account = { workspace = true, features = ["bincode"] }
+trezoa-clap-utils = { workspace = true, optional = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-nonce = { workspace = true, features = ["serde"] }
+trezoa-pubkey = { workspace = true }
+trezoa-rpc-client = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }
+futures = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account-decoder = { workspace = true }
+trezoa-fee-calculator = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-sha256-hasher = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-transaction = { workspace = true }
+tokio = { workspace = true, features = ["full"] }

@@ -1,0 +1,51 @@
+[package]
+name = "trezoa-tpu-client"
+description = "Trezoa TPU Client"
+documentation = "https://docs.rs/trezoa-tpu-client"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+default = ["spinner"]
+# Support tpu-client methods that feature a spinner progress bar for
+# command-line interfaces
+spinner = [
+    "dep:indicatif",
+    "dep:trezoa-message",
+    "trezoa-rpc-client/spinner",
+]
+
+[dependencies]
+async-trait = { workspace = true }
+bincode = { workspace = true }
+futures-util = { workspace = true }
+indexmap = { workspace = true }
+indicatif = { workspace = true, optional = true }
+log = { workspace = true }
+rayon = { workspace = true }
+trezoa-client-traits = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-connection-cache = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-message = { workspace = true, optional = true }
+trezoa-net-utils = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-pubsub-client = { workspace = true }
+trezoa-quic-definitions = { workspace = true }
+trezoa-rpc-client = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }

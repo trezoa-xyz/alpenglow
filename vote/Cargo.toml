@@ -1,0 +1,83 @@
+[package]
+name = "trezoa-vote"
+description = "Trezoa vote"
+documentation = "https://docs.rs/trezoa-vote"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_vote"
+
+[features]
+dev-context-only-utils = ["dep:rand", "dep:bincode"]
+frozen-abi = ["dep:trezoa-frozen-abi", "dep:trezoa-frozen-abi-macro"]
+
+[dependencies]
+bincode = { workspace = true, optional = true }
+bitvec = { workspace = true }
+bytemuck = { workspace = true }
+itertools = { workspace = true }
+log = { workspace = true }
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+num_enum = { workspace = true }
+rand = { workspace = true, optional = true }
+serde = { workspace = true, features = ["rc"] }
+serde_derive = { workspace = true }
+trezoa-account = { workspace = true, features = ["bincode"] }
+trezoa-bincode = { workspace = true }
+trezoa-bls-signatures = { workspace = true, features = ["bytemuck"] }
+trezoa-clock = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-hash = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-packet = { workspace = true }
+trezoa-program = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-serialize-utils = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-svm-transaction = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-transaction = { workspace = true, features = ["bincode"] }
+trezoa-vote-interface = { workspace = true, features = ["bincode"] }
+trezoa-votor-messages = { workspace = true }
+tpl-pod = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+arbitrary = { workspace = true }
+bencher = { workspace = true }
+bincode = { workspace = true }
+rand = { workspace = true }
+serial_test = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-sha256-hasher = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-transaction = { workspace = true, features = ["bincode"] }
+trezoa-vote-interface = { workspace = true, features = ["bincode", "dev-context-only-utils"] }
+static_assertions = { workspace = true }
+test-case = { workspace = true }
+
+[[bench]]
+name = "vote_account"
+harness = false
+
+[lints]
+workspace = true

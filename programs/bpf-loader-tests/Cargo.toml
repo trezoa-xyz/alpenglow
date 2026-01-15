@@ -1,0 +1,31 @@
+# This package only exists to avoid circular dependencies during cargo publish:
+# trezoa-bpf-loader-program -> trezoa-program-test -> trezoa-bpf-loader-program
+
+[package]
+name = "trezoa-bpf-loader-program-tests"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+bincode = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-bpf-loader-program = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-loader-v3-interface = { workspace = true }
+trezoa-program-test = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-error = { workspace = true }

@@ -1,0 +1,27 @@
+[package]
+name = "trezoa-bls-cert-verify"
+description = "The BLS cert verify logic shared between sigverify and block marker consumption"
+readme = "../README.md"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+bincode = { workspace = true }
+bitvec = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+trezoa-bls-signatures = { workspace = true, features = ["parallel"] }
+trezoa-signer-store = { workspace = true }
+trezoa-votor-messages = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+trezoa-hash = { workspace = true }
+trezoa-votor = { workspace = true }
+
+[lints]
+workspace = true

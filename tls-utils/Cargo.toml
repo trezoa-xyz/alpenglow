@@ -1,0 +1,20 @@
+[package]
+name = "trezoa-tls-utils"
+description = "Trezoa TLS utilities"
+documentation = "https://docs.rs/trezoa-tls-utils"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+rustls = { workspace = true, features = ["ring"] }
+trezoa-keypair = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-signer = { workspace = true }
+x509-parser = { workspace = true }
+
+[lints]
+workspace = true

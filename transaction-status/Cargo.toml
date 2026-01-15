@@ -1,0 +1,61 @@
+[package]
+name = "trezoa-transaction-status"
+description = "Trezoa transaction status types"
+documentation = "https://docs.rs/trezoa-transaction-status"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+Inflector = { workspace = true }
+trezoa-reserved-account-keys = { workspace = true }
+base64 = { workspace = true }
+bincode = { workspace = true }
+borsh = { workspace = true }
+bs58 = { workspace = true }
+log = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account-decoder = { workspace = true }
+trezoa-address-lookup-table-interface = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-loader-v2-interface = { workspace = true, features = ["bincode"] }
+trezoa-loader-v3-interface = { workspace = true, features = ["bincode"] }
+trezoa-message = { workspace = true }
+trezoa-program-option = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-reward-info = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-stake-interface = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+trezoa-transaction-status-client-types = { workspace = true }
+trezoa-vote-interface = { workspace = true }
+tpl-associated-token-account-interface = { workspace = true, features = ["borsh"] }
+tpl-memo-interface = { workspace = true }
+tpl-token-2022-interface = { workspace = true }
+tpl-token-group-interface = { workspace = true }
+tpl-token-interface = { workspace = true }
+tpl-token-metadata-interface = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+bencher = { workspace = true }
+bytemuck = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+tpl-token-confidential-transfer-proof-extraction = { workspace = true }
+
+[[bench]]
+name = "extract_memos"
+harness = false

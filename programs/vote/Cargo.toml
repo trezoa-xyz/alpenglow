@@ -1,0 +1,83 @@
+[package]
+name = "trezoa-vote-program"
+description = "Trezoa Vote program"
+documentation = "https://docs.rs/trezoa-vote-program"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_vote_program"
+
+[features]
+default = ["metrics"]
+frozen-abi = [
+    "dep:trezoa-frozen-abi",
+    "dep:trezoa-frozen-abi-macro",
+    "trezoa-program-runtime/frozen-abi",
+    "trezoa-vote-interface/frozen-abi",
+]
+metrics = ["dep:trezoa-metrics"]
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+bincode = { workspace = true }
+log = { workspace = true }
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-bincode = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-hash = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-metrics = { workspace = true, optional = true }
+trezoa-packet = { workspace = true }
+trezoa-program-runtime = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["curve25519"] }
+trezoa-rent = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-slot-hashes = { workspace = true }
+trezoa-transaction = { workspace = true, features = ["bincode"] }
+trezoa-transaction-context = { workspace = true, features = ["bincode"] }
+trezoa-vote-interface = { workspace = true, features = ["bincode"] }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+assert_matches = { workspace = true }
+criterion = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-fee-calculator = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-program-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+trezoa-rent = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-sha256-hasher = { workspace = true }
+test-case = { workspace = true }
+
+[[bench]]
+name = "vote_instructions"
+harness = false
+
+[lints]
+workspace = true

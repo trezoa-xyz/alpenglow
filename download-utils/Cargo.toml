@@ -1,0 +1,27 @@
+[package]
+name = "trezoa-download-utils"
+description = "Trezoa Download Utils"
+documentation = "https://docs.rs/trezoa-download-utils"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_download_utils"
+
+[dependencies]
+log = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-file-download = { workspace = true }
+trezoa-genesis-config = { workspace = true }
+trezoa-runtime = { workspace = true }
+
+[dev-dependencies]
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }

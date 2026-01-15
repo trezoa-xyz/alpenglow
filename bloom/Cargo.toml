@@ -1,0 +1,53 @@
+[package]
+name = "trezoa-bloom"
+description = "Trezoa bloom filter"
+documentation = "https://docs.rs/trezoa-bloom"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_bloom"
+
+[features]
+frozen-abi = [
+    "dep:trezoa-frozen-abi",
+    "dep:trezoa-frozen-abi-macro",
+    "trezoa-hash/frozen-abi",
+]
+
+[dependencies]
+bv = { workspace = true, features = ["serde"] }
+fnv = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true, features = ["rc"] }
+serde_derive = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-sanitize = { workspace = true }
+trezoa-time-utils = { workspace = true }
+
+[dev-dependencies]
+bencher = { workspace = true }
+rayon = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-sha256-hasher = { workspace = true }
+trezoa-signature = { workspace = true, features = ["std"] }
+
+[[bench]]
+name = "bloom"
+harness = false
+
+[lints]
+workspace = true

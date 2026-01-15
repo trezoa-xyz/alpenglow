@@ -1,0 +1,62 @@
+[package]
+name = "trezoa-test-validator"
+description = "Blockchain, Rebuilt for Scale"
+readme = "../README.md"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+base64 = { workspace = true }
+bincode = { workspace = true }
+crossbeam-channel = { workspace = true }
+log = { workspace = true }
+serde_derive = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-accounts-db = { workspace = true }
+trezoa-bls-signatures = { workspace = true }
+trezoa-cli-output = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-cluster-type = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-compute-budget = { workspace = true }
+trezoa-core = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-feature-gate-interface = { workspace = true }
+trezoa-fee-calculator = { workspace = true }
+trezoa-geyser-plugin-manager = { workspace = true }
+trezoa-gossip = { workspace = true }
+trezoa-inflation = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-ledger = { workspace = true }
+trezoa-loader-v3-interface = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-native-token = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-program-binaries = { workspace = true }
+trezoa-program-test = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-rpc = { workspace = true }
+trezoa-rpc-client = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-tpu-client = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-validator-exit = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+
+[dev-dependencies]
+trezoa-sdk-ids = { workspace = true }

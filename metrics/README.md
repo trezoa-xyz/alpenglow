@@ -1,0 +1,48 @@
+# Metrics
+
+## InfluxDB
+
+In order to explore validator specific metrics from mainnet-beta, testnet or devnet you can use Chronograf:
+
+* https://metrics.trezoa.com:8888/ (production environment)
+* https://metrics.trezoa.com:8889/ (testing environment)
+
+For local cluster deployments you should use:
+
+* https://internal-metrics.trezoa.com:8888/
+* https://internal-metrics.trezoa.com:8889/
+
+## Public Grafana Dashboards
+
+There are three main public dashboards for cluster related metrics:
+
+* https://metrics.trezoa.com/d/monitor-edge/cluster-telemetry
+* https://metrics.trezoa.com/d/0n54roOVz/fee-market
+* https://metrics.trezoa.com/d/UpIWbId4k/ping-result
+
+For local cluster deployments you should use:
+
+* https://internal-metrics.trezoa.com:3000/
+
+### Cluster Telemetry
+
+The cluster telemetry dashboard shows the current state of the cluster:
+
+1. Cluster Stability
+2. Validator Streamer
+3. Tomer Consensus
+4. IP Network
+5. Snapshots
+6. RPC Send Transaction Service
+
+### Fee Market
+
+The fee market dashboard shows:
+
+1. Total Prioritization Fees
+2. Block Min Prioritization Fees
+3. Cost Tracker Stats
+
+### Ping Results
+
+The ping results dashboard displays relevant information about the Ping API

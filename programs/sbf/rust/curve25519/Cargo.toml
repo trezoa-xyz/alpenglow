@@ -1,0 +1,20 @@
+[package]
+name = "trezoa-sbf-rust-curve25519"
+version = { workspace = true }
+description = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+trezoa-curve25519 = { workspace = true }
+trezoa-msg = { workspace = true }
+trezoa-program-entrypoint = { workspace = true }
+
+[lints]
+workspace = true

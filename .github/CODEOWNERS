@@ -1,0 +1,21 @@
+# Please keep this file sorted
+/bloom/ @trezoa-xyz/networking
+/compute-budget-instruction/ @trezoa-xyz/fees
+/core/src/repair/ @trezoa-xyz/networking
+/fee/ @trezoa-xyz/fees
+/gossip/ @trezoa-xyz/networking
+/log-collector/ @trezoa-xyz/svm
+/net-utils/ @trezoa-xyz/networking
+/program-runtime/ @trezoa-xyz/svm
+/programs/bpf_loader/ @trezoa-xyz/svm
+/programs/loader-v4/ @trezoa-xyz/svm
+/runtime-transaction/ @trezoa-xyz/tx-metadata
+/svm-callback/ @trezoa-xyz/svm
+/svm-conformance/ @trezoa-xyz/svm
+/svm-transaction/ @trezoa-xyz/svm
+/svm/ @trezoa-xyz/svm
+/tls-utils/ @trezoa-xyz/networking
+/transaction-context/ @trezoa-xyz/svm
+/transaction-view/ @trezoa-xyz/tx-metadata
+/turbine/ @trezoa-xyz/networking
+/xdp/ @trezoa-xyz/networking

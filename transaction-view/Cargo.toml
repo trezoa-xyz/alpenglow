@@ -1,0 +1,44 @@
+[package]
+name = "trezoa-transaction-view"
+description = "Trezoa-team TranactionView"
+documentation = "https://docs.rs/trezoa-transaction-view"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-hash = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-packet = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-short-vec = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-svm-transaction = { workspace = true }
+
+[dev-dependencies]
+# See order-crates-for-publishing.py for using this unusual `path = "."`
+trezoa-transaction-view = { path = ".", features = ["dev-context-only-utils"] }
+bincode = { workspace = true }
+criterion = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-message = { workspace = true, features = ["serde"] }
+trezoa-signature = { workspace = true, features = ["serde"] }
+trezoa-signer = { workspace = true }
+trezoa-system-interface = { workspace = true, features = ["bincode"] }
+trezoa-transaction = { workspace = true, features = ["bincode"] }
+
+[[bench]]
+name = "bytes"
+harness = false
+
+[[bench]]
+name = "transaction_view"
+harness = false

@@ -1,0 +1,51 @@
+[package]
+name = "trezoa-rpc-test"
+description = "Trezoa RPC Test"
+documentation = "https://docs.rs/trezoa-rpc-test"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+bincode = { workspace = true }
+bs58 = { workspace = true }
+crossbeam-channel = { workspace = true }
+futures-util = { workspace = true }
+log = { workspace = true }
+reqwest = { workspace = true, features = ["blocking", "brotli", "deflate", "gzip", "rustls-tls", "json"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account-decoder = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-pubsub-client = { workspace = true }
+trezoa-rpc = { workspace = true }
+trezoa-rpc-client = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-test-validator = { workspace = true }
+trezoa-tpu-client = { workspace = true }
+trezoa-transaction-status = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+trezoa-client = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-connection-cache = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-system-transaction = { workspace = true }
+trezoa-transaction = { workspace = true }

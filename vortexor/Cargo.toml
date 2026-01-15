@@ -1,0 +1,75 @@
+[package]
+name = "trezoa-vortexor"
+description = "Trezoa TPU Vortexor"
+documentation = "https://docs.rs/trezoa-vortexor"
+default-run = "trezoa-vortexor"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_vortexor"
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-banking-stage-ingress-types = { workspace = true }
+trezoa-logger = { workspace = true }
+bytes = { workspace = true }
+clap = { version = "4.5.31", features = ["cargo", "derive", "error-context"] }
+crossbeam-channel = { workspace = true }
+dashmap = { workspace = true }
+futures  = { workspace = true }
+futures-util = { workspace = true }
+governor = { workspace = true }
+histogram = { workspace = true }
+indexmap = { workspace = true }
+itertools = { workspace = true }
+libc = { workspace = true }
+log = { workspace = true }
+nix = { workspace = true, features = ["net"] }
+pem = { workspace = true }
+percentage = { workspace = true }
+quinn = { workspace = true }
+quinn-proto = { workspace = true }
+rand = { workspace = true }
+rustls = { workspace = true }
+signal-hook = { workspace = true }
+smallvec = { workspace = true }
+socket2 = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-core = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-metrics = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-perf = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-quic-definitions = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-transaction-metrics-tracker = { workspace = true }
+trezoa-version = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+tokio-util = { workspace = true }
+url = { workspace = true }
+x509-parser = { workspace = true }
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+trezoa-local-cluster = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-native-token = { workspace = true }
+trezoa-streamer = { workspace = true, features = ["dev-context-only-utils"] }

@@ -1,0 +1,55 @@
+[package]
+name = "trezoa-cli-output"
+description = "Blockchain, Rebuilt for Scale"
+documentation = "https://docs.rs/trezoa-cli-output"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+Inflector = { workspace = true }
+trezoa-reserved-account-keys = { workspace = true }
+base64 = { workspace = true }
+chrono = { workspace = true, features = ["default", "serde"] }
+clap = "2.33.0"
+console = { workspace = true }
+humantime = { workspace = true }
+indicatif = { workspace = true }
+pretty-hex = { workspace = true }
+semver = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-account-decoder = { workspace = true }
+trezoa-bincode = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-cli-config = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-epoch-info = { workspace = true, features = ["serde"] }
+trezoa-hash = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-packet = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-stake-interface = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-transaction = { workspace = true, features = ["verify"] }
+trezoa-transaction-error = { workspace = true }
+trezoa-transaction-status = { workspace = true }
+trezoa-transaction-status-client-types = { workspace = true }
+trezoa-vote-program = { workspace = true }
+tpl-memo-interface = { workspace = true }
+
+[dev-dependencies]
+ed25519-dalek = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-transaction-context = { workspace = true }

@@ -1,0 +1,48 @@
+[package]
+name = "trezoa-banking-bench"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-banking-stage-ingress-types = { workspace = true }
+trezoa-logger = { workspace = true }
+assert_matches = { workspace = true }
+clap = { version = "3.1.8", features = ["derive", "cargo"] }
+crossbeam-channel = { workspace = true }
+log = { workspace = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-compute-budget-interface = { workspace = true }
+trezoa-core = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-entry = { workspace = true }
+trezoa-gossip = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-ledger = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-perf = { workspace = true }
+trezoa-poh = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-pubkey = { workspace = true }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-system-transaction = { workspace = true }
+trezoa-time-utils = { workspace = true }
+trezoa-tpu-client = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-version = { workspace = true }

@@ -1,0 +1,21 @@
+[package]
+name = "fail"
+version = "3.1.0"
+description = "Trezoa SBF test program written in Rust"
+authors = ["Trezoa-team Maintainers <maintainers@trezoa.xyz>"]
+repository = "https://github.com/trezoa-xyz/trezoa"
+license = "Apache-2.0"
+homepage = "https://trezoa.xyz"
+edition = "2021"
+publish = false
+
+[dependencies]
+trezoa-account-info = "=2.3.0"
+trezoa-program-entrypoint = "=2.3.0"
+trezoa-program-error = "=2.2.2"
+trezoa-pubkey = "=2.4.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[workspace]

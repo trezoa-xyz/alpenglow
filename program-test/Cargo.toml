@@ -1,0 +1,74 @@
+[package]
+description = "Trezoa Program Test Framework"
+name = "trezoa-program-test"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+trezoa-logger = { workspace = true }
+assert_matches = { workspace = true }
+async-trait = { workspace = true }
+base64 = { workspace = true }
+bincode = { workspace = true }
+chrono-humanize = { workspace = true }
+crossbeam-channel = { workspace = true }
+log = { workspace = true }
+serde = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-account-info = { workspace = true }
+trezoa-accounts-db = { workspace = true }
+trezoa-banks-client = { workspace = true }
+trezoa-banks-interface = { workspace = true }
+trezoa-banks-server = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-cluster-type = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-compute-budget = { workspace = true }
+trezoa-epoch-rewards = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-fee-calculator = { workspace = true }
+trezoa-genesis-config = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-loader-v3-interface = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-msg = { workspace = true }
+trezoa-native-token = { workspace = true }
+trezoa-poh-config = { workspace = true }
+trezoa-program-binaries = { workspace = true }
+trezoa-program-entrypoint = { workspace = true }
+trezoa-program-error = { workspace = true }
+trezoa-program-runtime = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-sbpf = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-stable-layout = { workspace = true }
+trezoa-stake-interface = { workspace = true }
+trezoa-svm = { workspace = true }
+trezoa-svm-log-collector = { workspace = true }
+trezoa-svm-timings = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-sysvar = { workspace = true }
+trezoa-sysvar-id = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-context = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+trezoa-vote-program = { workspace = true }
+tpl-generic-token = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+
+[dev-dependencies]
+trezoa-cpi = { workspace = true }
+trezoa-program = { workspace = true }
+trezoa-stake-program = { workspace = true }
+test-case = { workspace = true }

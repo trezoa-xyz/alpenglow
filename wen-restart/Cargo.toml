@@ -1,0 +1,61 @@
+[package]
+name = "trezoa-wen-restart"
+description = "Automatic repair and restart protocol"
+documentation = "https://github.com/trezoa-foundation/trezoa-improvement-documents/pull/46"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+publish = true
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+name = "trezoa_wen_restart"
+
+[dependencies]
+trezoa-logger = { workspace = true }
+anyhow = { workspace = true }
+log = { workspace = true }
+prost = { workspace = true }
+prost-types = { workspace = true }
+rayon = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-entry = { workspace = true }
+trezoa-gossip = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-ledger = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-shred-version = { workspace = true }
+trezoa-svm-timings = { workspace = true }
+trezoa-time-utils = { workspace = true }
+trezoa-vote = { workspace = true }
+trezoa-vote-interface = { workspace = true }
+trezoa-vote-program = { workspace = true }
+trezoa-votor-messages = { workspace = true }
+
+[build-dependencies]
+prost-build = { workspace = true }
+
+# windows users should install the protobuf compiler manually and set the PROTOC
+# envar to point to the installed binary
+[target."cfg(not(windows))".build-dependencies]
+protobuf-src = { workspace = true }
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
+serial_test = { workspace = true }
+trezoa-accounts-db = { workspace = true }
+trezoa-entry = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-ledger = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-signer = { workspace = true }
+trezoa-streamer = { workspace = true }
+tempfile = { workspace = true }

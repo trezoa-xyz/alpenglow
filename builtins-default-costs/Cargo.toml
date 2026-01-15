@@ -1,0 +1,46 @@
+[package]
+name = "trezoa-builtins-default-costs"
+description = "Trezoa builtins default costs"
+documentation = "https://docs.rs/trezoa-builtins-default-costs"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+# Add additional builtin programs here
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_builtins_default_costs"
+
+[features]
+frozen-abi = ["dep:trezoa-frozen-abi", "trezoa-vote-program/frozen-abi"]
+dev-context-only-utils = ["dep:qualifier_attr"]
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+ahash = { workspace = true }
+log = { workspace = true }
+qualifier_attr = { workspace = true, optional = true }
+trezoa-bpf-loader-program = { workspace = true }
+trezoa-compute-budget-program = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-loader-v4-program = { workspace = true, features = ["trezoa-unstable-api"] }
+trezoa-pubkey = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-stake-program = { workspace = true }
+trezoa-system-program = { workspace = true }
+trezoa-vote-program = { workspace = true }
+
+[dev-dependencies]
+rand = "0.8.5"
+static_assertions = { workspace = true }
+
+[lints]
+workspace = true

@@ -1,0 +1,19 @@
+[package]
+name = "trezoa-program-binaries"
+description = "Prebuilt TPL and Core BPF programs"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+bincode = { workspace = true }
+serde = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-loader-v3-interface = { workspace = true, features = ["bincode", "serde"] }
+trezoa-pubkey = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+tpl-generic-token = { workspace = true }
