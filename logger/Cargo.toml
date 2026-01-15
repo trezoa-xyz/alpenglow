@@ -1,0 +1,27 @@
+[package]
+name = "trezoa-logger"
+description = "Trezoa-team Logger"
+documentation = "https://docs.rs/trezoa-logger"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+name = "trezoa_logger"
+
+[features]
+trezoa-unstable-api = []
+
+[dependencies]
+env_logger = { workspace = true }
+log = { workspace = true }
+
+[target."cfg(unix)".dependencies]
+libc = { workspace = true }
+signal-hook = { workspace = true }

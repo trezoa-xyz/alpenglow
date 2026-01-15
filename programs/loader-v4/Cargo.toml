@@ -1,0 +1,49 @@
+[package]
+name = "trezoa-loader-v4-program"
+description = "Trezoa Loader v4"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_loader_v4_program"
+
+[features]
+trezoa-unstable-api = []
+shuttle-test = [
+    "trezoa-program-runtime/shuttle-test",
+    "trezoa-sbpf/shuttle-test",
+    "trezoa-svm-type-overrides/shuttle-test",
+]
+svm-internal = []
+
+[dependencies]
+log = { workspace = true }
+qualifier_attr = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-bincode = { workspace = true }
+trezoa-bpf-loader-program = { workspace = true, features = ["svm-internal"] }
+trezoa-instruction = { workspace = true }
+trezoa-loader-v3-interface = { workspace = true }
+trezoa-loader-v4-interface = { workspace = true, features = ["serde"] }
+trezoa-packet = { workspace = true }
+trezoa-program-runtime = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-sbpf = { workspace = true, features = ["jit"] }
+trezoa-sdk-ids = { workspace = true }
+trezoa-svm-log-collector = { workspace = true }
+trezoa-svm-measure = { workspace = true }
+trezoa-svm-type-overrides = { workspace = true }
+trezoa-transaction-context = { workspace = true }
+
+[dev-dependencies]
+bincode = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-sysvar = { workspace = true }

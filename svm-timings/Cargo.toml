@@ -1,0 +1,18 @@
+[package]
+name = "trezoa-svm-timings"
+description = "Trezoa Execution Timings"
+documentation = "https://docs.rs/trezoa-svm-timings"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+eager = { workspace = true }
+enum-iterator = { workspace = true }
+trezoa-pubkey = { workspace = true }

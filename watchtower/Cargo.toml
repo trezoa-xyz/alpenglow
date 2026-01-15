@@ -1,0 +1,30 @@
+[package]
+name = "trezoa-watchtower"
+description = "Blockchain, Rebuilt for Scale"
+documentation = "https://docs.rs/trezoa-watchtower"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+trezoa-logger = { workspace = true }
+clap = { workspace = true }
+humantime = { workspace = true }
+log = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-cli-config = { workspace = true }
+trezoa-cli-output = { workspace = true }
+trezoa-hash = "=3.0.0"
+trezoa-metrics = { workspace = true }
+trezoa-native-token = "=3.0.0"
+trezoa-notifier = { workspace = true }
+trezoa-pubkey = { version = "=3.0.0", default-features = false }
+trezoa-rpc-client = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-version = { workspace = true }

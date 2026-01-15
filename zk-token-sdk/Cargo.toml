@@ -1,0 +1,51 @@
+[package]
+name = "trezoa-zk-token-sdk"
+description = "Trezoa Zk Token SDK"
+documentation = "https://docs.rs/trezoa-zk-token-sdk"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+base64 = { workspace = true }
+bytemuck = { workspace = true }
+bytemuck_derive = { workspace = true }
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+trezoa-curve25519 = { workspace = true }
+trezoa-instruction = { workspace = true, features = ["std"] }
+trezoa-pubkey = { workspace = true, features = ["bytemuck"] }
+trezoa-sdk-ids = { workspace = true }
+thiserror = { workspace = true }
+
+[target.'cfg(not(target_os = "trezoa"))'.dependencies]
+aes-gcm-siv = { workspace = true }
+bincode = { workspace = true }
+curve25519-dalek = { workspace = true, features = ["serde"] }
+itertools = { workspace = true }
+merlin = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+serde_json = { workspace = true }
+sha3 = { workspace = true }
+trezoa-derivation-path = { workspace = true }
+trezoa-seed-derivable = { workspace = true }
+trezoa-seed-phrase = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+subtle = { workspace = true }
+zeroize = { workspace = true, features = ["zeroize_derive"] }
+
+[dev-dependencies]
+trezoa-keypair = { workspace = true }
+tiny-bip39 = { workspace = true }
+
+[lints]
+workspace = true

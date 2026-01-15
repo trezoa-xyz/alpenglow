@@ -1,0 +1,39 @@
+[package]
+name = "trezoa-stake-program"
+description = "Trezoa Stake program helpers"
+documentation = "https://docs.rs/trezoa-stake-program"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_stake_program"
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+bincode = { workspace = true }
+log = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-config-interface = { workspace = true, features = ["bincode"] }
+trezoa-genesis-config = { workspace = true }
+trezoa-native-token = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-stake-interface = { workspace = true, features = ["bincode"] }
+trezoa-sysvar = { workspace = true }
+trezoa-transaction-context = { workspace = true, features = ["bincode"] }
+trezoa-vote = { workspace = true }
+trezoa-vote-interface = { workspace = true, features = ["bincode"] }
+trezoa-votor-messages = { workspace = true }
+
+[lints]
+workspace = true

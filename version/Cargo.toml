@@ -1,0 +1,38 @@
+[package]
+name = "trezoa-version"
+description = "Trezoa Version"
+documentation = "https://docs.rs/trezoa-version"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+name = "trezoa_version"
+
+[features]
+dummy-for-ci-check = []
+frozen-abi = ["dep:trezoa-frozen-abi", "dep:trezoa-frozen-abi-macro"]
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+rand = { workspace = true }
+semver = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-sanitize = { workspace = true }
+trezoa-serde-varint = { workspace = true }
+
+[lints]
+workspace = true

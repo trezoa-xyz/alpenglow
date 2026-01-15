@@ -1,0 +1,29 @@
+[package]
+name = "trezoa-sbf-rust-sysvar"
+version = { workspace = true }
+description = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+bincode = { workspace = true }
+trezoa-account-info = { workspace = true }
+trezoa-define-syscall = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-instructions-sysvar = { workspace = true }
+trezoa-msg = { workspace = true }
+trezoa-program-entrypoint = { workspace = true }
+trezoa-program-error = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-stake-interface = { workspace = true, features = ["sysvar"] }
+trezoa-sysvar = { workspace = true, features = ["bincode"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,25 @@
+[package]
+name = "trezoa-merkle-tree"
+description = "Trezoa Merkle Tree"
+documentation = "https://docs.rs/trezoa-merkle-tree"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_merkle_tree"
+
+[dependencies]
+fast-math = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-sha256-hasher = { workspace = true }
+
+[dev-dependencies]
+hex = { workspace = true }

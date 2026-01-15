@@ -1,0 +1,39 @@
+[package]
+name = "trezoa-pubsub-client"
+description = "Trezoa Pubsub Client"
+documentation = "https://docs.rs/trezoa-pubsub-client"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+crossbeam-channel = { workspace = true }
+futures-util = { workspace = true }
+http = { workspace = true }
+log = { workspace = true }
+semver = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account-decoder-client-types = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rpc-client-types = { workspace = true }
+trezoa-signature = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+tokio-stream = { workspace = true }
+tokio-tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
+tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
+url = { workspace = true }
+
+[dev-dependencies]
+anyhow = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["rand"] }

@@ -1,0 +1,27 @@
+[package]
+name = "trezoa-compute-budget-program-bench"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+criterion = { workspace = true }
+trezoa-compute-budget = { workspace = true }
+trezoa-compute-budget-instruction = { workspace = true }
+trezoa-compute-budget-interface = { workspace = true }
+trezoa-compute-budget-program = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-svm-transaction = { workspace = true }
+
+[[bench]]
+name = "compute_budget"
+harness = false

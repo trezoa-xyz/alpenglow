@@ -1,0 +1,35 @@
+[package]
+name = "trezoa-transaction-status-client-types"
+description = "Core RPC client types for trezoa-transaction-status"
+documentation = "https://docs.rs/trezoa-transaction-status-client-types"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+base64 = { workspace = true }
+bincode = { workspace = true }
+bs58 = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account-decoder-client-types = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-reward-info = { workspace = true, features = ["serde"] }
+trezoa-signature = { workspace = true, default-features = false }
+trezoa-transaction = { workspace = true, features = ["serde"] }
+trezoa-transaction-context = { workspace = true }
+trezoa-transaction-error = { workspace = true, features = ["serde"] }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+test-case = { workspace = true }

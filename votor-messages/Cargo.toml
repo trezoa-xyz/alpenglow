@@ -1,0 +1,52 @@
+[package]
+name = "trezoa-votor-messages"
+description = "Blockchain, Rebuilt for Scale"
+documentation = "https://docs.rs/trezoa-votor-messages"
+readme = "../README.md"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[features]
+frozen-abi = [
+    "dep:trezoa-frozen-abi",
+    "dep:trezoa-frozen-abi-macro",
+    "trezoa-hash/frozen-abi",
+]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+trezoa-logger = { workspace = true }
+bitvec = { workspace = true }
+bytemuck = { workspace = true }
+log = { workspace = true }
+num_enum = { workspace = true }
+serde = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-bls-signatures = { workspace = true, features = [
+    "bytemuck", "trezoa-signer-derive",
+] }
+trezoa-clock = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-hash = { workspace = true }
+trezoa-program = { workspace = true }
+trezoa-vote-interface = { workspace = true }
+spl-pod = { workspace = true }
+thiserror = { workspace = true }
+wincode = { workspace = true }
+
+[dev-dependencies]
+trezoa-votor-messages = { path = ".", features = ["dev-context-only-utils"] }
+
+[lints]
+workspace = true

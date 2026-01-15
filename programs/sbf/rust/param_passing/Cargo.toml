@@ -1,0 +1,20 @@
+[package]
+name = "trezoa-sbf-rust-param-passing"
+version = { workspace = true }
+description = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+trezoa-program = { workspace = true }
+trezoa-program-entrypoint = { workspace = true }
+trezoa-sbf-rust-param-passing-dep = { workspace = true }
+
+[lints]
+workspace = true

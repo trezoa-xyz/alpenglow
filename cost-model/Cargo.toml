@@ -1,0 +1,96 @@
+[package]
+name = "trezoa-cost-model"
+description = "Trezoa cost model"
+documentation = "https://docs.rs/trezoa-cost-model"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_cost_model"
+
+[features]
+dev-context-only-utils = [
+    "dep:trezoa-hash",
+    "dep:trezoa-message",
+    "dep:trezoa-signature",
+    "dep:trezoa-transaction",
+    "trezoa-compute-budget-interface/dev-context-only-utils",
+]
+frozen-abi = [
+    "dep:trezoa-frozen-abi",
+    "dep:trezoa-frozen-abi-macro",
+    "trezoa-compute-budget/frozen-abi",
+    "trezoa-pubkey/frozen-abi",
+    "trezoa-vote-program/frozen-abi",
+]
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+ahash = { workspace = true }
+log = { workspace = true }
+trezoa-bincode = { workspace = true }
+trezoa-borsh = { workspace = true }
+trezoa-builtins-default-costs = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-compute-budget = { workspace = true }
+trezoa-compute-budget-instruction = { workspace = true }
+trezoa-compute-budget-interface = { workspace = true }
+trezoa-fee-structure = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-hash = { workspace = true, optional = true }
+trezoa-message = { workspace = true, optional = true }
+trezoa-metrics = { workspace = true }
+trezoa-packet = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-runtime-transaction = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-signature = { workspace = true, optional = true }
+trezoa-svm-transaction = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-transaction = { workspace = true, optional = true }
+trezoa-transaction-error = { workspace = true }
+trezoa-vote-program = { workspace = true }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+trezoa-reserved-account-keys = { workspace = true }
+itertools = { workspace = true }
+rand = "0.8.5"
+# See order-crates-for-publishing.py for using this unusual `path = "."`
+trezoa-compute-budget-instruction = { workspace = true, features = [
+    "dev-context-only-utils",
+] }
+trezoa-compute-budget-interface = { workspace = true }
+trezoa-compute-budget-program = { workspace = true }
+trezoa-cost-model = { path = ".", features = ["dev-context-only-utils"] }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+trezoa-runtime-transaction = { workspace = true, features = [
+    "dev-context-only-utils",
+] }
+trezoa-signer = { workspace = true }
+trezoa-system-program = { workspace = true }
+trezoa-system-transaction = { workspace = true }
+trezoa-vote = { workspace = true }
+static_assertions = { workspace = true }
+test-case = { workspace = true }
+
+[[bench]]
+name = "cost_tracker"
+
+[lints]
+workspace = true

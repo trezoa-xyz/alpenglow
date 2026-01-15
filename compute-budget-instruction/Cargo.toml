@@ -1,0 +1,55 @@
+[package]
+name = "trezoa-compute-budget-instruction"
+description = "Trezoa Compute Budget Instruction"
+documentation = "https://docs.rs/trezoa-compute-budget-instruction"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_compute_budget_instruction"
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+log = { workspace = true }
+trezoa-borsh = { workspace = true }
+trezoa-builtins-default-costs = { workspace = true }
+trezoa-compute-budget = { workspace = true }
+trezoa-compute-budget-interface = { workspace = true, features = ["borsh"] }
+trezoa-instruction = { workspace = true }
+trezoa-packet = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-svm-transaction = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+bincode = { workspace = true }
+criterion = { workspace = true }
+rand = { workspace = true }
+trezoa-builtins-default-costs = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-hash = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-stake-interface = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-transaction = { workspace = true, features = ["blake3"] }
+
+[[bench]]
+name = "process_compute_budget_instructions"
+harness = false
+
+[lints]
+workspace = true

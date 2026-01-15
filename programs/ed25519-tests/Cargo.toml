@@ -1,0 +1,24 @@
+[package]
+name = "trezoa-ed25519-program-tests"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+ed25519-dalek = { workspace = true }
+rand = { workspace = true }
+trezoa-ed25519-program = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-precompile-error = { workspace = true }
+trezoa-program-test = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-error = { workspace = true }

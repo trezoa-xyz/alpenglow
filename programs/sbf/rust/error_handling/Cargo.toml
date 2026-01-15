@@ -1,0 +1,25 @@
+[package]
+name = "trezoa-sbf-rust-error-handling"
+version = { workspace = true }
+description = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+trezoa-account-info = { workspace = true }
+trezoa-msg = { workspace = true }
+trezoa-program-entrypoint = { workspace = true }
+trezoa-program-error = { workspace = true }
+trezoa-pubkey = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true

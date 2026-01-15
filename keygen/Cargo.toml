@@ -1,0 +1,43 @@
+[package]
+name = "trezoa-keygen"
+description = "Trezoa key generation utility"
+documentation = "https://docs.rs/trezoa-keygen"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[[bin]]
+name = "trezoa-keygen"
+path = "src/keygen.rs"
+
+[dependencies]
+bs58 = { workspace = true, features = ["std"] }
+clap = { version = "3.1.5", features = ["cargo"] }
+dirs-next = { workspace = true }
+num_cpus = { workspace = true }
+serde_json = { workspace = true }
+trezoa-bls-signatures = { workspace = true, features = ["trezoa-signer-derive"] }
+trezoa-clap-v3-utils = { workspace = true }
+trezoa-cli-config = { workspace = true }
+trezoa-derivation-path = "=3.0.0"
+trezoa-instruction = { version = "=3.0.0", features = ["bincode"] }
+trezoa-keypair = "=3.0.1"
+trezoa-message = { version = "=3.0.1", features = ["bincode"] }
+trezoa-pubkey = { version = "=3.0.0", default-features = false }
+trezoa-remote-wallet = { workspace = true, features = ["default"] }
+trezoa-seed-derivable = "=3.0.0"
+trezoa-signer = "=3.0.0"
+trezoa-version = { workspace = true }
+trezoa-vote = { workspace = true }
+trezoa-votor-messages = { workspace = true }
+tiny-bip39 = { workspace = true }
+
+[dev-dependencies]
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+tempfile = { workspace = true }

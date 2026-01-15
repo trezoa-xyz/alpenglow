@@ -1,0 +1,23 @@
+[package]
+name = "trezoa-store-tool"
+description = "Tool for account storage files"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[features]
+dev-context-only-utils = []
+
+[dependencies]
+ahash = { workspace = true }
+clap = { workspace = true }
+rayon = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-accounts-db = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-pubkey = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-version = { workspace = true }

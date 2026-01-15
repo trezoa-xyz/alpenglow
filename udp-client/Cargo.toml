@@ -1,0 +1,25 @@
+[package]
+name = "trezoa-udp-client"
+description = "Trezoa UDP Client"
+documentation = "https://docs.rs/trezoa-udp-client"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+async-trait = { workspace = true }
+trezoa-connection-cache = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+
+[dev-dependencies]
+trezoa-net-utils = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-packet = { workspace = true }
+trezoa-streamer = { workspace = true, features = ["dev-context-only-utils"] }

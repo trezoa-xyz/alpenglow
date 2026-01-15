@@ -1,0 +1,44 @@
+[package]
+name = "trezoa-stake-accounts"
+description = "Blockchain, Rebuilt for Scale"
+documentation = "https://docs.rs/trezoa-stake-accounts"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+clap = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-cli-config = { workspace = true }
+trezoa-cli-output = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-fee-calculator = { workspace = true }
+trezoa-genesis-config = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-native-token = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-remote-wallet = { workspace = true, features = ["default"] }
+trezoa-rpc-client = { workspace = true, features = ["default"] }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-stake-interface = { workspace = true }
+trezoa-stake-program = { workspace = true }
+trezoa-sysvar = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-version = { workspace = true }
+
+[dev-dependencies]
+trezoa-client-traits = { workspace = true }
+trezoa-program-binaries = { workspace = true }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }

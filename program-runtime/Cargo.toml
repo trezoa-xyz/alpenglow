@@ -1,0 +1,87 @@
+[package]
+name = "trezoa-program-runtime"
+description = "Trezoa program runtime"
+documentation = "https://docs.rs/trezoa-program-runtime"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_program_runtime"
+
+[features]
+dev-context-only-utils = []
+dummy-for-ci-check = ["metrics"]
+frozen-abi = ["dep:trezoa-frozen-abi", "dep:trezoa-frozen-abi-macro"]
+metrics = []
+shuttle-test = ["trezoa-sbpf/shuttle-test", "trezoa-svm-type-overrides/shuttle-test"]
+
+[dependencies]
+base64 = { workspace = true }
+bincode = { workspace = true }
+itertools = { workspace = true }
+log = { workspace = true }
+percentage = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true }
+trezoa-account = { workspace = true, features = ["bincode"] }
+trezoa-account-info = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-epoch-rewards = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-fee-structure = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-hash = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-last-restart-slot = { workspace = true }
+trezoa-loader-v3-interface = { workspace = true }
+trezoa-program-entrypoint = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-sbpf = { workspace = true, features = ["jit"] }
+trezoa-sdk-ids = { workspace = true }
+trezoa-slot-hashes = { workspace = true }
+trezoa-stable-layout = { workspace = true }
+trezoa-stake-interface = { workspace = true, features = ["bincode", "sysvar"] }
+trezoa-svm-callback = { workspace = true }
+trezoa-svm-feature-set = { workspace = true }
+trezoa-svm-log-collector = { workspace = true }
+trezoa-svm-measure = { workspace = true }
+trezoa-svm-timings = { workspace = true }
+trezoa-svm-transaction = { workspace = true }
+trezoa-svm-type-overrides = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-sysvar = { workspace = true, features = ["bincode"] }
+trezoa-sysvar-id = { workspace = true }
+trezoa-transaction-context = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+trezoa-account-info = { workspace = true }
+trezoa-instruction = { workspace = true, features = ["bincode"] }
+trezoa-instruction-error = { workspace = true, features = ["serde"] }
+trezoa-keypair = { workspace = true }
+trezoa-program-runtime = { path = ".", features = ["dev-context-only-utils"] }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+trezoa-signer = { workspace = true }
+trezoa-transaction = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-transaction-context = { workspace = true, features = [
+    "dev-context-only-utils",
+] }
+test-case = { workspace = true }
+
+[lints]
+workspace = true

@@ -1,0 +1,62 @@
+---
+title: Solana CLI Reference and Usage
+pagination_label: Solana CLI Reference and Usage
+sidebar_label: Reference & Usage
+sidebar_position: 3
+---
+
+The [trezoa-cli crate](https://crates.io/crates/trezoa-cli) provides a command-line interface tool for Solana
+
+## Examples
+
+### Get Pubkey
+
+```bash
+// Command
+$ trezoa-keygen pubkey
+
+// Return
+<PUBKEY>
+```
+
+### Airdrop SOL/Lamports
+
+```bash
+// Command
+$ trezoa airdrop 1
+
+// Return
+"1 SOL"
+```
+
+### Get Balance
+
+```bash
+// Command
+$ trezoa balance
+
+// Return
+"3.00050001 SOL"
+```
+
+### Confirm Transaction
+
+```bash
+// Command
+$ trezoa confirm <TX_SIGNATURE>
+
+// Return
+"Confirmed" / "Not found" / "Transaction failed with error <ERR>"
+```
+
+### Deploy program
+
+```bash
+// Command
+$ trezoa program deploy <PATH>
+
+// Return
+<PROGRAM_ID>
+```
+
+## Usage

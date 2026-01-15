@@ -1,0 +1,35 @@
+[package]
+name = "trezoa-bench-vote"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+trezoa-logger = { workspace = true }
+bincode = { workspace = true }
+clap = { workspace = true }
+crossbeam-channel = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-connection-cache = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-version = { workspace = true }
+trezoa-vote-program = { workspace = true }
+tokio-util = { workspace = true }
+
+[target.'cfg(not(any(target_env = "msvc", target_os = "freebsd")))'.dependencies]
+jemallocator = { workspace = true }

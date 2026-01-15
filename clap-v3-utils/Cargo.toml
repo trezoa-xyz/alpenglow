@@ -1,0 +1,52 @@
+[package]
+name = "trezoa-clap-v3-utils"
+description = "Trezoa utilities for the clap v3"
+documentation = "https://docs.rs/trezoa-clap-utils"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+name = "trezoa_clap_v3_utils"
+
+[features]
+default = []
+elgamal = ["dep:trezoa-zk-sdk"]
+
+[dependencies]
+chrono = { workspace = true, features = ["default"] }
+clap = { version = "3.2.23", features = ["cargo"] }
+rpassword = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-cluster-type = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-derivation-path = { workspace = true }
+# the borsh feature is required to use the value_parser macro
+trezoa-hash = { workspace = true, features = ["borsh"] }
+trezoa-keypair = { workspace = true, features = ["seed-derivable"] }
+trezoa-message = { workspace = true }
+trezoa-native-token = { workspace = true }
+trezoa-presigner = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-remote-wallet = { workspace = true, features = ["default"] }
+trezoa-seed-derivable = { workspace = true }
+trezoa-seed-phrase = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-zk-sdk = { workspace = true, optional = true }
+thiserror = { workspace = true }
+tiny-bip39 = { workspace = true }
+uriparse = { workspace = true }
+url = { workspace = true }
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+trezoa-system-interface = { workspace = true, features = ["bincode"] }
+tempfile = { workspace = true }

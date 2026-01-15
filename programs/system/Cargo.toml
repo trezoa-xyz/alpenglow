@@ -1,0 +1,54 @@
+[package]
+name = "trezoa-system-program"
+description = "Trezoa System program"
+documentation = "https://docs.rs/trezoa-system-program"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_system_program"
+
+[dependencies]
+bincode = { workspace = true }
+log = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-bincode = { workspace = true }
+trezoa-fee-calculator = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-nonce = { workspace = true, features = ["serde"] }
+trezoa-nonce-account = { workspace = true }
+trezoa-packet = { workspace = true }
+trezoa-program-runtime = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["sha2"] }
+trezoa-sdk-ids = { workspace = true }
+trezoa-svm-log-collector = { workspace = true }
+trezoa-svm-type-overrides = { workspace = true }
+trezoa-system-interface = { workspace = true, features = ["serde"] }
+trezoa-sysvar = { workspace = true }
+trezoa-transaction-context = { workspace = true, features = ["bincode"] }
+
+[dev-dependencies]
+trezoa-feature-set = { workspace = true }
+assert_matches = { workspace = true }
+criterion = { workspace = true }
+trezoa-compute-budget = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-nonce-account = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-sha256-hasher = { workspace = true }
+trezoa-svm-callback = { workspace = true }
+trezoa-svm-feature-set = { workspace = true }
+
+[[bench]]
+name = "system"
+harness = false

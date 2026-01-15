@@ -1,0 +1,15 @@
+[package]
+name = "trezoa-fee"
+description = "Trezoa fee calculation"
+documentation = "https://docs.rs/trezoa-fee"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+trezoa-fee-structure = { workspace = true }
+trezoa-svm-transaction = { workspace = true }

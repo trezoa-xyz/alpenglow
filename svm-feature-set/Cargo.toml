@@ -1,0 +1,15 @@
+[package]
+name = "trezoa-svm-feature-set"
+description = "Trezoa SVM Feature Set"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+readme = false
+
+[dependencies]
+
+[lints]
+workspace = true

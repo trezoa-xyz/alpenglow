@@ -1,0 +1,70 @@
+[package]
+name = "trezoa-genesis"
+description = "Blockchain, Rebuilt for Scale"
+documentation = "https://docs.rs/trezoa-genesis"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+name = "trezoa_genesis"
+
+[[bin]]
+name = "trezoa-genesis"
+path = "src/main.rs"
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+trezoa-logger = { workspace = true }
+base64 = { workspace = true }
+bincode = { workspace = true }
+clap = { workspace = true }
+itertools = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+trezoa-account = "=3.1.0"
+trezoa-accounts-db = { workspace = true }
+trezoa-bls-signatures = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-cli-config = { workspace = true }
+trezoa-clock = "=3.0.0"
+trezoa-cluster-type = "=3.0.0"
+trezoa-commitment-config = "=3.0.0"
+trezoa-entry = { workspace = true }
+trezoa-epoch-schedule = "=3.0.0"
+trezoa-feature-gate-interface = "=3.0.0"
+trezoa-fee-calculator = "=3.0.0"
+trezoa-genesis-config = "=3.0.0"
+trezoa-inflation = "=3.0.0"
+trezoa-keypair = "=3.0.1"
+trezoa-ledger = { workspace = true }
+trezoa-loader-v3-interface = "6.1.0"
+trezoa-native-token = "=3.0.0"
+trezoa-poh-config = "=3.0.0"
+trezoa-pubkey = { version = "=3.0.0", default-features = false }
+trezoa-rent = "=3.0.0"
+trezoa-rpc-client = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-sdk-ids = "=3.0.0"
+trezoa-signer = "=3.0.0"
+trezoa-stake-interface = { version = "=2.0.1", features = ["borsh"] }
+trezoa-stake-program = { workspace = true }
+trezoa-time-utils = "3.0.0"
+trezoa-version = { workspace = true }
+trezoa-vote = { workspace = true }
+trezoa-vote-program = { workspace = true }
+trezoa-votor-messages = { workspace = true }
+tempfile = { workspace = true }
+
+[dev-dependencies]
+trezoa-borsh = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }

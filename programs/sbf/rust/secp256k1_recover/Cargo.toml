@@ -1,0 +1,24 @@
+[package]
+name = "trezoa-sbf-rust-secp256k1-recover"
+version = { workspace = true }
+description = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+libsecp256k1 = { workspace = true }
+sha3 = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-keccak-hasher = { workspace = true, features = ["sha3"] }
+trezoa-msg = { workspace = true }
+trezoa-program-entrypoint = { workspace = true }
+trezoa-secp256k1-recover = { workspace = true }
+
+[lints]
+workspace = true

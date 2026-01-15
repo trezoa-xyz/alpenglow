@@ -1,0 +1,41 @@
+[package]
+name = "trezoa-banks-server"
+description = "Trezoa banks server"
+documentation = "https://docs.rs/trezoa-banks-server"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_banks_server"
+
+[dependencies]
+trezoa-feature-set = { workspace = true }
+bincode = { workspace = true }
+crossbeam-channel = { workspace = true }
+futures = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-banks-interface = { workspace = true }
+trezoa-client = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-runtime-transaction = { workspace = true }
+trezoa-send-transaction-service = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-svm = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+tarpc = { workspace = true, features = ["full"] }
+tokio = { workspace = true, features = ["full"] }
+tokio-serde = { workspace = true, features = ["bincode"] }

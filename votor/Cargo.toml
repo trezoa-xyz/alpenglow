@@ -1,0 +1,99 @@
+[package]
+name = "trezoa-votor"
+description = "Blockchain, Rebuilt for Scale"
+documentation = "https://docs.rs/trezoa-votor"
+readme = "../README.md"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[features]
+trezoa-unstable-api = []
+dev-context-only-utils = [
+    "trezoa-runtime/dev-context-only-utils",
+    "trezoa-votor-messages/dev-context-only-utils",
+]
+frozen-abi = [
+    "dep:trezoa-frozen-abi",
+    "dep:trezoa-frozen-abi-macro",
+    "trezoa-accounts-db/frozen-abi",
+    "trezoa-bloom/frozen-abi",
+    "trezoa-ledger/frozen-abi",
+    "trezoa-runtime/frozen-abi",
+    "trezoa-vote/frozen-abi",
+    "trezoa-vote-program/frozen-abi",
+    "trezoa-votor-messages/frozen-abi",
+]
+
+[dependencies]
+anyhow = { workspace = true }
+bincode = { workspace = true }
+bitvec = { workspace = true }
+bs58 = { workspace = true }
+crossbeam-channel = { workspace = true }
+dashmap = { workspace = true, features = ["rayon", "raw-api"] }
+etcd-client = { workspace = true, features = ["tls"] }
+histogram = { workspace = true }
+itertools = { workspace = true }
+log = { workspace = true }
+lru = { workspace = true }
+parking_lot = { workspace = true }
+qualifier_attr = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+serde_bytes = { workspace = true }
+serde_derive = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-accounts-db = { workspace = true }
+trezoa-bloom = { workspace = true }
+trezoa-bls-signatures = { workspace = true, features = ["trezoa-signer-derive"] }
+trezoa-client = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-connection-cache = { workspace = true }
+trezoa-entry = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-genesis-config = { workspace = true }
+trezoa-gossip = { workspace = true }
+trezoa-hash = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-ledger = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-metrics = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rpc = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-signer-store = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-time-utils = { workspace = true }
+trezoa-transaction = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+trezoa-vote = { workspace = true }
+trezoa-vote-program = { workspace = true }
+trezoa-votor-messages = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+rand = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-perf = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-sdk-ids = { workspace = true }
+trezoa-streamer = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-votor = { path = ".", features = ["dev-context-only-utils"] }
+test-case = { workspace = true }
+tokio-util = { workspace = true }
+
+[lints]
+workspace = true

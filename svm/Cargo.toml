@@ -1,0 +1,123 @@
+[package]
+name = "trezoa-svm"
+description = "Trezoa SVM"
+documentation = "https://docs.rs/trezoa-svm"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[lib]
+crate-type = ["lib"]
+name = "trezoa_svm"
+
+[features]
+dev-context-only-utils = [
+    "dep:qualifier_attr",
+    "trezoa-program-runtime/dev-context-only-utils",
+]
+frozen-abi = [
+    "dep:trezoa-frozen-abi",
+    "dep:trezoa-frozen-abi-macro",
+    "trezoa-program-runtime/frozen-abi",
+]
+shuttle-test = [
+    "trezoa-bpf-loader-program/shuttle-test",
+    "trezoa-loader-v4-program/shuttle-test",
+    "trezoa-program-runtime/shuttle-test",
+    "trezoa-svm-type-overrides/shuttle-test",
+]
+svm-internal = []
+
+[dependencies]
+ahash = { workspace = true }
+log = { workspace = true }
+percentage = { workspace = true }
+qualifier_attr = { workspace = true, optional = true }
+serde = { workspace = true, features = ["rc"] }
+serde_derive = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-fee-structure = { workspace = true }
+trezoa-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+trezoa-hash = { workspace = true }
+trezoa-instruction = { workspace = true, features = ["std"] }
+trezoa-instructions-sysvar = { workspace = true }
+trezoa-loader-v3-interface = { workspace = true, features = ["bincode"] }
+trezoa-loader-v4-interface = { workspace = true }
+trezoa-loader-v4-program = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-nonce = { workspace = true }
+trezoa-nonce-account = { workspace = true }
+trezoa-program-entrypoint = { workspace = true }
+trezoa-program-pack = { workspace = true }
+trezoa-program-runtime = { workspace = true, features = ["metrics"] }
+trezoa-pubkey = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-svm-callback = { workspace = true }
+trezoa-svm-feature-set = { workspace = true }
+trezoa-svm-log-collector = { workspace = true }
+trezoa-svm-measure = { workspace = true }
+trezoa-svm-timings = { workspace = true }
+trezoa-svm-transaction = { workspace = true }
+trezoa-svm-type-overrides = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-sysvar-id = { workspace = true }
+trezoa-transaction-context = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+spl-generic-token = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+trezoa-syscalls = { workspace = true }
+assert_matches = { workspace = true }
+bincode = { workspace = true }
+ed25519-dalek = { workspace = true }
+libsecp256k1 = { workspace = true }
+openssl = { workspace = true }
+rand0-7 = { workspace = true }
+shuttle = { workspace = true }
+trezoa-bpf-loader-program = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-compute-budget = { workspace = true }
+trezoa-compute-budget-interface = { workspace = true }
+trezoa-compute-budget-program = { workspace = true }
+trezoa-ed25519-program = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-fee-calculator = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-native-token = { workspace = true }
+trezoa-precompile-error = { workspace = true }
+trezoa-program-binaries = { workspace = true }
+trezoa-program-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+trezoa-rent = { workspace = true }
+trezoa-sbpf = { workspace = true, features = ["jit"] }
+trezoa-secp256k1-program = { workspace = true, features = ["bincode"] }
+trezoa-secp256r1-program = { workspace = true, features = ["openssl-vendored"] }
+trezoa-signature = { workspace = true, features = ["rand"] }
+trezoa-signer = { workspace = true }
+# See order-crates-for-publishing.py for using this unusual `path = "."`
+trezoa-svm = { path = ".", features = ["dev-context-only-utils", "svm-internal"] }
+trezoa-system-program = { workspace = true }
+trezoa-system-transaction = { workspace = true }
+trezoa-sysvar = { workspace = true }
+trezoa-transaction = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-transaction-context = { workspace = true, features = ["dev-context-only-utils"] }
+tpl-token-interface = { workspace = true }
+test-case = { workspace = true }
+
+[lints]
+workspace = true

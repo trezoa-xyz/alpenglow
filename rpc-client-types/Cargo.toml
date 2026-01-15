@@ -1,0 +1,37 @@
+[package]
+name = "trezoa-rpc-client-types"
+description = "Trezoa RPC Client Types"
+documentation = "https://docs.rs/trezoa-rpc-client-types"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+base64 = { workspace = true }
+bs58 = { workspace = true, features = ["std"] }
+semver = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-account-decoder-client-types = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true, features = ["serde"] }
+trezoa-fee-calculator = { workspace = true, features = ["serde"] }
+trezoa-inflation = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+trezoa-transaction-status-client-types = { workspace = true }
+trezoa-version = { workspace = true }
+spl-generic-token = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+const_format = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["rand"] }

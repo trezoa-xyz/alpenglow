@@ -1,0 +1,30 @@
+[package]
+name = "workspace-metadata"
+version = "3.1.0"
+description = "Trezoa SBF test program with tools version in workspace metadata"
+authors = ["Trezoa-team Maintainers <maintainers@trezoa.xyz>"]
+repository = "https://github.com/trezoa-xyz/trezoa"
+license = "Apache-2.0"
+homepage = "https://trezoa.xyz"
+edition = "2021"
+publish = false
+
+[dependencies]
+trezoa-account-info = "=2.3.0"
+trezoa-program-entrypoint = "=2.3.0"
+trezoa-program-error = "=2.2.2"
+trezoa-pubkey = "=2.4.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[lints.rust.unexpected_cfgs]
+level = "warn"
+check-cfg = [
+    'cfg(feature, values("custom-panic", "custom-heap"))'
+]
+
+[workspace]
+
+[workspace.metadata.trezoa]
+tools-version = "v1.51"

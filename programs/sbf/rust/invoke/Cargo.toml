@@ -1,0 +1,30 @@
+[package]
+name = "trezoa-sbf-rust-invoke"
+version = { workspace = true }
+description = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+trezoa-account-info = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-msg = { workspace = true }
+trezoa-program = { workspace = true }
+trezoa-program-entrypoint = { workspace = true }
+trezoa-program-error = { workspace = true }
+trezoa-program-memory = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-sbf-rust-invoke-dep = { workspace = true }
+trezoa-sbf-rust-invoked-dep = { workspace = true }
+trezoa-sbf-rust-realloc-dep = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-system-interface = { workspace = true }
+
+[lints]
+workspace = true

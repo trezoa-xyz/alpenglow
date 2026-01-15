@@ -1,0 +1,18 @@
+[package]
+name = "trezoa-svm-rent-calculator"
+description = "Trezoa SVM Rent Calculator"
+documentation = "https://docs.rs/trezoa-svm-rent-calculator"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+trezoa-account = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-transaction-context = { workspace = true }
+trezoa-transaction-error = { workspace = true }

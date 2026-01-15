@@ -1,0 +1,43 @@
+[package]
+name = "trezoa-quic-client"
+description = "Trezoa Quic Client"
+documentation = "https://docs.rs/trezoa-quic-client"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+async-lock = { workspace = true }
+async-trait = { workspace = true }
+futures = { workspace = true }
+itertools = { workspace = true }
+log = { workspace = true }
+quinn = { workspace = true }
+quinn-proto = { workspace = true }
+rustls = { workspace = true }
+trezoa-connection-cache = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-measure = { workspace = true }
+trezoa-metrics = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-pubkey = { workspace = true, default-features = false }
+trezoa-quic-definitions = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-tls-utils = { workspace = true }
+trezoa-transaction-error = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+
+[dev-dependencies]
+trezoa-logger = { workspace = true }
+crossbeam-channel = { workspace = true }
+trezoa-net-utils = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-packet = { workspace = true }
+trezoa-perf = { workspace = true }
+trezoa-streamer = { workspace = true, features = ["dev-context-only-utils"] }
+tokio-util = { workspace = true }

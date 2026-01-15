@@ -1,0 +1,66 @@
+[package]
+name = "trezoa-rpc-client"
+description = "Trezoa RPC Client"
+documentation = "https://docs.rs/trezoa-rpc-client"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+default = ["spinner"]
+# Support rpc-client methods that feature a spinner progress bar for
+# command-line interfaces
+spinner = ["dep:indicatif"]
+
+[dependencies]
+async-trait = { workspace = true }
+base64 = { workspace = true }
+bincode = { workspace = true }
+bs58 = { workspace = true }
+futures = { workspace = true }
+indicatif = { workspace = true, optional = true }
+log = { workspace = true }
+reqwest = { workspace = true, features = ["blocking", "brotli", "deflate", "gzip", "rustls-tls", "json"] }
+reqwest-middleware = { workspace = true }
+semver = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+serde_json = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-account-decoder-client-types = { workspace = true, features = ["zstd"] }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-epoch-info = { workspace = true, features = ["serde"] }
+trezoa-epoch-schedule = { workspace = true, features = ["serde"] }
+trezoa-feature-gate-interface = { workspace = true, features = ["serde"] }
+trezoa-hash = { workspace = true }
+trezoa-instruction = { workspace = true }
+trezoa-message = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-signature = { workspace = true }
+trezoa-transaction = { workspace = true, features = ["bincode"] }
+trezoa-transaction-error = { workspace = true }
+trezoa-transaction-status-client-types = { workspace = true }
+trezoa-version = { workspace = true }
+trezoa-vote-interface = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+
+[dev-dependencies]
+assert_matches = { workspace = true }
+crossbeam-channel = { workspace = true }
+futures = { workspace = true }
+jsonrpc-core = { workspace = true }
+jsonrpc-http-server = { workspace = true }
+trezoa-account-decoder = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-pubkey = { workspace = true, features = ["rand"] }
+trezoa-signer = { workspace = true }
+trezoa-system-transaction = { workspace = true }
+static_assertions = { workspace = true }

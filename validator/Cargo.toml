@@ -1,0 +1,112 @@
+[package]
+name = "trezoa-validator"
+description = "Blockchain, Rebuilt for Scale"
+documentation = "https://docs.rs/trezoa-validator"
+default-run = "trezoa-validator"
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+trezoa-geyser-plugin-interface = { workspace = true }
+trezoa-logger = { workspace = true }
+chrono = { workspace = true, features = ["default", "serde"] }
+clap = { workspace = true }
+console = { workspace = true }
+core_affinity = { workspace = true }
+crossbeam-channel = { workspace = true }
+fd-lock = { workspace = true }
+indicatif = { workspace = true }
+itertools = { workspace = true }
+jsonrpc-core = { workspace = true }
+jsonrpc-core-client = { workspace = true, features = ["ipc"] }
+jsonrpc-derive = { workspace = true }
+jsonrpc-ipc-server = { workspace = true }
+libc = { workspace = true }
+libloading = { workspace = true }
+log = { workspace = true }
+num_cpus = { workspace = true }
+qualifier_attr = { workspace = true }
+rand = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+trezoa-account = { workspace = true }
+trezoa-accounts-db = { workspace = true }
+trezoa-clap-utils = { workspace = true }
+trezoa-cli-config = { workspace = true }
+trezoa-cli-output = { workspace = true }
+trezoa-clock = { workspace = true }
+trezoa-commitment-config = { workspace = true }
+trezoa-core = { workspace = true }
+trezoa-download-utils = { workspace = true }
+trezoa-entry = { workspace = true }
+trezoa-epoch-schedule = { workspace = true }
+trezoa-faucet = { workspace = true }
+trezoa-genesis-utils = { workspace = true }
+trezoa-geyser-plugin-manager = { workspace = true }
+trezoa-gossip = { workspace = true, features = ["trezoa-unstable-api"] }
+trezoa-hash = { workspace = true }
+trezoa-inflation = { workspace = true }
+trezoa-keypair = { workspace = true }
+trezoa-ledger = { workspace = true }
+trezoa-metrics = { workspace = true }
+trezoa-native-token = { workspace = true }
+trezoa-net-utils = { workspace = true }
+trezoa-perf = { workspace = true }
+trezoa-poh = { workspace = true }
+trezoa-program-runtime = { workspace = true }
+trezoa-pubkey = { workspace = true }
+trezoa-quic-definitions = { workspace = true }
+trezoa-rayon-threadlimit = { workspace = true }
+trezoa-rent = { workspace = true }
+trezoa-rpc = { workspace = true }
+trezoa-rpc-client = { workspace = true }
+trezoa-rpc-client-api = { workspace = true }
+trezoa-runtime = { workspace = true }
+trezoa-sdk-ids = { workspace = true }
+trezoa-send-transaction-service = { workspace = true }
+trezoa-signer = { workspace = true }
+trezoa-storage-bigtable = { workspace = true }
+trezoa-streamer = { workspace = true }
+trezoa-system-interface = { workspace = true }
+trezoa-test-validator = { workspace = true }
+trezoa-tpu-client = { workspace = true }
+trezoa-turbine = { workspace = true }
+trezoa-unified-scheduler-pool = { workspace = true }
+trezoa-validator-exit = { workspace = true }
+trezoa-version = { workspace = true }
+trezoa-vote-program = { workspace = true }
+trezoa-votor = { workspace = true }
+symlink = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+
+[target.'cfg(not(any(target_env = "msvc", target_os = "freebsd")))'.dependencies]
+jemallocator = { workspace = true }
+
+[target."cfg(unix)".dependencies]
+libc = { workspace = true }
+signal-hook = { workspace = true }
+
+[dev-dependencies]
+assert_cmd = { workspace = true }
+predicates = { workspace = true }
+pretty_assertions = { workspace = true }
+trezoa-account-decoder = { workspace = true }
+trezoa-core = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-program-option = { workspace = true }
+trezoa-program-pack = { workspace = true }
+trezoa-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+trezoa-time-utils = { workspace = true }
+spl-generic-token = { workspace = true }
+tpl-token-2022-interface = { workspace = true }
+tempfile = { workspace = true }
+test-case = { workspace = true }
