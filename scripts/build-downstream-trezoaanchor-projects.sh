@@ -107,11 +107,11 @@ mango() {
   )
 }
 
-metaplex() {
+trezoaplex() {
   (
     set -x
     rm -rf mpl-token-metadata
-    git clone https://github.com/metaplex-foundation/mpl-token-metadata
+    git clone https://github.com/trezoaplex-foundation/mpl-token-metadata
     # copy toolchain file to use trezoa's rust version
     cp "$trezoa_dir"/rust-toolchain.toml mpl-token-metadata/
     cd mpl-token-metadata
@@ -129,6 +129,6 @@ metaplex() {
 }
 
 _ anchor
-#_ metaplex
+#_ trezoaplex
 #_ mango
 #_ openbook
