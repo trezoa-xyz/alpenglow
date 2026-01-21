@@ -5,7 +5,7 @@ use {
     trezoa_commitment_config::{CommitmentConfig, CommitmentLevel},
     trezoa_keypair::Keypair,
     trezoa_ledger::{blockstore::Blockstore, get_tmp_ledger_path_auto_delete},
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_pubkey::Pubkey,
     trezoa_pubsub_client::{nonblocking, pubsub_client::PubsubClient},
     trezoa_rpc::{
@@ -80,7 +80,7 @@ fn test_rpc_client() {
 
     let blockhash = client.get_latest_blockhash().unwrap();
 
-    let tx = system_transaction::transfer(&alice, &bob_pubkey, 20 * LAMPORTS_PER_SOL, blockhash);
+    let tx = system_transaction::transfer(&alice, &bob_pubkey, 20 * LAMPORTS_PER_TRZ, blockhash);
     let signature = client.send_transaction(&tx).unwrap();
 
     let mut confirmed_tx = false;
@@ -106,14 +106,14 @@ fn test_rpc_client() {
             .get_balance_with_commitment(&bob_pubkey, CommitmentConfig::processed())
             .unwrap()
             .value,
-        20 * LAMPORTS_PER_SOL
+        20 * LAMPORTS_PER_TRZ
     );
     assert_eq!(
         client
             .get_balance_with_commitment(&alice.pubkey(), CommitmentConfig::processed())
             .unwrap()
             .value,
-        original_alice_balance - 20 * LAMPORTS_PER_SOL
+        original_alice_balance - 20 * LAMPORTS_PER_TRZ
     );
 }
 

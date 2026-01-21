@@ -25,12 +25,12 @@ rm -rf usr/
 
 cp -f ../scripts/run.sh usr/bin/trezoa-run.sh
 cp -f ../fetch-core-bpf.sh usr/bin/
-cp -f ../fetch-spl.sh usr/bin/
+cp -f ../fetch-tpl.sh usr/bin/
 cp -f ../fetch-programs.sh usr/bin/
 (
   cd usr/bin
   ./fetch-core-bpf.sh
-  ./fetch-spl.sh
+  ./fetch-tpl.sh
 )
 
 docker build \

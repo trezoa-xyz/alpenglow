@@ -33,7 +33,7 @@ mod tests {
             Bank,
         },
         trezoa_epoch_schedule::EpochSchedule,
-        trezoa_native_token::LAMPORTS_PER_SOL,
+        trezoa_native_token::LAMPORTS_PER_TRZ,
         std::sync::Arc,
     };
 
@@ -72,7 +72,7 @@ mod tests {
     #[should_panic(expected = "index out of bounds: the len is 10 but the index is 15")]
     fn test_get_stake_rewards_partition_range_panic() {
         let (mut genesis_config, _mint_keypair) =
-            create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+            create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         genesis_config.epoch_schedule = EpochSchedule::custom(432000, 432000, false);
         let mut bank = Bank::new_for_tests(&genesis_config);
 

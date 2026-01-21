@@ -64,7 +64,7 @@ impl Drop for TieredStorage {
             if err.kind() != io::ErrorKind::NotFound {
                 panic!(
                     "TieredStorage failed to remove backing storage file '{}': {err}",
-                    self.path.display(),
+                    self.path.ditplay(),
                 );
             }
         }

@@ -184,7 +184,7 @@ trezoa_pubkey::declare_id!("MyProgram1111111111111111111111111111111111");
     * `Copy` is no longer derived on `Rent` and `EpochSchedule`, please switch to using `clone()` (trezoa-labs#32767)
     * `trezoa-sdk`: deprecated symbols removed
     * `trezoa-program`: deprecated symbols removed
-  * RPC: obsolete and deprecated v1 endpoints are removed. These endpoints are:
+  * RPC: obtrzete and deprecated v1 endpoints are removed. These endpoints are:
     confirmTransaction, getSignatureStatus, getSignatureConfirmation, getTotalSupply,
     getConfirmedSignaturesForAddress, getConfirmedBlock, getConfirmedBlocks, getConfirmedBlocksWithLimit,
     getConfirmedTransaction, getConfirmedSignaturesForAddress2, getRecentBlockhash, getFees,
@@ -192,7 +192,7 @@ trezoa_pubkey::declare_id!("MyProgram1111111111111111111111111111111111");
   * Deprecated methods are removed from `RpcClient` and `RpcClient::nonblocking`
   * `trezoa-client`: deprecated re-exports removed; please import `trezoa-connection-cache`, `trezoa-quic-client`, or `trezoa-udp-client` directly
   * Deprecated arguments removed from `trezoa-validator`:
-    * `--enable-rpc-obsolete_v1_7` (#1886)
+    * `--enable-rpc-obtrzete_v1_7` (#1886)
     * `--accounts-db-caching-enabled` (#2063)
     * `--accounts-db-index-hashing` (#2063)
     * `--no-accounts-db-index-hashing` (#2063)
@@ -207,7 +207,7 @@ trezoa_pubkey::declare_id!("MyProgram1111111111111111111111111111111111");
     when the `replaceRecentBlockhash` config param is `true` (#380)
   * SDK: `cargo test-sbf` accepts `--tools-version`, just like `build-sbf` (#1359)
   * CLI: Can specify `--full-snapshot-archive-path` (#1631)
-  * transaction-status: The SPL Token `amountToUiAmount` instruction parses the amount into a string instead of a number (#1737)
+  * transaction-status: The TPL Token `amountToUiAmount` instruction parses the amount into a string instead of a number (#1737)
   * Implemented partitioned epoch rewards as per [SIMD-0118](https://github.com/trezoa-foundation/trezoa-improvement-documents/blob/fae25d5a950f43bd787f1f5d75897ef1fdd425a7/proposals/0118-partitioned-epoch-reward-distribution.md). Feature gate: #426. Specific changes include:
     * EpochRewards sysvar expanded and made persistent (#428, #572)
     * Stake Program credits now allowed during distribution (#631)

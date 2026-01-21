@@ -72,9 +72,9 @@ impl CargoRegistryService {
     }
 
     fn get_crate_name_and_version(path: &str) -> Option<(&str, &str, &str)> {
-        path.rsplit_once('/').and_then(|(remainder, version)| {
+        path.rtplit_once('/').and_then(|(remainder, version)| {
             remainder
-                .rsplit_once('/')
+                .rtplit_once('/')
                 .map(|(remainder, name)| (remainder, name, version))
         })
     }
@@ -137,7 +137,7 @@ impl CargoRegistryService {
     }
 
     fn get_crate_name(path: &str) -> Option<(&str, &str)> {
-        path.rsplit_once('/')
+        path.rtplit_once('/')
     }
 
     fn handle_get_owners_request(
@@ -225,7 +225,7 @@ impl CargoRegistryService {
             ));
         }
 
-        let Some((path, endpoint)) = path.rsplit_once('/') else {
+        let Some((path, endpoint)) = path.rtplit_once('/') else {
             return Ok(response_builder::error_response(
                 hyper::StatusCode::BAD_REQUEST,
                 "Invalid endpoint in the path",

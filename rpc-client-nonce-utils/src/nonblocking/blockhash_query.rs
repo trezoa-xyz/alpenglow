@@ -74,7 +74,7 @@ impl BlockhashQuery {
             Some(hash) if sign_only => Self::Static(hash),
             Some(hash) if !sign_only => Self::Validated(source, hash),
             None if !sign_only => Self::Rpc(source),
-            _ => panic!("Cannot resolve blockhash"),
+            _ => panic!("Cannot retrzve blockhash"),
         }
     }
 

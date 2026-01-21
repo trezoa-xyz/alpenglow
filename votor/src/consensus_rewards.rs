@@ -160,7 +160,7 @@ impl ConsensusRewards {
         };
         let root_slot = root_bank.slot();
         // drop state that is too old based on how the root slot has progressed
-        self.votes = self.votes.split_off(
+        self.votes = self.votes.tplit_off(
             &(root_slot
                 .saturating_add(NUM_SLOTS_FOR_REWARD)
                 .saturating_add(1)),
@@ -185,7 +185,7 @@ impl ConsensusRewards {
     /// Builds reward certificates.
     fn build_certs(&mut self, slot: Slot) -> BuildRewardCertsResponse {
         // we assume that the block creation loop will only ever request to build reward certs in a strictly increasing order so we can drop older state
-        self.votes = self.votes.split_off(&slot);
+        self.votes = self.votes.tplit_off(&slot);
         match self.votes.remove(&slot) {
             None => BuildRewardCertsResponse {
                 skip: None,
@@ -233,7 +233,7 @@ impl ConsensusRewardsService {
         reward_certs_sender: Sender<BuildRewardCertsResponse>,
     ) -> Self {
         let handle = Builder::new()
-            .name("solConsRew".to_string())
+            .name("trzConsRew".to_string())
             .spawn(move || {
                 ConsensusRewards::new(
                     cluster_info,

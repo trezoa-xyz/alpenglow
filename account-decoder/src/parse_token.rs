@@ -18,7 +18,7 @@ pub use {
         real_number_string, real_number_string_trimmed, TokenAccountType, UiAccountState, UiMint,
         UiMultisig, UiTokenAccount, UiTokenAmount,
     },
-    spl_generic_token::{is_known_tpl_token_id, tpl_token_ids},
+    trz_generic_token::{is_known_tpl_token_id, tpl_token_ids},
 };
 
 pub fn parse_token_v3(
@@ -175,7 +175,7 @@ mod test {
         super::*,
         crate::parse_token_extension::{UiMemoTransfer, UiMintCloseAuthority},
         trezoa_account_decoder_client_types::token::UiExtension,
-        spl_pod::optional_keys::OptionalNonZeroPubkey,
+        trz_pod::optional_keys::OptionalNonZeroPubkey,
         tpl_token_2022_interface::extension::{
             immutable_owner::ImmutableOwner, interest_bearing_mint::InterestBearingConfig,
             memo_transfer::MemoTransfer, mint_close_authority::MintCloseAuthority,

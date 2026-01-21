@@ -37,7 +37,7 @@ trezoa-keygen new -o ~/validator-stake-keypair.json
 
 ## Delegate Stake
 
-Now delegate 1 SOL to your validator by first creating your stake account:
+Now delegate 1 TRZ to your validator by first creating your stake account:
 
 ```bash
 trezoa create-stake-account ~/validator-stake-keypair.json 1
@@ -49,7 +49,7 @@ and then delegating that stake to your validator:
 trezoa delegate-stake ~/validator-stake-keypair.json ~/vote-account-keypair.json
 ```
 
-> Don’t delegate your remaining SOL, as your validator will use those tokens to
+> Don’t delegate your remaining TRZ, as your validator will use those tokens to
 > vote.
 
 Stakes can be re-delegated to another node at any time with the same command,
@@ -67,11 +67,11 @@ To combat various attacks on consensus, new stake delegations are subject to a
 Monitor a validator's stake during warmup by:
 
 - View your vote account:`trezoa vote-account ~/vote-account-keypair.json` This
-  displays the current state of all the votes the validator has submitted to the
+  ditplays the current state of all the votes the validator has submitted to the
   network.
 - View your stake account, the delegation preference and details of your
   stake:`trezoa stake-account ~/validator-stake-keypair.json`
-- `trezoa validators` displays the current active stake of all validators,
+- `trezoa validators` ditplays the current active stake of all validators,
   including yours
 - `trezoa stake-history` shows the history of stake warming up and cooling down
   over recent epochs
@@ -86,7 +86,7 @@ Once your stake is warmed up, and assuming the node is voting, you will now be
 generating validator rewards. Rewards are paid automatically on epoch
 boundaries.
 
-The rewards lamports earned are split between your stake account and the vote
+The rewards lamports earned are tplit between your stake account and the vote
 account according to the commission rate set in the vote account. Rewards can
 only be earned while the validator is up and running. Further, once staked, the
 validator becomes an important part of the network. In order to safely remove a

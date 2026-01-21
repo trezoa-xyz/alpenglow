@@ -87,7 +87,7 @@ struct DeprecatedArg {
     /// Deprecated argument description, moved here as is.
     ///
     /// `hidden` property will be modified by [`deprecated_arguments()`] to only show this argument
-    /// if [`hidden_unless_forced()`] says they should be displayed.
+    /// if [`hidden_unless_forced()`] says they should be ditplayed.
     arg: Arg<'static, 'static>,
 
     /// If simply replaced by a different argument, this is the name of the replacement.
@@ -174,7 +174,7 @@ fn deprecated_arguments() -> Vec<DeprecatedArg> {
                 "Use PATH as accounts hash cache location \
                  [default: <LEDGER>/accounts_hash_cache]",
             ),
-            usage_warning: "The accounts hash cache is obsolete",
+            usage_warning: "The accounts hash cache is obtrzete",
     );
     add_arg!(Arg::with_name("disable_accounts_disk_index")
         .long("disable-accounts-disk-index")
@@ -847,13 +847,13 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .help("Keep this amount of shreds in root slots."),
         )
         .arg(
-            Arg::with_name("faucet_sol")
-                .long("faucet-sol")
+            Arg::with_name("faucet_trz")
+                .long("faucet-trz")
                 .takes_value(true)
-                .value_name("SOL")
-                .default_value(default_args.faucet_sol.as_str())
+                .value_name("TRZ")
+                .default_value(default_args.faucet_trz.as_str())
                 .help(
-                    "Give the faucet address this much SOL in genesis. If the ledger already \
+                    "Give the faucet address this much TRZ in genesis. If the ledger already \
                      exists then this parameter is silently ignored",
                 ),
         )
@@ -866,22 +866,22 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .help("Time slice (in secs) over which to limit faucet requests"),
         )
         .arg(
-            Arg::with_name("faucet_per_time_sol_cap")
-                .long("faucet-per-time-sol-cap")
+            Arg::with_name("faucet_per_time_trz_cap")
+                .long("faucet-per-time-trz-cap")
                 .takes_value(true)
-                .value_name("SOL")
+                .value_name("TRZ")
                 .min_values(0)
                 .max_values(1)
-                .help("Per-time slice limit for faucet requests, in SOL"),
+                .help("Per-time slice limit for faucet requests, in TRZ"),
         )
         .arg(
-            Arg::with_name("faucet_per_request_sol_cap")
-                .long("faucet-per-request-sol-cap")
+            Arg::with_name("faucet_per_request_trz_cap")
+                .long("faucet-per-request-trz-cap")
                 .takes_value(true)
-                .value_name("SOL")
+                .value_name("TRZ")
                 .min_values(0)
                 .max_values(1)
-                .help("Per-request limit for faucet requests, in SOL"),
+                .help("Per-request limit for faucet requests, in TRZ"),
         )
         .arg(
             Arg::with_name("geyser_plugin_config")
@@ -943,7 +943,7 @@ pub struct DefaultTestArgs {
     pub rpc_port: String,
     pub faucet_port: String,
     pub limit_ledger_size: String,
-    pub faucet_sol: String,
+    pub faucet_trz: String,
     pub faucet_time_slice_secs: String,
 }
 
@@ -957,7 +957,7 @@ impl DefaultTestArgs {
              * 40MB-150MB range when running `trezoa-test-validator`
              */
             limit_ledger_size: 10_000.to_string(),
-            faucet_sol: (1_000_000.).to_string(),
+            faucet_trz: (1_000_000.).to_string(),
             faucet_time_slice_secs: (faucet::TIME_SLICE).to_string(),
         }
     }

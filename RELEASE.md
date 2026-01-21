@@ -103,9 +103,9 @@ Alternatively use the Github UI.
 
 ### Miscellaneous Clean up
 
-1. Pin the tpl-token-cli version in the newly promoted stable branch by setting `splTokenCliVersion` in scripts/tpl-token-cli-version.sh to the latest release that depends on the stable branch (usually this will be the latest tpl-token-cli release).
-1. Update [mergify.yml](https://github.com/trezoa-xyz/trezoa/blob/master/.mergify.yml) to add backport actions for the new branch and remove actions for the obsolete branch.
-1. Adjust the [Github backport labels](https://github.com/trezoa-xyz/trezoa/labels) to add the new branch label and remove the label for the obsolete branch.
+1. Pin the tpl-token-cli version in the newly promoted stable branch by setting `tplTokenCliVersion` in scripts/tpl-token-cli-version.sh to the latest release that depends on the stable branch (usually this will be the latest tpl-token-cli release).
+1. Update [mergify.yml](https://github.com/trezoa-xyz/trezoa/blob/master/.mergify.yml) to add backport actions for the new branch and remove actions for the obtrzete branch.
+1. Adjust the [Github backport labels](https://github.com/trezoa-xyz/trezoa/labels) to add the new branch label and remove the label for the obtrzete branch.
 1. Announce on Discord #development that the release branch exists so people know to use the new backport labels.
 
 ## Steps to Create a Release

@@ -2,7 +2,7 @@
 
 #![allow(clippy::arithmetic_side_effects)]
 
-use trezoa_program::log::{sol_log, sol_log_64};
+use trezoa_program::log::{trz_log, trz_log_64};
 
 pub fn many_args(
     arg1: u64,
@@ -15,8 +15,8 @@ pub fn many_args(
     arg8: u64,
     arg9: u64,
 ) -> u64 {
-    sol_log("same package");
-    sol_log_64(arg1, arg2, arg3, arg4, arg5);
-    sol_log_64(arg6, arg7, arg8, arg9, 0);
+    trz_log("same package");
+    trz_log_64(arg1, arg2, arg3, arg4, arg5);
+    trz_log_64(arg6, arg7, arg8, arg9, 0);
     arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8 + arg9
 }

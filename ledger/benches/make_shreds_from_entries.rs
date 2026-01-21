@@ -54,7 +54,7 @@ fn make_shreds_from_entries<R: Rng>(
     entries: &[Entry],
     is_last_in_slot: bool,
     chained_merkle_root: Option<Hash>,
-    reed_solomon_cache: &ReedSolomonCache,
+    reed_trzomon_cache: &ReedSolomonCache,
     stats: &mut ProcessShredsStats,
 ) -> (Vec<Shred>, Vec<Shred>) {
     let (data, code) = shredder.entries_to_merkle_shreds_for_tests(
@@ -64,7 +64,7 @@ fn make_shreds_from_entries<R: Rng>(
         chained_merkle_root,
         rng.gen_range(0..2_000), // next_shred_index
         rng.gen_range(0..2_000), // next_code_index
-        reed_solomon_cache,
+        reed_trzomon_cache,
         stats,
     );
     (black_box(data), black_box(code))
@@ -90,7 +90,7 @@ fn run_make_shreds_from_entries(
     let data_size = num_packets * PACKET_DATA_SIZE;
     let entries = make_dummy_entries(&mut rng, data_size);
     let chained_merkle_root = Some(make_dummy_hash(&mut rng));
-    let reed_solomon_cache = ReedSolomonCache::default();
+    let reed_trzomon_cache = ReedSolomonCache::default();
     let mut stats = ProcessShredsStats::default();
     // Initialize the thread-pool and warm the Reed-Solomon cache.
     for _ in 0..10 {
@@ -101,7 +101,7 @@ fn run_make_shreds_from_entries(
             &entries,
             is_last_in_slot,
             chained_merkle_root,
-            &reed_solomon_cache,
+            &reed_trzomon_cache,
             &mut stats,
         );
     }
@@ -114,7 +114,7 @@ fn run_make_shreds_from_entries(
                 &entries,
                 is_last_in_slot,
                 chained_merkle_root,
-                &reed_solomon_cache,
+                &reed_trzomon_cache,
                 &mut stats,
             );
             black_box(data);
@@ -144,7 +144,7 @@ fn run_recover_shreds(
     let data_size = num_packets * PACKET_DATA_SIZE;
     let entries = make_dummy_entries(&mut rng, data_size);
     let chained_merkle_root = Some(make_dummy_hash(&mut rng));
-    let reed_solomon_cache = ReedSolomonCache::default();
+    let reed_trzomon_cache = ReedSolomonCache::default();
     let mut stats = ProcessShredsStats::default();
     let (data, code) = make_shreds_from_entries(
         &mut rng,
@@ -153,7 +153,7 @@ fn run_recover_shreds(
         &entries,
         is_last_in_slot,
         chained_merkle_root,
-        &reed_solomon_cache,
+        &reed_trzomon_cache,
         &mut stats,
     );
     let fec_set_index = data[0].fec_set_index();
@@ -179,7 +179,7 @@ fn run_recover_shreds(
     shreds.extend(code);
     c.bench_function(name, |b| {
         b.iter(|| {
-            let recovered_shreds = shred::recover(shreds.clone(), &reed_solomon_cache)
+            let recovered_shreds = shred::recover(shreds.clone(), &reed_trzomon_cache)
                 .unwrap()
                 .collect::<Result<Vec<_>, _>>()
                 .unwrap();

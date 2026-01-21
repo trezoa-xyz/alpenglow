@@ -65,7 +65,7 @@ trezoa-tpu-client = { workspace = true }
 trezoa-transaction = { workspace = true }
 trezoa-transaction-status = { workspace = true }
 trezoa-version = { workspace = true }
-spl-instruction-padding-interface = { version = "=1.0.0" }
+trz-instruction-padding-interface = { version = "=1.0.0" }
 thiserror = { workspace = true }
 
 [target.'cfg(not(any(target_env = "msvc", target_os = "freebsd")))'.dependencies]

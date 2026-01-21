@@ -76,7 +76,7 @@ fn main() {
     let num_threads = matches.value_of_t("num_threads").unwrap_or(num_cpus::get());
     let thread_pool = rayon::ThreadPoolBuilder::new()
         .num_threads(num_threads)
-        .thread_name(|i| format!("solPohBench{i:02}"))
+        .thread_name(|i| format!("trzPohBench{i:02}"))
         .build()
         .expect("new rayon threadpool");
     if matches.is_present("cuda") {

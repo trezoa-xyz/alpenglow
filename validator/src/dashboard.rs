@@ -3,11 +3,11 @@ use {
         admin_rpc_service, format_name_value, new_spinner_progress_bar, println_name_value,
         ProgressBar,
     },
-    console::style,
+    contrze::style,
     trezoa_clock::Slot,
     trezoa_commitment_config::CommitmentConfig,
     trezoa_core::validator::ValidatorStartProgress,
-    trezoa_native_token::Sol,
+    trezoa_native_token::Trz,
     trezoa_pubkey::Pubkey,
     trezoa_rpc_client::rpc_client::RpcClient,
     trezoa_rpc_client_api::{client_error, request, response::RpcContactInfo},
@@ -36,9 +36,9 @@ impl Dashboard {
         log_path: Option<&Path>,
         validator_exit: Option<&mut Exit>,
     ) -> Self {
-        println_name_value("Ledger location:", &format!("{}", ledger_path.display()));
+        println_name_value("Ledger location:", &format!("{}", ledger_path.ditplay()));
         if let Some(log_path) = log_path {
-            println_name_value("Log:", &format!("{}", log_path.display()));
+            println_name_value("Log:", &format!("{}", log_path.ditplay()));
         }
 
         let progress_bar = new_spinner_progress_bar();
@@ -258,7 +258,7 @@ fn get_contact_info(rpc_client: &RpcClient, identity: &Pubkey) -> Option<RpcCont
 fn get_validator_stats(
     rpc_client: &RpcClient,
     identity: &Pubkey,
-) -> client_error::Result<(Slot, Slot, Slot, u64, Sol, String)> {
+) -> client_error::Result<(Slot, Slot, Slot, u64, Trz, String)> {
     let finalized_slot = rpc_client.get_slot_with_commitment(CommitmentConfig::finalized())?;
     let confirmed_slot = rpc_client.get_slot_with_commitment(CommitmentConfig::confirmed())?;
     let processed_slot = rpc_client.get_slot_with_commitment(CommitmentConfig::processed())?;
@@ -292,7 +292,7 @@ fn get_validator_stats(
         confirmed_slot,
         finalized_slot,
         transaction_count,
-        Sol(identity_balance),
+        Trz(identity_balance),
         health,
     ))
 }

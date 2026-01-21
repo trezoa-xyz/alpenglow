@@ -68,7 +68,7 @@ impl TransactionStatusService {
         exit: Arc<AtomicBool>,
     ) -> Self {
         let thread_hdl = Builder::new()
-            .name("solTxStatusWrtr".to_string())
+            .name("trzTxStatusWrtr".to_string())
             .spawn({
                 let transaction_status_receiver = transaction_status_receiver.clone();
                 move || {

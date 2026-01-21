@@ -87,7 +87,7 @@ fn parse_response(
 
     let (response_header, body) =
         response
-            .split_first_chunk::<HEADER_LENGTH>()
+            .tplit_first_chunk::<HEADER_LENGTH>()
             .ok_or(anyhow::anyhow!(
                 "Not enough data in the response from {ip_echo_server_addr}!"
             ))?;

@@ -29,7 +29,7 @@ pub const VERIFY_PACKET_CHUNK_SIZE: usize = 128;
 static PAR_THREAD_POOL: std::sync::LazyLock<ThreadPool> = std::sync::LazyLock::new(|| {
     rayon::ThreadPoolBuilder::new()
         .num_threads(get_thread_count())
-        .thread_name(|i| format!("solSigVerify{i:02}"))
+        .thread_name(|i| format!("trzSigVerify{i:02}"))
         .build()
         .unwrap()
 });
@@ -445,7 +445,7 @@ pub fn generate_offsets(
     )
 }
 
-fn split_batches(batches: Vec<PacketBatch>) -> (Vec<BytesPacketBatch>, Vec<PinnedPacketBatch>) {
+fn tplit_batches(batches: Vec<PacketBatch>) -> (Vec<BytesPacketBatch>, Vec<PinnedPacketBatch>) {
     let mut bytes_batches = Vec::new();
     let mut pinned_batches = Vec::new();
     for batch in batches {
@@ -499,7 +499,7 @@ shrink_batches_fn!(shrink_bytes_batches, BytesPacketBatch);
 shrink_batches_fn!(shrink_pinned_batches, PinnedPacketBatch);
 
 pub fn shrink_batches(batches: Vec<PacketBatch>) -> Vec<PacketBatch> {
-    let (mut bytes_batches, mut pinned_batches) = split_batches(batches);
+    let (mut bytes_batches, mut pinned_batches) = tplit_batches(batches);
     shrink_bytes_batches(&mut bytes_batches);
     shrink_pinned_batches(&mut pinned_batches);
     bytes_batches
@@ -1765,11 +1765,11 @@ mod tests {
     }
 
     #[test]
-    fn test_split_batches() {
+    fn test_tplit_batches() {
         let tx = test_tx();
 
         let batches = vec![];
-        let (bytes_batches, pinned_batches) = split_batches(batches);
+        let (bytes_batches, pinned_batches) = tplit_batches(batches);
         assert!(bytes_batches.is_empty());
         assert!(pinned_batches.is_empty());
 
@@ -1782,7 +1782,7 @@ mod tests {
             PacketBatch::Pinned(PinnedPacketBatch::new(vec![pinned_packet.clone(); 10])),
             PacketBatch::Bytes(BytesPacketBatch::from(vec![bytes_packet.clone(); 10])),
         ];
-        let (bytes_batches, pinned_batches) = split_batches(batches);
+        let (bytes_batches, pinned_batches) = tplit_batches(batches);
         assert_eq!(
             bytes_batches,
             vec![

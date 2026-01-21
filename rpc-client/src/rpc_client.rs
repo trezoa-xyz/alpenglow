@@ -215,7 +215,7 @@ impl RpcClient {
             )),
             runtime: Some(
                 tokio::runtime::Builder::new_current_thread()
-                    .thread_name("solRpcClient")
+                    .thread_name("trzRpcClient")
                     .enable_io()
                     .enable_time()
                     .build()

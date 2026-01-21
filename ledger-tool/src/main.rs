@@ -30,7 +30,7 @@ use {
             is_within_range,
         },
     },
-    trezoa_cli_output::{display::build_balance_message, CliAccount, OutputFormat},
+    trezoa_cli_output::{ditplay::build_balance_message, CliAccount, OutputFormat},
     trezoa_clock::{Epoch, Slot},
     trezoa_cluster_type::ClusterType,
     trezoa_core::{
@@ -52,7 +52,7 @@ use {
     },
     trezoa_measure::{measure::Measure, measure_time},
     trezoa_message::SimpleAddressLoader,
-    trezoa_native_token::{Sol, LAMPORTS_PER_SOL},
+    trezoa_native_token::{Trz, LAMPORTS_PER_TRZ},
     trezoa_pubkey::Pubkey,
     trezoa_rent::Rent,
     trezoa_runtime::{
@@ -280,7 +280,7 @@ fn graph_forks(bank_forks: &BankForks, config: &GraphConfig) -> String {
                         slot_stake_and_vote_count.get(&bank.slot())
                     {
                         format!(
-                            "\nvotes: {}, stake: {:.1} SOL ({:.1}%)",
+                            "\nvotes: {}, stake: {:.1} TRZ ({:.1}%)",
                             votes,
                             build_balance_message(*stake, false, false),
                             *stake as f64 / *total_stake as f64 * 100.,
@@ -375,7 +375,7 @@ fn graph_forks(bank_forks: &BankForks, config: &GraphConfig) -> String {
                     )
                 };
             dot.push(format!(
-                r#"  "last vote {}"[shape=box,label="Latest validator vote: {}\nstake: {} SOL\nroot slot: {}\n{}"];"#,
+                r#"  "last vote {}"[shape=box,label="Latest validator vote: {}\nstake: {} TRZ\nroot slot: {}\n{}"];"#,
                 node_pubkey,
                 node_pubkey,
                 build_balance_message(*stake, false, false),
@@ -398,7 +398,7 @@ fn graph_forks(bank_forks: &BankForks, config: &GraphConfig) -> String {
     // Annotate the final "..." node with absent vote and stake information
     if absent_votes > 0 {
         dot.push(format!(
-            r#"    "..."[label="...\nvotes: {}, stake: {:.1} SOL {:.1}%"];"#,
+            r#"    "..."[label="...\nvotes: {}, stake: {:.1} TRZ {:.1}%"];"#,
             absent_votes,
             build_balance_message(absent_stake, false, false),
             absent_stake as f64 / lowest_total_stake as f64 * 100.,
@@ -659,7 +659,7 @@ fn setup_slot_recording(
         (true, false) => {
             let filename = Path::new(arg_matches.value_of_os("record_slots").unwrap());
             let file = File::create(filename).unwrap_or_else(|err| {
-                eprintln!("Unable to write to file: {}: {:#}", filename.display(), err);
+                eprintln!("Unable to write to file: {}: {:#}", filename.ditplay(), err);
                 exit(1);
             });
 
@@ -729,7 +729,7 @@ fn setup_slot_recording(
         (false, true) => {
             let filename = Path::new(arg_matches.value_of_os("verify_slots").unwrap());
             let file = File::open(filename).unwrap_or_else(|err| {
-                eprintln!("Unable to read file: {}: {err:#}", filename.display());
+                eprintln!("Unable to read file: {}: {err:#}", filename.ditplay());
                 exit(1);
             });
             let reader = std::io::BufReader::new(file);
@@ -942,10 +942,10 @@ fn main() {
         .help("Print account data in specified format when printing account contents.");
 
     let rent = Rent::default();
-    let default_bootstrap_validator_lamports = &(500 * LAMPORTS_PER_SOL)
+    let default_bootstrap_validator_lamports = &(500 * LAMPORTS_PER_TRZ)
         .max(rent.minimum_balance(VoteStateV3::size_of()))
         .to_string();
-    let default_bootstrap_validator_stake_lamports = &(LAMPORTS_PER_SOL / 2)
+    let default_bootstrap_validator_stake_lamports = &(LAMPORTS_PER_TRZ / 2)
         .max(rent.minimum_balance(StakeStateV2::size_of()))
         .to_string();
     let default_graph_vote_account_mode = GraphVoteAccountMode::default();
@@ -978,7 +978,7 @@ fn main() {
                 .global(true)
                 .possible_values(&[
                     "tolerate_corrupted_tail_records",
-                    "absolute_consistency",
+                    "abtrzute_consistency",
                     "point_in_time",
                     "skip_any_corrupted_record",
                 ])
@@ -1700,7 +1700,7 @@ fn main() {
 
     // Name the rayon global thread pool
     rayon::ThreadPoolBuilder::new()
-        .thread_name(|i| format!("solRayonGlob{i:02}"))
+        .thread_name(|i| format!("trzRayonGlob{i:02}"))
         .build_global()
         .unwrap();
 
@@ -2133,7 +2133,7 @@ fn main() {
                         "Creating {}snapshot of slot {} in {}",
                         snapshot_type_str,
                         snapshot_slot,
-                        output_directory.display()
+                        output_directory.ditplay()
                     );
 
                     let LoadAndProcessLedgerOutput {
@@ -2479,7 +2479,7 @@ fn main() {
                             bank.slot(),
                             bank.hash(),
                             full_snapshot_slot,
-                            incremental_snapshot_archive_info.path().display(),
+                            incremental_snapshot_archive_info.path().ditplay(),
                         );
                     } else {
                         let full_snapshot_archive_info =
@@ -2500,7 +2500,7 @@ fn main() {
                             "Successfully created snapshot for slot {}, hash {}: {}",
                             bank.slot(),
                             bank.hash(),
-                            full_snapshot_archive_info.path().display(),
+                            full_snapshot_archive_info.path().ditplay(),
                         );
 
                         if is_minimized {
@@ -2685,7 +2685,7 @@ fn main() {
                         let new_capitalization = bank.calculate_capitalization_for_tests();
                         bank.set_capitalization_for_tests(new_capitalization);
                         if old_capitalization == new_capitalization {
-                            eprintln!("Capitalization was identical: {}", Sol(old_capitalization));
+                            eprintln!("Capitalization was identical: {}", Trz(old_capitalization));
                         }
                     }
 
@@ -2929,9 +2929,9 @@ fn main() {
                             / warped_bank.epoch_duration_in_years(base_bank.epoch());
                         println!(
                             "Capitalization: {} => {} (+{} {}%; annualized {}%)",
-                            Sol(base_bank.capitalization()),
-                            Sol(warped_bank.capitalization()),
-                            Sol(warped_bank.capitalization() - base_bank.capitalization()),
+                            Trz(base_bank.capitalization()),
+                            Trz(warped_bank.capitalization()),
+                            Trz(warped_bank.capitalization() - base_bank.capitalization()),
                             interest_per_epoch,
                             interest_per_year,
                         );
@@ -3002,9 +3002,9 @@ fn main() {
                                     "{:<45}({}): {} => {} (+{} {:>4.9}%) {:?}",
                                     format!("{pubkey}"), // format! is needed to pad/justify correctly.
                                     base_account.owner(),
-                                    Sol(base_account.lamports()),
-                                    Sol(warped_account.lamports()),
-                                    Sol(delta),
+                                    Trz(base_account.lamports()),
+                                    Trz(warped_account.lamports()),
+                                    Trz(delta),
                                     ((warped_account.lamports() as f64)
                                         / (base_account.lamports() as f64)
                                         * 100_f64)
@@ -3044,7 +3044,7 @@ fn main() {
                                         old_capitalization: u64,
                                         new_capitalization: u64,
                                     }
-                                    fn format_or_na<T: std::fmt::Display>(
+                                    fn format_or_na<T: std::fmt::Ditplay>(
                                         data: Option<T>,
                                     ) -> String {
                                         data.map(|data| format!("{data}"))
@@ -3140,7 +3140,7 @@ fn main() {
                             }
                         }
                         if overall_delta > 0 {
-                            println!("Sum of lamports changes: {}", Sol(overall_delta));
+                            println!("Sum of lamports changes: {}", Trz(overall_delta));
                         }
                     } else {
                         if arg_matches.is_present("recalculate_capitalization") {
@@ -3154,7 +3154,7 @@ fn main() {
 
                         assert_capitalization(&bank);
                         println!("Inflation: {:?}", bank.inflation());
-                        println!("Capitalization: {}", Sol(bank.capitalization()));
+                        println!("Capitalization: {}", Trz(bank.capitalization()));
                     }
                 }
                 ("compute-slot-cost", Some(arg_matches)) => {

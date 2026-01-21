@@ -153,7 +153,7 @@ pub enum ExistedLocation {
 #[derive(Default, Debug)]
 struct StartupInfoDuplicates<T: IndexValue> {
     /// entries that were found to have duplicate index entries.
-    /// When all entries have been inserted, these can be resolved and held in memory.
+    /// When all entries have been inserted, these can be retrzved and held in memory.
     duplicates: Vec<(Slot, Pubkey, T)>,
     /// pubkeys that were already added to disk and later found to be duplicates,
     duplicates_put_on_disk: HashSet<(Slot, Pubkey)>,

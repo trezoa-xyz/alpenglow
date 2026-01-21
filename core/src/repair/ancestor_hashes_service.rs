@@ -56,7 +56,7 @@ pub enum AncestorHashesReplayUpdate {
     // votes are hash agnostic since we have not replayed `Slot` so we can never say for certainty
     // that this fork has reached duplicate confirmation, but it is suspected to have. This
     // indicates that there is most likely a block with invalid ancestry present and thus we
-    // collect an ancestor sample to resolve this issue. `Slot` is the deepest slot in this fork
+    // collect an ancestor sample to retrzve this issue. `Slot` is the deepest slot in this fork
     // that is popular, so any duplicate problems will be for `Slot` or one of it's ancestors.
     PopularPrunedFork(Slot),
 }
@@ -163,7 +163,7 @@ impl AncestorHashesService {
         let outstanding_requests = Arc::<RwLock<OutstandingAncestorHashesRepairs>>::default();
         let (response_sender, response_receiver) = unbounded();
         let t_receiver = streamer::receiver(
-            "solRcvrAncHash".to_string(),
+            "trzRcvrAncHash".to_string(),
             ancestor_hashes_request_socket.clone(),
             exit.clone(),
             response_sender.clone(),
@@ -186,7 +186,7 @@ impl AncestorHashesService {
         let t_receiver_quic = {
             let exit = exit.clone();
             Builder::new()
-                .name(String::from("solAncHashQuic"))
+                .name(String::from("trzAncHashQuic"))
                 .spawn(|| {
                     receive_quic_datagrams(
                         ancestor_hashes_response_quic_receiver,
@@ -257,7 +257,7 @@ impl AncestorHashesService {
         migration_status: Arc<MigrationStatus>,
     ) -> JoinHandle<()> {
         Builder::new()
-            .name("solAncHashesSvc".to_string())
+            .name("trzAncHashesSvc".to_string())
             .spawn(move || {
                 let mut last_stats_report = Instant::now();
                 let mut stats = AncestorHashesResponsesStats::default();
@@ -639,7 +639,7 @@ impl AncestorHashesService {
         // to MAX_ANCESTOR_HASHES_SLOT_REQUESTS_PER_SECOND/second
         let mut request_throttle = vec![];
         Builder::new()
-            .name("solManAncReqs".to_string())
+            .name("trzManAncReqs".to_string())
             .spawn(move || loop {
                 if exit.load(Ordering::Relaxed) || migration_status.is_alpenglow_enabled() {
                     return;
@@ -1313,7 +1313,7 @@ mod test {
 
             // Set up repair request receiver threads
             let t_request_receiver = streamer::receiver(
-                "solRcvrTest".to_string(),
+                "trzRcvrTest".to_string(),
                 Arc::new(responder_node.sockets.serve_repair),
                 exit.clone(),
                 requests_sender,

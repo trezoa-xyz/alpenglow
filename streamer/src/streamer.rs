@@ -543,7 +543,7 @@ pub fn responder_atomic(
     stats_reporter_sender: Option<Sender<Box<dyn FnOnce() + Send>>>,
 ) -> JoinHandle<()> {
     Builder::new()
-        .name(format!("solRspndr{name}"))
+        .name(format!("trzRspndr{name}"))
         .spawn(move || {
             responder_loop(
                 MultihomedSocketProvider::new(sockets, bind_ip_addrs),
@@ -564,7 +564,7 @@ pub fn responder(
     stats_reporter_sender: Option<Sender<Box<dyn FnOnce() + Send>>>,
 ) -> JoinHandle<()> {
     Builder::new()
-        .name(format!("solRspndr{name}"))
+        .name(format!("trzRspndr{name}"))
         .spawn(move || {
             responder_loop(
                 FixedSocketProvider::new(sock),
@@ -671,7 +671,7 @@ mod test {
         let (s_reader, r_reader) = unbounded();
         let stats = Arc::new(StreamerReceiveStats::new("test"));
         let t_receiver = receiver(
-            "solRcvrTest".to_string(),
+            "trzRcvrTest".to_string(),
             Arc::new(read),
             exit.clone(),
             s_reader,

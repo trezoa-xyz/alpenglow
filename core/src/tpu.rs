@@ -212,7 +212,7 @@ impl Tpu {
             thread: tpu_vote_quic_t,
             key_updater: vote_streamer_key_updater,
         } = spawn_server_with_cancel(
-            "solQuicTVo",
+            "trzQuicTVo",
             "quic_streamer_tpu_vote",
             tpu_vote_quic_sockets,
             keypair,
@@ -230,7 +230,7 @@ impl Tpu {
                 thread: tpu_quic_t,
                 key_updater,
             } = spawn_server_with_cancel(
-                "solQuicTpu",
+                "trzQuicTpu",
                 "quic_streamer_tpu",
                 transactions_quic_sockets,
                 keypair,
@@ -252,7 +252,7 @@ impl Tpu {
                 thread: tpu_forwards_quic_t,
                 key_updater: forwards_key_updater,
             } = spawn_server_with_cancel(
-                "solQuicTpuFwd",
+                "trzQuicTpuFwd",
                 "quic_streamer_tpu_forwards",
                 transactions_forwards_quic_sockets,
                 keypair,
@@ -288,7 +288,7 @@ impl Tpu {
             SigVerifier::Local(SigVerifyStage::new(
                 packet_receiver,
                 verifier,
-                "solSigVerTpu",
+                "trzSigVerTpu",
                 "tpu-verifier",
             ))
         };
@@ -301,7 +301,7 @@ impl Tpu {
             SigVerifyStage::new(
                 vote_packet_receiver,
                 verifier,
-                "solSigVerTpuVot",
+                "trzSigVerTpuVot",
                 "tpu-vote-verifier",
             )
         };

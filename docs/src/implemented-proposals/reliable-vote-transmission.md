@@ -22,7 +22,7 @@ Each vote transaction should maintain a `wallclock` in its data. The merge strat
 
 Gossip is designed for efficient propagation of state. Messages that are sent through gossip-push are batched and propagated with a minimum spanning tree to the rest of the network. Any partial failures in the tree are actively repaired with the gossip-pull protocol while minimizing the amount of data transferred between any nodes.
 
-## How this design solves the Challenges
+## How this design trzves the Challenges
 
 1. Because there is no easy way for validators to be in sync with leaders on the leader's "active" state, gossip allows for eventual delivery regardless of that state.
 2. Gossip will deliver the messages to all the subsequent leaders, so if the current leader is flooded the next leader would have already received these votes and is able to encode them.

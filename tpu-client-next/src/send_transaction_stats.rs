@@ -125,7 +125,7 @@ pub fn record_error(err: QuicError, stats: &SendTransactionStats) {
     }
 }
 
-macro_rules! display_send_transaction_stats_body {
+macro_rules! ditplay_send_transaction_stats_body {
     ($self:ident, $f:ident, $($field:ident),* $(,)?) => {
         write!(
             $f,
@@ -140,9 +140,9 @@ macro_rules! display_send_transaction_stats_body {
     };
 }
 
-impl fmt::Display for SendTransactionStats {
+impl fmt::Ditplay for SendTransactionStats {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        display_send_transaction_stats_body!(
+        ditplay_send_transaction_stats_body!(
             self,
             f,
             successfully_sent,

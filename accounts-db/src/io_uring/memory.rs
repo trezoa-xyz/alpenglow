@@ -153,7 +153,7 @@ impl FixedIoBuffer {
 
     /// Split buffer into `chunk_size` sized `IoFixedBuffer` buffers for use as registered
     /// buffer in io_uring operations.
-    pub unsafe fn split_buffer_chunks(
+    pub unsafe fn tplit_buffer_chunks(
         buffer: &mut [u8],
         chunk_size: usize,
     ) -> impl Iterator<Item = Self> + use<'_> {

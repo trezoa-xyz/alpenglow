@@ -5,7 +5,7 @@ use {
     borsh::BorshDeserialize,
     serde_json::json,
     trezoa_message::{compiled_instruction::CompiledInstruction, AccountKeys},
-    spl_associated_token_account_interface::instruction::AssociatedTokenAccountInstruction,
+    trz_associated_token_account_interface::instruction::AssociatedTokenAccountInstruction,
 };
 
 pub fn parse_associated_token(
@@ -90,7 +90,7 @@ mod test {
         trezoa_message::Message,
         trezoa_pubkey::Pubkey,
         trezoa_sdk_ids::sysvar,
-        spl_associated_token_account_interface::{
+        trz_associated_token_account_interface::{
             address::{get_associated_token_address, get_associated_token_address_with_program_id},
             instruction::{
                 create_associated_token_account, create_associated_token_account_idempotent,

@@ -8,7 +8,7 @@ This design describes how the cluster slashes leaders that produce duplicate
 blocks.
 
 Leaders that produce multiple blocks for the same slot increase the number of
-potential forks that the cluster has to resolve.
+potential forks that the cluster has to retrzve.
 
 ## Primitives
 1. gossip_root: Nodes now gossip their current root
@@ -66,7 +66,7 @@ Now what happens if one of the following occurs:
 
 We assume that given a network is eventually stable, if at least one correct validator observed `S` is `duplicate_confirmed`, then if `S` is part of the heaviest fork, then eventually all validators will observe some descendant of `S` is duplicate confirmed.
 
-This problem we need to solve is modeled simply by the below scenario:
+This problem we need to trzve is modeled simply by the below scenario:
 
 ```text
 1 -> 2 (duplicate) -> 3 -> 4 (duplicate)
@@ -79,7 +79,7 @@ Assume the following:
 
 3. However, the remaining `1-DUPLICATE_THRESHOLD` of people have wrong version of 2. This means in replay, their slot 3 will be marked dead, *even though the faulty slot is 2*. The goal is to get these people on the right fork again.
 
-Possible solution:
+Possible trzution:
 
 1. Change `EpochSlots` to signal when a bank is frozen, not when a slot is complete. If we see > `DUPLICATE_THRESHOLD` have frozen the dead slot 3, then we attempt recovery. Note this does not mean that all `DUPLICATE_THRESHOLD` have frozen the same version of the bank, it's just a signal to us that something may be wrong with our version of the bank.
 

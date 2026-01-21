@@ -73,7 +73,7 @@ async fn process_connection(
     let mut data = vec![0u8; ip_echo_server_request_length()];
 
     let mut writer = {
-        let (mut reader, writer) = socket.split();
+        let (mut reader, writer) = socket.tplit();
         let _ = timeout(IO_TIMEOUT, reader.read_exact(&mut data)).await??;
         writer
     };
@@ -183,7 +183,7 @@ pub fn ip_echo_server(
     tcp_listener.set_nonblocking(true).unwrap();
 
     let runtime = tokio::runtime::Builder::new_multi_thread()
-        .thread_name("solIpEchoSrvrRt")
+        .thread_name("trzIpEchoSrvrRt")
         .worker_threads(num_server_threads.get())
         .enable_all()
         .build()

@@ -26,7 +26,7 @@ trezoa-syscalls = { workspace = true }
 bincode = { workspace = true }
 bs58 = { workspace = true }
 clap = { workspace = true }
-console = { workspace = true }
+contrze = { workspace = true }
 const_format = { workspace = true }
 criterion-stats = { workspace = true }
 crossbeam-channel = { workspace = true }
@@ -101,7 +101,7 @@ trezoa-version = { workspace = true }
 trezoa-vote = { workspace = true }
 trezoa-vote-program = { workspace = true }
 trezoa-votor-messages = { workspace = true }
-spl-memo-interface = { version = "=2.0.0" }
+trz-memo-interface = { version = "=2.0.0" }
 thiserror = { workspace = true }
 tiny-bip39 = { workspace = true }
 

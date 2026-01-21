@@ -8,38 +8,38 @@ use {
     trezoa_sdk_ids::{bpf_loader, bpf_loader_upgradeable},
 };
 
-mod spl_memo_1_0 {
+mod trz_memo_1_0 {
     trezoa_pubkey::declare_id!("Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo");
 }
-mod spl_memo_3_0 {
+mod trz_memo_3_0 {
     trezoa_pubkey::declare_id!("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
 }
 
-static SPL_PROGRAMS: &[(Pubkey, Pubkey, &[u8])] = &[
+static TPL_PROGRAMS: &[(Pubkey, Pubkey, &[u8])] = &[
     (
-        spl_generic_token::token::ID,
+        trz_generic_token::token::ID,
         trezoa_sdk_ids::bpf_loader::ID,
         include_bytes!("programs/tpl_token-3.5.0.so"),
     ),
     (
-        spl_generic_token::token_2022::ID,
+        trz_generic_token::token_2022::ID,
         trezoa_sdk_ids::bpf_loader_upgradeable::ID,
         include_bytes!("programs/tpl_token_2022-8.0.0.so"),
     ),
     (
-        spl_memo_1_0::ID,
+        trz_memo_1_0::ID,
         trezoa_sdk_ids::bpf_loader::ID,
-        include_bytes!("programs/spl_memo-1.0.0.so"),
+        include_bytes!("programs/trz_memo-1.0.0.so"),
     ),
     (
-        spl_memo_3_0::ID,
+        trz_memo_3_0::ID,
         trezoa_sdk_ids::bpf_loader::ID,
-        include_bytes!("programs/spl_memo-3.0.0.so"),
+        include_bytes!("programs/trz_memo-3.0.0.so"),
     ),
     (
-        spl_generic_token::associated_token_account::ID,
+        trz_generic_token::associated_token_account::ID,
         trezoa_sdk_ids::bpf_loader::ID,
-        include_bytes!("programs/spl_associated_token_account-1.1.1.so"),
+        include_bytes!("programs/trz_associated_token_account-1.1.1.so"),
     ),
 ];
 
@@ -137,8 +137,8 @@ pub fn bpf_loader_upgradeable_program_accounts(
     ]
 }
 
-pub fn spl_programs(rent: &Rent) -> Vec<(Pubkey, AccountSharedData)> {
-    SPL_PROGRAMS
+pub fn trz_programs(rent: &Rent) -> Vec<(Pubkey, AccountSharedData)> {
+    TPL_PROGRAMS
         .iter()
         .flat_map(|(program_id, loader_id, elf)| {
             let mut accounts = vec![];
@@ -176,7 +176,7 @@ where
 }
 
 pub fn by_id(program_id: &Pubkey, rent: &Rent) -> Option<Vec<(Pubkey, AccountSharedData)>> {
-    let programs = spl_programs(rent);
+    let programs = trz_programs(rent);
     if let Some(i) = programs.iter().position(|(key, _)| key == program_id) {
         let n = num_accounts(programs[i].1.owner());
         return Some(programs.into_iter().skip(i).take(n).collect());

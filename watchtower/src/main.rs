@@ -9,10 +9,10 @@ use {
         input_parsers::pubkeys_of,
         input_validators::{is_parsable, is_pubkey_or_keypair, is_url, is_valid_percentage},
     },
-    trezoa_cli_output::display::format_labeled_address,
+    trezoa_cli_output::ditplay::format_labeled_address,
     trezoa_hash::Hash,
     trezoa_metrics::{datapoint_error, datapoint_info},
-    trezoa_native_token::{sol_str_to_lamports, Sol},
+    trezoa_native_token::{trz_str_to_lamports, Trz},
     trezoa_notifier::{NotificationType, Notifier},
     trezoa_pubkey::Pubkey,
     trezoa_rpc_client::rpc_client::RpcClient,
@@ -141,11 +141,11 @@ fn get_config() -> Config {
         .arg(
             Arg::with_name("minimum_validator_identity_balance")
                 .long("minimum-validator-identity-balance")
-                .value_name("SOL")
+                .value_name("TRZ")
                 .takes_value(true)
                 .default_value("10")
                 .validator(is_parsable::<f64>)
-                .help("Alert when the validator identity balance is less than this amount of SOL"),
+                .help("Alert when the validator identity balance is less than this amount of TRZ"),
         )
         .arg(
             // Deprecated parameter, now always enabled
@@ -210,7 +210,7 @@ fn get_config() -> Config {
     let unhealthy_threshold = value_t_or_exit!(matches, "unhealthy_threshold", usize);
     let minimum_validator_identity_balance = matches
         .value_of("minimum_validator_identity_balance")
-        .and_then(sol_str_to_lamports)
+        .and_then(trz_str_to_lamports)
         .unwrap();
     let json_rpc_urls = values_t!(matches, "json_rpc_urls", String).unwrap_or_else(|_| {
         vec![value_t!(matches, "json_rpc_url", String).unwrap_or_else(|_| config.json_rpc_url)]
@@ -318,9 +318,9 @@ fn query_endpoint(
             info!(
                 "Current stake: {:.2}% | Total stake: {}, current stake: {}, delinquent: {}",
                 current_stake_percent,
-                Sol(total_stake),
-                Sol(total_current_stake),
-                Sol(total_delinquent_stake)
+                Trz(total_stake),
+                Trz(total_current_stake),
+                Trz(total_delinquent_stake)
             );
 
             if transaction_count > endpoint.last_transaction_count {
@@ -375,7 +375,7 @@ fn query_endpoint(
                     if *balance < config.minimum_validator_identity_balance {
                         failures.push((
                             "balance",
-                            format!("{} has {}", formatted_validator_identity, Sol(*balance)),
+                            format!("{} has {}", formatted_validator_identity, Trz(*balance)),
                         ));
                     }
                 }
@@ -563,7 +563,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
                 info!("{all_clear_msg}");
                 notifier.send(
                     &format!("trezoa-watchtower{}: {}", config.name_suffix, all_clear_msg),
-                    &NotificationType::Resolve { incident },
+                    &NotificationType::Retrzve { incident },
                 );
             }
             last_notification_msg = "".into();

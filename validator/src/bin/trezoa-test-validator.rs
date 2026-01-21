@@ -20,7 +20,7 @@ use {
     trezoa_faucet::faucet::run_local_faucet_with_port,
     trezoa_inflation::Inflation,
     trezoa_keypair::{read_keypair_file, write_keypair_file, Keypair},
-    trezoa_native_token::sol_str_to_lamports,
+    trezoa_native_token::trz_str_to_lamports,
     trezoa_pubkey::Pubkey,
     trezoa_rent::Rent,
     trezoa_rpc::{
@@ -86,7 +86,7 @@ fn main() {
         fs::create_dir(&ledger_path).unwrap_or_else(|err| {
             println!(
                 "Error: Unable to create directory {}: {}",
-                ledger_path.display(),
+                ledger_path.ditplay(),
                 err
             );
             exit(1);
@@ -97,7 +97,7 @@ fn main() {
     let _ledger_write_guard = lock_ledger(&ledger_path, &mut ledger_lock);
     if reset_ledger {
         remove_directory_contents(&ledger_path).unwrap_or_else(|err| {
-            println!("Error: Unable to remove {}: {}", ledger_path.display(), err);
+            println!("Error: Unable to remove {}: {}", ledger_path.ditplay(), err);
             exit(1);
         })
     }
@@ -211,7 +211,7 @@ fn main() {
         if !program_path.exists() {
             println!(
                 "Error: program file does not exist: {}",
-                program_path.display()
+                program_path.ditplay()
             );
             exit(1);
         }
@@ -325,8 +325,8 @@ fn main() {
     };
 
     let faucet_lamports = matches
-        .value_of("faucet_sol")
-        .and_then(sol_str_to_lamports)
+        .value_of("faucet_trz")
+        .and_then(trz_str_to_lamports)
         .unwrap();
     let faucet_keypair_file = ledger_path.join("faucet-keypair.json");
     if !faucet_keypair_file.exists() {
@@ -334,7 +334,7 @@ fn main() {
             |err| {
                 println!(
                     "Error: Failed to write {}: {}",
-                    faucet_keypair_file.display(),
+                    faucet_keypair_file.ditplay(),
                     err
                 );
                 exit(1);
@@ -346,7 +346,7 @@ fn main() {
         read_keypair_file(faucet_keypair_file.to_str().unwrap()).unwrap_or_else(|err| {
             println!(
                 "Error: Failed to read {}: {}",
-                faucet_keypair_file.display(),
+                faucet_keypair_file.ditplay(),
                 err
             );
             exit(1);
@@ -355,11 +355,11 @@ fn main() {
 
     let faucet_time_slice_secs = value_t_or_exit!(matches, "faucet_time_slice_secs", u64);
     let faucet_per_time_cap = matches
-        .value_of("faucet_per_time_sol_cap")
-        .and_then(sol_str_to_lamports);
+        .value_of("faucet_per_time_trz_cap")
+        .and_then(trz_str_to_lamports);
     let faucet_per_request_cap = matches
-        .value_of("faucet_per_request_sol_cap")
-        .and_then(sol_str_to_lamports);
+        .value_of("faucet_per_request_trz_cap")
+        .and_then(trz_str_to_lamports);
 
     let (sender, receiver) = unbounded();
     run_local_faucet_with_port(
@@ -386,7 +386,7 @@ fn main() {
             ("ticks_per_slot", "--ticks-per-slot"),
             ("slots_per_epoch", "--slots-per-epoch"),
             ("inflation_fixed", "--inflation-fixed"),
-            ("faucet_sol", "--faucet-sol"),
+            ("faucet_trz", "--faucet-trz"),
             ("deactivate_feature", "--deactivate-feature"),
         ] {
             if matches.is_present(name) {
@@ -396,7 +396,7 @@ fn main() {
     } else if random_mint {
         println_name_value(
             "\nNotice!",
-            "No wallet available. `trezoa airdrop` localnet SOL after creating one\n",
+            "No wallet available. `trezoa airdrop` localnet TRZ after creating one\n",
         );
     }
 

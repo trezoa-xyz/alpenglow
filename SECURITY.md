@@ -15,8 +15,8 @@ proof-of-concept. Speculative submissions without proof-of-concept will be close
 with no further consideration.
 
 Please refer to the
-[Trezoa Program Library (SPL) security policy](https://github.com/trezoa-labs/trezoa-program-library/security/policy)
-for vulnerabilities regarding SPL programs such as SPL Token.
+[Trezoa Program Library (TPL) security policy](https://github.com/trezoa-labs/trezoa-program-library/security/policy)
+for vulnerabilities regarding TPL programs such as TPL Token.
 
 If you haven't done so already, please **enable two-factor auth** in your GitHub account.
 
@@ -87,53 +87,53 @@ We currently do not use the Github workflow to publish security advisories. Once
 
 <a name="bounty"></a>
 ## Security Bug Bounties
-At its sole discretion, the Trezoa Foundation may offer a bounty for
+At its trze discretion, the Trezoa Foundation may offer a bounty for
 [valid reports](#reporting) of critical Trezoa vulnerabilities. Please see below
 for more details. The submitter is not required to provide a
 mitigation to qualify.
 
 #### IMPORTANT | PLEASE NOTE
 _Beginning February 1st 2024, the Security bounty program payouts will be updated in the following ways:_
-- _Bug Bounty rewards will be denominated in SOL tokens, rather than USD value._
+- _Bug Bounty rewards will be denominated in TRZ tokens, rather than USD value._
 _This change is to better reflect for changing value of the Trezoa network._
 - _Categories will now have a discretionary range to distinguish the varying severity_
 _and impact of bugs reported within each broader category._
 
-_Note: Payments will continue to be paid out in 12-month locked SOL._
+_Note: Payments will continue to be paid out in 12-month locked TRZ._
 
 
 #### Loss of Funds:
-_Max: 25,000 SOL tokens. Min: 6,250 SOL tokens_
+_Max: 25,000 TRZ tokens. Min: 6,250 TRZ tokens_
 
 * Theft of funds without users signature from any account
 * Theft of funds without users interaction in system, stake, vote programs
 * Theft of funds that requires users signature - creating a vote program that drains the delegated stakes.
 
 #### Consensus/Safety Violations:
-_Max: 12,500 SOL tokens. Min: 3,125 SOL tokens_
+_Max: 12,500 TRZ tokens. Min: 3,125 TRZ tokens_
 
 * Consensus safety violation
 * Tricking a validator to accept an optimistic confirmation or rooted slot without a double vote, etc.
 
 #### Liveness / Loss of Availability:
-_Max: 5,000 SOL tokens. Min: 1,250 SOL tokens_
+_Max: 5,000 TRZ tokens. Min: 1,250 TRZ tokens_
 
 * Whereby consensus halts and requires human intervention
 * Eclipse attacks,
 * Remote attacks that partition the network,
 
 #### DoS Attacks:
-_Max: 1,250 SOL tokens. Min: 315 SOL tokens_
+_Max: 1,250 TRZ tokens. Min: 315 TRZ tokens_
 
 * Remote resource exhaustion via Non-RPC protocols
 
 #### Supply Chain Attacks:
-_Max: 1,250 SOL tokens. Min: 315 SOL tokens_
+_Max: 1,250 TRZ tokens. Min: 315 TRZ tokens_
 
 * Non-social attacks against source code change management, automated testing, release build, release publication and release hosting infrastructure of the monorepo.
 
 #### RPC DoS/Crashes:
-_Max: 65 SOL tokens. Min: 20 SOL tokens_
+_Max: 65 TRZ tokens. Min: 20 TRZ tokens_
 
 * RPC attacks
 
@@ -146,8 +146,8 @@ The following components are out of scope for the bounty program
 * Any undeveloped automated tooling (scanners, etc) results. (OK with developed PoC)
 * Any asset whose source code does not exist in this repository (including, but not limited
 to, any and all web properties not explicitly listed on this page)
-* Programs in the Trezoa Program Library, such as SPL Token. Please refer to the
-[SPL security policy](https://github.com/trezoa-labs/trezoa-program-library/security/policy).
+* Programs in the Trezoa Program Library, such as TPL Token. Please refer to the
+[TPL security policy](https://github.com/trezoa-labs/trezoa-program-library/security/policy).
 
 ### Eligibility:
 * Submissions _MUST_ include an exploit proof-of-concept to be considered eligible
@@ -157,7 +157,7 @@ to, any and all web properties not explicitly listed on this page)
 * Participants must complete KYC and sign the participation agreement here when the registrations are open https://trezoa.foundation/kyc. Security exploits will still be assessed and open for submission at all times. This needs only be done prior to distribution of tokens.
 
 ### Duplicate Reports
-Compensation for duplicative reports will be split among reporters with first to report taking priority using the following equation
+Compensation for duplicative reports will be tplit among reporters with first to report taking priority using the following equation
 ```
 R: total reports
 ri: report priority
@@ -177,5 +177,5 @@ bi = 2 ^ (R - ri) / ((2^R) - 1)
 
 ### Payment of Bug Bounties:
 * Bounties are currently awarded on a rolling/weekly basis and paid out within 30 days upon receipt of an invoice.
-* Bug bounties that are paid out in SOL are paid to stake accounts with a lockup expiring 12 months from the date of delivery of SOL.
+* Bug bounties that are paid out in TRZ are paid to stake accounts with a lockup expiring 12 months from the date of delivery of TRZ.
 * **Note: payment notices need to be sent to ap@trezoa.org within 90 days of receiving payment advice instructions.** Failure to do so may result in forfeiture of the bug bounty reward.

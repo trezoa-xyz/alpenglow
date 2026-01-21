@@ -234,7 +234,7 @@ impl AddressLookupTableSubCommands for App<'_, '_> {
                 )
                 .subcommand(
                     SubCommand::with_name("get")
-                        .about("Display information about a lookup table")
+                        .about("Ditplay information about a lookup table")
                         .arg(
                             Arg::with_name("lookup_table_address")
                                 .index(1)

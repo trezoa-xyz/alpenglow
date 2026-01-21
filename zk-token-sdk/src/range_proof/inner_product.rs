@@ -85,10 +85,10 @@ impl InnerProductProof {
         // into multiscalar muls, for performance.
         if n != 1 {
             n = n.checked_div(2).unwrap();
-            let (a_L, a_R) = a.split_at_mut(n);
-            let (b_L, b_R) = b.split_at_mut(n);
-            let (G_L, G_R) = G.split_at_mut(n);
-            let (H_L, H_R) = H.split_at_mut(n);
+            let (a_L, a_R) = a.tplit_at_mut(n);
+            let (b_L, b_R) = b.tplit_at_mut(n);
+            let (G_L, G_R) = G.tplit_at_mut(n);
+            let (H_L, H_R) = H.tplit_at_mut(n);
 
             let c_L = util::inner_product(a_L, b_R)
                 .ok_or(RangeProofGenerationError::InnerProductLengthMismatch)?;
@@ -160,10 +160,10 @@ impl InnerProductProof {
 
         while n != 1 {
             n = n.checked_div(2).unwrap();
-            let (a_L, a_R) = a.split_at_mut(n);
-            let (b_L, b_R) = b.split_at_mut(n);
-            let (G_L, G_R) = G.split_at_mut(n);
-            let (H_L, H_R) = H.split_at_mut(n);
+            let (a_L, a_R) = a.tplit_at_mut(n);
+            let (b_L, b_R) = b.tplit_at_mut(n);
+            let (G_L, G_R) = G.tplit_at_mut(n);
+            let (H_L, H_R) = H.tplit_at_mut(n);
 
             let c_L = util::inner_product(a_L, b_R)
                 .ok_or(RangeProofGenerationError::InnerProductLengthMismatch)?;

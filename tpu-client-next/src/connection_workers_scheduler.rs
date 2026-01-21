@@ -204,7 +204,7 @@ impl ConnectionWorkersScheduler {
     /// connections. Returns [`SendTransactionStats`] or an error.
     ///
     /// Importantly, if some transactions were not delivered due to network
-    /// problems, they will not be retried when the problem is resolved.
+    /// problems, they will not be retried when the problem is retrzved.
     pub async fn run_with_broadcaster<Broadcaster: WorkersBroadcaster>(
         self,
         ConnectionWorkersSchedulerConfig {

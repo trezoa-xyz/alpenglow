@@ -322,7 +322,7 @@ mod tests {
         trezoa_accounts_db::stake_rewards::StakeReward,
         trezoa_epoch_schedule::EpochSchedule,
         trezoa_hash::Hash,
-        trezoa_native_token::LAMPORTS_PER_SOL,
+        trezoa_native_token::LAMPORTS_PER_TRZ,
         trezoa_rent::Rent,
         trezoa_reward_info::{RewardInfo, RewardType},
         trezoa_stake_interface::{
@@ -337,7 +337,7 @@ mod tests {
 
     #[test]
     fn test_distribute_partitioned_epoch_rewards() {
-        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let mut bank = Bank::new_for_tests(&genesis_config);
 
         let expected_num = 100;
@@ -361,7 +361,7 @@ mod tests {
     #[test]
     #[should_panic(expected = "self.epoch_schedule.get_slots_in_epoch")]
     fn test_distribute_partitioned_epoch_rewards_too_many_partitions() {
-        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let mut bank = Bank::new_for_tests(&genesis_config);
 
         let expected_num = 1;
@@ -387,7 +387,7 @@ mod tests {
 
     #[test]
     fn test_distribute_partitioned_epoch_rewards_empty() {
-        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let mut bank = Bank::new_for_tests(&genesis_config);
 
         bank.set_epoch_reward_status_distribution(
@@ -426,7 +426,7 @@ mod tests {
     #[test]
     fn test_distribute_partitioned_epoch_rewards_bank_capital_and_sysvar_balance() {
         let (mut genesis_config, _mint_keypair) =
-            create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+            create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         genesis_config.epoch_schedule = EpochSchedule::custom(432000, 432000, false);
         let bank = Bank::new_for_tests(&genesis_config);
 
@@ -491,7 +491,7 @@ mod tests {
     #[test]
     fn test_epoch_credit_rewards_and_history_update() {
         let (mut genesis_config, _mint_keypair) =
-            create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+            create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         genesis_config.epoch_schedule = EpochSchedule::custom(432000, 432000, false);
         let bank = Bank::new_for_tests(&genesis_config);
 
@@ -556,7 +556,7 @@ mod tests {
     fn test_update_reward_history_in_partition() {
         for zero_reward in [false, true] {
             let (genesis_config, _mint_keypair) =
-                create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+                create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
             let bank = Bank::new_for_tests(&genesis_config);
 
             let mut expected_num = 100;
@@ -601,7 +601,7 @@ mod tests {
 
     #[test]
     fn test_build_updated_stake_reward() {
-        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let bank = Bank::new_for_tests(&genesis_config);
 
         let voter_pubkey = Pubkey::new_unique();
@@ -728,7 +728,7 @@ mod tests {
 
     #[test]
     fn test_update_reward_history_in_partition_empty() {
-        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let bank = Bank::new_for_tests(&genesis_config);
 
         let stake_rewards = vec![];
@@ -740,7 +740,7 @@ mod tests {
     /// Test rewards computation and partitioned rewards distribution at the epoch boundary
     #[test]
     fn test_store_stake_accounts_in_partition() {
-        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let bank = Bank::new_for_tests(&genesis_config);
 
         let expected_num = 100;
@@ -771,7 +771,7 @@ mod tests {
 
     #[test]
     fn test_store_stake_accounts_in_partition_empty() {
-        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let bank = Bank::new_for_tests(&genesis_config);
 
         let partitioned_rewards = StartBlockHeightAndPartitionedRewards {

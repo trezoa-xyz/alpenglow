@@ -104,7 +104,7 @@ fn program_cache_execution(threads: usize) {
 // increase the efficiency in finding problems in the program cache's concurrent code.
 
 // This test leverages the probabilistic concurrency testing algorithm
-// (https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/asplos277-pct.pdf).
+// (https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/atplos277-pct.pdf).
 // It bounds the numbers of preemptions to explore (five in this test) for the four
 // threads we use. We run it for 300 iterations.
 #[test]

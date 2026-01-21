@@ -1189,7 +1189,7 @@ impl<T: IndexValue, U: DiskIndexValue + From<T> + Into<T>> AccountsIndex<T, U> {
             .unwrap_or(0)
     }
 
-    fn update_tpl_token_secondary_indexes<G: spl_generic_token::token::GenericTokenAccount>(
+    fn update_tpl_token_secondary_indexes<G: trz_generic_token::token::GenericTokenAccount>(
         &self,
         token_id: &Pubkey,
         pubkey: &Pubkey,
@@ -1280,15 +1280,15 @@ impl<T: IndexValue, U: DiskIndexValue + From<T> + Into<T>> AccountsIndex<T, U> {
         // (as persisted tombstone for snapshots). This will then ultimately be
         // filtered out by post-scan filters, like in `get_filtered_tpl_token_accounts_by_owner()`.
 
-        self.update_tpl_token_secondary_indexes::<spl_generic_token::token::Account>(
-            &spl_generic_token::token::id(),
+        self.update_tpl_token_secondary_indexes::<trz_generic_token::token::Account>(
+            &trz_generic_token::token::id(),
             pubkey,
             account_owner,
             account_data,
             account_indexes,
         );
-        self.update_tpl_token_secondary_indexes::<spl_generic_token::token_2022::Account>(
-            &spl_generic_token::token_2022::id(),
+        self.update_tpl_token_secondary_indexes::<trz_generic_token::token_2022::Account>(
+            &trz_generic_token::token_2022::id(),
             pubkey,
             account_owner,
             account_data,
@@ -1759,7 +1759,7 @@ pub mod tests {
         secondary::DashMapSecondaryIndexEntry,
         trezoa_account::{AccountSharedData, WritableAccount},
         trezoa_pubkey::PUBKEY_BYTES,
-        spl_generic_token::{tpl_token_ids, token::SPL_TOKEN_ACCOUNT_OWNER_OFFSET},
+        trz_generic_token::{tpl_token_ids, token::TPL_TOKEN_ACCOUNT_OWNER_OFFSET},
         std::ops::{
             Bound::{Excluded, Included, Unbounded},
             RangeInclusive,
@@ -1808,8 +1808,8 @@ pub mod tests {
         }
 
         (
-            SPL_TOKEN_ACCOUNT_OWNER_OFFSET,
-            SPL_TOKEN_ACCOUNT_OWNER_OFFSET + PUBKEY_BYTES,
+            TPL_TOKEN_ACCOUNT_OWNER_OFFSET,
+            TPL_TOKEN_ACCOUNT_OWNER_OFFSET + PUBKEY_BYTES,
             tpl_token_owner_index_enabled(),
         )
     }
@@ -3118,9 +3118,9 @@ pub mod tests {
     }
 
     fn make_empty_token_account_data() -> Vec<u8> {
-        const SPL_TOKEN_INITIALIZED_OFFSET: usize = 108;
-        let mut data = vec![0; spl_generic_token::token::Account::get_packed_len()];
-        data[SPL_TOKEN_INITIALIZED_OFFSET] = 1;
+        const TPL_TOKEN_INITIALIZED_OFFSET: usize = 108;
+        let mut data = vec![0; trz_generic_token::token::Account::get_packed_len()];
+        data[TPL_TOKEN_INITIALIZED_OFFSET] = 1;
         data
     }
 
@@ -3151,7 +3151,7 @@ pub mod tests {
                 &AccountSharedData::create(
                     0,
                     account_data.to_vec(),
-                    spl_generic_token::token::id(),
+                    trz_generic_token::token::id(),
                     false,
                     0,
                 ),

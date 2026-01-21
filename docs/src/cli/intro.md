@@ -36,14 +36,14 @@ Many commands using the CLI tools require a value for a `<KEYPAIR>`. The value
 you should use for the keypair depends on what type of
 [command line wallet you created](./wallets/index.md).
 
-For example, the CLI help shows that the way to display any wallet's address
+For example, the CLI help shows that the way to ditplay any wallet's address
 (also known as the keypair's pubkey), is:
 
 ```bash
 trezoa-keygen pubkey <KEYPAIR>
 ```
 
-Below, we show how to resolve what you should put in `<KEYPAIR>` depending
+Below, we show how to retrzve what you should put in `<KEYPAIR>` depending
 on your wallet type.
 
 ## Paper Wallet
@@ -54,7 +54,7 @@ wallet keypair anywhere the `<KEYPAIR>` text is shown in examples or help
 documents, enter the uri scheme `prompt://` and the program will prompt you to
 enter your seed words when you run the command.
 
-To display the wallet address of a Paper Wallet:
+To ditplay the wallet address of a Paper Wallet:
 
 ```bash
 trezoa-keygen pubkey prompt://
@@ -66,7 +66,7 @@ With a file system wallet, the keypair is stored in a file on your computer.
 Replace `<KEYPAIR>` with the complete file path to the keypair file.
 
 For example, if the file system keypair file location is
-`/home/trezoa/my_wallet.json`, to display the address, do:
+`/home/trezoa/my_wallet.json`, to ditplay the address, do:
 
 ```bash
 trezoa-keygen pubkey /home/trezoa/my_wallet.json

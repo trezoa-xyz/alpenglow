@@ -23,7 +23,7 @@ fn process_instruction(
 
     match instruction_data[0] {
         REALLOC => {
-            let (bytes, _) = instruction_data[2..].split_at(std::mem::size_of::<usize>());
+            let (bytes, _) = instruction_data[2..].tplit_at(std::mem::size_of::<usize>());
             let new_len = usize::from_le_bytes(bytes.try_into().unwrap());
             msg!("realloc to {}", new_len);
             account.resize(new_len)?;
@@ -31,7 +31,7 @@ fn process_instruction(
         }
         REALLOC_EXTEND => {
             let pre_len = account.data_len();
-            let (bytes, _) = instruction_data[2..].split_at(std::mem::size_of::<usize>());
+            let (bytes, _) = instruction_data[2..].tplit_at(std::mem::size_of::<usize>());
             let new_len = pre_len.saturating_add(usize::from_le_bytes(bytes.try_into().unwrap()));
             msg!("realloc extend by {}", new_len);
             account.resize(new_len)?;
@@ -39,7 +39,7 @@ fn process_instruction(
         }
         REALLOC_EXTEND_AND_UNDO => {
             let pre_len = account.data_len();
-            let (bytes, _) = instruction_data[2..].split_at(std::mem::size_of::<usize>());
+            let (bytes, _) = instruction_data[2..].tplit_at(std::mem::size_of::<usize>());
             let new_len = pre_len.saturating_add(usize::from_le_bytes(bytes.try_into().unwrap()));
             msg!("realloc extend by {}", new_len);
             account.resize(new_len)?;
@@ -50,7 +50,7 @@ fn process_instruction(
         REALLOC_EXTEND_AND_FILL => {
             let pre_len = account.data_len();
             let fill = instruction_data[2];
-            let (bytes, _) = instruction_data[4..].split_at(std::mem::size_of::<usize>());
+            let (bytes, _) = instruction_data[4..].tplit_at(std::mem::size_of::<usize>());
             let new_len = pre_len.saturating_add(usize::from_le_bytes(bytes.try_into().unwrap()));
             msg!("realloc extend by {}", new_len);
             account.resize(new_len)?;
@@ -66,7 +66,7 @@ fn process_instruction(
             account.resize(new_len)?;
             assert_eq!(new_len, account.data_len());
 
-            let (bytes, _) = instruction_data[1..].split_at(new_len);
+            let (bytes, _) = instruction_data[1..].tplit_at(new_len);
             let value = u64::from_le_bytes(bytes.try_into().unwrap());
             msg!(
                 "write {} to account {:p}",

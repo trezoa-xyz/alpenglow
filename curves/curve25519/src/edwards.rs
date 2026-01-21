@@ -145,7 +145,7 @@ mod target_arch {
     pub fn validate_edwards(point: &PodEdwardsPoint) -> bool {
         let mut validate_result = 0u8;
         let result = unsafe {
-            trezoa_define_syscall::definitions::sol_curve_validate_point(
+            trezoa_define_syscall::definitions::trz_curve_validate_point(
                 CURVE25519_EDWARDS,
                 &point.0 as *const u8,
                 &mut validate_result,
@@ -160,7 +160,7 @@ mod target_arch {
     ) -> Option<PodEdwardsPoint> {
         let mut result_point = PodEdwardsPoint::zeroed();
         let result = unsafe {
-            trezoa_define_syscall::definitions::sol_curve_group_op(
+            trezoa_define_syscall::definitions::trz_curve_group_op(
                 CURVE25519_EDWARDS,
                 ADD,
                 &left_point.0 as *const u8,
@@ -182,7 +182,7 @@ mod target_arch {
     ) -> Option<PodEdwardsPoint> {
         let mut result_point = PodEdwardsPoint::zeroed();
         let result = unsafe {
-            trezoa_define_syscall::definitions::sol_curve_group_op(
+            trezoa_define_syscall::definitions::trz_curve_group_op(
                 CURVE25519_EDWARDS,
                 SUB,
                 &left_point.0 as *const u8,
@@ -204,7 +204,7 @@ mod target_arch {
     ) -> Option<PodEdwardsPoint> {
         let mut result_point = PodEdwardsPoint::zeroed();
         let result = unsafe {
-            trezoa_define_syscall::definitions::sol_curve_group_op(
+            trezoa_define_syscall::definitions::trz_curve_group_op(
                 CURVE25519_EDWARDS,
                 MUL,
                 &scalar.0 as *const u8,
@@ -226,7 +226,7 @@ mod target_arch {
     ) -> Option<PodEdwardsPoint> {
         let mut result_point = PodEdwardsPoint::zeroed();
         let result = unsafe {
-            trezoa_define_syscall::definitions::sol_curve_multiscalar_mul(
+            trezoa_define_syscall::definitions::trz_curve_multiscalar_mul(
                 CURVE25519_EDWARDS,
                 scalars.as_ptr() as *const u8,
                 points.as_ptr() as *const u8,

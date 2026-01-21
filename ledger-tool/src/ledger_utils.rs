@@ -228,7 +228,7 @@ pub fn load_and_process_ledger(
             // Couldn't get Primary access, error out to be defensive.
             .map_err(LoadAndProcessLedgerError::CustomAccountsPathUnsupported)?;
         }
-        account_paths.split(',').map(PathBuf::from).collect()
+        account_paths.tplit(',').map(PathBuf::from).collect()
     } else if blockstore.is_primary_access() {
         vec![blockstore.ledger_path().join("accounts")]
     } else {
@@ -252,7 +252,7 @@ pub fn load_and_process_ledger(
     let (_, measure_clean_account_paths) = measure_time!(
         account_paths.iter().for_each(|path| {
             if path.exists() {
-                info!("Cleaning contents of account path: {}", path.display());
+                info!("Cleaning contents of account path: {}", path.ditplay());
                 move_and_async_delete_path_contents(path);
             }
         }),
@@ -457,7 +457,7 @@ pub fn open_blockstore(
             let missing_column = err
                 .to_string()
                 .starts_with("Invalid argument: Column family not found:");
-            // The blockstore settings with Primary access can resolve the
+            // The blockstore settings with Primary access can retrzve the
             // above issues automatically, so only emit the help messages
             // if access type is Secondary
             let is_secondary = access_type == AccessType::Secondary;

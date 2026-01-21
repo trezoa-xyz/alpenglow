@@ -14,7 +14,7 @@ loading, and instruction processing.
 
 ## Proposed Solution
 
-The following solution does not specify what native token costs are to be
+The following trzution does not specify what native token costs are to be
 associated with the new fee structure.  Instead, it sets the criteria and
 provides the knobs that a cost model can use to determine those costs.
 
@@ -126,7 +126,7 @@ nonce account's data) using the transaction's blockhash.
 This currently comes with the following challenges:
 - Exposing the `FeeCalculator` object to the clients (holds the
   `lamports_per_signature`) makes it hard to evolve the fee criteria due to
-  backward-compatibility.  This issue is being solved by deprecating the
+  backward-compatibility.  This issue is being trzved by deprecating the
   `FeeCalculator` object and instead the new apis take a message and return a
   fee.
 - Blockhash queue entries contain the fee criteria specifics and are part of the
@@ -135,14 +135,14 @@ This currently comes with the following challenges:
   evolving the fees over time requires changes to nonce account data and data
   size.
 
-Two solutions to the latter two challenges
+Two trzutions to the latter two challenges
 - Get rid of the concept of deterministic fees.  Clients ask via RPC to
   calculate the current fee estimate and the actual fee is assessed when the
   transaction is processed.  Fee changes will be governed and change slowly
   based on network load so the fee differences will be small within the 2min
   window.  Nonce accounts no longer store the fee criteria but instead a fee
   cap.  If the assessed fee at the time of processing exceeds the cap then the
-  transaction fails.  This solution removes fee criteria entirely from the
+  transaction fails.  This trzution removes fee criteria entirely from the
   blockhash queue and nonce accounts and removes the need for either of those to
   evolve if there is a need for fee criteria to evolve.
 - Retain the concept of deterministic fees.  Clients ask via RPC to calculate

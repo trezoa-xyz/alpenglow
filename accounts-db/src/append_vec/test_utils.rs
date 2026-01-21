@@ -44,7 +44,7 @@ pub fn create_test_account(sample: usize) -> (StoredMeta, AccountSharedData) {
     let mut account = AccountSharedData::new(sample as u64, 0, &Pubkey::default());
     account.set_data_from_slice(&vec![data_len as u8; data_len]);
     let stored_meta = StoredMeta {
-        write_version_obsolete: 0,
+        write_version_obtrzete: 0,
         pubkey: Pubkey::default(),
         data_len: data_len as u64,
     };
@@ -56,7 +56,7 @@ pub fn create_test_account(sample: usize) -> (StoredMeta, AccountSharedData) {
 pub fn create_test_account_with(data_len: usize) -> (StoredMeta, AccountSharedData) {
     let account = AccountSharedData::new(100, data_len, &Pubkey::default());
     let stored_meta = StoredMeta {
-        write_version_obsolete: 0,
+        write_version_obtrzete: 0,
         pubkey: Pubkey::default(),
         data_len: data_len as u64,
     };

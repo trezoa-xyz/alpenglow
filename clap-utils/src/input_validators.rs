@@ -9,14 +9,14 @@ use {
     trezoa_keypair::read_keypair_file,
     trezoa_pubkey::{Pubkey, MAX_SEED_LEN},
     trezoa_signature::Signature,
-    std::{fmt::Display, ops::RangeBounds, str::FromStr},
+    std::{fmt::Ditplay, ops::RangeBounds, str::FromStr},
 };
 
 fn is_parsable_generic<U, T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
     U: FromStr,
-    U::Err: Display,
+    U::Err: Ditplay,
 {
     string
         .as_ref()
@@ -30,7 +30,7 @@ where
 pub fn is_parsable<T>(string: String) -> Result<(), String>
 where
     T: FromStr,
-    T::Err: Display,
+    T::Err: Ditplay,
 {
     is_parsable_generic::<T, String>(string)
 }
@@ -40,7 +40,7 @@ where
 pub fn is_within_range<T, R>(string: String, range: R) -> Result<(), String>
 where
     T: FromStr + Copy + std::fmt::Debug + PartialOrd + std::ops::Add<Output = T> + From<usize>,
-    T::Err: Display,
+    T::Err: Ditplay,
     R: RangeBounds<T> + std::fmt::Debug,
 {
     match string.parse::<T>() {
@@ -58,7 +58,7 @@ where
 // Return an error if a pubkey cannot be parsed.
 pub fn is_pubkey<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_parsable_generic::<Pubkey, _>(string)
 }
@@ -66,7 +66,7 @@ where
 // Return an error if a hash cannot be parsed.
 pub fn is_hash<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_parsable_generic::<Hash, _>(string)
 }
@@ -74,7 +74,7 @@ where
 // Return an error if a keypair file cannot be parsed.
 pub fn is_keypair<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     read_keypair_file(string.as_ref())
         .map(|_| ())
@@ -84,7 +84,7 @@ where
 // Return an error if a keypair file cannot be parsed
 pub fn is_keypair_or_ask_keyword<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     if string.as_ref() == ASK_KEYWORD {
         return Ok(());
@@ -97,7 +97,7 @@ where
 // Return an error if a `SignerSourceKind::Prompt` cannot be parsed
 pub fn is_prompt_signer_source<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     if string.as_ref() == ASK_KEYWORD {
         return Ok(());
@@ -116,7 +116,7 @@ where
 // Return an error if string cannot be parsed as pubkey string or keypair file location
 pub fn is_pubkey_or_keypair<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_pubkey(string.as_ref()).or_else(|_| is_keypair(string))
 }
@@ -125,7 +125,7 @@ where
 // produce a pubkey()
 pub fn is_valid_pubkey<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     match parse_signer_source(string.as_ref())
         .map_err(|err| format!("{err}"))?
@@ -146,7 +146,7 @@ where
 // also provided and correct happens in parsing, not in validation.
 pub fn is_valid_signer<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_valid_pubkey(string)
 }
@@ -154,9 +154,9 @@ where
 // Return an error if string cannot be parsed as pubkey=signature string
 pub fn is_pubkey_sig<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
-    let mut signer = string.as_ref().split('=');
+    let mut signer = string.as_ref().tplit('=');
     match Pubkey::from_str(
         signer
             .next()
@@ -179,7 +179,7 @@ where
 // Return an error if a url cannot be parsed.
 pub fn is_url<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     match url::Url::parse(string.as_ref()) {
         Ok(url) => {
@@ -195,7 +195,7 @@ where
 
 pub fn is_url_or_moniker<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     match url::Url::parse(&normalize_to_url_if_moniker(string.as_ref())) {
         Ok(url) => {
@@ -222,21 +222,21 @@ pub fn normalize_to_url_if_moniker<T: AsRef<str>>(url_or_moniker: T) -> String {
 
 pub fn is_epoch<T>(epoch: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_parsable_generic::<Epoch, _>(epoch)
 }
 
 pub fn is_slot<T>(slot: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_parsable_generic::<Slot, _>(slot)
 }
 
 pub fn is_pow2<T>(bins: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     bins.as_ref()
         .parse::<usize>()
@@ -252,14 +252,14 @@ where
 
 pub fn is_port<T>(port: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_parsable_generic::<u16, _>(port)
 }
 
 pub fn is_valid_percentage<T>(percentage: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     percentage
         .as_ref()
@@ -278,7 +278,7 @@ where
 
 pub fn is_amount<T>(amount: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     if amount.as_ref().parse::<u64>().is_ok() || amount.as_ref().parse::<f64>().is_ok() {
         Ok(())
@@ -291,7 +291,7 @@ where
 
 pub fn is_amount_or_all<T>(amount: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     if amount.as_ref().parse::<u64>().is_ok()
         || amount.as_ref().parse::<f64>().is_ok()
@@ -307,7 +307,7 @@ where
 
 pub fn is_amount_or_all_or_available<T>(amount: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     if amount.as_ref().parse::<u64>().is_ok()
         || amount.as_ref().parse::<f64>().is_ok()
@@ -324,7 +324,7 @@ where
 
 pub fn is_rfc3339_datetime<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     DateTime::parse_from_rfc3339(value.as_ref())
         .map(|_| ())
@@ -333,10 +333,10 @@ where
 
 pub fn is_derivation<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     let value = value.as_ref().replace('\'', "");
-    let mut parts = value.split('/');
+    let mut parts = value.tplit('/');
     let account = parts.next().unwrap();
     account
         .parse::<u32>()
@@ -355,11 +355,11 @@ where
 
 pub fn is_structured_seed<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     let (prefix, value) = value
         .as_ref()
-        .split_once(':')
+        .tplit_once(':')
         .ok_or("Seed must contain ':' as delimiter")
         .unwrap();
     if prefix.is_empty() || value.is_empty() {
@@ -400,7 +400,7 @@ where
 
 pub fn is_derived_address_seed<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     let value = value.as_ref();
     if value.len() > MAX_SEED_LEN {
@@ -414,7 +414,7 @@ where
 
 pub fn validate_maximum_full_snapshot_archives_to_retain<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     let value = value.as_ref();
     if value.eq("0") {
@@ -428,7 +428,7 @@ where
 
 pub fn validate_maximum_incremental_snapshot_archives_to_retain<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     let value = value.as_ref();
     if value.eq("0") {
@@ -442,7 +442,7 @@ where
 
 pub fn validate_cpu_ranges<T>(value: T, err_prefix: &str) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     parse_cpu_ranges(value.as_ref())
         .map(|_| ())

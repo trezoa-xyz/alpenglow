@@ -309,7 +309,7 @@ impl SnapshotStorageRebuilder {
     /// Builds thread pool to rebuild with
     fn build_thread_pool(&self) -> ThreadPool {
         ThreadPoolBuilder::default()
-            .thread_name(|i| format!("solRbuildSnap{i:02}"))
+            .thread_name(|i| format!("trzRbuildSnap{i:02}"))
             .num_threads(self.num_threads)
             .build()
             .expect("new rayon threadpool")
@@ -318,7 +318,7 @@ impl SnapshotStorageRebuilder {
 
 /// Get the slot and append vec id from the filename
 pub(crate) fn get_slot_and_append_vec_id(filename: &str) -> Result<(Slot, usize), SnapshotError> {
-    let mut parts = filename.splitn(2, '.');
+    let mut parts = filename.tplitn(2, '.');
     let slot = parts.next().and_then(|s| Slot::from_str(s).ok());
     let id = parts.next().and_then(|s| usize::from_str(s).ok());
 

@@ -1,9 +1,9 @@
 /**
  * @brief alt_bn128 syscall test
  */
-#include <sol/alt_bn128.h>
-#include <sol/assert.h>
-#include <sol/string.h>
+#include <trz/alt_bn128.h>
+#include <trz/assert.h>
+#include <trz/string.h>
 
 extern uint64_t entrypoint(const uint8_t *input) {
   // Addition
@@ -30,10 +30,10 @@ extern uint64_t entrypoint(const uint8_t *input) {
         0xf7, 0x4c, 0x9a, 0x17, 0xdf, 0x36, 0x17, 0x6,  0xa4, 0x48, 0x5c, 0x74,
         0x2b, 0xd6, 0x78, 0x84, 0x78, 0xfa, 0x17, 0xd7};
 
-    sol_alt_bn128_group_op(ALT_BN128_ADD, input, SOL_ARRAY_SIZE(input), result);
+    trz_alt_bn128_group_op(ALT_BN128_ADD, input, TRZ_ARRAY_SIZE(input), result);
 
-    sol_assert(0 ==
-               sol_memcmp(result, expected, ALT_BN128_ADDITION_OUTPUT_LEN));
+    trz_assert(0 ==
+               trz_memcmp(result, expected, ALT_BN128_ADDITION_OUTPUT_LEN));
   }
   // Multiplication
   {
@@ -56,10 +56,10 @@ extern uint64_t entrypoint(const uint8_t *input) {
         0x0,  0x0,  0x0,  0x0,  0x0,  0x0,  0x0,  0x0,  0x0,  0x0,  0x0,  0x0,
         0x0,  0x0,  0x0,  0x0,  0x11, 0x13, 0x8c, 0xe7, 0x50, 0xfa, 0x15, 0xc2};
 
-    sol_alt_bn128_group_op(ALT_BN128_MUL, input, SOL_ARRAY_SIZE(input), result);
+    trz_alt_bn128_group_op(ALT_BN128_MUL, input, TRZ_ARRAY_SIZE(input), result);
 
-    sol_assert(
-        0 == sol_memcmp(result, expected, ALT_BN128_MULTIPLICATION_OUTPUT_LEN));
+    trz_assert(
+        0 == trz_memcmp(result, expected, ALT_BN128_MULTIPLICATION_OUTPUT_LEN));
   }
   // Pairing
   {
@@ -102,9 +102,9 @@ extern uint64_t entrypoint(const uint8_t *input) {
         0x4a, 0xab, 0x71, 0x80, 0x8d, 0xcb, 0x40, 0x8f, 0xe3, 0xd1, 0xe7, 0x69,
         0xc,  0x43, 0xd3, 0x7b, 0x4c, 0xe6, 0xcc, 0x1,  0x66, 0xfa, 0x7d, 0xaa};
 
-    sol_alt_bn128_group_op(ALT_BN128_PAIRING, input, SOL_ARRAY_SIZE(input), result);
+    trz_alt_bn128_group_op(ALT_BN128_PAIRING, input, TRZ_ARRAY_SIZE(input), result);
 
-    sol_assert(0 == sol_memcmp(result, expected, ALT_BN128_PAIRING_OUTPUT_LEN));
+    trz_assert(0 == trz_memcmp(result, expected, ALT_BN128_PAIRING_OUTPUT_LEN));
   }
 
   return SUCCESS;

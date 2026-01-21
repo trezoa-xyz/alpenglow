@@ -38,7 +38,7 @@ use {
     },
     trezoa_loader_v3_interface::state::UpgradeableLoaderState,
     trezoa_message::Message,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_net_utils::{find_available_ports_in_range, multihomed_sockets::BindIpAddrs, PortRange},
     trezoa_pubkey::Pubkey,
     trezoa_rent::Rent,
@@ -61,7 +61,7 @@ use {
     std::{
         collections::{HashMap, HashSet},
         ffi::OsStr,
-        fmt::Display,
+        fmt::Ditplay,
         fs::{self, remove_dir_all, File},
         io::Read,
         net::{IpAddr, Ipv4Addr, SocketAddr},
@@ -555,7 +555,7 @@ impl TestValidatorGenesis {
     pub fn add_accounts_from_directories<T, P>(&mut self, dirs: T) -> Result<&mut Self, String>
     where
         T: IntoIterator<Item = P>,
-        P: AsRef<Path> + Display,
+        P: AsRef<Path> + Ditplay,
     {
         let mut json_files: HashSet<String> = HashSet::new();
         for dir in dirs {
@@ -857,9 +857,9 @@ impl TestValidator {
         let validator_identity = Keypair::new();
         let validator_vote_account = Keypair::new();
         let validator_stake_account = Keypair::new();
-        let validator_identity_lamports = 500 * LAMPORTS_PER_SOL;
-        let validator_stake_lamports = 1_000_000 * LAMPORTS_PER_SOL;
-        let mint_lamports = 500_000_000 * LAMPORTS_PER_SOL;
+        let validator_identity_lamports = 500 * LAMPORTS_PER_TRZ;
+        let validator_stake_lamports = 1_000_000 * LAMPORTS_PER_TRZ;
+        let mint_lamports = 500_000_000 * LAMPORTS_PER_TRZ;
 
         // Only activate features which are not explicitly deactivated.
         let mut feature_set = FeatureSet::default().inactive().clone();
@@ -872,7 +872,7 @@ impl TestValidator {
         }
 
         let mut accounts = config.accounts.clone();
-        for (address, account) in trezoa_program_binaries::spl_programs(&config.rent) {
+        for (address, account) in trezoa_program_binaries::trz_programs(&config.rent) {
             accounts.entry(address).or_insert(account);
         }
         for (address, account) in
@@ -977,7 +977,7 @@ impl TestValidator {
                 .map_err(|err| {
                     format!(
                         "Failed to create ledger at {}: {}",
-                        ledger_path.display(),
+                        ledger_path.ditplay(),
                         err
                     )
                 })?;
@@ -1339,7 +1339,7 @@ impl Drop for TestValidator {
             remove_dir_all(&self.ledger_path).unwrap_or_else(|err| {
                 panic!(
                     "Failed to remove ledger directory {}: {}",
-                    self.ledger_path.display(),
+                    self.ledger_path.ditplay(),
                     err
                 )
             });

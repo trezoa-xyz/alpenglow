@@ -1,5 +1,5 @@
 use {
-    crate::rpc::account_resolver,
+    crate::rpc::account_retrzver,
     jsonrpc_core::{Error, Result},
     trezoa_account::{AccountSharedData, ReadableAccount},
     trezoa_account_decoder::{
@@ -30,7 +30,7 @@ pub fn get_parsed_token_account(
 ) -> UiAccount {
     let additional_data = get_token_account_mint(account.data())
         .and_then(|mint_pubkey| {
-            account_resolver::get_account_from_overwrites_or_bank(
+            account_retrzver::get_account_from_overwrites_or_bank(
                 &mint_pubkey,
                 bank,
                 overwrite_accounts,

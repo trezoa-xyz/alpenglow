@@ -106,7 +106,7 @@ impl Bank {
 mod tests {
     use {
         super::*, crate::bank::tests::create_genesis_config, trezoa_account::ReadableAccount,
-        trezoa_epoch_schedule::EpochSchedule, trezoa_native_token::LAMPORTS_PER_SOL,
+        trezoa_epoch_schedule::EpochSchedule, trezoa_native_token::LAMPORTS_PER_TRZ,
         trezoa_pubkey::Pubkey, std::sync::Arc,
     };
 
@@ -116,7 +116,7 @@ mod tests {
     #[test]
     fn test_epoch_rewards_sysvar() {
         let (mut genesis_config, _mint_keypair) =
-            create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+            create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         genesis_config.epoch_schedule = EpochSchedule::custom(432000, 432000, false);
         let bank = Bank::new_for_tests(&genesis_config);
 

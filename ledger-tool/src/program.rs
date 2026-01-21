@@ -9,7 +9,7 @@ use {
         create_account_shared_data_for_test, state_traits::StateMut, AccountSharedData,
     },
     trezoa_bpf_loader_program::{create_vm, load_program_from_bytes},
-    trezoa_cli_output::{OutputFormat, QuietDisplay, VerboseDisplay},
+    trezoa_cli_output::{OutputFormat, QuietDitplay, VerboseDitplay},
     trezoa_clock::Slot,
     trezoa_ledger::blockstore_options::AccessType,
     trezoa_loader_v3_interface::state::UpgradeableLoaderState,
@@ -220,7 +220,7 @@ struct Output {
     log: Vec<String>,
 }
 
-impl fmt::Display for Output {
+impl fmt::Ditplay for Output {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "Program output:")?;
         writeln!(f, "Result: {}", self.result)?;
@@ -233,8 +233,8 @@ impl fmt::Display for Output {
     }
 }
 
-impl QuietDisplay for Output {}
-impl VerboseDisplay for Output {}
+impl QuietDitplay for Output {}
+impl VerboseDitplay for Output {}
 
 // Replace with std::lazy::Lazy when stabilized.
 // https://github.com/rust-lang/rust/issues/74465

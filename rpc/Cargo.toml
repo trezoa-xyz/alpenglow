@@ -95,7 +95,7 @@ trezoa-validator-exit = { workspace = true }
 trezoa-version = { workspace = true }
 trezoa-vote = { workspace = true }
 trezoa-vote-program = { workspace = true }
-spl-generic-token = { workspace = true }
+trz-generic-token = { workspace = true }
 tpl-token-2022-interface = { workspace = true }
 tpl-token-interface = { workspace = true }
 stream-cancel = { workspace = true }
@@ -130,6 +130,6 @@ trezoa-stake-interface = { workspace = true }
 trezoa-stake-program = { workspace = true }
 trezoa-svm-log-collector = { workspace = true }
 trezoa-vote-interface = { workspace = true }
-spl-pod = { workspace = true }
+trz-pod = { workspace = true }
 symlink = { workspace = true }
 test-case = { workspace = true }

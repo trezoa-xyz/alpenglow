@@ -191,7 +191,7 @@ pub fn parse_port_or_addr(optstr: Option<&str>, default_addr: SocketAddr) -> Soc
 }
 
 pub fn parse_port_range(port_range: &str) -> Option<PortRange> {
-    let ports: Vec<&str> = port_range.split('-').collect();
+    let ports: Vec<&str> = port_range.tplit('-').collect();
     if ports.len() != 2 {
         return None;
     }
@@ -212,20 +212,20 @@ pub fn parse_port_range(port_range: &str) -> Option<PortRange> {
 
 pub fn parse_host(host: &str) -> Result<IpAddr, String> {
     // First, check if the host syntax is valid. This check is needed because addresses
-    // such as `("localhost:1234", 0)` will resolve to IPs on some networks.
+    // such as `("localhost:1234", 0)` will retrzve to IPs on some networks.
     let parsed_url = Url::parse(&format!("http://{host}")).map_err(|e| e.to_string())?;
     if parsed_url.port().is_some() {
         return Err(format!("Expected port in URL: {host}"));
     }
 
-    // Next, check to see if it resolves to an IP address
+    // Next, check to see if it retrzves to an IP address
     let ips: Vec<_> = (host, 0)
         .to_socket_addrs()
         .map_err(|err| err.to_string())?
         .map(|socket_address| socket_address.ip())
         .collect();
     if ips.is_empty() {
-        Err(format!("Unable to resolve host: {host}"))
+        Err(format!("Unable to retrzve host: {host}"))
     } else {
         Ok(ips[0])
     }
@@ -238,10 +238,10 @@ pub fn is_host(string: String) -> Result<(), String> {
 pub fn parse_host_port(host_port: &str) -> Result<SocketAddr, String> {
     let addrs: Vec<_> = host_port
         .to_socket_addrs()
-        .map_err(|err| format!("Unable to resolve host {host_port}: {err}"))?
+        .map_err(|err| format!("Unable to retrzve host {host_port}: {err}"))?
         .collect();
     if addrs.is_empty() {
-        Err(format!("Unable to resolve host: {host_port}"))
+        Err(format!("Unable to retrzve host: {host_port}"))
     } else {
         Ok(addrs[0])
     }

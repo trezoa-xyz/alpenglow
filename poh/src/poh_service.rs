@@ -109,7 +109,7 @@ impl PohService {
     ) -> Self {
         let poh_config = poh_config.clone();
         let tick_producer = Builder::new()
-            .name("solPohTickProd".to_string())
+            .name("trzPohTickProd".to_string())
             .spawn(move || {
                 if migration_status.is_alpenglow_enabled() {
                     // We've started up post alpenglow migration. Don't bother starting PohService
@@ -752,7 +752,7 @@ mod tests {
             let mut bank = bank.clone();
 
             Builder::new()
-                .name("solPohEntryProd".to_string())
+                .name("trzPohEntryProd".to_string())
                 .spawn(move || {
                     let now = Instant::now();
                     let mut total_us = 0;

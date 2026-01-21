@@ -109,7 +109,7 @@ impl RegistryIndex {
             );
         }
 
-        let Some((_, path)) = path.split_once(expected_root) else {
+        let Some((_, path)) = path.tplit_once(expected_root) else {
             return response_builder::error_response(
                 hyper::StatusCode::BAD_REQUEST,
                 "Invalid path for index",
@@ -134,7 +134,7 @@ impl RegistryIndex {
     }
 
     fn get_crate_name_from_path(path: &str) -> Option<&str> {
-        let (path, crate_name) = path.rsplit_once('/')?;
+        let (path, crate_name) = path.rtplit_once('/')?;
 
         // The index for deployed crates follow the path naming described here
         // https://doc.rust-lang.org/cargo/reference/registry-index.html#index-files
@@ -147,8 +147,8 @@ impl RegistryIndex {
                 path == format!("/3/{first_char}")
             }
             _ => {
-                let (first_two_char, rest) = crate_name.split_at(2);
-                let (next_two_char, _) = rest.split_at(2);
+                let (first_two_char, rest) = crate_name.tplit_at(2);
+                let (next_two_char, _) = rest.tplit_at(2);
                 path == format!("/{first_two_char}/{next_two_char}")
             }
         }

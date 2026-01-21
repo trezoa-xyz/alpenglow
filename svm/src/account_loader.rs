@@ -45,7 +45,7 @@ use {
 #[cfg_attr(feature = "dev-context-only-utils", qualifiers(pub))]
 pub(crate) const TRANSACTION_ACCOUNT_BASE_SIZE: usize = 64;
 
-// Per SIMD-0186, resolved address lookup tables are assigned a base size of 8248
+// Per SIMD-0186, retrzved address lookup tables are assigned a base size of 8248
 // bytes: 8192 bytes for the maximum table size plus 56 bytes for metadata.
 const ADDRESS_LOOKUP_TABLE_BASE_SIZE: usize = 8248;
 
@@ -828,7 +828,7 @@ mod tests {
             v0::{LoadedAddresses, LoadedMessage},
             LegacyMessage, Message, MessageHeader, SanitizedMessage,
         },
-        trezoa_native_token::LAMPORTS_PER_SOL,
+        trezoa_native_token::LAMPORTS_PER_TRZ,
         trezoa_nonce::{self as nonce, versions::Versions as NonceVersions},
         trezoa_program_runtime::execution_budget::{
             DEFAULT_INSTRUCTION_COMPUTE_UNIT_LIMIT, MAX_LOADED_ACCOUNTS_DATA_SIZE_BYTES,
@@ -2113,7 +2113,7 @@ mod tests {
             .insert(recipient, AccountSharedData::default());
         let mut account_loader = (&bank).into();
 
-        let tx = transfer(&mint_keypair, &recipient, LAMPORTS_PER_SOL, last_block_hash);
+        let tx = transfer(&mint_keypair, &recipient, LAMPORTS_PER_TRZ, last_block_hash);
         let num_accounts = tx.message().account_keys.len();
         let sanitized_tx = SanitizedTransaction::from_transaction_for_tests(tx);
         let mut error_metrics = TransactionErrorMetrics::default();
@@ -2451,7 +2451,7 @@ mod tests {
         let program2_size = std::mem::size_of::<UpgradeableLoaderState>() as u32;
         let mut program2_account = AccountSharedData::default();
         program2_account.set_owner(loader_v3);
-        program2_account.set_lamports(LAMPORTS_PER_SOL);
+        program2_account.set_lamports(LAMPORTS_PER_TRZ);
         program2_account.set_executable(true);
         program2_account.set_data(vec![0; program2_size as usize]);
         program2_account
@@ -2462,7 +2462,7 @@ mod tests {
         mock_bank.accounts_map.insert(program2, program2_account);
         let mut programdata2_account = AccountSharedData::default();
         programdata2_account.set_owner(loader_v3);
-        programdata2_account.set_lamports(LAMPORTS_PER_SOL);
+        programdata2_account.set_lamports(LAMPORTS_PER_TRZ);
         programdata2_account.set_data(vec![0; program2_size as usize]);
         programdata2_account
             .set_state(&UpgradeableLoaderState::ProgramData {
@@ -2484,7 +2484,7 @@ mod tests {
         let mut make_account = |pubkey, owner, executable| {
             let size = next_size;
             let account = AccountSharedData::create(
-                LAMPORTS_PER_SOL,
+                LAMPORTS_PER_TRZ,
                 vec![0; size],
                 owner,
                 executable,
@@ -2820,7 +2820,7 @@ mod tests {
         for _ in 0..8 {
             let fee_payer = Pubkey::new_unique();
             let account = AccountSharedData::create(
-                LAMPORTS_PER_SOL,
+                LAMPORTS_PER_TRZ,
                 vec![0; rng.gen_range(0, 32)],
                 system_program::id(),
                 rng.gen(),

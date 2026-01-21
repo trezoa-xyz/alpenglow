@@ -17,7 +17,7 @@ pub(super) struct BroadcastFakeShredsRun {
     chained_merkle_root: Hash,
     next_shred_index: u32,
     next_code_index: u32,
-    reed_solomon_cache: Arc<ReedSolomonCache>,
+    reed_trzomon_cache: Arc<ReedSolomonCache>,
     migration_status: Arc<MigrationStatus>,
 }
 
@@ -36,7 +36,7 @@ impl BroadcastFakeShredsRun {
             chained_merkle_root: Hash::default(),
             next_shred_index: 0,
             next_code_index: 0,
-            reed_solomon_cache: Arc::<ReedSolomonCache>::default(),
+            reed_trzomon_cache: Arc::<ReedSolomonCache>::default(),
             migration_status,
         }
     }
@@ -102,7 +102,7 @@ impl BroadcastRun for BroadcastFakeShredsRun {
                 Some(self.chained_merkle_root),
                 self.next_shred_index,
                 self.next_code_index,
-                &self.reed_solomon_cache,
+                &self.reed_trzomon_cache,
                 &mut stats,
             )
         } else {
@@ -124,7 +124,7 @@ impl BroadcastRun for BroadcastFakeShredsRun {
                 Some(self.chained_merkle_root),
                 self.next_shred_index,
                 self.next_code_index,
-                &self.reed_solomon_cache,
+                &self.reed_trzomon_cache,
                 &mut stats,
             );
         if let Some(shred) = component_data_shreds
@@ -160,7 +160,7 @@ impl BroadcastRun for BroadcastFakeShredsRun {
             Some(self.chained_merkle_root),
             fake_shred_start_index,
             fake_code_start_index,
-            &self.reed_solomon_cache,
+            &self.reed_trzomon_cache,
             &mut stats,
         );
 

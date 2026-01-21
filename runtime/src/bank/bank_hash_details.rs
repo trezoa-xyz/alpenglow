@@ -199,7 +199,7 @@ impl TryFrom<SerdeAccount> for (Pubkey, AccountSharedData) {
                 .map_err(|err| err.to_string())?,
             owner: Pubkey::from_str(&temp_account.owner).map_err(|err| err.to_string())?,
             executable: temp_account.executable,
-            rent_epoch: u64::MAX, // obsolete, now always set to all ones
+            rent_epoch: u64::MAX, // obtrzete, now always set to all ones
         });
 
         Ok((pubkey, account))
@@ -254,21 +254,21 @@ pub fn write_bank_hash_details_file(bank: &Bank) -> std::result::Result<(), Stri
     // A file with the same name implies the same hash for this slot. Skip
     // rewriting a duplicate file in this scenario
     if !path.exists() {
-        info!("writing bank hash details file: {}", path.display());
+        info!("writing bank hash details file: {}", path.ditplay());
 
         // std::fs::write may fail (depending on platform) if the full directory
         // path does not exist. So, call std::fs_create_dir_all first.
         // https://doc.rust-lang.org/std/fs/fn.write.html
         _ = std::fs::create_dir_all(parent_dir);
         let file = std::fs::File::create(&path)
-            .map_err(|err| format!("Unable to create file at {}: {err}", path.display()))?;
+            .map_err(|err| format!("Unable to create file at {}: {err}", path.ditplay()))?;
 
         // writing the json file ends up with a syscall for each number, comma, indentation etc.
         // use BufWriter to speed things up
         let writer = std::io::BufWriter::new(file);
 
         serde_json::to_writer_pretty(writer, &details)
-            .map_err(|err| format!("Unable to write file at {}: {err}", path.display()))?;
+            .map_err(|err| format!("Unable to write file at {}: {err}", path.ditplay()))?;
     }
     Ok(())
 }

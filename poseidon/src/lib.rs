@@ -170,7 +170,7 @@ impl PoseidonHash {
 }
 
 #[cfg(target_os = "trezoa")]
-pub use trezoa_define_syscall::definitions::sol_poseidon;
+pub use trezoa_define_syscall::definitions::trz_poseidon;
 
 /// Return a Poseidon hash for the given data with the given elliptic curve and
 /// endianness.
@@ -262,7 +262,7 @@ pub fn hashv(
     {
         let mut hash_result = [0; HASH_BYTES];
         let result = unsafe {
-            sol_poseidon(
+            trz_poseidon(
                 parameters.into(),
                 endianness.into(),
                 vals as *const _ as *const u8,

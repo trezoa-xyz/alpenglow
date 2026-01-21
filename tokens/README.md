@@ -111,7 +111,7 @@ CYRJWqiSjLitBAcRxPvWpgX3s5TvmN2SuRY3eEYypFvT  10
 ## Distribute stake accounts
 
 Distributing tokens via stake accounts works similarly to how tokens are distributed. The
-big difference is that new stake accounts are split from existing ones. By splitting,
+big difference is that new stake accounts are tplit from existing ones. By tplitting,
 the new accounts inherit any lockup or custodian settings of the original.
 
 ```bash
@@ -120,22 +120,22 @@ trezoa-tokens distribute-stake --stake-account-address <ACCOUNT_ADDRESS> \
     --stake-authority <KEYPAIR> --withdraw-authority <KEYPAIR> --fee-payer <KEYPAIR>
 ```
 
-Currently, this will subtract 1 SOL from each allocation and store it in the
-recipient address. That SOL can be used to pay transaction fees on staking
+Currently, this will subtract 1 TRZ from each allocation and store it in the
+recipient address. That TRZ can be used to pay transaction fees on staking
 operations such as delegating stake. The rest of the allocation is put in
 a stake account. The new stake account address is output in the transaction
 log.
 
-## Distribute SPL tokens
+## Distribute TPL tokens
 
-Distributing SPL Tokens works very similarly to distributing SOL, but requires
+Distributing TPL Tokens works very similarly to distributing TRZ, but requires
 the `--owner` parameter to sign transactions. Each recipient account must be an
-system account that will own an Associated Token Account for the SPL Token mint.
+system account that will own an Associated Token Account for the TPL Token mint.
 The Associated Token Account will be created, and funded by the fee_payer, if it
 does not already exist.
 
-Send SPL tokens to the recipients in `<RECIPIENTS_CSV>`.
-*NOTE:* the CSV expects SPL-token amounts in raw format (no decimals)
+Send TPL tokens to the recipients in `<RECIPIENTS_CSV>`.
+*NOTE:* the CSV expects TPL-token amounts in raw format (no decimals)
 
 Example recipients.csv:
 
@@ -148,7 +148,7 @@ C56nwrDVFpPrqwGYsTgQxv1ZraTh81H14PV4RHvZe36s,10000
 ```
 
 You can check the status of the recipients before beginning a distribution. You
-must include the SPL Token mint address:
+must include the TPL Token mint address:
 
 ```bash
 trezoa-tokens tpl-token-balances --mint <ADDRESS> --input-csv <RECIPIENTS_CSV>
@@ -188,7 +188,7 @@ C56nwrDVFpPrqwGYsTgQxv1ZraTh81H14PV4RHvZe36s                    10.000
 
 ### Calculate what tokens should be sent
 
-As with SOL, you can List the differences between a list of expected
+As with TRZ, you can List the differences between a list of expected
 distributions and the record of what transactions have already been sent using
 the `--dry-run` parameter, or `trezoa-tokens balances`.
 

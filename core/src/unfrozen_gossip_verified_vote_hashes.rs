@@ -50,7 +50,7 @@ impl UnfrozenGossipVerifiedVoteHashes {
 
     // Cleanup `votes_per_slot` based on new roots
     pub fn set_root(&mut self, new_root: Slot) {
-        self.votes_per_slot = self.votes_per_slot.split_off(&new_root);
+        self.votes_per_slot = self.votes_per_slot.tplit_off(&new_root);
         // `self.votes_per_slot` now only contains entries >= `new_root`
     }
 

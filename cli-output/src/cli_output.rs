@@ -2,17 +2,17 @@
 use {
     crate::{
         cli_version::CliVersion,
-        display::{
+        ditplay::{
             build_balance_message, build_balance_message_with_config, format_labeled_address,
             unix_timestamp_to_string, writeln_name_value, writeln_transaction,
             BuildBalanceMessageConfig,
         },
-        QuietDisplay, VerboseDisplay,
+        QuietDitplay, VerboseDitplay,
     },
     base64::{prelude::BASE64_STANDARD, Engine},
     chrono::{Local, TimeZone, Utc},
     clap::ArgMatches,
-    console::{style, Emoji},
+    contrze::{style, Emoji},
     inflector::cases::titlecase::to_title_case,
     serde::{Deserialize, Serialize},
     serde_json::{Map, Value},
@@ -59,28 +59,28 @@ static WARNING: Emoji = Emoji("⚠️", "!");
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum OutputFormat {
-    Display,
+    Ditplay,
     Json,
     JsonCompact,
-    DisplayQuiet,
-    DisplayVerbose,
+    DitplayQuiet,
+    DitplayVerbose,
 }
 
 impl OutputFormat {
     pub fn formatted_string<T>(&self, item: &T) -> String
     where
-        T: Serialize + fmt::Display + QuietDisplay + VerboseDisplay,
+        T: Serialize + fmt::Ditplay + QuietDitplay + VerboseDitplay,
     {
         match self {
-            OutputFormat::Display => format!("{item}"),
-            OutputFormat::DisplayQuiet => {
+            OutputFormat::Ditplay => format!("{item}"),
+            OutputFormat::DitplayQuiet => {
                 let mut s = String::new();
-                QuietDisplay::write_str(item, &mut s).unwrap();
+                QuietDitplay::write_str(item, &mut s).unwrap();
                 s
             }
-            OutputFormat::DisplayVerbose => {
+            OutputFormat::DitplayVerbose => {
                 let mut s = String::new();
-                VerboseDisplay::write_str(item, &mut s).unwrap();
+                VerboseDitplay::write_str(item, &mut s).unwrap();
                 s
             }
             OutputFormat::Json => serde_json::to_string_pretty(item).unwrap(),
@@ -97,9 +97,9 @@ impl OutputFormat {
                 _ => unreachable!(),
             })
             .unwrap_or(if verbose {
-                OutputFormat::DisplayVerbose
+                OutputFormat::DitplayVerbose
             } else {
-                OutputFormat::Display
+                OutputFormat::Ditplay
             })
     }
 }
@@ -113,8 +113,8 @@ pub struct CliPrioritizationFeeStats {
     pub num_slots: u64,
 }
 
-impl QuietDisplay for CliPrioritizationFeeStats {}
-impl VerboseDisplay for CliPrioritizationFeeStats {
+impl QuietDitplay for CliPrioritizationFeeStats {}
+impl VerboseDitplay for CliPrioritizationFeeStats {
     fn write_str(&self, f: &mut dyn std::fmt::Write) -> fmt::Result {
         writeln!(f, "{:<11} prioritization_fee", "slot")?;
         for fee in &self.fees {
@@ -124,7 +124,7 @@ impl VerboseDisplay for CliPrioritizationFeeStats {
     }
 }
 
-impl fmt::Display for CliPrioritizationFeeStats {
+impl fmt::Ditplay for CliPrioritizationFeeStats {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(
             f,
@@ -140,10 +140,10 @@ pub struct CliPrioritizationFee {
     pub prioritization_fee: u64,
 }
 
-impl QuietDisplay for CliPrioritizationFee {}
-impl VerboseDisplay for CliPrioritizationFee {}
+impl QuietDitplay for CliPrioritizationFee {}
+impl VerboseDitplay for CliPrioritizationFee {}
 
-impl fmt::Display for CliPrioritizationFee {
+impl fmt::Ditplay for CliPrioritizationFee {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "{:<11} {}", self.slot, self.prioritization_fee)
     }
@@ -214,10 +214,10 @@ impl CliAccount {
     }
 }
 
-impl QuietDisplay for CliAccount {}
-impl VerboseDisplay for CliAccount {}
+impl QuietDitplay for CliAccount {}
+impl VerboseDitplay for CliAccount {}
 
-impl fmt::Display for CliAccount {
+impl fmt::Ditplay for CliAccount {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Public Key:", &self.keyed_account.pubkey)?;
@@ -259,10 +259,10 @@ pub struct CliBlockProduction {
     pub verbose: bool,
 }
 
-impl QuietDisplay for CliBlockProduction {}
-impl VerboseDisplay for CliBlockProduction {}
+impl QuietDitplay for CliBlockProduction {}
+impl VerboseDitplay for CliBlockProduction {}
 
-impl fmt::Display for CliBlockProduction {
+impl fmt::Ditplay for CliBlockProduction {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln!(
@@ -363,10 +363,10 @@ pub struct CliEpochInfo {
     pub current_block_time: Option<UnixTimestamp>,
 }
 
-impl QuietDisplay for CliEpochInfo {}
-impl VerboseDisplay for CliEpochInfo {}
+impl QuietDitplay for CliEpochInfo {}
+impl VerboseDitplay for CliEpochInfo {}
 
-impl fmt::Display for CliEpochInfo {
+impl fmt::Ditplay for CliEpochInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(
@@ -374,12 +374,12 @@ impl fmt::Display for CliEpochInfo {
             "Block height:",
             &self.epoch_info.block_height.to_string(),
         )?;
-        writeln_name_value(f, "Slot:", &self.epoch_info.absolute_slot.to_string())?;
+        writeln_name_value(f, "Slot:", &self.epoch_info.abtrzute_slot.to_string())?;
         writeln_name_value(f, "Epoch:", &self.epoch_info.epoch.to_string())?;
         if let Some(transaction_count) = &self.epoch_info.transaction_count {
             writeln_name_value(f, "Transaction Count:", &transaction_count.to_string())?;
         }
-        let start_slot = self.epoch_info.absolute_slot - self.epoch_info.slot_index;
+        let start_slot = self.epoch_info.abtrzute_slot - self.epoch_info.slot_index;
         let end_slot = start_slot + self.epoch_info.slots_in_epoch;
         writeln_name_value(
             f,
@@ -482,10 +482,10 @@ pub struct CliValidators {
     pub use_lamports_unit: bool,
 }
 
-impl QuietDisplay for CliValidators {}
-impl VerboseDisplay for CliValidators {}
+impl QuietDitplay for CliValidators {}
+impl VerboseDitplay for CliValidators {}
 
-impl fmt::Display for CliValidators {
+impl fmt::Ditplay for CliValidators {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fn write_vote_account(
             f: &mut fmt::Formatter,
@@ -810,17 +810,17 @@ impl CliHistorySignatureVec {
     }
 }
 
-impl QuietDisplay for CliHistorySignatureVec {}
-impl VerboseDisplay for CliHistorySignatureVec {
+impl QuietDitplay for CliHistorySignatureVec {}
+impl VerboseDitplay for CliHistorySignatureVec {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         for signature in &self.0 {
-            VerboseDisplay::write_str(signature, w)?;
+            VerboseDitplay::write_str(signature, w)?;
         }
         writeln!(w, "{} transactions found", self.0.len())
     }
 }
 
-impl fmt::Display for CliHistorySignatureVec {
+impl fmt::Ditplay for CliHistorySignatureVec {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for signature in &self.0 {
             write!(f, "{signature}")?;
@@ -837,8 +837,8 @@ pub struct CliHistorySignature {
     pub verbose: Option<CliHistoryVerbose>,
 }
 
-impl QuietDisplay for CliHistorySignature {}
-impl VerboseDisplay for CliHistorySignature {
+impl QuietDitplay for CliHistorySignature {}
+impl VerboseDitplay for CliHistorySignature {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         let verbose = self
             .verbose
@@ -866,7 +866,7 @@ impl VerboseDisplay for CliHistorySignature {
     }
 }
 
-impl fmt::Display for CliHistorySignature {
+impl fmt::Ditplay for CliHistorySignature {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "{}", self.signature)
     }
@@ -892,13 +892,13 @@ impl CliHistoryTransactionVec {
     }
 }
 
-impl QuietDisplay for CliHistoryTransactionVec {}
-impl VerboseDisplay for CliHistoryTransactionVec {}
+impl QuietDitplay for CliHistoryTransactionVec {}
+impl VerboseDitplay for CliHistoryTransactionVec {}
 
-impl fmt::Display for CliHistoryTransactionVec {
+impl fmt::Ditplay for CliHistoryTransactionVec {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for transaction in &self.0 {
-            VerboseDisplay::write_str(transaction, f)?;
+            VerboseDitplay::write_str(transaction, f)?;
             writeln!(f)?;
         }
         writeln!(f, "{} transactions found", self.0.len())
@@ -917,10 +917,10 @@ pub struct CliNonceAccount {
     pub use_lamports_unit: bool,
 }
 
-impl QuietDisplay for CliNonceAccount {}
-impl VerboseDisplay for CliNonceAccount {}
+impl QuietDitplay for CliNonceAccount {}
+impl VerboseDitplay for CliNonceAccount {}
 
-impl fmt::Display for CliNonceAccount {
+impl fmt::Ditplay for CliNonceAccount {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(
             f,
@@ -957,18 +957,18 @@ impl CliStakeVec {
     }
 }
 
-impl QuietDisplay for CliStakeVec {}
-impl VerboseDisplay for CliStakeVec {
+impl QuietDitplay for CliStakeVec {}
+impl VerboseDitplay for CliStakeVec {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         for state in &self.0 {
             writeln!(w)?;
-            VerboseDisplay::write_str(state, w)?;
+            VerboseDitplay::write_str(state, w)?;
         }
         Ok(())
     }
 }
 
-impl fmt::Display for CliStakeVec {
+impl fmt::Ditplay for CliStakeVec {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for state in &self.0 {
             writeln!(f)?;
@@ -986,15 +986,15 @@ pub struct CliKeyedStakeState {
     pub stake_state: CliStakeState,
 }
 
-impl QuietDisplay for CliKeyedStakeState {}
-impl VerboseDisplay for CliKeyedStakeState {
+impl QuietDitplay for CliKeyedStakeState {}
+impl VerboseDitplay for CliKeyedStakeState {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         writeln!(w, "Stake Pubkey: {}", self.stake_pubkey)?;
-        VerboseDisplay::write_str(&self.stake_state, w)
+        VerboseDitplay::write_str(&self.stake_state, w)
     }
 }
 
-impl fmt::Display for CliKeyedStakeState {
+impl fmt::Ditplay for CliKeyedStakeState {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "Stake Pubkey: {}", self.stake_pubkey)?;
         write!(f, "{}", self.stake_state)
@@ -1045,8 +1045,8 @@ pub struct CliKeyedEpochRewards {
     pub rewards: Vec<CliKeyedEpochReward>,
 }
 
-impl QuietDisplay for CliKeyedEpochRewards {}
-impl VerboseDisplay for CliKeyedEpochRewards {
+impl QuietDitplay for CliKeyedEpochRewards {}
+impl VerboseDitplay for CliKeyedEpochRewards {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         if self.rewards.is_empty() {
             writeln!(w, "No rewards found in epoch")?;
@@ -1100,7 +1100,7 @@ impl VerboseDisplay for CliKeyedEpochRewards {
     }
 }
 
-impl fmt::Display for CliKeyedEpochRewards {
+impl fmt::Ditplay for CliKeyedEpochRewards {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if self.rewards.is_empty() {
             writeln!(f, "No rewards found in epoch")?;
@@ -1358,8 +1358,8 @@ pub struct CliStakeState {
     pub use_csv: bool,
 }
 
-impl QuietDisplay for CliStakeState {}
-impl VerboseDisplay for CliStakeState {
+impl QuietDitplay for CliStakeState {}
+impl VerboseDitplay for CliStakeState {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         write!(w, "{self}")?;
         if let Some(credits) = self.credits_observed {
@@ -1447,7 +1447,7 @@ fn show_active_stake(
     Ok(())
 }
 
-impl fmt::Display for CliStakeState {
+impl fmt::Ditplay for CliStakeState {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fn show_authorized(f: &mut fmt::Formatter, authorized: &CliAuthorized) -> fmt::Result {
             writeln!(f, "Stake Authority: {}", authorized.staker)?;
@@ -1546,10 +1546,10 @@ pub struct CliStakeHistory {
     pub use_lamports_unit: bool,
 }
 
-impl QuietDisplay for CliStakeHistory {}
-impl VerboseDisplay for CliStakeHistory {}
+impl QuietDitplay for CliStakeHistory {}
+impl VerboseDitplay for CliStakeHistory {}
 
-impl fmt::Display for CliStakeHistory {
+impl fmt::Ditplay for CliStakeHistory {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln!(
@@ -1577,7 +1577,7 @@ impl fmt::Display for CliStakeHistory {
                 if self.use_lamports_unit {
                     "lamports"
                 } else {
-                    "SOL"
+                    "TRZ"
                 }
             )?;
         }
@@ -1648,10 +1648,10 @@ impl CliValidatorInfoVec {
     }
 }
 
-impl QuietDisplay for CliValidatorInfoVec {}
-impl VerboseDisplay for CliValidatorInfoVec {}
+impl QuietDitplay for CliValidatorInfoVec {}
+impl VerboseDitplay for CliValidatorInfoVec {}
 
-impl fmt::Display for CliValidatorInfoVec {
+impl fmt::Ditplay for CliValidatorInfoVec {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if self.0.is_empty() {
             writeln!(f, "No validator info accounts found")?;
@@ -1672,10 +1672,10 @@ pub struct CliValidatorInfo {
     pub info: Map<String, Value>,
 }
 
-impl QuietDisplay for CliValidatorInfo {}
-impl VerboseDisplay for CliValidatorInfo {}
+impl QuietDitplay for CliValidatorInfo {}
+impl VerboseDitplay for CliValidatorInfo {}
 
-impl fmt::Display for CliValidatorInfo {
+impl fmt::Ditplay for CliValidatorInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln_name_value(f, "Validator Identity:", &self.identity_pubkey)?;
         writeln_name_value(f, "  Info Address:", &self.info_pubkey)?;
@@ -1712,10 +1712,10 @@ pub struct CliVoteAccount {
     pub epoch_rewards: Option<Vec<CliEpochReward>>,
 }
 
-impl QuietDisplay for CliVoteAccount {}
-impl VerboseDisplay for CliVoteAccount {}
+impl QuietDitplay for CliVoteAccount {}
+impl VerboseDitplay for CliVoteAccount {}
 
-impl fmt::Display for CliVoteAccount {
+impl fmt::Ditplay for CliVoteAccount {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(
             f,
@@ -1753,10 +1753,10 @@ pub struct CliAuthorizedVoters {
     authorized_voters: BTreeMap<Epoch, String>,
 }
 
-impl QuietDisplay for CliAuthorizedVoters {}
-impl VerboseDisplay for CliAuthorizedVoters {}
+impl QuietDitplay for CliAuthorizedVoters {}
+impl VerboseDitplay for CliAuthorizedVoters {}
 
-impl fmt::Display for CliAuthorizedVoters {
+impl fmt::Ditplay for CliAuthorizedVoters {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if let Some((_epoch, current_authorized_voter)) = self.authorized_voters.first_key_value() {
             write!(f, "{current_authorized_voter}")?;
@@ -1826,10 +1826,10 @@ pub struct CliBlockTime {
     pub timestamp: UnixTimestamp,
 }
 
-impl QuietDisplay for CliBlockTime {}
-impl VerboseDisplay for CliBlockTime {}
+impl QuietDitplay for CliBlockTime {}
+impl VerboseDitplay for CliBlockTime {}
 
-impl fmt::Display for CliBlockTime {
+impl fmt::Ditplay for CliBlockTime {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln_name_value(f, "Block:", &self.slot.to_string())?;
         writeln_name_value(f, "Date:", &unix_timestamp_to_string(self.timestamp))
@@ -1843,10 +1843,10 @@ pub struct CliLeaderSchedule {
     pub leader_schedule_entries: Vec<CliLeaderScheduleEntry>,
 }
 
-impl QuietDisplay for CliLeaderSchedule {}
-impl VerboseDisplay for CliLeaderSchedule {}
+impl QuietDitplay for CliLeaderSchedule {}
+impl VerboseDitplay for CliLeaderSchedule {}
 
-impl fmt::Display for CliLeaderSchedule {
+impl fmt::Ditplay for CliLeaderSchedule {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for entry in &self.leader_schedule_entries {
             writeln!(f, "  {:<15} {:<44}", entry.slot, entry.leader)?;
@@ -1869,10 +1869,10 @@ pub struct CliInflation {
     pub current_rate: RpcInflationRate,
 }
 
-impl QuietDisplay for CliInflation {}
-impl VerboseDisplay for CliInflation {}
+impl QuietDitplay for CliInflation {}
+impl VerboseDitplay for CliInflation {}
 
-impl fmt::Display for CliInflation {
+impl fmt::Ditplay for CliInflation {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "{}", style("Inflation Governor:").bold())?;
         if (self.governor.initial - self.governor.terminal).abs() < f64::EPSILON {
@@ -1956,10 +1956,10 @@ pub struct CliSignOnlyData {
     pub bad_sig: Vec<String>,
 }
 
-impl QuietDisplay for CliSignOnlyData {}
-impl VerboseDisplay for CliSignOnlyData {}
+impl QuietDitplay for CliSignOnlyData {}
+impl VerboseDitplay for CliSignOnlyData {}
 
-impl fmt::Display for CliSignOnlyData {
+impl fmt::Ditplay for CliSignOnlyData {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Blockhash:", &self.blockhash)?;
@@ -1994,10 +1994,10 @@ pub struct CliSignature {
     pub signature: String,
 }
 
-impl QuietDisplay for CliSignature {}
-impl VerboseDisplay for CliSignature {}
+impl QuietDitplay for CliSignature {}
+impl VerboseDitplay for CliSignature {}
 
-impl fmt::Display for CliSignature {
+impl fmt::Ditplay for CliSignature {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Signature:", &self.signature)?;
@@ -2011,10 +2011,10 @@ pub struct CliAccountBalances {
     pub accounts: Vec<RpcAccountBalance>,
 }
 
-impl QuietDisplay for CliAccountBalances {}
-impl VerboseDisplay for CliAccountBalances {}
+impl QuietDitplay for CliAccountBalances {}
+impl VerboseDitplay for CliAccountBalances {}
 
-impl fmt::Display for CliAccountBalances {
+impl fmt::Ditplay for CliAccountBalances {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(
             f,
@@ -2027,7 +2027,7 @@ impl fmt::Display for CliAccountBalances {
                 "{:<44}  {}",
                 account.address,
                 &format!(
-                    "{} SOL",
+                    "{} TRZ",
                     build_balance_message(account.lamports, false, false)
                 ),
             )?;
@@ -2059,21 +2059,21 @@ impl From<RpcSupply> for CliSupply {
     }
 }
 
-impl QuietDisplay for CliSupply {}
-impl VerboseDisplay for CliSupply {}
+impl QuietDitplay for CliSupply {}
+impl VerboseDitplay for CliSupply {}
 
-impl fmt::Display for CliSupply {
+impl fmt::Ditplay for CliSupply {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln_name_value(
             f,
             "Total:",
-            &format!("{} SOL", build_balance_message(self.total, false, false)),
+            &format!("{} TRZ", build_balance_message(self.total, false, false)),
         )?;
         writeln_name_value(
             f,
             "Circulating:",
             &format!(
-                "{} SOL",
+                "{} TRZ",
                 build_balance_message(self.circulating, false, false)
             ),
         )?;
@@ -2081,7 +2081,7 @@ impl fmt::Display for CliSupply {
             f,
             "Non-Circulating:",
             &format!(
-                "{} SOL",
+                "{} TRZ",
                 build_balance_message(self.non_circulating, false, false)
             ),
         )?;
@@ -2106,10 +2106,10 @@ pub struct CliFeesInner {
     pub last_valid_block_height: Option<Slot>,
 }
 
-impl QuietDisplay for CliFeesInner {}
-impl VerboseDisplay for CliFeesInner {}
+impl QuietDitplay for CliFeesInner {}
+impl VerboseDitplay for CliFeesInner {}
 
-impl fmt::Display for CliFeesInner {
+impl fmt::Ditplay for CliFeesInner {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln_name_value(f, "Blockhash:", &self.blockhash)?;
         writeln_name_value(
@@ -2132,10 +2132,10 @@ pub struct CliFees {
     pub inner: Option<CliFeesInner>,
 }
 
-impl QuietDisplay for CliFees {}
-impl VerboseDisplay for CliFees {}
+impl QuietDitplay for CliFees {}
+impl VerboseDitplay for CliFees {}
 
-impl fmt::Display for CliFees {
+impl fmt::Ditplay for CliFees {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self.inner.as_ref() {
             Some(inner) => write!(f, "{inner}"),
@@ -2175,10 +2175,10 @@ pub struct CliTokenAccount {
     pub token_account: UiTokenAccount,
 }
 
-impl QuietDisplay for CliTokenAccount {}
-impl VerboseDisplay for CliTokenAccount {}
+impl QuietDitplay for CliTokenAccount {}
+impl VerboseDitplay for CliTokenAccount {}
 
-impl fmt::Display for CliTokenAccount {
+impl fmt::Ditplay for CliTokenAccount {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Address:", &self.address)?;
@@ -2218,10 +2218,10 @@ pub struct CliProgramId {
     pub signature: Option<String>,
 }
 
-impl QuietDisplay for CliProgramId {}
-impl VerboseDisplay for CliProgramId {}
+impl QuietDitplay for CliProgramId {}
+impl VerboseDitplay for CliProgramId {}
 
-impl fmt::Display for CliProgramId {
+impl fmt::Ditplay for CliProgramId {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln_name_value(f, "Program Id:", &self.program_id)?;
         if let Some(ref signature) = self.signature {
@@ -2238,10 +2238,10 @@ pub struct CliProgramBuffer {
     pub buffer: String,
 }
 
-impl QuietDisplay for CliProgramBuffer {}
-impl VerboseDisplay for CliProgramBuffer {}
+impl QuietDitplay for CliProgramBuffer {}
+impl VerboseDitplay for CliProgramBuffer {}
 
-impl fmt::Display for CliProgramBuffer {
+impl fmt::Ditplay for CliProgramBuffer {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln_name_value(f, "Buffer:", &self.buffer)
     }
@@ -2261,10 +2261,10 @@ pub struct CliProgramAuthority {
     pub account_type: CliProgramAccountType,
 }
 
-impl QuietDisplay for CliProgramAuthority {}
-impl VerboseDisplay for CliProgramAuthority {}
+impl QuietDitplay for CliProgramAuthority {}
+impl VerboseDitplay for CliProgramAuthority {}
 
-impl fmt::Display for CliProgramAuthority {
+impl fmt::Ditplay for CliProgramAuthority {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln_name_value(f, "Account Type:", &format!("{:?}", self.account_type))?;
         writeln_name_value(f, "Authority:", &self.authority)
@@ -2278,9 +2278,9 @@ pub struct CliProgram {
     pub owner: String,
     pub data_len: usize,
 }
-impl QuietDisplay for CliProgram {}
-impl VerboseDisplay for CliProgram {}
-impl fmt::Display for CliProgram {
+impl QuietDitplay for CliProgram {}
+impl VerboseDitplay for CliProgram {}
+impl fmt::Ditplay for CliProgram {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Program Id:", &self.program_id)?;
@@ -2304,9 +2304,9 @@ pub struct CliProgramV4 {
     pub status: String,
     pub data_len: usize,
 }
-impl QuietDisplay for CliProgramV4 {}
-impl VerboseDisplay for CliProgramV4 {}
-impl fmt::Display for CliProgramV4 {
+impl QuietDitplay for CliProgramV4 {}
+impl VerboseDitplay for CliProgramV4 {}
+impl fmt::Ditplay for CliProgramV4 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Program Id:", &self.program_id)?;
@@ -2332,9 +2332,9 @@ impl fmt::Display for CliProgramV4 {
 pub struct CliProgramsV4 {
     pub programs: Vec<CliProgramV4>,
 }
-impl QuietDisplay for CliProgramsV4 {}
-impl VerboseDisplay for CliProgramsV4 {}
-impl fmt::Display for CliProgramsV4 {
+impl QuietDitplay for CliProgramsV4 {}
+impl VerboseDitplay for CliProgramsV4 {}
+impl fmt::Ditplay for CliProgramsV4 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln!(
@@ -2373,9 +2373,9 @@ pub struct CliUpgradeableProgram {
     #[serde(skip_serializing)]
     pub use_lamports_unit: bool,
 }
-impl QuietDisplay for CliUpgradeableProgram {}
-impl VerboseDisplay for CliUpgradeableProgram {}
-impl fmt::Display for CliUpgradeableProgram {
+impl QuietDitplay for CliUpgradeableProgram {}
+impl VerboseDitplay for CliUpgradeableProgram {}
+impl fmt::Ditplay for CliUpgradeableProgram {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Program Id:", &self.program_id)?;
@@ -2408,9 +2408,9 @@ pub struct CliUpgradeablePrograms {
     #[serde(skip_serializing)]
     pub use_lamports_unit: bool,
 }
-impl QuietDisplay for CliUpgradeablePrograms {}
-impl VerboseDisplay for CliUpgradeablePrograms {}
-impl fmt::Display for CliUpgradeablePrograms {
+impl QuietDitplay for CliUpgradeablePrograms {}
+impl VerboseDitplay for CliUpgradeablePrograms {}
+impl fmt::Ditplay for CliUpgradeablePrograms {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln!(
@@ -2447,9 +2447,9 @@ pub struct CliUpgradeableProgramClosed {
     #[serde(skip_serializing)]
     pub use_lamports_unit: bool,
 }
-impl QuietDisplay for CliUpgradeableProgramClosed {}
-impl VerboseDisplay for CliUpgradeableProgramClosed {}
-impl fmt::Display for CliUpgradeableProgramClosed {
+impl QuietDitplay for CliUpgradeableProgramClosed {}
+impl VerboseDitplay for CliUpgradeableProgramClosed {}
+impl fmt::Ditplay for CliUpgradeableProgramClosed {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln!(
@@ -2468,9 +2468,9 @@ pub struct CliUpgradeableProgramExtended {
     pub program_id: String,
     pub additional_bytes: u32,
 }
-impl QuietDisplay for CliUpgradeableProgramExtended {}
-impl VerboseDisplay for CliUpgradeableProgramExtended {}
-impl fmt::Display for CliUpgradeableProgramExtended {
+impl QuietDitplay for CliUpgradeableProgramExtended {}
+impl VerboseDitplay for CliUpgradeableProgramExtended {}
+impl fmt::Ditplay for CliUpgradeableProgramExtended {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln!(
@@ -2487,9 +2487,9 @@ impl fmt::Display for CliUpgradeableProgramExtended {
 pub struct CliUpgradeableProgramMigrated {
     pub program_id: String,
 }
-impl QuietDisplay for CliUpgradeableProgramMigrated {}
-impl VerboseDisplay for CliUpgradeableProgramMigrated {}
-impl fmt::Display for CliUpgradeableProgramMigrated {
+impl QuietDitplay for CliUpgradeableProgramMigrated {}
+impl VerboseDitplay for CliUpgradeableProgramMigrated {}
+impl fmt::Ditplay for CliUpgradeableProgramMigrated {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln!(
@@ -2511,9 +2511,9 @@ pub struct CliUpgradeableBuffer {
     #[serde(skip_serializing)]
     pub use_lamports_unit: bool,
 }
-impl QuietDisplay for CliUpgradeableBuffer {}
-impl VerboseDisplay for CliUpgradeableBuffer {}
-impl fmt::Display for CliUpgradeableBuffer {
+impl QuietDitplay for CliUpgradeableBuffer {}
+impl VerboseDitplay for CliUpgradeableBuffer {}
+impl fmt::Ditplay for CliUpgradeableBuffer {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Buffer Address:", &self.address)?;
@@ -2540,9 +2540,9 @@ pub struct CliUpgradeableBuffers {
     #[serde(skip_serializing)]
     pub use_lamports_unit: bool,
 }
-impl QuietDisplay for CliUpgradeableBuffers {}
-impl VerboseDisplay for CliUpgradeableBuffers {}
-impl fmt::Display for CliUpgradeableBuffers {
+impl QuietDitplay for CliUpgradeableBuffers {}
+impl VerboseDitplay for CliUpgradeableBuffers {}
+impl fmt::Ditplay for CliUpgradeableBuffers {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln!(
@@ -2579,9 +2579,9 @@ pub struct CliAddressLookupTable {
     pub last_extended_slot: u64,
     pub addresses: Vec<String>,
 }
-impl QuietDisplay for CliAddressLookupTable {}
-impl VerboseDisplay for CliAddressLookupTable {}
-impl fmt::Display for CliAddressLookupTable {
+impl QuietDitplay for CliAddressLookupTable {}
+impl VerboseDitplay for CliAddressLookupTable {}
+impl fmt::Ditplay for CliAddressLookupTable {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Lookup Table Address:", &self.lookup_table_address)?;
@@ -2628,9 +2628,9 @@ pub struct CliAddressLookupTableCreated {
     pub lookup_table_address: String,
     pub signature: String,
 }
-impl QuietDisplay for CliAddressLookupTableCreated {}
-impl VerboseDisplay for CliAddressLookupTableCreated {}
-impl fmt::Display for CliAddressLookupTableCreated {
+impl QuietDitplay for CliAddressLookupTableCreated {}
+impl VerboseDitplay for CliAddressLookupTableCreated {}
+impl fmt::Ditplay for CliAddressLookupTableCreated {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Signature:", &self.signature)?;
@@ -2706,7 +2706,7 @@ pub fn parse_sign_only_reply_string(reply: &str) -> SignOnly {
             .unwrap()
             .iter()
             .map(|signer_string| {
-                let mut signer = signer_string.as_str().unwrap().split('=');
+                let mut signer = signer_string.as_str().unwrap().tplit('=');
                 let key = Pubkey::from_str(signer.next().unwrap()).unwrap();
                 let sig = Signature::from_str(signer.next().unwrap()).unwrap();
                 (key, sig)
@@ -2776,7 +2776,7 @@ impl CliSignatureVerificationStatus {
     }
 }
 
-impl fmt::Display for CliSignatureVerificationStatus {
+impl fmt::Ditplay for CliSignatureVerificationStatus {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Self::None => write!(f, "none"),
@@ -2795,10 +2795,10 @@ pub struct CliBlock {
     pub slot: Slot,
 }
 
-impl QuietDisplay for CliBlock {}
-impl VerboseDisplay for CliBlock {}
+impl QuietDitplay for CliBlock {}
+impl VerboseDitplay for CliBlock {}
 
-impl fmt::Display for CliBlock {
+impl fmt::Ditplay for CliBlock {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "Slot: {}", self.slot)?;
         writeln!(
@@ -2910,10 +2910,10 @@ pub struct CliTransaction {
     pub sigverify_status: Vec<CliSignatureVerificationStatus>,
 }
 
-impl QuietDisplay for CliTransaction {}
-impl VerboseDisplay for CliTransaction {}
+impl QuietDitplay for CliTransaction {}
+impl VerboseDitplay for CliTransaction {}
 
-impl fmt::Display for CliTransaction {
+impl fmt::Ditplay for CliTransaction {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln_transaction(
             f,
@@ -2942,8 +2942,8 @@ pub struct CliTransactionConfirmation {
     pub err: Option<UiTransactionError>,
 }
 
-impl QuietDisplay for CliTransactionConfirmation {}
-impl VerboseDisplay for CliTransactionConfirmation {
+impl QuietDitplay for CliTransactionConfirmation {}
+impl VerboseDitplay for CliTransactionConfirmation {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         if let Some(transaction) = &self.transaction {
             writeln!(
@@ -2969,7 +2969,7 @@ impl VerboseDisplay for CliTransactionConfirmation {
     }
 }
 
-impl fmt::Display for CliTransactionConfirmation {
+impl fmt::Ditplay for CliTransactionConfirmation {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self.confirmation_status {
             None => write!(f, "Not found"),
@@ -3042,7 +3042,7 @@ where
         .unwrap_or_else(|| default.to_string())
 }
 
-impl fmt::Display for CliGossipNode {
+impl fmt::Ditplay for CliGossipNode {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
@@ -3061,13 +3061,13 @@ impl fmt::Display for CliGossipNode {
     }
 }
 
-impl QuietDisplay for CliGossipNode {}
-impl VerboseDisplay for CliGossipNode {}
+impl QuietDitplay for CliGossipNode {}
+impl VerboseDitplay for CliGossipNode {}
 
 #[derive(Serialize, Deserialize)]
 pub struct CliGossipNodes(pub Vec<CliGossipNode>);
 
-impl fmt::Display for CliGossipNodes {
+impl fmt::Ditplay for CliGossipNodes {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(
             f,
@@ -3083,8 +3083,8 @@ impl fmt::Display for CliGossipNodes {
     }
 }
 
-impl QuietDisplay for CliGossipNodes {}
-impl VerboseDisplay for CliGossipNodes {}
+impl QuietDitplay for CliGossipNodes {}
+impl VerboseDitplay for CliGossipNodes {}
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -3100,7 +3100,7 @@ pub struct CliPing {
     pub confirmation_stats: Option<CliPingConfirmationStats>,
 }
 
-impl fmt::Display for CliPing {
+impl fmt::Ditplay for CliPing {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f)?;
         writeln_name_value(f, "Source Account:", &self.source_pubkey)?;
@@ -3129,8 +3129,8 @@ impl fmt::Display for CliPing {
     }
 }
 
-impl QuietDisplay for CliPing {}
-impl VerboseDisplay for CliPing {}
+impl QuietDitplay for CliPing {}
+impl VerboseDitplay for CliPing {}
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -3149,7 +3149,7 @@ pub struct CliPingData {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub lamports: Option<u64>,
 }
-impl fmt::Display for CliPingData {
+impl fmt::Ditplay for CliPingData {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let (mark, msg) = if let Some(signature) = &self.signature {
             if self.success {
@@ -3205,8 +3205,8 @@ impl fmt::Display for CliPingData {
     }
 }
 
-impl QuietDisplay for CliPingData {}
-impl VerboseDisplay for CliPingData {}
+impl QuietDitplay for CliPingData {}
+impl VerboseDitplay for CliPingData {}
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -3214,7 +3214,7 @@ pub struct CliPingTxStats {
     pub num_transactions: u32,
     pub num_transaction_confirmed: u32,
 }
-impl fmt::Display for CliPingTxStats {
+impl fmt::Ditplay for CliPingTxStats {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(
             f,
@@ -3228,8 +3228,8 @@ impl fmt::Display for CliPingTxStats {
     }
 }
 
-impl QuietDisplay for CliPingTxStats {}
-impl VerboseDisplay for CliPingTxStats {}
+impl QuietDitplay for CliPingTxStats {}
+impl VerboseDitplay for CliPingTxStats {}
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -3239,7 +3239,7 @@ pub struct CliPingConfirmationStats {
     pub max: f64,
     pub std_dev: f64,
 }
-impl fmt::Display for CliPingConfirmationStats {
+impl fmt::Ditplay for CliPingConfirmationStats {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(
             f,
@@ -3248,8 +3248,8 @@ impl fmt::Display for CliPingConfirmationStats {
         )
     }
 }
-impl QuietDisplay for CliPingConfirmationStats {}
-impl VerboseDisplay for CliPingConfirmationStats {}
+impl QuietDitplay for CliPingConfirmationStats {}
+impl VerboseDitplay for CliPingConfirmationStats {}
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -3259,7 +3259,7 @@ pub struct CliBalance {
     pub config: BuildBalanceMessageConfig,
 }
 
-impl QuietDisplay for CliBalance {
+impl QuietDitplay for CliBalance {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         let config = BuildBalanceMessageConfig {
             show_unit: false,
@@ -3271,7 +3271,7 @@ impl QuietDisplay for CliBalance {
     }
 }
 
-impl VerboseDisplay for CliBalance {
+impl VerboseDitplay for CliBalance {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         let config = BuildBalanceMessageConfig {
             show_unit: true,
@@ -3283,7 +3283,7 @@ impl VerboseDisplay for CliBalance {
     }
 }
 
-impl fmt::Display for CliBalance {
+impl fmt::Ditplay for CliBalance {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let balance_message = build_balance_message_with_config(self.lamports, &self.config);
         write!(f, "{balance_message}")
@@ -3297,10 +3297,10 @@ pub struct CliFindProgramDerivedAddress {
     pub bump_seed: u8,
 }
 
-impl QuietDisplay for CliFindProgramDerivedAddress {}
-impl VerboseDisplay for CliFindProgramDerivedAddress {}
+impl QuietDitplay for CliFindProgramDerivedAddress {}
+impl VerboseDitplay for CliFindProgramDerivedAddress {}
 
-impl fmt::Display for CliFindProgramDerivedAddress {
+impl fmt::Ditplay for CliFindProgramDerivedAddress {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", self.address)?;
         Ok(())
@@ -3419,46 +3419,46 @@ mod tests {
     #[test]
     fn test_verbose_quiet_output_formats() {
         #[derive(Deserialize, Serialize)]
-        struct FallbackToDisplay {}
-        impl std::fmt::Display for FallbackToDisplay {
+        struct FallbackToDitplay {}
+        impl std::fmt::Ditplay for FallbackToDitplay {
             fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-                write!(f, "display")
+                write!(f, "ditplay")
             }
         }
-        impl QuietDisplay for FallbackToDisplay {}
-        impl VerboseDisplay for FallbackToDisplay {}
+        impl QuietDitplay for FallbackToDitplay {}
+        impl VerboseDitplay for FallbackToDitplay {}
 
-        let f = FallbackToDisplay {};
-        assert_eq!(&OutputFormat::Display.formatted_string(&f), "display");
-        assert_eq!(&OutputFormat::DisplayQuiet.formatted_string(&f), "display");
+        let f = FallbackToDitplay {};
+        assert_eq!(&OutputFormat::Ditplay.formatted_string(&f), "ditplay");
+        assert_eq!(&OutputFormat::DitplayQuiet.formatted_string(&f), "ditplay");
         assert_eq!(
-            &OutputFormat::DisplayVerbose.formatted_string(&f),
-            "display"
+            &OutputFormat::DitplayVerbose.formatted_string(&f),
+            "ditplay"
         );
 
         #[derive(Deserialize, Serialize)]
-        struct DiscreteVerbosityDisplay {}
-        impl std::fmt::Display for DiscreteVerbosityDisplay {
+        struct DiscreteVerbosityDitplay {}
+        impl std::fmt::Ditplay for DiscreteVerbosityDitplay {
             fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-                write!(f, "display")
+                write!(f, "ditplay")
             }
         }
-        impl QuietDisplay for DiscreteVerbosityDisplay {
+        impl QuietDitplay for DiscreteVerbosityDitplay {
             fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
                 write!(w, "quiet")
             }
         }
-        impl VerboseDisplay for DiscreteVerbosityDisplay {
+        impl VerboseDitplay for DiscreteVerbosityDitplay {
             fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
                 write!(w, "verbose")
             }
         }
 
-        let f = DiscreteVerbosityDisplay {};
-        assert_eq!(&OutputFormat::Display.formatted_string(&f), "display");
-        assert_eq!(&OutputFormat::DisplayQuiet.formatted_string(&f), "quiet");
+        let f = DiscreteVerbosityDitplay {};
+        assert_eq!(&OutputFormat::Ditplay.formatted_string(&f), "ditplay");
+        assert_eq!(&OutputFormat::DitplayQuiet.formatted_string(&f), "quiet");
         assert_eq!(
-            &OutputFormat::DisplayVerbose.formatted_string(&f),
+            &OutputFormat::DitplayVerbose.formatted_string(&f),
             "verbose"
         );
     }
@@ -3501,11 +3501,11 @@ mod tests {
         let matches = app.clone().get_matches_from(vec!["test"]);
         assert_eq!(
             OutputFormat::from_matches(&matches, "output_format", false),
-            OutputFormat::Display
+            OutputFormat::Ditplay
         );
         assert_eq!(
             OutputFormat::from_matches(&matches, "output_format", true),
-            OutputFormat::DisplayVerbose
+            OutputFormat::DitplayVerbose
         );
     }
 
@@ -3543,7 +3543,7 @@ mod tests {
         };
         #[rustfmt::skip]
         let expected_output_common =
-            "Account Balance: 0.00001 SOL\n\
+            "Account Balance: 0.00001 TRZ\n\
              Validator Identity: 11111111111111111111111111111111\n\
              Vote Authority: None\n\
              Withdraw Authority: \n\

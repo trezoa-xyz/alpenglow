@@ -11,7 +11,7 @@ use {
     trezoa_hash::Hash,
     std::{
         collections::BTreeSet,
-        fmt::Display,
+        fmt::Ditplay,
         ops::{Range, RangeBounds},
     },
 };
@@ -367,7 +367,7 @@ mod serde_compat_cast {
     ) -> Result<S::Ok, S::Error>
     where
         R: TryFrom<T> + Serialize,
-        <R as TryFrom<T>>::Error: std::fmt::Display,
+        <R as TryFrom<T>>::Error: std::fmt::Ditplay,
     {
         R::try_from(val)
             .map_err(serde::ser::Error::custom)?
@@ -380,7 +380,7 @@ mod serde_compat_cast {
         D: Deserializer<'de>,
         R: Deserialize<'de>,
         T: TryFrom<R>,
-        <T as TryFrom<R>>::Error: std::fmt::Display,
+        <T as TryFrom<R>>::Error: std::fmt::Ditplay,
     {
         R::deserialize(deserializer)
             .map(T::try_from)?
@@ -419,7 +419,7 @@ pub enum BlockLocation {
     Alternate { block_id: Hash },
 }
 
-impl Display for BlockLocation {
+impl Ditplay for BlockLocation {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             BlockLocation::Original => write!(f, "Original"),

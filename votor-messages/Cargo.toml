@@ -41,7 +41,7 @@ trezoa-frozen-abi-macro = { workspace = true, optional = true, features = [
 trezoa-hash = { workspace = true }
 trezoa-program = { workspace = true }
 trezoa-vote-interface = { workspace = true }
-spl-pod = { workspace = true }
+trz-pod = { workspace = true }
 thiserror = { workspace = true }
 wincode = { workspace = true }
 

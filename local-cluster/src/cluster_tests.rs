@@ -260,7 +260,7 @@ pub fn kill_entry_and_spend_and_verify_rest(
     // Kill the entry point node and wait for it to die.
     info!("killing entry point: {}", entry_point_info.pubkey());
     entry_point_validator_exit.write().unwrap().exit();
-    info!("sleeping for some time to let entry point exit and partitions to resolve...");
+    info!("sleeping for some time to let entry point exit and partitions to retrzve...");
     sleep(Duration::from_millis(slot_millis * MINIMUM_SLOTS_PER_EPOCH));
     info!("done sleeping");
 

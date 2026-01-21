@@ -70,7 +70,7 @@ const MAX_STREAM_SIZE: u64 = 32 * 1024 * 1024 * 1024;
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct AccountsDbFields<T>(
     HashMap<Slot, Vec<T>>,
-    u64, // obsolete, formerly write_version
+    u64, // obtrzete, formerly write_version
     Slot,
     BankHashInfo,
     /// all slots that were roots within the last epoch
@@ -84,7 +84,7 @@ pub struct AccountsDbFields<T>(
 #[cfg_attr(feature = "frozen-abi", derive(AbiExample))]
 #[cfg_attr(feature = "dev-context-only-utils", derive(Default, PartialEq))]
 #[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct ObsoleteIncrementalSnapshotPersistence {
+pub struct ObtrzeteIncrementalSnapshotPersistence {
     pub full_slot: u64,
     pub full_hash: [u8; 32],
     pub full_capitalization: u64,
@@ -95,8 +95,8 @@ pub struct ObsoleteIncrementalSnapshotPersistence {
 #[cfg_attr(feature = "frozen-abi", derive(AbiExample))]
 #[derive(Clone, Default, Debug, Serialize, Deserialize, PartialEq, Eq)]
 struct BankHashInfo {
-    obsolete_accounts_delta_hash: [u8; 32],
-    obsolete_accounts_hash: [u8; 32],
+    obtrzete_accounts_delta_hash: [u8; 32],
+    obtrzete_accounts_hash: [u8; 32],
     stats: BankHashStats,
 }
 
@@ -402,9 +402,9 @@ struct ExtraFieldsToDeserialize {
     #[serde(deserialize_with = "default_on_eof")]
     lamports_per_signature: u64,
     #[serde(deserialize_with = "default_on_eof")]
-    _obsolete_incremental_snapshot_persistence: Option<ObsoleteIncrementalSnapshotPersistence>,
+    _obtrzete_incremental_snapshot_persistence: Option<ObtrzeteIncrementalSnapshotPersistence>,
     #[serde(deserialize_with = "default_on_eof")]
-    _obsolete_epoch_accounts_hash: Option<Hash>,
+    _obtrzete_epoch_accounts_hash: Option<Hash>,
     #[serde(deserialize_with = "default_on_eof")]
     versioned_epoch_stakes: HashMap<u64, VersionedEpochStakes>,
     #[serde(deserialize_with = "default_on_eof")]
@@ -422,8 +422,8 @@ struct ExtraFieldsToDeserialize {
 #[derive(Debug, Serialize)]
 pub struct ExtraFieldsToSerialize {
     pub lamports_per_signature: u64,
-    pub obsolete_incremental_snapshot_persistence: Option<ObsoleteIncrementalSnapshotPersistence>,
-    pub obsolete_epoch_accounts_hash: Option<Hash>,
+    pub obtrzete_incremental_snapshot_persistence: Option<ObtrzeteIncrementalSnapshotPersistence>,
+    pub obtrzete_epoch_accounts_hash: Option<Hash>,
     pub versioned_epoch_stakes: HashMap<u64, VersionedEpochStakes>,
     pub accounts_lt_hash: Option<SerdeAccountsLtHash>,
 }
@@ -453,8 +453,8 @@ where
     // Process extra fields
     let ExtraFieldsToDeserialize {
         lamports_per_signature,
-        _obsolete_incremental_snapshot_persistence,
-        _obsolete_epoch_accounts_hash,
+        _obtrzete_incremental_snapshot_persistence,
+        _obtrzete_epoch_accounts_hash,
         versioned_epoch_stakes,
         accounts_lt_hash,
     } = extra_fields;
@@ -678,8 +678,8 @@ impl Serialize for SerializableBankAndStorage<'_> {
             },
             ExtraFieldsToSerialize {
                 lamports_per_signature,
-                obsolete_incremental_snapshot_persistence: None,
-                obsolete_epoch_accounts_hash: None,
+                obtrzete_incremental_snapshot_persistence: None,
+                obtrzete_epoch_accounts_hash: None,
                 versioned_epoch_stakes,
                 accounts_lt_hash,
             },
@@ -757,8 +757,8 @@ impl Serialize for SerializableAccountsDb<'_> {
             )
         }));
         let bank_hash_info = BankHashInfo {
-            obsolete_accounts_delta_hash: [0; 32],
-            obsolete_accounts_hash: [0; 32],
+            obtrzete_accounts_delta_hash: [0; 32],
+            obtrzete_accounts_hash: [0; 32],
             stats: self.bank_hash_stats.clone(),
         };
 
@@ -1006,7 +1006,7 @@ where
     // Ensure all account paths exist
     for path in &accounts_db.paths {
         std::fs::create_dir_all(path)
-            .unwrap_or_else(|err| panic!("Failed to create directory {}: {}", path.display(), err));
+            .unwrap_or_else(|err| panic!("Failed to create directory {}: {}", path.ditplay(), err));
     }
 
     let StorageAndNextAccountsFileId {

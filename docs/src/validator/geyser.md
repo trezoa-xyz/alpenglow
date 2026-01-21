@@ -7,7 +7,7 @@ pagination_label: Validator Geyser Plugins
 ## Overview
 
 Validators under heavy RPC loads, such as when serving getProgramAccounts calls,
-can fall behind the network. To solve this problem, the validator has been
+can fall behind the network. To trzve this problem, the validator has been
 enhanced to support a plugin mechanism, called a "Geyser" plugin, through which
 the information about accounts, slots, blocks, and transactions can be
 transmitted to external data stores such as relational databases, NoSQL

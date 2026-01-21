@@ -684,7 +684,7 @@ fn report_collected_votes(peers: HashMap<Pubkey, PeerData>, total_staked: Stake,
     );
 }
 
-/// Computes the vote transmission KPIs for a given slot split
+/// Computes the vote transmission KPIs for a given slot tplit
 /// out by votor message type. These returned KPIs are:
 /// (total messages received, stake-weighted vote delays,
 /// percent of stake we received a message from)

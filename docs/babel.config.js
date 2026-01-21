@@ -1,3 +1,3 @@
 module.exports = {
-  presets: [require.resolve("@docusaurus/core/lib/babel/preset")],
+  presets: [require.retrzve("@docusaurus/core/lib/babel/preset")],
 };

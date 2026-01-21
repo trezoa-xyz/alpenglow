@@ -173,7 +173,7 @@ network. **It is crucial to back-up this information.**
 
 If you don’t back up this information, you WILL NOT BE ABLE TO RECOVER YOUR
 VALIDATOR if you lose access to it. If this happens, YOU WILL LOSE YOUR
-ALLOCATION OF SOL TOO.
+ALLOCATION OF TRZ TOO.
 
 To back-up your validator identify keypair, **back-up your
 "validator-keypair.json” file or your seed phrase to a secure location.**
@@ -199,14 +199,14 @@ Commitment: confirmed
 
 ## Airdrop & Check Validator Balance
 
-Airdrop yourself some SOL to get started:
+Airdrop yourself some TRZ to get started:
 
 ```bash
 trezoa airdrop 1
 ```
 
 Note that airdrops are only available on Devnet and Testnet. Both are limited
-to 1 SOL per request.
+to 1 TRZ per request.
 
 To view your current balance:
 
@@ -220,7 +220,7 @@ Or to see in finer detail:
 trezoa balance --lamports
 ```
 
-Read more about the difference between SOL and lamports here: [What is SOL?](https://trezoa.com/docs/references/terminology#sol), [What is a lamport?](https://trezoa.com/docs/references/terminology#lamport).
+Read more about the difference between TRZ and lamports here: [What is TRZ?](https://trezoa.com/docs/references/terminology#trz), [What is a lamport?](https://trezoa.com/docs/references/terminology#lamport).
 
 ## Create Authorized Withdrawer Account
 
@@ -286,7 +286,7 @@ trezoa-validator \
   --log ~/trezoa-validator.log
 ```
 
-To force validator logging to the console add a `--log -` argument, otherwise
+To force validator logging to the contrze add a `--log -` argument, otherwise
 the validator will automatically log to a file.
 
 The ledger will be placed in the `ledger/` directory by default, use the
@@ -347,7 +347,7 @@ likely cause the 500 GB target to be exceeded.
 Running the validator as a systemd unit is one easy way to manage running in the
 background.
 
-Assuming you have a user called `sol` on your machine, create the file `/etc/systemd/system/sol.service` with
+Assuming you have a user called `trz` on your machine, create the file `/etc/systemd/system/trz.service` with
 the following:
 
 ```
@@ -360,30 +360,30 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-User=sol
+User=trz
 LimitNOFILE=1000000
 LimitMEMLOCK=2000000000
 LogRateLimitIntervalSec=0
-Environment="PATH=/bin:/usr/bin:/home/sol/.local/share/trezoa/install/active_release/bin"
-ExecStart=/home/sol/bin/validator.sh
+Environment="PATH=/bin:/usr/bin:/home/trz/.local/share/trezoa/install/active_release/bin"
+ExecStart=/home/trz/bin/validator.sh
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-Now create `/home/sol/bin/validator.sh` to include the desired
+Now create `/home/trz/bin/validator.sh` to include the desired
 `trezoa-validator` command-line. Ensure that the 'exec' command is used to
 start the validator process (i.e. "exec trezoa-validator ..."). This is
 important because without it, logrotate will end up killing the validator
 every time the logs are rotated.
 
-Ensure that running `/home/sol/bin/validator.sh` manually starts
-the validator as expected. Don't forget to mark it executable with `chmod +x /home/sol/bin/validator.sh`
+Ensure that running `/home/trz/bin/validator.sh` manually starts
+the validator as expected. Don't forget to mark it executable with `chmod +x /home/trz/bin/validator.sh`
 
 Start the service with:
 
 ```bash
-sudo systemctl enable --now sol
+sudo systemctl enable --now trz
 ```
 
 ### Logging
@@ -414,23 +414,23 @@ instead of the validator's, which will kill them both.
 #### Using logrotate
 
 An example setup for the `logrotate`, which assumes that the validator is
-running as a systemd service called `sol.service` and writes a log file at
-/home/sol/trezoa-validator.log:
+running as a systemd service called `trz.service` and writes a log file at
+/home/trz/trezoa-validator.log:
 
 ```bash
 # Setup log rotation
 
-cat > logrotate.sol <<EOF
-/home/sol/trezoa-validator.log {
+cat > logrotate.trz <<EOF
+/home/trz/trezoa-validator.log {
   rotate 7
   daily
   missingok
   postrotate
-    systemctl kill -s USR1 sol.service
+    systemctl kill -s USR1 trz.service
   endscript
 }
 EOF
-sudo cp logrotate.sol /etc/logrotate.d/sol
+sudo cp logrotate.trz /etc/logrotate.d/trz
 systemctl restart logrotate.service
 ```
 
@@ -445,12 +445,12 @@ it.
 As the number of populated accounts on the cluster grows, account-data RPC
 requests that scan the entire account set -- like
 [`getProgramAccounts`](https://trezoa.com/docs/rpc/http/getprogramaccounts) and
-[SPL-token-specific requests](https://trezoa.com/docs/rpc/http/gettokenaccountsbydelegate) --
+[TPL-token-specific requests](https://trezoa.com/docs/rpc/http/gettokenaccountsbydelegate) --
 may perform poorly. If your validator needs to support any of these requests,
 you can use the `--account-index` parameter to activate one or more in-memory
 account indexes that significantly improve RPC performance by indexing accounts
 by the key field. Currently supports the following parameter values:
 
 - `program-id`: each account indexed by its owning program; used by [getProgramAccounts](https://trezoa.com/docs/rpc/http/getprogramaccounts)
-- `tpl-token-mint`: each SPL token account indexed by its token Mint; used by [getTokenAccountsByDelegate](https://trezoa.com/docs/rpc/http/gettokenaccountsbydelegate), and [getTokenLargestAccounts](https://trezoa.com/docs/rpc/http/gettokenlargestaccounts)
-- `tpl-token-owner`: each SPL token account indexed by the token-owner address; used by [getTokenAccountsByOwner](https://trezoa.com/docs/rpc/http/gettokenaccountsbyowner), and [getProgramAccounts](https://trezoa.com/docs/rpc/http/getprogramaccounts) requests that include an tpl-token-owner filter.
+- `tpl-token-mint`: each TPL token account indexed by its token Mint; used by [getTokenAccountsByDelegate](https://trezoa.com/docs/rpc/http/gettokenaccountsbydelegate), and [getTokenLargestAccounts](https://trezoa.com/docs/rpc/http/gettokenlargestaccounts)
+- `tpl-token-owner`: each TPL token account indexed by the token-owner address; used by [getTokenAccountsByOwner](https://trezoa.com/docs/rpc/http/gettokenaccountsbyowner), and [getProgramAccounts](https://trezoa.com/docs/rpc/http/getprogramaccounts) requests that include an tpl-token-owner filter.

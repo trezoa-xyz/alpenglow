@@ -127,8 +127,8 @@ mod tests {
                 &get_storages_to_serialize(&bank2.get_snapshot_storages(None)),
                 ExtraFieldsToSerialize {
                     lamports_per_signature: bank2.fee_rate_governor.lamports_per_signature,
-                    obsolete_incremental_snapshot_persistence: None,
-                    obsolete_epoch_accounts_hash: None,
+                    obtrzete_incremental_snapshot_persistence: None,
+                    obtrzete_epoch_accounts_hash: None,
                     versioned_epoch_stakes,
                     accounts_lt_hash,
                 },
@@ -345,7 +345,7 @@ mod tests {
     mod test_bank_serialize {
         use {
             super::*,
-            crate::{bank::BankHashStats, serde_snapshot::ObsoleteIncrementalSnapshotPersistence},
+            crate::{bank::BankHashStats, serde_snapshot::ObtrzeteIncrementalSnapshotPersistence},
             trezoa_accounts_db::accounts_hash::AccountsLtHash,
             trezoa_frozen_abi::abi_example::AbiExample,
             trezoa_hash::Hash,
@@ -391,7 +391,7 @@ mod tests {
             // ensure there is at least one snapshot storage example for ABI digesting
             assert!(!snapshot_storages.is_empty());
 
-            let incremental_snapshot_persistence = ObsoleteIncrementalSnapshotPersistence {
+            let incremental_snapshot_persistence = ObtrzeteIncrementalSnapshotPersistence {
                 full_slot: u64::default(),
                 full_hash: [1; 32],
                 full_capitalization: u64::default(),
@@ -408,14 +408,14 @@ mod tests {
                 &get_storages_to_serialize(&snapshot_storages),
                 ExtraFieldsToSerialize {
                     lamports_per_signature: bank.fee_rate_governor.lamports_per_signature,
-                    obsolete_incremental_snapshot_persistence: Some(
+                    obtrzete_incremental_snapshot_persistence: Some(
                         incremental_snapshot_persistence,
                     ),
-                    obsolete_epoch_accounts_hash: Some(Hash::new_unique()),
+                    obtrzete_epoch_accounts_hash: Some(Hash::new_unique()),
                     versioned_epoch_stakes,
                     accounts_lt_hash: Some(AccountsLtHash(LtHash::identity()).into()),
                 },
-                u64::default(), // obsolete, formerly write_version
+                u64::default(), // obtrzete, formerly write_version
             )
         }
     }

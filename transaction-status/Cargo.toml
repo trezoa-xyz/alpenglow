@@ -42,8 +42,8 @@ trezoa-transaction = { workspace = true }
 trezoa-transaction-error = { workspace = true }
 trezoa-transaction-status-client-types = { workspace = true }
 trezoa-vote-interface = { workspace = true }
-spl-associated-token-account-interface = { workspace = true, features = ["borsh"] }
-spl-memo-interface = { workspace = true }
+trz-associated-token-account-interface = { workspace = true, features = ["borsh"] }
+trz-memo-interface = { workspace = true }
 tpl-token-2022-interface = { workspace = true }
 tpl-token-group-interface = { workspace = true }
 tpl-token-interface = { workspace = true }

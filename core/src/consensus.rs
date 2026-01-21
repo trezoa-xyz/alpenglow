@@ -876,7 +876,7 @@ impl Tower {
             return Some(true);
         }
 
-        // Only consider forks that split at the common_ancestor of `switch_slot` and `last_voted_slot` or earlier.
+        // Only consider forks that tplit at the common_ancestor of `switch_slot` and `last_voted_slot` or earlier.
         // This is to prevent situations like this from being included in the switching proof:
         //
         //         /-- `last_voted_slot`

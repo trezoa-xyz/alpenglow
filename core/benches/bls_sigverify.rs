@@ -170,12 +170,12 @@ fn create_base3_cert_message(env: &BenchEnvironment, slot: u64, hash: Hash) -> C
 
     let mut all_vote_messages = Vec::new();
 
-    // Define a split quorum: e.g., 40% sign Vote 1, 30% sign Vote 2 (Total 70%)
-    let split1 = (NUM_VALIDATORS * 40) / 100;
-    let split2 = (NUM_VALIDATORS * 70) / 100;
+    // Define a tplit quorum: e.g., 40% sign Vote 1, 30% sign Vote 2 (Total 70%)
+    let tplit1 = (NUM_VALIDATORS * 40) / 100;
+    let tplit2 = (NUM_VALIDATORS * 70) / 100;
 
     // Signers for Vote 1
-    for i in 0..split1 {
+    for i in 0..tplit1 {
         let signature = env.validator_keypairs[i].bls_keypair.sign(&payload1);
         all_vote_messages.push(VoteMessage {
             vote: vote1,
@@ -184,7 +184,7 @@ fn create_base3_cert_message(env: &BenchEnvironment, slot: u64, hash: Hash) -> C
         });
     }
     // Signers for Vote 2
-    for i in split1..split2 {
+    for i in tplit1..tplit2 {
         let signature = env.validator_keypairs[i].bls_keypair.sign(&payload2);
         all_vote_messages.push(VoteMessage {
             vote: vote2,

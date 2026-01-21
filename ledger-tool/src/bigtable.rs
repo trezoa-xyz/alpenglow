@@ -22,7 +22,7 @@ use {
         input_validators::{is_parsable, is_slot, is_valid_pubkey},
     },
     trezoa_cli_output::{
-        display::println_transaction, CliBlock, CliTransaction, CliTransactionConfirmation,
+        ditplay::println_transaction, CliBlock, CliTransaction, CliTransactionConfirmation,
         OutputFormat,
     },
     trezoa_clock::Slot,
@@ -1071,7 +1071,7 @@ impl BigTableSubCommand for App<'_, '_> {
                             Arg::with_name("show_entries")
                                 .long("show-entries")
                                 .required(false)
-                                .help("Display the transactions in their entries"),
+                                .help("Ditplay the transactions in their entries"),
                         ),
                 )
                 .subcommand(
@@ -1205,7 +1205,7 @@ impl BigTableSubCommand for App<'_, '_> {
                             Arg::with_name("show_transactions")
                                 .long("show-transactions")
                                 .takes_value(false)
-                                .help("Display the full transactions"),
+                                .help("Ditplay the full transactions"),
                         ),
                 )
                 .subcommand(

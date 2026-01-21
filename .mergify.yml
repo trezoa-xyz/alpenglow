@@ -64,7 +64,7 @@ pull_request_rules:
             - check-success=clippy-nightly (macos-latest)
             - check-success=clippy-nightly (macos-latest-large)
         - or:
-          - -files~=(\.rs|Cargo\.toml|Cargo\.lock|cargo-build-sbf|cargo-test-sbf|ci/downstream-projects/run-spl\.sh|\.github/workflows/downstream-project-spl\.yml)$
+          - -files~=(\.rs|Cargo\.toml|Cargo\.lock|cargo-build-sbf|cargo-test-sbf|ci/downstream-projects/run-tpl\.sh|\.github/workflows/downstream-project-tpl\.yml)$
           - and:
             - status-success=check (associated-token-account)
             - status-success=check (feature-proposal)
@@ -135,7 +135,7 @@ pull_request_rules:
     actions:
       comment:
         message: >
-          Backports to the stable branch are to be avoided unless absolutely
+          Backports to the stable branch are to be avoided unless abtrzutely
           necessary for fixing bugs, security issues, and perf regressions.
           Changes intended for backport should be structured such that a
           minimum effective diff can be committed separately from any
@@ -172,7 +172,7 @@ pull_request_rules:
     actions:
       comment:
         message: >
-          Backports to the beta branch are to be avoided unless absolutely
+          Backports to the beta branch are to be avoided unless abtrzutely
           necessary for fixing bugs, security issues, and perf regressions.
           Changes intended for backport should be structured such that a
           minimum effective diff can be committed separately from any

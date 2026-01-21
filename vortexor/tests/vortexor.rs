@@ -6,7 +6,7 @@ use {
         cluster::ClusterValidatorInfo,
         local_cluster::{ClusterConfig, LocalCluster},
     },
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_net_utils::VALIDATOR_PORT_RANGE,
     trezoa_pubkey::Pubkey,
     trezoa_signer::Signer,
@@ -100,8 +100,8 @@ fn test_stake_update() {
     trezoa_logger::setup();
 
     // Create a local cluster with 3 validators
-    let default_node_stake = 10 * LAMPORTS_PER_SOL; // Define a default value for node stake
-    let mint_lamports = 100 * LAMPORTS_PER_SOL;
+    let default_node_stake = 10 * LAMPORTS_PER_TRZ; // Define a default value for node stake
+    let mint_lamports = 100 * LAMPORTS_PER_TRZ;
     let mut config = ClusterConfig::new_with_equal_stakes(3, mint_lamports, default_node_stake);
 
     let mut cluster = LocalCluster::new(&mut config, SocketAddrSpace::Unspecified);

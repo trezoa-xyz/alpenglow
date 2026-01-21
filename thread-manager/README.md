@@ -9,14 +9,14 @@ would occur if Rayon was entirely unaware it was running side-by-side with
 tokio, and each was to spawn as many threads as there are cores.
 
 ## Thread pool mapping
-Thread manager will, by default, look for a particular named pool, e.g. "solGossip".
+Thread manager will, by default, look for a particular named pool, e.g. "trzGossip".
 Matching is done independently for each type of runtime.
 However, if no named pool is found, it will fall back to the "default" thread pool
 of the same type (if specified in the config). If the default pool is not specified,
 thread pool lookup will fail.
 
-Multiple names can point to the same pool. For example, "solGossipConsume" and
-"solSigverify" can both be executed on the same rayon pool named "rayonSigverify".
+Multiple names can point to the same pool. For example, "trzGossipConsume" and
+"trzSigverify" can both be executed on the same rayon pool named "rayonSigverify".
 This, in principle, allows some degree of runtime sharing between different crates
 in the codebase without having to manually patch the pointers through.
 

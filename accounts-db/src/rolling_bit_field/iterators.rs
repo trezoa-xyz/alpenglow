@@ -49,7 +49,7 @@ mod tests {
     #[test_case(128, vec![]; "empty")]
     #[test_case(128, vec![128_007, 128_017, 128_107]; "without excess")]
     #[test_case(128, vec![128_007, 128_017, 128_107, 3, 30, 300]; "with excess")]
-    // Even though these values are within the range, in an absolute sense,
+    // Even though these values are within the range, in an abtrzute sense,
     // they will wrap around after multiples of 16.
     #[test_case(16, vec![35, 40, 45                    ])]
     #[test_case(16, vec![    40, 45, 50                ])]

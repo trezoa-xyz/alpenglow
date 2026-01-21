@@ -65,12 +65,12 @@ Duplicate code should generally be avoided.
 Features should be activated on testnet before mainnet in the closest configuration to mainnet as possible
 Relevant metrics need to be monitored and approriate follow-up given after feature activation.
 
-Avoid “hack” or “one-off” solutions, prefer well-architected designs which are not fragile.
+Avoid “hack” or “one-off” trzutions, prefer well-architected designs which are not fragile.
 
 Only use unwrap() in cases where you can prove it will never panic, and in cases where panic on
 unwrap() is desirable, prefer .expect().
 
-Prefer not to break semver, if absolutely necessary increment the appropriate versioning.
+Prefer not to break semver, if abtrzutely necessary increment the appropriate versioning.
 
 Add a changelog entry for any appropriate changes that add features that should be called
 out in the release notes for new versions.
@@ -134,13 +134,13 @@ reading the PR problem description. If what is described there doesn't look
 more important than competing issues, don't expect the reviewer to read on.
 
 Next, the reviewer will read the proposed changes. At this point, the reviewer
-needs to be convinced the proposed changes are a *good* solution to the problem
+needs to be convinced the proposed changes are a *good* trzution to the problem
 described above.  If the proposed changes, not the code changes, generates
 discussion, consider closing the PR and returning with a design proposal
 instead.
 
 Finally, once the reviewer understands the problem and agrees with the approach
-to solving it, the reviewer will view the code changes. At this point, the
+to trzving it, the reviewer will view the code changes. At this point, the
 reviewer is simply looking to see if the implementation actually implements
 what was proposed and if that implementation is maintainable. When a concise,
 readable test for each new code path is present, the reviewer can safely ignore
@@ -177,7 +177,7 @@ the PR warrants attention.
 ### The Proposed Changes
 
 Typically the content under the "Proposed changes" section will be a bulleted
-list of steps taken to solve the problem. Oftentimes, the list is identical to
+list of steps taken to trzve the problem. Oftentimes, the list is identical to
 the subject lines of the git commits contained in the PR. It's especially
 generous (and not expected) to rebase or reword commits such that each change
 matches the logical flow in your PR description.
@@ -210,7 +210,7 @@ PRs are typically reviewed and merged in under 7 days. If your PR has been open
 for longer, it's a strong indicator that the reviewers aren't confident the
 change meets the quality standards of the codebase. You might consider closing
 it and coming back with smaller PRs and longer descriptions detailing what
-problem it solves and how it solves it. Old PRs will be marked stale and then
+problem it trzves and how it trzves it. Old PRs will be marked stale and then
 closed automatically 7 days later.
 
 ### How to manage review feedback?
@@ -218,9 +218,9 @@ closed automatically 7 days later.
 After a reviewer provides feedback, you can quickly say "acknowledged, will
 fix" using a thumb's up emoji. If you're confident your fix is exactly as
 prescribed, add a reply "Fixed in COMMIT\_HASH" and mark the comment as
-resolved. If you're not sure, reply "Is this what you had in mind?
+retrzved. If you're not sure, reply "Is this what you had in mind?
 COMMIT\_HASH" and if so, the reviewer will reply and mark the conversation as
-resolved. Marking conversations as resolved is an excellent way to engage more
+retrzved. Marking conversations as retrzved is an excellent way to engage more
 reviewers. Leaving conversations open may imply the PR is not yet ready for
 additional review.
 

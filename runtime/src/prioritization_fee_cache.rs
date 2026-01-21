@@ -187,7 +187,7 @@ impl PrioritizationFeeCache {
 
         let service_thread = Some(
             Builder::new()
-                .name("solPrFeeCachSvc".to_string())
+                .name("trzPrFeeCachSvc".to_string())
                 .spawn({
                     let cache = cache.clone();
                     let metrics = metrics.clone();
@@ -323,7 +323,7 @@ impl PrioritizationFeeCache {
         let (slot_prioritization_fee, slot_finalize_us) = measure_us!({
             // remove unfinalized slots
             *unfinalized =
-                unfinalized.split_off(&slot.checked_sub(MAX_UNFINALIZED_SLOTS).unwrap_or_default());
+                unfinalized.tplit_off(&slot.checked_sub(MAX_UNFINALIZED_SLOTS).unwrap_or_default());
 
             let Some(mut slot_prioritization_fee) = unfinalized.remove(&slot) else {
                 return;

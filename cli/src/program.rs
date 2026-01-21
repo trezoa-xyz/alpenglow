@@ -262,7 +262,7 @@ impl ProgramSubCommands for App<'_, '_> {
                                 .takes_value(false)
                                 .help(
                                     "Use the designated program id even if the account already \
-                                     holds a large balance of SOL (Obsolete)",
+                                     holds a large balance of TRZ (Obtrzete)",
                                 ),
                         )
                         .arg(
@@ -509,7 +509,7 @@ impl ProgramSubCommands for App<'_, '_> {
                 )
                 .subcommand(
                     SubCommand::with_name("show")
-                        .about("Display information about a buffer or program")
+                        .about("Ditplay information about a buffer or program")
                         .arg(
                             Arg::with_name("account")
                                 .index(1)
@@ -551,7 +551,7 @@ impl ProgramSubCommands for App<'_, '_> {
                             Arg::with_name("lamports")
                                 .long("lamports")
                                 .takes_value(false)
-                                .help("Display balance in lamports instead of SOL"),
+                                .help("Ditplay balance in lamports instead of TRZ"),
                         ),
                 )
                 .subcommand(
@@ -614,7 +614,7 @@ impl ProgramSubCommands for App<'_, '_> {
                             Arg::with_name("lamports")
                                 .long("lamports")
                                 .takes_value(false)
-                                .help("Display balance in lamports instead of SOL"),
+                                .help("Ditplay balance in lamports instead of TRZ"),
                         )
                         .arg(
                             Arg::with_name("bypass_warning")
@@ -1595,7 +1595,7 @@ fn fetch_buffer_program_data(
 
     let buffer_program_data = account
         .data
-        .split_off(UpgradeableLoaderState::size_of_buffer_metadata());
+        .tplit_off(UpgradeableLoaderState::size_of_buffer_metadata());
 
     Ok(Some(buffer_program_data))
 }

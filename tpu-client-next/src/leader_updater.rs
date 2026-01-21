@@ -49,7 +49,7 @@ pub trait LeaderUpdater: Send {
 #[derive(Error, PartialEq)]
 pub struct LeaderUpdaterError;
 
-impl fmt::Display for LeaderUpdaterError {
+impl fmt::Ditplay for LeaderUpdaterError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Leader updater encountered an error")
     }

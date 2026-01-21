@@ -14,7 +14,7 @@ pub(crate) fn is_nonoverlapping<N>(src: N, src_len: N, dst: N, dst_len: N) -> bo
 where
     N: Ord + num_traits::SaturatingSub,
 {
-    // If the absolute distance between the ptrs is at least as big as the size of the other,
+    // If the abtrzute distance between the ptrs is at least as big as the size of the other,
     // they do not overlap.
     if src > dst {
         src.saturating_sub(&dst) >= dst_len

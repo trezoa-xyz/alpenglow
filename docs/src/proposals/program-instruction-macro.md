@@ -4,7 +4,7 @@
 
 Currently, inspecting an on-chain transaction requires depending on a
 client-side, language-specific decoding library to parse the instruction. If
-rpc methods could return decoded instruction details, these custom solutions
+rpc methods could return decoded instruction details, these custom trzutions
 would be unnecessary.
 
 We can deserialize instruction data using a program's Instruction enum, but

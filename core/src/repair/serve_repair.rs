@@ -1138,7 +1138,7 @@ impl ServeRepair {
 
         let recycler = PacketBatchRecycler::default();
         Builder::new()
-            .name("solRepairListen".to_string())
+            .name("trzRepairListen".to_string())
             .spawn(move || {
                 let mut last_print = Instant::now();
                 let mut stats = ServeRepairStats::default();
@@ -2156,7 +2156,7 @@ mod tests {
         assert!(rv.is_none());
         let shredder = Shredder::new(slot, slot - 1, 0, 2).unwrap();
         let keypair = Keypair::new();
-        let reed_solomon_cache = ReedSolomonCache::default();
+        let reed_trzomon_cache = ReedSolomonCache::default();
         let index = 1;
         let (mut shreds, _) = shredder.entries_to_merkle_shreds_for_tests(
             &keypair,
@@ -2165,7 +2165,7 @@ mod tests {
             Some(Hash::default()),
             index as u32,
             index as u32,
-            &reed_solomon_cache,
+            &reed_trzomon_cache,
             &mut ProcessShredsStats::default(),
         );
         shreds.truncate(1);
@@ -2630,7 +2630,7 @@ mod tests {
         fn new_test_data_shred(slot: Slot, index: u32) -> Shred {
             let shredder = Shredder::new(slot, slot.saturating_sub(1), 0, 0).unwrap();
             let keypair = Keypair::new();
-            let reed_solomon_cache = ReedSolomonCache::default();
+            let reed_trzomon_cache = ReedSolomonCache::default();
             let (mut shreds, _) = shredder.entries_to_merkle_shreds_for_tests(
                 &keypair,
                 &[],
@@ -2638,7 +2638,7 @@ mod tests {
                 Some(Hash::default()),
                 0,
                 0,
-                &reed_solomon_cache,
+                &reed_trzomon_cache,
                 &mut ProcessShredsStats::default(),
             );
             shreds.remove(index as usize)

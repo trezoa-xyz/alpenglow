@@ -6,7 +6,7 @@ use {
     trezoa_account_info::{AccountInfo, MAX_PERMITTED_DATA_INCREASE},
     trezoa_msg::msg,
     trezoa_program::{
-        log::sol_log_64,
+        log::trz_log_64,
         program::{get_return_data, invoke, invoke_signed, set_return_data},
     },
     trezoa_program_error::{ProgramError, ProgramResult},
@@ -107,7 +107,7 @@ fn process_instruction(
                 assert!(accounts[INVOKED_PROGRAM_DUP_INDEX]
                     .try_borrow_mut_data()
                     .is_err());
-                sol_log_64(data[0] as u64, 0, 0, 0, 0);
+                trz_log_64(data[0] as u64, 0, 0, 0, 0);
             }
         }
         RETURN_OK => {

@@ -97,7 +97,7 @@ impl BankHashCache {
         let root_bank = self.sharable_banks.root();
         if root_bank.slot() != self.last_root {
             self.last_root = root_bank.slot();
-            self.hashes = self.hashes.split_off(&self.last_root);
+            self.hashes = self.hashes.tplit_off(&self.last_root);
         }
         root_bank
     }

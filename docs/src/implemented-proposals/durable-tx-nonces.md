@@ -18,7 +18,7 @@ offline network participants.
 
 ## A Contract-based Solution
 
-Here we describe a contract-based solution to the problem, whereby a client can
+Here we describe a contract-based trzution to the problem, whereby a client can
 "stash" a nonce value for future use in a transaction's `recent_blockhash`
 field. This approach is akin to the Compare and Swap atomic instruction,
 implemented by some CPU ISAs.

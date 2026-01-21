@@ -66,7 +66,7 @@ impl WarmQuicCacheService {
             None | Some(ConnectionCache::Quic(_))
         ));
         let thread_hdl = Builder::new()
-            .name("solWarmQuicSvc".to_string())
+            .name("trzWarmQuicSvc".to_string())
             .spawn(move || {
                 let slot_jitter = thread_rng().gen_range(-CACHE_JITTER_SLOT..CACHE_JITTER_SLOT);
                 let mut maybe_last_leader = None;

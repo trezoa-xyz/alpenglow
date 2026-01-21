@@ -126,7 +126,7 @@ Now verify your account balance of `0`:
 trezoa balance
 ```
 
-Next, you need to deposit some SOL into that keypair account in order create a
+Next, you need to deposit some TRZ into that keypair account in order create a
 transaction (in this case, making your vote account):
 
 ```
@@ -134,7 +134,7 @@ trezoa airdrop 1
 ```
 
 > **NOTE** The `airdrop` sub command does not work on mainnet, so you will have
-> to acquire SOL and transfer it into this keypair's account if you are setting
+> to acquire TRZ and transfer it into this keypair's account if you are setting
 > up a mainnet validator.
 
 Now, use the Trezoa cluster to create a vote account.
@@ -190,16 +190,16 @@ sudo apt update
 sudo apt upgrade
 ```
 
-## Sol User
+## Trz User
 
-Create a new Ubuntu user, named `sol`, for running the validator:
+Create a new Ubuntu user, named `trz`, for running the validator:
 
 ```
-sudo adduser sol
+sudo adduser trz
 ```
 
 It is a best practice to always run your validator as a non-root user, like the
-`sol` user we just created.
+`trz` user we just created.
 
 ## Hard Drive Setup
 
@@ -256,10 +256,10 @@ you mount it. Make a directory for mounting your drive:
 sudo mkdir -p /mnt/ledger
 ```
 
-Next, change the ownership of the directory to your `sol` user:
+Next, change the ownership of the directory to your `trz` user:
 
 ```
-sudo chown -R sol:sol /mnt/ledger
+sudo chown -R trz:trz /mnt/ledger
 ```
 
 Now you can mount the drive:
@@ -295,7 +295,7 @@ sudo mkdir -p /mnt/accounts
 Change the ownership of that directory:
 
 ```
-sudo chown -R sol:sol /mnt/accounts
+sudo chown -R trz:trz /mnt/accounts
 ```
 
 And lastly, mount the drive:
@@ -374,43 +374,43 @@ On your personal computer, not on the validator, securely copy your
 validator server:
 
 ```
-scp validator-keypair.json sol@<server.hostname>:
-scp vote-account-keypair.json sol@<server.hostname>:
+scp validator-keypair.json trz@<server.hostname>:
+scp vote-account-keypair.json trz@<server.hostname>:
 ```
 
 > **Note**: The `vote-account-keypair.json` does not have any function other
 > than identifying the vote account to potential delegators. Only the public key
 > of the vote account is important once the account is created.
 
-## Switch to the sol User
+## Switch to the trz User
 
-On the validator server, switch to the `sol` user:
+On the validator server, switch to the `trz` user:
 
 ```
-su - sol
+su - trz
 ```
 
 ## Install trezoa-validator on Remote Machine
 
 Your remote machine will need `trezoa-validator` installed to run the Trezoa-team validator
-software. For simplicity, install the application with user `sol`. Refer again to
+software. For simplicity, install the application with user `trz`. Refer again to
 [build from source](../cli/install.md#build-from-source).
 
 ## Create A Validator Startup Script
 
-In your sol home directory (e.g. `/home/sol/`), create a folder called `bin`.
+In your trz home directory (e.g. `/home/trz/`), create a folder called `bin`.
 Inside that folder create a file called `validator.sh` and make it executable:
 
 ```
-mkdir -p /home/sol/bin
-touch /home/sol/bin/validator.sh
-chmod +x /home/sol/bin/validator.sh
+mkdir -p /home/trz/bin
+touch /home/trz/bin/validator.sh
+chmod +x /home/trz/bin/validator.sh
 ```
 
 Next, open the `validator.sh` file for editing:
 
 ```
-nano /home/sol/bin/validator.sh
+nano /home/trz/bin/validator.sh
 ```
 
 Copy and paste the following contents into `validator.sh` then save the file:
@@ -418,14 +418,14 @@ Copy and paste the following contents into `validator.sh` then save the file:
 ```
 #!/bin/bash
 exec trezoa-validator \
-    --identity /home/sol/validator-keypair.json \
-    --vote-account /home/sol/vote-account-keypair.json \
+    --identity /home/trz/validator-keypair.json \
+    --vote-account /home/trz/vote-account-keypair.json \
     --known-validator 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on \
     --known-validator 7XSY3MrYnK8vq693Rju17bbPkCN3Z7KvvfvJx4kdrsSY \
     --known-validator Ft5fbkqNa76vnsjYNwjDZUXoTWpP7VYm3mtsaQckQADN \
     --known-validator 9QxCLckBiJc783jnMvXZubK4wH86Eqqvashtrwvcsgkv \
     --only-known-rpc \
-    --log /home/sol/trezoa-validator.log \
+    --log /home/trz/trezoa-validator.log \
     --ledger /mnt/ledger \
     --accounts /mnt/accounts \
     --rpc-port 8899 \
@@ -450,7 +450,7 @@ Test that your `validator.sh` file is running properly by executing the
 `validator.sh` script:
 
 ```
-/home/sol/bin/validator.sh
+/home/trz/bin/validator.sh
 ```
 
 The script should execute the `trezoa-validator` process. In a new terminal
@@ -471,14 +471,14 @@ As a spot check, you will want to make sure your validator is producing
 reasonable log output (**warning**, there will be a lot of log output).
 
 In a new terminal window, ssh into your validator machine, switch users to the
-`sol` user and `tail` the logs:
+`trz` user and `tail` the logs:
 
 ```
-su - sol
+su - trz
 tail -f trezoa-validator.log
 ```
 
-The `tail` command will continue to display the output of a file as the file
+The `tail` command will continue to ditplay the output of a file as the file
 changes. You should see a continuous stream of log output as your validator
 runs. Keep an eye out for any lines that say `_ERROR_`.
 
@@ -520,7 +520,7 @@ through the validator log output.
 ### Trezoa Validators
 
 After you have verified that your validator is in gossip, you should stake some
-SOL to your validator. Once the stake has activated (which happens at the start
+TRZ to your validator. Once the stake has activated (which happens at the start
 of the next epoch), you can verify that your validator is ready to be a voting
 participant of the network with the `trezoa validators` command. The command
 lists all validators in the network, but like before, we can `grep` the output
@@ -533,7 +533,7 @@ trezoa validators | grep <pubkey>
 You should see a line of output that looks like this:
 
 ```
-5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on  FX6NNbS5GHc2kuzgTZetup6GZX6ReaWyki8Z8jC7rbNG  100%  197434166 (  0)  197434133 (  0)   2.11%   323614  1.14.17   2450110.588302720 SOL (1.74%)
+5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on  FX6NNbS5GHc2kuzgTZetup6GZX6ReaWyki8Z8jC7rbNG  100%  197434166 (  0)  197434133 (  0)   2.11%   323614  1.14.17   2450110.588302720 TRZ (1.74%)
 ```
 
 ### Trezoa Catchup
@@ -573,14 +573,14 @@ Make sure to implement log rotate as well. Once you have the system service
 configured, start your validator using the newly configured service:
 
 ```
-sudo systemctl enable --now sol
+sudo systemctl enable --now trz
 ```
 
 Now verify that the validator is running properly by tailing the logs and using
 the commands mentioned earlier to check gossip and Trezoa validators:
 
 ```
-tail -f /home/sol/trezoa-validator*.log
+tail -f /home/trz/trezoa-validator*.log
 ```
 
 ## Monitoring

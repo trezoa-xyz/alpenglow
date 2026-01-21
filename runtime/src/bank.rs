@@ -108,7 +108,7 @@ use {
     trezoa_lattice_hash::lt_hash::LtHash,
     trezoa_measure::{measure::Measure, measure_time, measure_us},
     trezoa_message::{inner_instruction::InnerInstructions, AccountKeys, SanitizedMessage},
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_packet::PACKET_DATA_SIZE,
     trezoa_precompile_error::PrecompileError,
     trezoa_program_runtime::{
@@ -220,12 +220,12 @@ const MAX_ALPENGLOW_VOTE_ACCOUNTS: usize = 2000;
 
 // Minimum balance for an identity account to be considered for Alpenglow VAT.
 #[cfg(not(feature = "dev-context-only-utils"))]
-const ALPENGLOW_VAT_TO_BURN_PER_EPOCH: u64 = 1_600_000_000; // 1.6 SOL
+const ALPENGLOW_VAT_TO_BURN_PER_EPOCH: u64 = 1_600_000_000; // 1.6 TRZ
 
 #[cfg(feature = "dev-context-only-utils")]
 const ALPENGLOW_VAT_TO_BURN_PER_EPOCH: u64 = 1; // For tests only require 1 lamport
 /// The off-curve account where we store the Alpenglow clock. The clock sysvar has seconds
-/// resolution while the Alpenglow clock has nanosecond resolution.
+/// retrzution while the Alpenglow clock has nanosecond retrzution.
 static NANOSECOND_CLOCK_ACCOUNT: LazyLock<Pubkey> = LazyLock::new(|| {
     let (pubkey, _) =
         Pubkey::find_program_address(&[b"alpenclock"], &trezoa_feature_set::alpenglow::id());
@@ -1642,7 +1642,7 @@ impl Bank {
         let epoch = self.epoch();
         let slot = self.slot();
         let (thread_pool, thread_pool_time_us) = measure_us!(ThreadPoolBuilder::new()
-            .thread_name(|i| format!("solBnkNewEpch{i:02}"))
+            .thread_name(|i| format!("trzBnkNewEpch{i:02}"))
             .build()
             .expect("new rayon threadpool"));
 
@@ -1879,7 +1879,7 @@ impl Bank {
 
         bank.initialize_after_snapshot_restore(|| {
             ThreadPoolBuilder::new()
-                .thread_name(|i| format!("solBnkClcRwds{i:02}"))
+                .thread_name(|i| format!("trzBnkClcRwds{i:02}"))
                 .build()
                 .expect("new rayon threadpool")
         });
@@ -2086,7 +2086,7 @@ impl Bank {
     pub fn get_nanosecond_clock(&self) -> Option<i64> {
         self.get_account(&NANOSECOND_CLOCK_ACCOUNT).map(|acct| {
             acct.deserialize_data()
-                .expect("Couldn't deserialize nanosecond resolution clock")
+                .expect("Couldn't deserialize nanosecond retrzution clock")
         })
     }
 
@@ -2429,9 +2429,9 @@ impl Bank {
             let num_stake_delegations = stakes.stake_delegations().len();
             let min_stake_delegation = trezoa_stake_program::get_minimum_delegation(
                 self.feature_set
-                    .is_active(&trezoa_feature_set::stake_raise_minimum_delegation_to_1_sol::id()),
+                    .is_active(&trezoa_feature_set::stake_raise_minimum_delegation_to_1_trz::id()),
             )
-            .max(LAMPORTS_PER_SOL);
+            .max(LAMPORTS_PER_TRZ);
 
             let (stake_delegations, filter_time_us) = measure_us!(stakes
                 .stake_delegations()
@@ -2455,7 +2455,7 @@ impl Bank {
 
     /// Convert computed VoteRewards to VoteRewardsAccounts for storing.
     ///
-    /// This function processes vote rewards and consolidates them into a single
+    /// This function processes vote rewards and contrzidates them into a single
     /// structure containing the pubkey, reward info, and updated account data
     /// for each vote account. The resulting structure is optimized for storage
     /// by combining previously separate rewards and accounts vectors into a
@@ -5164,16 +5164,16 @@ impl Bank {
     }
 
     pub fn get_epoch_info(&self) -> EpochInfo {
-        let absolute_slot = self.slot();
+        let abtrzute_slot = self.slot();
         let block_height = self.block_height();
-        let (epoch, slot_index) = self.get_epoch_and_slot_index(absolute_slot);
+        let (epoch, slot_index) = self.get_epoch_and_slot_index(abtrzute_slot);
         let slots_in_epoch = self.get_slots_in_epoch(epoch);
         let transaction_count = Some(self.transaction_count());
         EpochInfo {
             epoch,
             slot_index,
             slots_in_epoch,
-            absolute_slot,
+            abtrzute_slot,
             block_height,
             transaction_count,
         }

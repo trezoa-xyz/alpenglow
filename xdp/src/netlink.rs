@@ -7,7 +7,7 @@ use {
         NLA_ALIGNTO, NLA_TYPE_MASK, NLMSG_DONE, NLMSG_ERROR, NLM_F_DUMP, NLM_F_MULTI,
         NLM_F_REQUEST, NUD_PERMANENT, NUD_REACHABLE, NUD_STALE, RTA_DST, RTA_GATEWAY, RTA_IIF,
         RTA_OIF, RTA_PREFSRC, RTA_PRIORITY, RTA_TABLE, RTM_GETNEIGH, RTM_GETROUTE, RTM_NEWNEIGH,
-        RTM_NEWROUTE, RT_TABLE_MAIN, SOCK_RAW, SOL_NETLINK,
+        RTM_NEWROUTE, RT_TABLE_MAIN, SOCK_RAW, TRZ_NETLINK,
     },
     std::{
         collections::HashMap,
@@ -41,7 +41,7 @@ impl NetlinkSocket {
         if unsafe {
             setsockopt(
                 sock.as_raw_fd(),
-                SOL_NETLINK,
+                TRZ_NETLINK,
                 NETLINK_EXT_ACK,
                 &enable as *const _ as *const _,
                 mem::size_of::<i32>() as u32,
@@ -286,7 +286,7 @@ impl MacAddress {
     }
 }
 
-impl std::fmt::Display for MacAddress {
+impl std::fmt::Ditplay for MacAddress {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,

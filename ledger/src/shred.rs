@@ -110,7 +110,7 @@ pub const SIZE_OF_DATA_SHRED_HEADERS: usize = 88;
 const SIZE_OF_CODING_SHRED_HEADERS: usize = 89;
 const SIZE_OF_SIGNATURE: usize = SIGNATURE_BYTES;
 
-// Shreds are uniformly split into erasure batches with a "target" number of
+// Shreds are uniformly tplit into erasure batches with a "target" number of
 // data shreds per each batch as below. The actual number of data shreds in
 // each erasure batch depends on the number of shreds obtained from serializing
 // a &[Entry].
@@ -168,7 +168,7 @@ pub enum Error {
     #[error(transparent)]
     Bincode(#[from] bincode::Error),
     #[error(transparent)]
-    Erasure(#[from] reed_solomon_erasure::Error),
+    Erasure(#[from] reed_trzomon_erasure::Error),
     #[error("Invalid data size: {size}, payload: {payload}")]
     InvalidDataSize { size: u16, payload: usize },
     #[error("Invalid deshred set")]
@@ -714,7 +714,7 @@ impl TryFrom<u8> for ShredVariant {
 
 pub fn recover(
     shreds: impl IntoIterator<Item = Shred>,
-    reed_solomon_cache: &ReedSolomonCache,
+    reed_trzomon_cache: &ReedSolomonCache,
 ) -> Result<impl Iterator<Item = Result<Shred, Error>>, Error> {
     let shreds = shreds
         .into_iter()
@@ -733,7 +733,7 @@ pub fn recover(
     // The same signature also verifies for recovered shreds because when
     // reconstructing the Merkle tree for the erasure batch, we will obtain the
     // same Merkle root.
-    let shreds = merkle::recover(shreds, reed_solomon_cache)?;
+    let shreds = merkle::recover(shreds, reed_trzomon_cache)?;
     Ok(shreds.map(|shred| shred.map(Shred::from)))
 }
 
@@ -1527,7 +1527,7 @@ mod tests {
         let keypair = keypair_from_seed(&seed).unwrap();
         let slot = 142076266;
         let shredder = Shredder::new(slot, slot.saturating_sub(1), 0, 42).unwrap();
-        let reed_solomon_cache = ReedSolomonCache::default();
+        let reed_trzomon_cache = ReedSolomonCache::default();
         let mut shred = shredder
             .make_shreds_from_data_slice(
                 &keypair,
@@ -1536,7 +1536,7 @@ mod tests {
                 Some(Hash::default()),
                 64,
                 64,
-                &reed_solomon_cache,
+                &reed_trzomon_cache,
                 &mut ProcessShredsStats::default(),
             )
             .unwrap()

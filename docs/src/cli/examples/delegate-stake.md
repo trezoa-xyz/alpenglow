@@ -1,14 +1,14 @@
 ---
-title: Staking SOL with the Trezoa CLI
+title: Staking TRZ with the Trezoa CLI
 pagination_label: "Trezoa CLI: Staking"
 sidebar_label: Staking
 ---
 
-After you have [received SOL](./transfer-tokens.md), you might consider putting it
+After you have [received TRZ](./transfer-tokens.md), you might consider putting it
 to use by delegating _stake_ to a validator. Stake is what we call tokens in a
 _stake account_. Trezoa weights validator votes by the amount of stake delegated
 to them, which gives those validators more influence in determining the next
-valid block of transactions in the blockchain. Trezoa then generates new SOL
+valid block of transactions in the blockchain. Trezoa then generates new TRZ
 periodically to reward stakers and validators. You earn more rewards the more
 stake you delegate.
 
@@ -63,7 +63,7 @@ trezoa stake-account <STAKE_ACCOUNT_ADDRESS>
 The output will look similar to this:
 
 ```text
-Total Stake: 5000 SOL
+Total Stake: 5000 TRZ
 Stake account is undelegated
 Stake Authority: EXU95vqs93yPeCeAU7mPPu6HbRUmTFPEiGug9oCdvQ5F
 Withdraw Authority: EXU95vqs93yPeCeAU7mPPu6HbRUmTFPEiGug9oCdvQ5F
@@ -149,9 +149,9 @@ You will see new fields "Delegated Stake" and "Delegated Vote Account Address"
 in the output. The output will look similar to this:
 
 ```text
-Total Stake: 5000 SOL
+Total Stake: 5000 TRZ
 Credits Observed: 147462
-Delegated Stake: 4999.99771712 SOL
+Delegated Stake: 4999.99771712 TRZ
 Delegated Vote Account Address: CcaHc2L43ZWjwCHART3oZoJvHLAe9hzT2DJNUpBzoTN1
 Stake activates starting from epoch: 42
 Stake Authority: EXU95vqs93yPeCeAU7mPPu6HbRUmTFPEiGug9oCdvQ5F
@@ -192,10 +192,10 @@ transfer to `<RECIPIENT_ADDRESS>`.
 You may want to delegate stake to additional validators while your existing
 stake is not eligible for withdrawal. It might not be eligible because it is
 currently staked, cooling down, or locked up. To transfer tokens from an
-existing stake account to a new one, use the `trezoa split-stake` command:
+existing stake account to a new one, use the `trezoa tplit-stake` command:
 
 ```bash
-trezoa split-stake --stake-authority <KEYPAIR> <STAKE_ACCOUNT_ADDRESS> <NEW_STAKE_ACCOUNT_KEYPAIR> <AMOUNT> \
+trezoa tplit-stake --stake-authority <KEYPAIR> <STAKE_ACCOUNT_ADDRESS> <NEW_STAKE_ACCOUNT_KEYPAIR> <AMOUNT> \
     --fee-payer <KEYPAIR>
 ```
 
@@ -204,7 +204,7 @@ trezoa split-stake --stake-authority <KEYPAIR> <STAKE_ACCOUNT_ADDRESS> <NEW_STAK
 for the new account, and `<AMOUNT>` is the number of tokens to transfer to the
 new account.
 
-To split a stake account into a derived account address, use the `--seed`
+To tplit a stake account into a derived account address, use the `--seed`
 option. See
 [Derive Stake Account Addresses](#advanced-derive-stake-account-addresses) for
 details.

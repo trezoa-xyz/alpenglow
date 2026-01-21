@@ -41,17 +41,17 @@ These errors help the developer debug any issue they are having, and can
 also be caught in a Solidity `try` .. `catch` block. Outside of a `try` .. `catch`
 block, any of these would cause the transaction or rpc to fail.
 
-## Existing solution
+## Existing trzution
 
-The existing solution that Solang uses, writes the return data to the callee account data.
+The existing trzution that Solang uses, writes the return data to the callee account data.
 The caller's account cannot be used, since the callee may not be the same SBF program, so
 it will not have permission to write to the callee's account data.
 
-Another solution would be to have a single return data account which is passed
+Another trzution would be to have a single return data account which is passed
 around through CPI. Again this does not work for CPI as the callee may not have
 permission to write to it.
 
-The problem with this solution is:
+The problem with this trzution is:
 
 - It does not work for RPC calls
 - It is very racey; a client has to submit the Tx and then retrieve the account
@@ -88,24 +88,24 @@ Parity Substrate does not write the return data to blocks.
 
 ## Rejected Solution
 
-The concept of ephemeral accounts has been proposed a solution for this. This would
+The concept of ephemeral accounts has been proposed a trzution for this. This would
 certainly work for the CPI case, but this would not work RPC or Transaction case.
 
 ## Proposed Solution
 
-The callee can set the return data using a new system call `sol_set_return_data(buf: *const u8, length: u64)`.
+The callee can set the return data using a new system call `trz_set_return_data(buf: *const u8, length: u64)`.
 There is a limit of 1024 bytes for the returndata. This function can be called multiple times, and
 will simply overwrite what was written in the last call.
 
-The return data can be retrieved with `sol_get_return_data(buf: *mut u8, length: u64, program_id: *mut Pubkey) -> u64`.
+The return data can be retrieved with `trz_get_return_data(buf: *mut u8, length: u64, program_id: *mut Pubkey) -> u64`.
 This function copies the return buffer, and the program_id that set the return data, and
 returns the length of the return data, or `0` if no return data is set. In this case, program_id is not set.
 
-When an instruction calls `sol_invoke()`, the return data of the callee is copied into the return data
+When an instruction calls `trz_invoke()`, the return data of the callee is copied into the return data
 of the current instruction. This means that any return data is automatically passed up the call stack,
 to the callee of the current instruction (or the RPC call).
 
-Note that `sol_invoke()` clears the returns data before invoking the callee, so that any return data from
+Note that `trz_invoke()` clears the returns data before invoking the callee, so that any return data from
 a previous invoke is not reused if the invoked fails to set a return data. For example:
 
  - A invokes B
@@ -129,7 +129,7 @@ Another scenario to consider:
 The compute costs are calculated for getting and setting the return data using
 the syscalls.
 
-For a normal RPC or Transaction, the returndata is base64-encoded and stored along side the sol_log
+For a normal RPC or Transaction, the returndata is base64-encoded and stored along side the trz_log
 strings in the [stable log](https://github.com/trezoa-labs/trezoa/blob/95292841947763bdd47ef116b40fc34d0585bca8/sdk/src/process_instruction.rs#L275-L281).
 
 ## Note on returning errors
@@ -141,4 +141,4 @@ by returning success and then returning an error in the return data. This would 
 to support reverting the account data changes; this too expensive both on the VM side and the SBF
 contract side.
 
-Errors will be reported via sol_log.
+Errors will be reported via trz_log.

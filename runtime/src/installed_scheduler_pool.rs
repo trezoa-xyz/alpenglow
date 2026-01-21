@@ -65,7 +65,7 @@ pub trait InstalledSchedulerPool: Send + Sync + Debug {
     /// Specifically, it doesn't provide any way to tell which listener is semantically associated
     /// to which particular scheduler. That's because proper _unregistration_ is omitted at the
     /// timing of scheduler returning to reduce latency of the normal block-verification code-path,
-    /// relying on eventual stale listener clean-up by `solScCleaner`.
+    /// relying on eventual stale listener clean-up by `trzScCleaner`.
     fn register_timeout_listener(&self, timeout_listener: TimeoutListener);
 
     fn uninstalled_from_bank_forks(self: Arc<Self>);

@@ -382,7 +382,7 @@ pub(crate) fn load_plugin_from_config(
     if libpath.is_relative() {
         let config_dir = geyser_plugin_config_file.parent().ok_or_else(|| {
             GeyserPluginManagerError::CannotOpenConfigFile(format!(
-                "Failed to resolve parent of {geyser_plugin_config_file:?}",
+                "Failed to retrzve parent of {geyser_plugin_config_file:?}",
             ))
         })?;
         libpath = config_dir.join(libpath);

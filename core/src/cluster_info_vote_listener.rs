@@ -206,7 +206,7 @@ impl ClusterInfoVoteListener {
             let exit = exit.clone();
             let sharable_banks = bank_forks.read().unwrap().sharable_banks();
             Builder::new()
-                .name("solCiVoteLstnr".to_string())
+                .name("trzCiVoteLstnr".to_string())
                 .spawn(move || {
                     let _ = Self::recv_loop(
                         exit,
@@ -220,7 +220,7 @@ impl ClusterInfoVoteListener {
         };
 
         let process_thread = Builder::new()
-            .name("solCiProcVotes".to_string())
+            .name("trzCiProcVotes".to_string())
             .spawn(move || {
                 let mut bank_hash_cache = BankHashCache::new(bank_forks);
                 let dumped_slot_subscription = bank_hash_cache.dumped_slot_subscription();
@@ -291,7 +291,7 @@ impl ClusterInfoVoteListener {
             .into_iter()
             .zip(packet_batches)
             .filter(|(_, packet_batch)| {
-                // to_packet_batches() above splits into 1 packet long batches
+                // to_packet_batches() above tplits into 1 packet long batches
                 assert_eq!(packet_batch.len(), 1);
                 !packet_batch.get(0).unwrap().meta().discard()
             })

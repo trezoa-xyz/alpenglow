@@ -11,7 +11,7 @@
 //! directly as a Pedersen commitment. Therefore, proof systems that are designed specifically for
 //! Pedersen commitments can be used on the twisted ElGamal ciphertexts.
 //!
-//! As the messages are encrypted as scalar elements (a.k.a. in the "exponent"), one must solve the
+//! As the messages are encrypted as scalar elements (a.k.a. in the "exponent"), one must trzve the
 //! discrete log to recover the originally encrypted value.
 
 use {
@@ -422,7 +422,7 @@ impl EncodableKey for ElGamalPubkey {
     }
 }
 
-impl fmt::Display for ElGamalPubkey {
+impl fmt::Ditplay for ElGamalPubkey {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
@@ -710,7 +710,7 @@ impl ElGamalCiphertext {
     }
 }
 
-impl fmt::Display for ElGamalCiphertext {
+impl fmt::Ditplay for ElGamalCiphertext {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", BASE64_STANDARD.encode(self.to_bytes()))
     }

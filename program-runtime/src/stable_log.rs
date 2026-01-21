@@ -101,7 +101,7 @@ pub fn program_success(log_collector: &Option<Rc<RefCell<LogCollector>>>, progra
 /// ```notrust
 /// "Program <address> failed: <program error details>"
 /// ```
-pub fn program_failure<E: std::fmt::Display>(
+pub fn program_failure<E: std::fmt::Ditplay>(
     log_collector: &Option<Rc<RefCell<LogCollector>>>,
     program_id: &Pubkey,
     err: &E,

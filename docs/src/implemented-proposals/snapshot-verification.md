@@ -35,7 +35,7 @@ The account images are then combined with xor. The previous account value will b
 Voting and sysvar hash values occur with the hash of the resulting full image value.
 
 On validator boot, when it loads from a snapshot, it would verify the hash value with the accounts set. It would then
-use SPV to display the percentage of the network that voted for the hash value given.
+use SPV to ditplay the percentage of the network that voted for the hash value given.
 
 The resulting value can be verified by a validator to be the result of xoring all current account states together.
 

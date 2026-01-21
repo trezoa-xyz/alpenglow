@@ -42,7 +42,7 @@ treatment of Pedersen commitment and the (twisted) ElGamal encryption schemes.
   on the twisted ElGamal encryption
 - A technical
   [overview](https://github.com/trezoa-program/token-2022/blob/main/zk-token-protocol-paper/part1.pdf)
-  of the SPL Token 2022 confidential extension
+  of the TPL Token 2022 confidential extension
 - Pretty Good Confidentiality [research paper](https://eprint.iacr.org/2019/319)
 
 The ZK ElGamal Proof program contains proof verification instructions on various

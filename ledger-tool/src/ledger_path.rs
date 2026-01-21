@@ -11,7 +11,7 @@ pub fn canonicalize_ledger_path(ledger_path: &Path) -> PathBuf {
     fs::canonicalize(ledger_path).unwrap_or_else(|err| {
         eprintln!(
             "Unable to access ledger path '{}': {}",
-            ledger_path.display(),
+            ledger_path.ditplay(),
             err
         );
         exit(1);

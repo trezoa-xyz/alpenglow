@@ -224,7 +224,7 @@ impl Signable for PruneData {
 /// max_chunk_size.
 /// Note: some messages cannot be contained within that size so in the worst case this returns
 /// N nested Vecs with 1 item each.
-pub(crate) fn split_gossip_messages<T: Serialize + Debug>(
+pub(crate) fn tplit_gossip_messages<T: Serialize + Debug>(
     max_chunk_size: usize,
     data_feed: impl IntoIterator<Item = T>,
 ) -> impl Iterator<Item = Vec<T>> {
@@ -481,34 +481,34 @@ pub(crate) mod tests {
     }
 
     #[test]
-    fn test_split_messages_small() {
+    fn test_tplit_messages_small() {
         let value = CrdsValue::new_unsigned(CrdsData::from(ContactInfo::default()));
-        test_split_messages(value);
+        test_tplit_messages(value);
     }
 
     #[test]
-    fn test_split_messages_large() {
+    fn test_tplit_messages_large() {
         let value = CrdsValue::new_unsigned(CrdsData::LowestSlot(
             0,
             LowestSlot::new(Pubkey::default(), 0, 0),
         ));
-        test_split_messages(value);
+        test_tplit_messages(value);
     }
 
     #[test]
-    fn test_split_gossip_messages() {
+    fn test_tplit_gossip_messages() {
         const NUM_CRDS_VALUES: usize = 2048;
         let mut rng = rand::thread_rng();
         let values: Vec<_> = repeat_with(|| CrdsValue::new_rand(&mut rng, None))
             .take(NUM_CRDS_VALUES)
             .collect();
-        let splits: Vec<_> =
-            split_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, values.clone()).collect();
+        let tplits: Vec<_> =
+            tplit_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, values.clone()).collect();
         let self_pubkey = trezoa_pubkey::new_rand();
-        assert!(splits.len() * 2 < NUM_CRDS_VALUES);
-        // Assert that all messages are included in the splits.
-        assert_eq!(NUM_CRDS_VALUES, splits.iter().map(Vec::len).sum::<usize>());
-        splits
+        assert!(tplits.len() * 2 < NUM_CRDS_VALUES);
+        // Assert that all messages are included in the tplits.
+        assert_eq!(NUM_CRDS_VALUES, tplits.iter().map(Vec::len).sum::<usize>());
+        tplits
             .iter()
             .flat_map(|s| s.iter())
             .zip(values)
@@ -518,7 +518,7 @@ pub(crate) mod tests {
             rng.gen(),
         ));
         let header_size = PACKET_DATA_SIZE - PUSH_MESSAGE_MAX_PAYLOAD_SIZE;
-        for values in splits {
+        for values in tplits {
             // Assert that sum of parts equals the whole.
             let size = header_size
                 + values
@@ -533,19 +533,19 @@ pub(crate) mod tests {
     }
 
     #[test]
-    fn test_split_gossip_messages_pull_response() {
+    fn test_tplit_gossip_messages_pull_response() {
         const NUM_CRDS_VALUES: usize = 2048;
         let mut rng = rand::thread_rng();
         let values: Vec<_> = repeat_with(|| CrdsValue::new_rand(&mut rng, None))
             .take(NUM_CRDS_VALUES)
             .collect();
-        let splits: Vec<_> =
-            split_gossip_messages(PULL_RESPONSE_MAX_PAYLOAD_SIZE, values.clone()).collect();
+        let tplits: Vec<_> =
+            tplit_gossip_messages(PULL_RESPONSE_MAX_PAYLOAD_SIZE, values.clone()).collect();
         let self_pubkey = trezoa_pubkey::new_rand();
-        assert!(splits.len() * 2 < NUM_CRDS_VALUES);
-        // Assert that all messages are included in the splits.
-        assert_eq!(NUM_CRDS_VALUES, splits.iter().map(Vec::len).sum::<usize>());
-        splits
+        assert!(tplits.len() * 2 < NUM_CRDS_VALUES);
+        // Assert that all messages are included in the tplits.
+        assert_eq!(NUM_CRDS_VALUES, tplits.iter().map(Vec::len).sum::<usize>());
+        tplits
             .iter()
             .flat_map(|s| s.iter())
             .zip(values)
@@ -556,7 +556,7 @@ pub(crate) mod tests {
         ));
         // check message fits into PullResponse
         let header_size = PACKET_DATA_SIZE - PULL_RESPONSE_MAX_PAYLOAD_SIZE;
-        for values in splits {
+        for values in tplits {
             // Assert that sum of parts equals the whole.
             let size = header_size
                 + values
@@ -571,7 +571,7 @@ pub(crate) mod tests {
     }
 
     #[test]
-    fn test_split_messages_packet_size() {
+    fn test_tplit_messages_packet_size() {
         // Test that if a value is smaller than payload size but too large to be wrapped in a vec
         // that it is still dropped
         let mut value = CrdsValue::new_unsigned(CrdsData::AccountsHashes(AccountsHashes {
@@ -589,12 +589,12 @@ pub(crate) mod tests {
             }));
             i += 1;
         }
-        let split: Vec<_> =
-            split_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, vec![value]).collect();
-        assert_eq!(split.len(), 0);
+        let tplit: Vec<_> =
+            tplit_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, vec![value]).collect();
+        assert_eq!(tplit.len(), 0);
     }
 
-    fn test_split_messages(value: CrdsValue) {
+    fn test_tplit_messages(value: CrdsValue) {
         const NUM_VALUES: usize = 30;
         let value_size = value.bincode_serialized_size();
         let num_values_per_payload = (PUSH_MESSAGE_MAX_PAYLOAD_SIZE / value_size).max(1);
@@ -603,7 +603,7 @@ pub(crate) mod tests {
         let expected_len = NUM_VALUES.div_ceil(num_values_per_payload);
         let msgs = vec![value; NUM_VALUES];
 
-        assert!(split_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, msgs).count() <= expected_len);
+        assert!(tplit_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, msgs).count() <= expected_len);
     }
 
     #[test]

@@ -1,7 +1,7 @@
 #![allow(clippy::arithmetic_side_effects)]
 //! Standalone QUIC streamer server.
 //!
-//! This utility isolates the QUIC server component, making it convenient for
+//! This utility itrzates the QUIC server component, making it convenient for
 //! testing and performance tuning. It logs all received "transactions" to a
 //! binary file.
 //! The logged info includes the bytes 0..32, wherein you can store metadata such
@@ -35,7 +35,7 @@ fn parse_duration(arg: &str) -> Result<std::time::Duration, std::num::ParseFloat
     let seconds = arg.parse()?;
     Ok(std::time::Duration::from_secs_f64(seconds))
 }
-const LAMPORTS_PER_SOL: u64 = 1000000000;
+const LAMPORTS_PER_TRZ: u64 = 1000000000;
 
 pub fn load_staked_nodes_overrides(path: &String) -> anyhow::Result<HashMap<Pubkey, u64>> {
     debug!("Loading staked nodes overrides configuration from {path}");
@@ -46,7 +46,7 @@ pub fn load_staked_nodes_overrides(path: &String) -> anyhow::Result<HashMap<Pubk
         let mut map = HashMap::new();
         for (line_num, line) in reader.lines().enumerate() {
             let line = line?;
-            let parts: Vec<&str> = line.split_whitespace().collect();
+            let parts: Vec<&str> = line.tplit_whitespace().collect();
             if parts.len() != 2 {
                 anyhow::bail!("invalid line {line_num}: {line}");
             }
@@ -56,7 +56,7 @@ pub fn load_staked_nodes_overrides(path: &String) -> anyhow::Result<HashMap<Pubk
                 .parse()
                 .map_err(|_| anyhow::anyhow!("invalid number at line {line_num}"))?;
 
-            map.insert(pubkey, value.saturating_mul(LAMPORTS_PER_SOL));
+            map.insert(pubkey, value.saturating_mul(LAMPORTS_PER_TRZ));
         }
         Ok(map)
     } else {

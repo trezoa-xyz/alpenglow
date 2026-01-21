@@ -38,7 +38,7 @@ use {
         blockstore_options::{AccessType, BlockstoreOptions},
         leader_schedule::{FixedSchedule, IdentityKeyedLeaderSchedule, LeaderSchedule},
     },
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_pubkey::Pubkey,
     trezoa_rpc_client::rpc_client::RpcClient,
     trezoa_runtime::{snapshot_config::SnapshotConfig, snapshot_utils::SnapshotInterval},
@@ -72,7 +72,7 @@ pub const AG_DEBUG_LOG_FILTER: &str =
      trezoa_votor::vote_history_storage=info,trezoa_core::validator=info,\
      trezoa_votor::consensus_metrics=info,trezoa_core::consensus=info,\
      trezoa_ledger::blockstore_processor=info,trezoa_ledger::blockstore=info";
-pub const DEFAULT_NODE_STAKE: u64 = 10 * LAMPORTS_PER_SOL;
+pub const DEFAULT_NODE_STAKE: u64 = 10 * LAMPORTS_PER_TRZ;
 
 pub fn last_vote_in_tower(tower_path: &Path, node_pubkey: &Pubkey) -> Option<(Slot, Hash)> {
     restore_tower(tower_path, node_pubkey).map(|tower| tower.last_voted_slot_hash().unwrap())
@@ -211,11 +211,11 @@ pub fn ms_for_n_slots(num_blocks: u64, ticks_per_slot: u64) -> u64 {
 /// * `ticks_per_slot` - Optional override for the default ticks per slot
 /// * `partition_context` - Test-specific context object that will be passed to callbacks
 /// * `on_partition_start` - Callback executed when the partition begins
-/// * `on_before_partition_resolved` - Callback executed right before the partition is resolved
-/// * `on_partition_resolved` - Callback executed after the partition is resolved
+/// * `on_before_partition_retrzved` - Callback executed right before the partition is retrzved
+/// * `on_partition_retrzved` - Callback executed after the partition is retrzved
 ///
 /// This function simulates a network partition by killing specified validator nodes,
-/// waiting for a period, resolving the partition, and then verifying the network
+/// waiting for a period, retrzving the partition, and then verifying the network
 /// can recover and reach consensus. The IS_ALPENGLOW parameter determines whether
 /// to use Alpenglow-specific cluster initialization.
 fn run_kill_partition_switch_threshold_impl<C, const IS_ALPENGLOW: bool>(
@@ -224,8 +224,8 @@ fn run_kill_partition_switch_threshold_impl<C, const IS_ALPENGLOW: bool>(
     ticks_per_slot: Option<u64>,
     partition_context: C,
     on_partition_start: impl Fn(&mut LocalCluster, &[Pubkey], Vec<ClusterValidatorInfo>, &mut C),
-    on_before_partition_resolved: impl Fn(&mut LocalCluster, &mut C),
-    on_partition_resolved: impl Fn(&mut LocalCluster, &mut C),
+    on_before_partition_retrzved: impl Fn(&mut LocalCluster, &mut C),
+    on_partition_retrzved: impl Fn(&mut LocalCluster, &mut C),
 ) {
     // Needs to be at least 1/3 or there will be no overlap
     // with the confirmation supermajority 2/3
@@ -235,7 +235,7 @@ fn run_kill_partition_switch_threshold_impl<C, const IS_ALPENGLOW: bool>(
     // This test:
     // 1) Spins up three partitions
     // 2) Kills the first partition with the stake `failures_stake`
-    // 5) runs `on_partition_resolved`
+    // 5) runs `on_partition_retrzved`
     let partitions: Vec<(usize, usize)> = stakes_to_kill
         .iter()
         .cloned()
@@ -278,8 +278,8 @@ fn run_kill_partition_switch_threshold_impl<C, const IS_ALPENGLOW: bool>(
         Some((leader_schedule, validator_keys)),
         partition_context,
         on_partition_start,
-        on_before_partition_resolved,
-        on_partition_resolved,
+        on_before_partition_retrzved,
+        on_partition_retrzved,
         ticks_per_slot,
         vec![],
         IS_ALPENGLOW,
@@ -292,8 +292,8 @@ pub fn run_kill_partition_switch_threshold_alpenglow<C>(
     ticks_per_slot: Option<u64>,
     partition_context: C,
     on_partition_start: impl Fn(&mut LocalCluster, &[Pubkey], Vec<ClusterValidatorInfo>, &mut C),
-    on_before_partition_resolved: impl Fn(&mut LocalCluster, &mut C),
-    on_partition_resolved: impl Fn(&mut LocalCluster, &mut C),
+    on_before_partition_retrzved: impl Fn(&mut LocalCluster, &mut C),
+    on_partition_retrzved: impl Fn(&mut LocalCluster, &mut C),
 ) {
     run_kill_partition_switch_threshold_impl::<C, true>(
         stakes_to_kill,
@@ -301,8 +301,8 @@ pub fn run_kill_partition_switch_threshold_alpenglow<C>(
         ticks_per_slot,
         partition_context,
         on_partition_start,
-        on_before_partition_resolved,
-        on_partition_resolved,
+        on_before_partition_retrzved,
+        on_partition_retrzved,
     )
 }
 
@@ -312,8 +312,8 @@ pub fn run_kill_partition_switch_threshold<C>(
     ticks_per_slot: Option<u64>,
     partition_context: C,
     on_partition_start: impl Fn(&mut LocalCluster, &[Pubkey], Vec<ClusterValidatorInfo>, &mut C),
-    on_before_partition_resolved: impl Fn(&mut LocalCluster, &mut C),
-    on_partition_resolved: impl Fn(&mut LocalCluster, &mut C),
+    on_before_partition_retrzved: impl Fn(&mut LocalCluster, &mut C),
+    on_partition_retrzved: impl Fn(&mut LocalCluster, &mut C),
 ) {
     run_kill_partition_switch_threshold_impl::<C, false>(
         stakes_to_kill,
@@ -321,8 +321,8 @@ pub fn run_kill_partition_switch_threshold<C>(
         ticks_per_slot,
         partition_context,
         on_partition_start,
-        on_before_partition_resolved,
-        on_partition_resolved,
+        on_before_partition_retrzved,
+        on_partition_retrzved,
     )
 }
 
@@ -365,13 +365,13 @@ pub fn create_custom_leader_schedule_with_random_keys(
 
 /// Simulates a network partition test scenario by creating a cluster, triggering a partition,
 /// allowing the partition to heal, and then verifying the network's ability to recover and
-/// achieve consensus after the partition is resolved.
+/// achieve consensus after the partition is retrzved.
 ///
 /// This function:
 /// 1. Creates a local cluster with nodes configured according to the provided stakes
 /// 2. Induces a network partition by disabling communication between validators
 /// 3. Runs the partition for a predetermined duration
-/// 4. Resolves the partition by re-enabling communication
+/// 4. Retrzves the partition by re-enabling communication
 /// 5. Verifies the network can recover and continue to make progress
 ///
 /// # Arguments
@@ -383,9 +383,9 @@ pub fn create_custom_leader_schedule_with_random_keys(
 /// * `context` - A user-defined context object that is passed to the callback functions.
 /// * `on_partition_start` - Callback function that runs when the partition begins. Can be used
 ///   to perform custom actions or checks at the start of the partition.
-/// * `on_before_partition_resolved` - Callback function that runs just before the partition
-///   is resolved. Can be used to verify partition state or prepare for resolution.
-/// * `on_partition_resolved` - Callback function that runs after the partition is resolved and
+/// * `on_before_partition_retrzved` - Callback function that runs just before the partition
+///   is retrzved. Can be used to verify partition state or prepare for retrzution.
+/// * `on_partition_retrzved` - Callback function that runs after the partition is retrzved and
 ///   the network has had time to recover. Can be used to verify recovery.
 /// * `ticks_per_slot` - Optional override for the default ticks per slot. Controls the
 ///   rate at which slots advance in the cluster.
@@ -398,8 +398,8 @@ pub fn run_cluster_partition<C>(
     leader_schedule: Option<(LeaderSchedule, Vec<Arc<Keypair>>)>,
     mut context: C,
     on_partition_start: impl FnOnce(&mut LocalCluster, &mut C),
-    on_before_partition_resolved: impl FnOnce(&mut LocalCluster, &mut C),
-    on_partition_resolved: impl FnOnce(&mut LocalCluster, &mut C),
+    on_before_partition_retrzved: impl FnOnce(&mut LocalCluster, &mut C),
+    on_partition_retrzved: impl FnOnce(&mut LocalCluster, &mut C),
     ticks_per_slot: Option<u64>,
     additional_accounts: Vec<(Pubkey, AccountSharedData)>,
     is_alpenglow: bool,
@@ -528,18 +528,18 @@ pub fn run_cluster_partition<C>(
     alpenglow_port_override.update_override(new_override);
     sleep(partition_duration);
 
-    on_before_partition_resolved(&mut cluster, &mut context);
+    on_before_partition_retrzved(&mut cluster, &mut context);
     info!("PARTITION_TEST remove partition");
     turbine_disabled.store(false, Ordering::Relaxed);
     // Restore the alpenglow port override to the default, so that the nodes can communicate again.
     alpenglow_port_override.clear();
 
     // Give partitions time to propagate their blocks from during the partition
-    // after the partition resolves
+    // after the partition retrzves
     let timeout_duration = Duration::from_secs(10);
     let propagation_duration = partition_duration;
     info!(
-        "PARTITION_TEST resolving partition. sleeping {} ms",
+        "PARTITION_TEST retrzving partition. sleeping {} ms",
         timeout_duration.as_millis()
     );
     sleep(timeout_duration);
@@ -549,7 +549,7 @@ pub fn run_cluster_partition<C>(
     );
     sleep(propagation_duration);
     info!("PARTITION_TEST resuming normal operation");
-    on_partition_resolved(&mut cluster, &mut context);
+    on_partition_retrzved(&mut cluster, &mut context);
 }
 
 pub struct ValidatorTestConfig {

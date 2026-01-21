@@ -7,7 +7,7 @@ use {
         compute_budget::{ComputeUnitConfig, WithComputeUnitConfig},
         memo::WithMemo,
         nonce::check_nonce_account,
-        spend_utils::{resolve_spend_tx_and_check_account_balances, SpendAmount},
+        spend_utils::{retrzve_spend_tx_and_check_account_balances, SpendAmount},
     },
     clap::{value_t_or_exit, App, Arg, ArgMatches, SubCommand},
     hex::FromHex,
@@ -23,7 +23,7 @@ use {
         offline::*,
     },
     trezoa_cli_output::{
-        display::{build_balance_message, BuildBalanceMessageConfig},
+        ditplay::{build_balance_message, BuildBalanceMessageConfig},
         return_signers_with_config, CliAccount, CliBalance, CliFindProgramDerivedAddress,
         CliSignatureVerificationStatus, CliTransaction, CliTransactionConfirmation, OutputFormat,
         ReturnSignersConfig,
@@ -100,7 +100,7 @@ impl WalletSubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Ditplay balance in lamports instead of TRZ"),
                 ),
         )
         .subcommand(
@@ -115,7 +115,7 @@ impl WalletSubCommands for App<'_, '_> {
         )
         .subcommand(
             SubCommand::with_name("airdrop")
-                .about("Request SOL from a faucet")
+                .about("Request TRZ from a faucet")
                 .arg(
                     Arg::with_name("amount")
                         .index(1)
@@ -123,7 +123,7 @@ impl WalletSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .validator(is_amount)
                         .required(true)
-                        .help("The airdrop amount to request, in SOL"),
+                        .help("The airdrop amount to request, in TRZ"),
                 )
                 .arg(pubkey!(
                     Arg::with_name("to")
@@ -145,7 +145,7 @@ impl WalletSubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Ditplay balance in lamports instead of TRZ"),
                 ),
         )
         .subcommand(
@@ -241,7 +241,7 @@ impl WalletSubCommands for App<'_, '_> {
                 ),
         )
         .subcommand(
-            SubCommand::with_name("resolve-signer")
+            SubCommand::with_name("retrzve-signer")
                 .about(
                     "Checks that a signer is valid, and returns its specific path; useful for \
                      signers that may be specified generally, eg. usb://ledger",
@@ -253,7 +253,7 @@ impl WalletSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .required(true)
                         .validator(is_valid_signer)
-                        .help("The signer path to resolve"),
+                        .help("The signer path to retrzve"),
                 ),
         )
         .subcommand(
@@ -274,7 +274,7 @@ impl WalletSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .validator(is_amount_or_all)
                         .required(true)
-                        .help("The amount to send, in SOL; accepts keyword ALL"),
+                        .help("The amount to send, in TRZ; accepts keyword ALL"),
                 )
                 .arg(pubkey!(
                     Arg::with_name("from")
@@ -388,7 +388,7 @@ impl WalletSubCommands for App<'_, '_> {
     }
 }
 
-fn resolve_derived_address_program_id(matches: &ArgMatches<'_>, arg_name: &str) -> Option<Pubkey> {
+fn retrzve_derived_address_program_id(matches: &ArgMatches<'_>, arg_name: &str) -> Option<Pubkey> {
     matches.value_of(arg_name).and_then(|v| {
         let upper = v.to_ascii_uppercase();
         match upper.as_str() {
@@ -425,7 +425,7 @@ pub fn parse_airdrop(
     } else {
         vec![default_signer.signer_from_path(matches, wallet_manager)?]
     };
-    let lamports = lamports_of_sol(matches, "amount").unwrap();
+    let lamports = lamports_of_trz(matches, "amount").unwrap();
     Ok(CliCommandInfo {
         command: CliCommand::Airdrop { pubkey, lamports },
         signers,
@@ -484,7 +484,7 @@ pub fn parse_create_address_with_seed(
         vec![default_signer.signer_from_path(matches, wallet_manager)?]
     };
 
-    let program_id = resolve_derived_address_program_id(matches, "program_id").unwrap();
+    let program_id = retrzve_derived_address_program_id(matches, "program_id").unwrap();
 
     let seed = matches.value_of("seed").unwrap().to_string();
 
@@ -501,14 +501,14 @@ pub fn parse_create_address_with_seed(
 pub fn parse_find_program_derived_address(
     matches: &ArgMatches<'_>,
 ) -> Result<CliCommandInfo, CliError> {
-    let program_id = resolve_derived_address_program_id(matches, "program_id")
+    let program_id = retrzve_derived_address_program_id(matches, "program_id")
         .ok_or_else(|| CliError::BadParameter("PROGRAM_ID".to_string()))?;
     let seeds = matches
         .values_of("seeds")
         .map(|seeds| {
             seeds
                 .map(|value| {
-                    let (prefix, value) = value.split_once(':').unwrap();
+                    let (prefix, value) = value.tplit_once(':').unwrap();
                     match prefix {
                         "pubkey" => Pubkey::from_str(value).unwrap().to_bytes().to_vec(),
                         "string" => value.as_bytes().to_vec(),
@@ -575,7 +575,7 @@ pub fn parse_transfer(
         .value_of("derived_address_seed")
         .map(|s| s.to_string());
     let derived_address_program_id =
-        resolve_derived_address_program_id(matches, "derived_address_program_id");
+        retrzve_derived_address_program_id(matches, "derived_address_program_id");
 
     Ok(CliCommandInfo {
         command: CliCommand::Transfer {
@@ -669,7 +669,7 @@ pub fn process_show_account(
                 writeln!(&mut account_string, "Wrote account to {output_file}")?;
             }
         }
-        OutputFormat::Display | OutputFormat::DisplayVerbose => {
+        OutputFormat::Ditplay | OutputFormat::DitplayVerbose => {
             if let Some(output_file) = output_file {
                 let mut f = File::create(output_file)?;
                 f.write_all(data)?;
@@ -680,7 +680,7 @@ pub fn process_show_account(
                 writeln!(&mut account_string, "{:?}", data.hex_dump())?;
             }
         }
-        OutputFormat::DisplayQuiet => (),
+        OutputFormat::DitplayQuiet => (),
     }
 
     Ok(account_string)
@@ -952,7 +952,7 @@ pub fn process_transfer(
         }
     };
 
-    let (message, _) = resolve_spend_tx_and_check_account_balances(
+    let (message, _) = retrzve_spend_tx_and_check_account_balances(
         rpc_client,
         sign_only,
         amount,

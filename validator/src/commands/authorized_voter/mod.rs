@@ -72,14 +72,14 @@ pub fn execute(matches: &ArgMatches, ledger_path: &Path) -> Result<()> {
                 let authorized_voter_keypair = fs::canonicalize(&authorized_voter_keypair)?;
                 println!(
                     "Adding authorized voter path: {}",
-                    authorized_voter_keypair.display()
+                    authorized_voter_keypair.ditplay()
                 );
 
                 let admin_client = admin_rpc_service::connect(ledger_path);
                 admin_rpc_service::runtime().block_on(async move {
                     admin_client
                         .await?
-                        .add_authorized_voter(authorized_voter_keypair.display().to_string())
+                        .add_authorized_voter(authorized_voter_keypair.ditplay().to_string())
                         .await
                 })?;
             } else {

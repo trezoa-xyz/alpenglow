@@ -9,7 +9,7 @@ use {
     trezoa_cli_output::{CliAddressLookupTable, CliAddressLookupTableCreated, OutputFormat},
     trezoa_faucet::faucet::run_local_faucet_with_unique_port_for_tests,
     trezoa_keypair::Keypair,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_pubkey::Pubkey,
     trezoa_signer::Signer,
     trezoa_streamer::socket::SocketAddrSpace,
@@ -31,10 +31,10 @@ fn test_cli_create_extend_and_freeze_address_lookup_table() {
     config.signers = vec![&keypair];
     config.output_format = OutputFormat::JsonCompact;
 
-    // Airdrop SOL for transaction fees
+    // Airdrop TRZ for transaction fees
     config.command = CliCommand::Airdrop {
         pubkey: None,
-        lamports: 10 * LAMPORTS_PER_SOL,
+        lamports: 10 * LAMPORTS_PER_TRZ,
     };
     process_command(&config).unwrap();
 
@@ -145,10 +145,10 @@ fn test_cli_create_and_deactivate_address_lookup_table() {
     config.signers = vec![&keypair];
     config.output_format = OutputFormat::JsonCompact;
 
-    // Airdrop SOL for transaction fees
+    // Airdrop TRZ for transaction fees
     config.command = CliCommand::Airdrop {
         pubkey: None,
-        lamports: 10 * LAMPORTS_PER_SOL,
+        lamports: 10 * LAMPORTS_PER_TRZ,
     };
     process_command(&config).unwrap();
 

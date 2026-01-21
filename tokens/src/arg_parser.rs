@@ -12,7 +12,7 @@ use {
         keypair::{pubkey_from_path, signer_from_path},
     },
     trezoa_cli_config::CONFIG_FILE,
-    trezoa_native_token::sol_str_to_lamports,
+    trezoa_native_token::trz_str_to_lamports,
     trezoa_remote_wallet::remote_wallet::maybe_wallet_manager,
     std::{error::Error, ffi::OsString, process::exit},
 };
@@ -50,7 +50,7 @@ where
         )
         .subcommand(
             SubCommand::with_name("distribute-tokens")
-                .about("Distribute SOL")
+                .about("Distribute TRZ")
                 .arg(
                     Arg::with_name("db_path")
                         .long("db-path")
@@ -77,7 +77,7 @@ where
                         .takes_value(true)
                         .value_name("AMOUNT")
                         .validator(is_amount)
-                        .help("The amount to send to each recipient, in SOL"),
+                        .help("The amount to send to each recipient, in TRZ"),
                 )
                 .arg(
                     Arg::with_name("dry_run")
@@ -157,12 +157,12 @@ where
                         .help("Keypair to fund accounts"),
                 )
                 .arg(
-                    Arg::with_name("unlocked_sol")
+                    Arg::with_name("unlocked_trz")
                         .default_value("1.0")
-                        .long("unlocked-sol")
+                        .long("unlocked-trz")
                         .takes_value(true)
-                        .value_name("SOL_AMOUNT")
-                        .help("Amount of SOL to put in system account to pay for fees"),
+                        .value_name("TRZ_AMOUNT")
+                        .help("Amount of TRZ to put in system account to pay for fees"),
                 )
                 .arg(
                     Arg::with_name("lockup_authority")
@@ -237,12 +237,12 @@ where
                         .help("Stake Account Address"),
                 )
                 .arg(
-                    Arg::with_name("unlocked_sol")
+                    Arg::with_name("unlocked_trz")
                         .default_value("1.0")
-                        .long("unlocked-sol")
+                        .long("unlocked-trz")
                         .takes_value(true)
-                        .value_name("SOL_AMOUNT")
-                        .help("Amount of SOL to put in system account to pay for fees"),
+                        .value_name("TRZ_AMOUNT")
+                        .help("Amount of TRZ to put in system account to pay for fees"),
                 )
                 .arg(
                     Arg::with_name("stake_authority")
@@ -282,7 +282,7 @@ where
         )
         .subcommand(
             SubCommand::with_name("distribute-tpl-tokens")
-                .about("Distribute SPL tokens")
+                .about("Distribute TPL tokens")
                 .arg(
                     Arg::with_name("db_path")
                         .long("db-path")
@@ -314,7 +314,7 @@ where
                         .takes_value(true)
                         .value_name("AMOUNT")
                         .validator(is_amount)
-                        .help("The amount of SPL tokens to send to each recipient"),
+                        .help("The amount of TPL tokens to send to each recipient"),
                 )
                 .arg(
                     Arg::with_name("output_path")
@@ -331,7 +331,7 @@ where
                         .takes_value(true)
                         .value_name("TOKEN_ACCOUNT_ADDRESS")
                         .validator(is_valid_pubkey)
-                        .help("SPL token account to send from"),
+                        .help("TPL token account to send from"),
                 )
                 .arg(
                     Arg::with_name("token_owner")
@@ -340,7 +340,7 @@ where
                         .takes_value(true)
                         .value_name("TOKEN_ACCOUNT_OWNER_KEYPAIR")
                         .validator(is_valid_signer)
-                        .help("SPL token account owner"),
+                        .help("TPL token account owner"),
                 )
                 .arg(
                     Arg::with_name("fee_payer")
@@ -366,7 +366,7 @@ where
         )
         .subcommand(
             SubCommand::with_name("tpl-token-balances")
-                .about("Balance of SPL token associated accounts")
+                .about("Balance of TPL token associated accounts")
                 .arg(
                     Arg::with_name("input_csv")
                         .long("input-csv")
@@ -382,7 +382,7 @@ where
                         .takes_value(true)
                         .value_name("MINT_ADDRESS")
                         .validator(is_valid_pubkey)
-                        .help("SPL token mint of distribution"),
+                        .help("TPL token mint of distribution"),
                 ),
         )
         .subcommand(
@@ -441,7 +441,7 @@ fn parse_distribute_tokens_args(
         tpl_token_args: None,
         transfer_amount: matches
             .value_of("transfer_amount")
-            .and_then(sol_str_to_lamports),
+            .and_then(trz_str_to_lamports),
     })
 }
 
@@ -480,9 +480,9 @@ fn parse_create_stake_args(
         .transpose()?;
 
     let stake_args = StakeArgs {
-        unlocked_sol: matches
-            .value_of("unlocked_sol")
-            .and_then(sol_str_to_lamports)
+        unlocked_trz: matches
+            .value_of("unlocked_trz")
+            .and_then(trz_str_to_lamports)
             .unwrap(),
         lockup_authority,
         sender_stake_args: None,
@@ -567,9 +567,9 @@ fn parse_distribute_stake_args(
         rent_exempt_reserve: None,
     };
     let stake_args = StakeArgs {
-        unlocked_sol: matches
-            .value_of("unlocked_sol")
-            .and_then(sol_str_to_lamports)
+        unlocked_trz: matches
+            .value_of("unlocked_trz")
+            .and_then(trz_str_to_lamports)
             .unwrap(),
         lockup_authority: lockup_authority_address,
         sender_stake_args: Some(sender_stake_args),

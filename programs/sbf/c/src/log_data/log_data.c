@@ -1,5 +1,5 @@
 /**
- * @brief Example C-based SBF program uses sol_log_data
+ * @brief Example C-based SBF program uses trz_log_data
  */
 #include <trezoa_sdk.h>
 
@@ -10,19 +10,19 @@ extern uint64_t entrypoint(const uint8_t *input) {
   SolParameters params = (SolParameters) { .ka = ka };
   SolBytes fields[2];
 
-  if (!sol_deserialize(input, &params, SOL_ARRAY_SIZE(ka))) {
+  if (!trz_deserialize(input, &params, TRZ_ARRAY_SIZE(ka))) {
     return ERROR_INVALID_ARGUMENT;
   }
 
-  // Generate two fields, split at the first 0 in the input
+  // Generate two fields, tplit at the first 0 in the input
   fields[0].addr = params.data;
-  fields[0].len = sol_strlen((char*)fields[0].addr);
+  fields[0].len = trz_strlen((char*)fields[0].addr);
   fields[1].addr = fields[0].addr + fields[0].len + 1;
   fields[1].len = params.data_len - fields[0].len - 1;
 
-  sol_set_return_data(return_data, sizeof(return_data));
+  trz_set_return_data(return_data, sizeof(return_data));
 
-  sol_log_data(fields, 2);
+  trz_log_data(fields, 2);
 
   return SUCCESS;
 }

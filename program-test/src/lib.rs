@@ -25,7 +25,7 @@ use {
         Instruction,
     },
     trezoa_keypair::Keypair,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_poh_config::PohConfig,
     trezoa_program_binaries as programs,
     trezoa_program_entrypoint::{deserialize, SUCCESS},
@@ -238,12 +238,12 @@ fn get_sysvar<T: Default + SysvarSerialize + Sized + serde::de::DeserializeOwned
 
 struct SyscallStubs {}
 impl trezoa_sysvar::program_stubs::SyscallStubs for SyscallStubs {
-    fn sol_log(&self, message: &str) {
+    fn trz_log(&self, message: &str) {
         let invoke_context = get_invoke_context();
         ic_msg!(invoke_context, "Program log: {}", message);
     }
 
-    fn sol_invoke_signed(
+    fn trz_invoke_signed(
         &self,
         instruction: &Instruction,
         account_infos: &[AccountInfo],
@@ -369,21 +369,21 @@ impl trezoa_sysvar::program_stubs::SyscallStubs for SyscallStubs {
         Ok(())
     }
 
-    fn sol_get_clock_sysvar(&self, var_addr: *mut u8) -> u64 {
+    fn trz_get_clock_sysvar(&self, var_addr: *mut u8) -> u64 {
         get_sysvar(
             get_invoke_context().get_sysvar_cache().get_clock(),
             var_addr,
         )
     }
 
-    fn sol_get_epoch_schedule_sysvar(&self, var_addr: *mut u8) -> u64 {
+    fn trz_get_epoch_schedule_sysvar(&self, var_addr: *mut u8) -> u64 {
         get_sysvar(
             get_invoke_context().get_sysvar_cache().get_epoch_schedule(),
             var_addr,
         )
     }
 
-    fn sol_get_epoch_rewards_sysvar(&self, var_addr: *mut u8) -> u64 {
+    fn trz_get_epoch_rewards_sysvar(&self, var_addr: *mut u8) -> u64 {
         get_sysvar(
             get_invoke_context().get_sysvar_cache().get_epoch_rewards(),
             var_addr,
@@ -391,15 +391,15 @@ impl trezoa_sysvar::program_stubs::SyscallStubs for SyscallStubs {
     }
 
     #[allow(deprecated)]
-    fn sol_get_fees_sysvar(&self, var_addr: *mut u8) -> u64 {
+    fn trz_get_fees_sysvar(&self, var_addr: *mut u8) -> u64 {
         get_sysvar(get_invoke_context().get_sysvar_cache().get_fees(), var_addr)
     }
 
-    fn sol_get_rent_sysvar(&self, var_addr: *mut u8) -> u64 {
+    fn trz_get_rent_sysvar(&self, var_addr: *mut u8) -> u64 {
         get_sysvar(get_invoke_context().get_sysvar_cache().get_rent(), var_addr)
     }
 
-    fn sol_get_last_restart_slot(&self, var_addr: *mut u8) -> u64 {
+    fn trz_get_last_restart_slot(&self, var_addr: *mut u8) -> u64 {
         get_sysvar(
             get_invoke_context()
                 .get_sysvar_cache()
@@ -408,12 +408,12 @@ impl trezoa_sysvar::program_stubs::SyscallStubs for SyscallStubs {
         )
     }
 
-    fn sol_get_return_data(&self) -> Option<(Pubkey, Vec<u8>)> {
+    fn trz_get_return_data(&self) -> Option<(Pubkey, Vec<u8>)> {
         let (program_id, data) = get_invoke_context().transaction_context.get_return_data();
         Some((*program_id, data.to_vec()))
     }
 
-    fn sol_set_return_data(&self, data: &[u8]) {
+    fn trz_set_return_data(&self, data: &[u8]) {
         let invoke_context = get_invoke_context();
         let transaction_context = &mut invoke_context.transaction_context;
         let instruction_context = transaction_context
@@ -425,7 +425,7 @@ impl trezoa_sysvar::program_stubs::SyscallStubs for SyscallStubs {
             .unwrap();
     }
 
-    fn sol_get_stack_height(&self) -> u64 {
+    fn trz_get_stack_height(&self) -> u64 {
         let invoke_context = get_invoke_context();
         invoke_context.get_stack_height().try_into().unwrap()
     }
@@ -459,11 +459,11 @@ fn default_shared_object_dirs() -> Vec<PathBuf> {
 pub fn read_file<P: AsRef<Path>>(path: P) -> Vec<u8> {
     let path = path.as_ref();
     let mut file = File::open(path)
-        .unwrap_or_else(|err| panic!("Failed to open \"{}\": {}", path.display(), err));
+        .unwrap_or_else(|err| panic!("Failed to open \"{}\": {}", path.ditplay(), err));
 
     let mut file_data = Vec::new();
     file.read_to_end(&mut file_data)
-        .unwrap_or_else(|err| panic!("Failed to read \"{}\": {}", path.display(), err));
+        .unwrap_or_else(|err| panic!("Failed to read \"{}\": {}", path.ditplay(), err));
     file_data
 }
 
@@ -655,7 +655,7 @@ impl ProgramTest {
             info!(
                 "\"{}\" SBF program from {}{}",
                 program_name,
-                program_file.display(),
+                program_file.ditplay(),
                 std::fs::metadata(&program_file)
                     .map(|metadata| {
                         metadata
@@ -794,13 +794,13 @@ impl ProgramTest {
         };
         let bootstrap_validator_pubkey = Pubkey::new_unique();
         let bootstrap_validator_stake_lamports =
-            rent.minimum_balance(VoteStateV3::size_of()) + 1_000_000 * LAMPORTS_PER_SOL;
+            rent.minimum_balance(VoteStateV3::size_of()) + 1_000_000 * LAMPORTS_PER_TRZ;
 
         let mint_keypair = Keypair::new();
         let voting_keypair = Keypair::new();
 
         let mut genesis_config = create_genesis_config_with_leader_ex(
-            1_000_000 * LAMPORTS_PER_SOL,
+            1_000_000 * LAMPORTS_PER_TRZ,
             &mint_keypair.pubkey(),
             &bootstrap_validator_pubkey,
             &voting_keypair.pubkey(),
@@ -862,8 +862,8 @@ impl ProgramTest {
             None,
         );
 
-        // Add commonly-used SPL programs as a convenience to the user
-        for (program_id, account) in programs::spl_programs(&rent).iter() {
+        // Add commonly-used TPL programs as a convenience to the user
+        for (program_id, account) in programs::trz_programs(&rent).iter() {
             bank.store_account(program_id, account);
         }
 
@@ -952,7 +952,7 @@ impl ProgramTest {
     /// Start the test client
     ///
     /// Returns a `BanksClient` interface into the test environment as well as a payer `Keypair`
-    /// with SOL for sending transactions
+    /// with TRZ for sending transactions
     pub async fn start_with_context(mut self) -> ProgramTestContext {
         let (bank_forks, block_commitment_cache, last_blockhash, gci) = self.setup_bank();
         let target_tick_duration = gci.genesis_config.poh_config.target_tick_duration;

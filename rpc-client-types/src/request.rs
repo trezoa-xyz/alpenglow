@@ -71,7 +71,7 @@ pub enum RpcRequest {
 }
 
 #[allow(deprecated)]
-impl fmt::Display for RpcRequest {
+impl fmt::Ditplay for RpcRequest {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let method = match self {
             RpcRequest::Custom { method } => method,
@@ -176,7 +176,7 @@ pub enum RpcResponseErrorData {
     NodeUnhealthy { num_slots_behind: Option<Slot> },
 }
 
-impl fmt::Display for RpcResponseErrorData {
+impl fmt::Ditplay for RpcResponseErrorData {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             RpcResponseErrorData::SendTransactionPreflightFailure(

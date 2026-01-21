@@ -5,6 +5,6 @@
 #include <trezoa_sdk.h>
 
 extern uint64_t entrypoint(const uint8_t *input) {
-  sol_panic();
+  trz_panic();
   return SUCCESS;
 }

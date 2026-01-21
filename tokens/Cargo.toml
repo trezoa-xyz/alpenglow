@@ -12,7 +12,7 @@ edition = { workspace = true }
 [dependencies]
 chrono = { workspace = true, features = ["default", "serde"] }
 clap = "2.33.0"
-console = { workspace = true }
+contrze = { workspace = true }
 csv = { workspace = true }
 ctrlc = { workspace = true, features = ["termination"] }
 indexmap = { workspace = true }
@@ -44,7 +44,7 @@ trezoa-system-interface = { workspace = true }
 trezoa-transaction = { workspace = true }
 trezoa-transaction-status = { workspace = true }
 trezoa-version = { workspace = true }
-spl-associated-token-account-interface = { version = "=2.0.0" }
+trz-associated-token-account-interface = { version = "=2.0.0" }
 tpl-token-interface = { workspace = true }
 tempfile = { workspace = true }
 thiserror = { workspace = true }

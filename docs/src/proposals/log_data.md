@@ -58,12 +58,12 @@ var options = {
 };
 
 var subscription = web3.eth.subscribe('logs', options, function(error, result){
-    if (!error) console.log('got result');
-    else console.log(error);
+    if (!error) contrze.log('got result');
+    else contrze.log(error);
 }).on("data", function(log){
-    console.log('got data', log);
+    contrze.log('got data', log);
 }).on("changed", function(log){
-    console.log('changed');
+    contrze.log('changed');
 });
 ```
 
@@ -137,7 +137,7 @@ program data: 3fJSrRviyJtpwrBo/DeNqpUrpFjxKEWKPVaTfUjs8AAAAAAAAAAAAAAACC+JDWOEeN
 This requires a new system call:
 
 ```
-void sol_log_data(SolBytes *fields, uint64_t length);
+void trz_log_data(SolBytes *fields, uint64_t length);
 ```
 
 ### Considerations

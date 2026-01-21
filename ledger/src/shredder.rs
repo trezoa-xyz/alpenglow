@@ -4,7 +4,7 @@ use {
     },
     lazy_lru::LruCache,
     rayon::ThreadPool,
-    reed_solomon_erasure::{galois_8::ReedSolomon, Error::TooFewDataShards},
+    reed_trzomon_erasure::{galois_8::ReedSolomon, Error::TooFewDataShards},
     trezoa_clock::Slot,
     trezoa_entry::{block_component::BlockComponent, entry::Entry},
     trezoa_hash::Hash,
@@ -20,7 +20,7 @@ use {
 static PAR_THREAD_POOL: std::sync::LazyLock<ThreadPool> = std::sync::LazyLock::new(|| {
     rayon::ThreadPoolBuilder::new()
         .num_threads(get_thread_count())
-        .thread_name(|i| format!("solShredder{i:02}"))
+        .thread_name(|i| format!("trzShredder{i:02}"))
         .build()
         .unwrap()
 });
@@ -32,7 +32,7 @@ type LruCacheOnce<K, V> = RwLock<LruCache<K, Arc<OnceLock<V>>>>;
 pub struct ReedSolomonCache(
     LruCacheOnce<
         (usize, usize), // number of {data,parity} shards
-        Result<Arc<ReedSolomon>, reed_solomon_erasure::Error>,
+        Result<Arc<ReedSolomon>, reed_trzomon_erasure::Error>,
     >,
 );
 
@@ -72,7 +72,7 @@ impl Shredder {
         chained_merkle_root: Option<Hash>,
         next_shred_index: u32,
         next_code_index: u32,
-        reed_solomon_cache: &ReedSolomonCache,
+        reed_trzomon_cache: &ReedSolomonCache,
         stats: &mut ProcessShredsStats,
     ) -> impl Iterator<Item = Shred> {
         let now = Instant::now();
@@ -86,7 +86,7 @@ impl Shredder {
             chained_merkle_root,
             next_shred_index,
             next_code_index,
-            reed_solomon_cache,
+            reed_trzomon_cache,
             stats,
         )
         .unwrap()
@@ -101,7 +101,7 @@ impl Shredder {
         chained_merkle_root: Option<Hash>,
         next_shred_index: u32,
         next_code_index: u32,
-        reed_solomon_cache: &ReedSolomonCache,
+        reed_trzomon_cache: &ReedSolomonCache,
         stats: &mut ProcessShredsStats,
     ) -> impl Iterator<Item = Shred> {
         let now = Instant::now();
@@ -115,7 +115,7 @@ impl Shredder {
             chained_merkle_root,
             next_shred_index,
             next_code_index,
-            reed_solomon_cache,
+            reed_trzomon_cache,
             stats,
         )
         .unwrap()
@@ -130,7 +130,7 @@ impl Shredder {
         chained_merkle_root: Option<Hash>,
         next_shred_index: u32,
         next_code_index: u32,
-        reed_solomon_cache: &ReedSolomonCache,
+        reed_trzomon_cache: &ReedSolomonCache,
         stats: &mut ProcessShredsStats,
     ) -> Result<impl Iterator<Item = Shred>, Error> {
         let thread_pool: &ThreadPool = &PAR_THREAD_POOL;
@@ -146,7 +146,7 @@ impl Shredder {
             is_last_in_slot,
             next_shred_index,
             next_code_index,
-            reed_solomon_cache,
+            reed_trzomon_cache,
             stats,
         )?;
         Ok(shreds.into_iter().map(Shred::from))
@@ -160,7 +160,7 @@ impl Shredder {
         chained_merkle_root: Option<Hash>,
         next_shred_index: u32,
         next_code_index: u32,
-        reed_solomon_cache: &ReedSolomonCache,
+        reed_trzomon_cache: &ReedSolomonCache,
         stats: &mut ProcessShredsStats,
     ) -> (
         Vec<Shred>, // data shreds
@@ -173,7 +173,7 @@ impl Shredder {
             chained_merkle_root,
             next_shred_index,
             next_code_index,
-            reed_solomon_cache,
+            reed_trzomon_cache,
             stats,
         )
         .partition(Shred::is_data)
@@ -187,7 +187,7 @@ impl Shredder {
         chained_merkle_root: Option<Hash>,
         next_shred_index: u32,
         next_code_index: u32,
-        reed_solomon_cache: &ReedSolomonCache,
+        reed_trzomon_cache: &ReedSolomonCache,
         stats: &mut ProcessShredsStats,
     ) -> (
         Vec<Shred>, // data shreds
@@ -200,7 +200,7 @@ impl Shredder {
             chained_merkle_root,
             next_shred_index,
             next_code_index,
-            reed_solomon_cache,
+            reed_trzomon_cache,
             stats,
         )
         .partition(Shred::is_data)
@@ -255,7 +255,7 @@ impl Shredder {
     #[cfg(feature = "dev-context-only-utils")]
     pub fn single_shred_for_tests(slot: Slot, keypair: &Keypair) -> Shred {
         let shredder = Shredder::new(slot, slot.saturating_sub(1), 0, 42).unwrap();
-        let reed_solomon_cache = ReedSolomonCache::default();
+        let reed_trzomon_cache = ReedSolomonCache::default();
         let (mut shreds, _) = shredder.entries_to_merkle_shreds_for_tests(
             keypair,
             &[],
@@ -263,7 +263,7 @@ impl Shredder {
             Some(Hash::default()),
             0,
             0,
-            &reed_solomon_cache,
+            &reed_trzomon_cache,
             &mut ProcessShredsStats::default(),
         );
         shreds.pop().unwrap()
@@ -277,7 +277,7 @@ impl ReedSolomonCache {
         &self,
         data_shards: usize,
         parity_shards: usize,
-    ) -> Result<Arc<ReedSolomon>, reed_solomon_erasure::Error> {
+    ) -> Result<Arc<ReedSolomon>, reed_trzomon_erasure::Error> {
         let key = (data_shards, parity_shards);
         // Read from the cache with a shared lock.
         let entry = self.0.read().unwrap().get(&key).cloned();

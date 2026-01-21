@@ -538,7 +538,7 @@ pub mod tests {
         let executable = false;
         let rent_epoch = 0;
         let meta = StoredMeta {
-            write_version_obsolete: 5,
+            write_version_obtrzete: 5,
             pubkey: pk,
             data_len: 7,
         };
@@ -601,7 +601,7 @@ pub mod tests {
                             account.clone(),
                             starting_slot % max_slots,
                             StoredMeta {
-                                write_version_obsolete: 0, // just something
+                                write_version_obtrzete: 0, // just something
                                 pubkey: pk,
                                 data_len: u64::MAX, // just something
                             },
@@ -734,7 +734,7 @@ pub mod tests {
                     pk,
                     account.clone(),
                     StoredMeta {
-                        write_version_obsolete: 500 + (entry * 3) as u64, // just something
+                        write_version_obtrzete: 500 + (entry * 3) as u64, // just something
                         pubkey: pk,
                         data_len: (entry * 2) as u64, // just something
                     },
@@ -844,7 +844,7 @@ pub mod tests {
         let db = AccountsDb::new_single_for_tests();
         let account_from_storage = AccountFromStorage::new(&StoredAccountMeta {
             meta: &StoredMeta {
-                write_version_obsolete: 0,
+                write_version_obtrzete: 0,
                 pubkey: Pubkey::new_unique(),
                 data_len: 0,
             },

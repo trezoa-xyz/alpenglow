@@ -110,7 +110,7 @@ impl<'a, B: AsMut<[u8]>> IoUringFileCreator<'a, B> {
 
         // Safety: buffers contain unsafe pointers to `buffer`, but we make sure they are
         // dropped before `backing_buffer` is dropped.
-        let buffers = unsafe { FixedIoBuffer::split_buffer_chunks(buffer, write_capacity) };
+        let buffers = unsafe { FixedIoBuffer::tplit_buffer_chunks(buffer, write_capacity) };
         let state = FileCreatorState::new(buffers.collect(), file_complete);
         let ring = Ring::new(ring, state);
 

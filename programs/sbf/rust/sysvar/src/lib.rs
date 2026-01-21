@@ -27,7 +27,7 @@ use {
 
 // Adapted from `trezoa_sysvar::get_sysvar` (private).
 #[cfg(target_os = "trezoa")]
-fn sol_get_sysvar_handler<T>(dst: &mut [u8], offset: u64, length: u64) -> Result<(), ProgramError>
+fn trz_get_sysvar_handler<T>(dst: &mut [u8], offset: u64, length: u64) -> Result<(), ProgramError>
 where
     T: SysvarSerialize,
 {
@@ -35,7 +35,7 @@ where
     let var_addr = dst as *mut _ as *mut u8;
 
     let result = unsafe {
-        trezoa_define_syscall::definitions::sol_get_sysvar(sysvar_id, var_addr, offset, length)
+        trezoa_define_syscall::definitions::trz_get_sysvar(sysvar_id, var_addr, offset, length)
     };
 
     match result {
@@ -45,7 +45,7 @@ where
 }
 
 // Double-helper arrangement is easier to write to a mutable slice.
-fn sol_get_sysvar<T>() -> Result<T, ProgramError>
+fn trz_get_sysvar<T>() -> Result<T, ProgramError>
 where
     T: SysvarSerialize,
 {
@@ -54,7 +54,7 @@ where
         let len = T::size_of();
         let mut data = vec![0; len];
 
-        sol_get_sysvar_handler::<T>(&mut data, 0, len as u64)?;
+        trz_get_sysvar_handler::<T>(&mut data, 0, len as u64)?;
 
         bincode::deserialize(&data).map_err(|_| ProgramError::InvalidArgument)
     }
@@ -68,7 +68,7 @@ pub fn process_instruction(
     accounts: &[AccountInfo],
     instruction_data: &[u8],
 ) -> ProgramResult {
-    // `sol_get_sysvar` can eat up some heap space for calls like
+    // `trz_get_sysvar` can eat up some heap space for calls like
     // `PodSlotHashes`, so break up the instructions.
     //
     // * 0: Fixed-size sysvars (Clock, Rent, etc.).
@@ -85,8 +85,8 @@ pub fn process_instruction(
                 assert_ne!(clock, Clock::default());
                 let got_clock = Clock::get()?;
                 assert_eq!(clock, got_clock);
-                // Syscall `sol_get_sysvar`.
-                let sgs_clock = sol_get_sysvar::<Clock>()?;
+                // Syscall `trz_get_sysvar`.
+                let sgs_clock = trz_get_sysvar::<Clock>()?;
                 assert_eq!(clock, sgs_clock);
             }
 
@@ -97,8 +97,8 @@ pub fn process_instruction(
                 let epoch_rewards = EpochRewards::from_account_info(&accounts[10]).unwrap();
                 let got_epoch_rewards = EpochRewards::get()?;
                 assert_eq!(epoch_rewards, got_epoch_rewards);
-                // Syscall `sol_get_sysvar`.
-                let sgs_epoch_rewards = sol_get_sysvar::<EpochRewards>()?;
+                // Syscall `trz_get_sysvar`.
+                let sgs_epoch_rewards = trz_get_sysvar::<EpochRewards>()?;
                 assert_eq!(epoch_rewards, sgs_epoch_rewards);
             }
 
@@ -110,8 +110,8 @@ pub fn process_instruction(
                 assert_eq!(epoch_schedule, EpochSchedule::default());
                 let got_epoch_schedule = EpochSchedule::get()?;
                 assert_eq!(epoch_schedule, got_epoch_schedule);
-                // Syscall `sol_get_sysvar`.
-                let sgs_epoch_schedule = sol_get_sysvar::<EpochSchedule>()?;
+                // Syscall `trz_get_sysvar`.
+                let sgs_epoch_schedule = trz_get_sysvar::<EpochSchedule>()?;
                 assert_eq!(epoch_schedule, sgs_epoch_schedule);
             }
 
@@ -132,8 +132,8 @@ pub fn process_instruction(
                 let rent = Rent::from_account_info(&accounts[6]).unwrap();
                 let got_rent = Rent::get()?;
                 assert_eq!(rent, got_rent);
-                // Syscall `sol_get_sysvar`.
-                let sgs_rent = sol_get_sysvar::<Rent>()?;
+                // Syscall `trz_get_sysvar`.
+                let sgs_rent = trz_get_sysvar::<Rent>()?;
                 assert_eq!(rent, sgs_rent);
             }
 
@@ -186,7 +186,7 @@ pub fn process_instruction(
                 msg!("StakeHistory identifier:");
                 sysvar::stake_history::id().log();
                 let _ = StakeHistory::from_account_info(&accounts[9]).unwrap();
-                // Syscall `sol_get_sysvar`.
+                // Syscall `trz_get_sysvar`.
                 let stake_history_sysvar = StakeHistorySysvar(1);
                 assert!(stake_history_sysvar.get_entry(0).is_some());
             }
@@ -202,7 +202,7 @@ pub fn process_instruction(
                     Err(ProgramError::UnsupportedSysvar),
                     SlotHashes::from_account_info(&accounts[7])
                 );
-                // Syscall `sol_get_sysvar`.
+                // Syscall `trz_get_sysvar`.
                 let pod_slot_hashes = PodSlotHashes::fetch()?;
                 assert!(pod_slot_hashes.get(/* slot */ &0)?.is_some());
             }
@@ -212,7 +212,7 @@ pub fn process_instruction(
         Some(&4) => {
             // Attempt to store the result in the input region instead of the stack or heap
             unsafe {
-                trezoa_define_syscall::definitions::sol_get_epoch_rewards_sysvar(
+                trezoa_define_syscall::definitions::trz_get_epoch_rewards_sysvar(
                     accounts[2].data.borrow_mut().as_mut_ptr(),
                 )
             };

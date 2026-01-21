@@ -18,7 +18,7 @@ use {
     },
     trezoa_keypair::Keypair,
     trezoa_ledger::shred::ShredId,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_pubkey::Pubkey,
     trezoa_runtime::bank::Bank,
     trezoa_signer::Signer,
@@ -189,13 +189,13 @@ impl<T> ClusterNodes<T> {
         stake_stale += stake_dead;
         datapoint_info!(
             name,
-            ("epoch_stakes", epoch_stakes / LAMPORTS_PER_SOL, i64),
+            ("epoch_stakes", epoch_stakes / LAMPORTS_PER_TRZ, i64),
             ("num_nodes", self.nodes.len(), i64),
             ("num_nodes_dead", num_nodes_dead, i64),
             ("num_nodes_staked", num_nodes_staked, i64),
             ("num_nodes_stale", num_nodes_stale, i64),
-            ("stake_dead", stake_dead / LAMPORTS_PER_SOL, i64),
-            ("stake_stale", stake_stale / LAMPORTS_PER_SOL, i64),
+            ("stake_dead", stake_dead / LAMPORTS_PER_TRZ, i64),
+            ("stake_stale", stake_stale / LAMPORTS_PER_TRZ, i64),
         );
     }
 }

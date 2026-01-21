@@ -204,7 +204,7 @@ killNodes() {
   $trezoa_validator --ledger "$TREZOA_CONFIG_DIR"/bootstrap-validator exit --force || true
   $trezoa_validator --ledger "$TREZOA_CONFIG_DIR"/validator exit --force || true
 
-  # Give the nodes a splash of time to cleanly exit before killing them
+  # Give the nodes a tplash of time to cleanly exit before killing them
   sleep 2
 
   echo "--- Killing nodes: ${pids[*]}"

@@ -47,4 +47,4 @@ The fee market dashboard shows:
 
 ### Ping Results
 
-The ping results dashboard displays relevant information about the Ping API
+The ping results dashboard ditplays relevant information about the Ping API

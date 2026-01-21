@@ -14,8 +14,8 @@ use {
         is_loadable::IsLoadable as _,
     },
     trezoa_cli_output::{
-        display::{build_balance_message, writeln_transaction},
-        CliAccount, CliAccountNewConfig, OutputFormat, QuietDisplay, VerboseDisplay,
+        ditplay::{build_balance_message, writeln_transaction},
+        CliAccount, CliAccountNewConfig, OutputFormat, QuietDitplay, VerboseDitplay,
     },
     trezoa_clock::{Slot, UnixTimestamp},
     trezoa_hash::Hash,
@@ -36,7 +36,7 @@ use {
     std::{
         cell::RefCell,
         collections::HashMap,
-        fmt::{self, Display, Formatter},
+        fmt::{self, Ditplay, Formatter},
         io::{stdout, Write},
         rc::Rc,
         sync::Arc,
@@ -62,10 +62,10 @@ pub struct SlotBounds<'a> {
     pub roots: SlotInfo,
 }
 
-impl VerboseDisplay for SlotBounds<'_> {}
-impl QuietDisplay for SlotBounds<'_> {}
+impl VerboseDitplay for SlotBounds<'_> {}
+impl QuietDitplay for SlotBounds<'_> {}
 
-impl Display for SlotBounds<'_> {
+impl Ditplay for SlotBounds<'_> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         if self.slots.total > 0 {
             let first = self.slots.first.unwrap();
@@ -114,10 +114,10 @@ pub struct SlotBankHash {
     pub hash: String,
 }
 
-impl VerboseDisplay for SlotBankHash {}
-impl QuietDisplay for SlotBankHash {}
+impl VerboseDitplay for SlotBankHash {}
+impl QuietDitplay for SlotBankHash {}
 
-impl Display for SlotBankHash {
+impl Ditplay for SlotBankHash {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         writeln!(f, "Bank hash for slot {}: {}", self.slot, self.hash)
     }
@@ -140,10 +140,10 @@ pub struct CliEntries {
     pub slot: Slot,
 }
 
-impl QuietDisplay for CliEntries {}
-impl VerboseDisplay for CliEntries {}
+impl QuietDitplay for CliEntries {}
+impl VerboseDitplay for CliEntries {}
 
-impl fmt::Display for CliEntries {
+impl fmt::Ditplay for CliEntries {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "Slot {}", self.slot)?;
         for (i, entry) in self.entries.iter().enumerate() {
@@ -203,10 +203,10 @@ pub struct CliBlockWithEntries {
     pub slot: Slot,
 }
 
-impl QuietDisplay for CliBlockWithEntries {}
-impl VerboseDisplay for CliBlockWithEntries {}
+impl QuietDitplay for CliBlockWithEntries {}
+impl VerboseDitplay for CliBlockWithEntries {}
 
-impl fmt::Display for CliBlockWithEntries {
+impl fmt::Ditplay for CliBlockWithEntries {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "Slot: {}", self.slot)?;
         writeln!(
@@ -311,14 +311,14 @@ pub struct CliDuplicateSlotProof {
     erasure_consistency: Option<bool>,
 }
 
-impl QuietDisplay for CliDuplicateSlotProof {}
+impl QuietDitplay for CliDuplicateSlotProof {}
 
-impl VerboseDisplay for CliDuplicateSlotProof {
+impl VerboseDitplay for CliDuplicateSlotProof {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         write!(w, "    Shred1 ")?;
-        VerboseDisplay::write_str(&self.shred1, w)?;
+        VerboseDitplay::write_str(&self.shred1, w)?;
         write!(w, "    Shred2 ")?;
-        VerboseDisplay::write_str(&self.shred2, w)?;
+        VerboseDitplay::write_str(&self.shred2, w)?;
         if let Some(erasure_consistency) = self.erasure_consistency {
             writeln!(w, "    Erasure consistency {erasure_consistency}")?;
         }
@@ -326,7 +326,7 @@ impl VerboseDisplay for CliDuplicateSlotProof {
     }
 }
 
-impl fmt::Display for CliDuplicateSlotProof {
+impl fmt::Ditplay for CliDuplicateSlotProof {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "    Shred1 {}", self.shred1)?;
         write!(f, "    Shred2 {}", self.shred2)?;
@@ -384,16 +384,16 @@ impl CliDuplicateShred {
     }
 }
 
-impl QuietDisplay for CliDuplicateShred {}
+impl QuietDitplay for CliDuplicateShred {}
 
-impl VerboseDisplay for CliDuplicateShred {
+impl VerboseDitplay for CliDuplicateShred {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         self.write_common(w)?;
         writeln!(w, "       payload: {:?}", self.payload)
     }
 }
 
-impl fmt::Display for CliDuplicateShred {
+impl fmt::Ditplay for CliDuplicateShred {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         self.write_common(f)
     }
@@ -551,7 +551,7 @@ pub fn output_slot(
 ) -> Result<()> {
     let is_root = blockstore.is_root(slot);
     let is_dead = blockstore.is_dead(slot);
-    if *output_format == OutputFormat::Display && verbose_level <= 1 {
+    if *output_format == OutputFormat::Ditplay && verbose_level <= 1 {
         if is_root && is_dead {
             eprintln!("Slot {slot} is marked as both a root and dead, this shouldn't be possible");
         }
@@ -626,7 +626,7 @@ pub fn output_slot(
     };
 
     if verbose_level == 0 {
-        if *output_format == OutputFormat::Display {
+        if *output_format == OutputFormat::Ditplay {
             // Given that Blockstore::get_complete_block_with_entries() returned Ok(_), we know
             // that we have a full block so meta.consumed is the number of shreds in the block
             println!(
@@ -640,7 +640,7 @@ pub fn output_slot(
             );
         }
     } else if verbose_level == 1 {
-        if *output_format == OutputFormat::Display {
+        if *output_format == OutputFormat::Ditplay {
             println!("  {meta:?} is_full: {}", meta.is_full());
 
             let mut num_hashes = 0;
@@ -946,7 +946,7 @@ pub struct CliAccounts {
     pub accounts: Vec<CliAccount>,
 }
 
-impl fmt::Display for CliAccounts {
+impl fmt::Ditplay for CliAccounts {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for account in &self.accounts {
             write!(f, "{account}")?;
@@ -960,5 +960,5 @@ impl fmt::Display for CliAccounts {
         Ok(())
     }
 }
-impl QuietDisplay for CliAccounts {}
-impl VerboseDisplay for CliAccounts {}
+impl QuietDitplay for CliAccounts {}
+impl VerboseDitplay for CliAccounts {}

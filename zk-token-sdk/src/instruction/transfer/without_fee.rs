@@ -9,7 +9,7 @@ use {
         instruction::{
             errors::InstructionError,
             transfer::{
-                encryption::TransferAmountCiphertext, try_combine_lo_hi_ciphertexts, try_split_u64,
+                encryption::TransferAmountCiphertext, try_combine_lo_hi_ciphertexts, try_tplit_u64,
                 Role,
             },
         },
@@ -94,8 +94,8 @@ impl TransferData {
         source_keypair: &ElGamalKeypair,
         (destination_pubkey, auditor_pubkey): (&ElGamalPubkey, &ElGamalPubkey),
     ) -> Result<Self, ProofGenerationError> {
-        // split and encrypt transfer amount
-        let (amount_lo, amount_hi) = try_split_u64(transfer_amount, TRANSFER_AMOUNT_LO_BITS)
+        // tplit and encrypt transfer amount
+        let (amount_lo, amount_hi) = try_tplit_u64(transfer_amount, TRANSFER_AMOUNT_LO_BITS)
             .map_err(|_| ProofGenerationError::IllegalAmountBitLength)?;
 
         let (ciphertext_lo, opening_lo) = TransferAmountCiphertext::new(

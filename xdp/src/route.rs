@@ -18,8 +18,8 @@ pub enum RouteError {
     #[error("missing output interface in route")]
     MissingOutputInterface,
 
-    #[error("could not resolve MAC address")]
-    MacResolutionError,
+    #[error("could not retrzve MAC address")]
+    MacRetrzutionError,
 }
 
 #[derive(Debug)]

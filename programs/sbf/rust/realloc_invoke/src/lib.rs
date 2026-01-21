@@ -70,7 +70,7 @@ fn process_instruction(
         }
         INVOKE_REALLOC_TO_THEN_LOCAL_REALLOC_EXTEND => {
             let (bytes, remaining_data) =
-                instruction_data[2..].split_at(std::mem::size_of::<usize>());
+                instruction_data[2..].tplit_at(std::mem::size_of::<usize>());
             let new_len = usize::from_le_bytes(bytes.try_into().unwrap());
             msg!("invoke realloc to {} byte(s)", new_len);
             let realloc_to_ix = {
@@ -88,7 +88,7 @@ fn process_instruction(
             };
             invoke(&realloc_to_ix, accounts)?;
             assert_eq!(new_len, account.data_len());
-            let (bytes, _) = remaining_data.split_at(std::mem::size_of::<usize>());
+            let (bytes, _) = remaining_data.tplit_at(std::mem::size_of::<usize>());
             let extend_len = usize::from_le_bytes(bytes.try_into().unwrap());
             msg!("realloc extend {} byte(s)", extend_len);
             account.resize(new_len.saturating_add(extend_len))?;
@@ -172,7 +172,7 @@ fn process_instruction(
             )?;
         }
         INVOKE_REALLOC_TO => {
-            let (bytes, _) = instruction_data[2..].split_at(std::mem::size_of::<usize>());
+            let (bytes, _) = instruction_data[2..].tplit_at(std::mem::size_of::<usize>());
             let new_len = usize::from_le_bytes(bytes.try_into().unwrap());
             msg!("realloc to {}", new_len);
             account.resize(new_len)?;
@@ -183,7 +183,7 @@ fn process_instruction(
         }
         INVOKE_REALLOC_RECURSIVE => {
             msg!("realloc invoke recursive");
-            let (bytes, _) = instruction_data[2..].split_at(std::mem::size_of::<usize>());
+            let (bytes, _) = instruction_data[2..].tplit_at(std::mem::size_of::<usize>());
             let new_len = usize::from_le_bytes(bytes.try_into().unwrap());
             account.resize(new_len)?;
             assert_eq!(new_len, account.data_len());
@@ -248,7 +248,7 @@ fn process_instruction(
         }
         INVOKE_DEALLOC_AND_ASSIGN => {
             msg!("realloc zerod");
-            let (bytes, _) = instruction_data[2..].split_at(std::mem::size_of::<usize>());
+            let (bytes, _) = instruction_data[2..].tplit_at(std::mem::size_of::<usize>());
             let pre_len = usize::from_le_bytes(bytes.try_into().unwrap());
             let new_len = pre_len.saturating_mul(2);
             assert_eq!(pre_len, 100);

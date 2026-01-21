@@ -47,7 +47,7 @@ fn test_multi_fec_block_coding(is_last_in_slot: bool) {
         })
         .collect();
 
-    let reed_solomon_cache = ReedSolomonCache::default();
+    let reed_trzomon_cache = ReedSolomonCache::default();
     let serialized_entries = bincode::serialize(&entries).unwrap();
 
     let (data_shreds, coding_shreds) = shredder.entries_to_merkle_shreds_for_tests(
@@ -57,7 +57,7 @@ fn test_multi_fec_block_coding(is_last_in_slot: bool) {
         chained_merkle_root,
         0, // next_shred_index
         0, // next_code_index
-        &reed_solomon_cache,
+        &reed_trzomon_cache,
         &mut ProcessShredsStats::default(),
     );
     let next_index = data_shreds.last().unwrap().index() + 1;
@@ -85,7 +85,7 @@ fn test_multi_fec_block_coding(is_last_in_slot: bool) {
             .filter_map(|(i, b)| if i % 2 != 0 { Some(b.clone()) } else { None })
             .collect();
 
-        let recovered_data = recover(shred_info.clone(), &reed_solomon_cache)
+        let recovered_data = recover(shred_info.clone(), &reed_trzomon_cache)
             .unwrap()
             .map(|result| result.unwrap())
             .filter(|shred| shred.is_data());
@@ -125,7 +125,7 @@ fn test_multi_fec_block_different_size_coding() {
         setup_different_sized_fec_blocks(slot, parent_slot, keypair.clone());
 
     let total_num_data_shreds: usize = fec_data.values().map(|x| x.len()).sum();
-    let reed_solomon_cache = ReedSolomonCache::default();
+    let reed_trzomon_cache = ReedSolomonCache::default();
     // Test recovery
     for (fec_data_shreds, fec_coding_shreds) in fec_data.values().zip(fec_coding.values()) {
         let first_data_index = fec_data_shreds.first().unwrap().index() as usize;
@@ -135,7 +135,7 @@ fn test_multi_fec_block_different_size_coding() {
             .chain(fec_coding_shreds.iter().step_by(2))
             .cloned()
             .collect();
-        let recovered_data: Vec<Shred> = shred::recover(all_shreds, &reed_solomon_cache)
+        let recovered_data: Vec<Shred> = shred::recover(all_shreds, &reed_trzomon_cache)
             .unwrap()
             .filter_map(|s| {
                 let s = s.unwrap();
@@ -228,7 +228,7 @@ fn setup_different_sized_fec_blocks(
     let mut coding_slot_and_index = HashSet::new();
 
     let total_num_data_shreds: usize = 2 * num_shreds_per_iter;
-    let reed_solomon_cache = ReedSolomonCache::default();
+    let reed_trzomon_cache = ReedSolomonCache::default();
     for i in 0..2 {
         let is_last = i == 1;
 
@@ -239,7 +239,7 @@ fn setup_different_sized_fec_blocks(
             chained_merkle_root,
             next_shred_index,
             next_code_index,
-            &reed_solomon_cache,
+            &reed_trzomon_cache,
             &mut ProcessShredsStats::default(),
         );
         for shred in &data_shreds {

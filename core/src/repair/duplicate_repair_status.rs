@@ -27,7 +27,7 @@ pub fn set_ancestor_hash_repair_sample_size_for_tests_only(sample_size: usize) {
 // ANCESTOR_HASH_REPAIR_SAMPLE_SIZE = 21 validators is malicious is roughly 1/1000.
 // Assuming we send a separate sample every 5 seconds, that's once every hour.
 
-// On the other hand with a 52-48 split of validators with one version of the block vs
+// On the other hand with a 52-48 tplit of validators with one version of the block vs
 // another, the chance of >= 11 of the 21 sampled being from the 52% portion is
 // about 57%, so we should be able to find a correct sample in a reasonable amount of time.
 pub fn get_minimum_ancestor_agreement_size() -> usize {

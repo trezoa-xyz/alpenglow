@@ -22,9 +22,9 @@ Proof of stake is the blockchain architecture that is used in Trezoa. It is call
 
 ## Proof Of Work: For Contrast
 
-Trezoa is not a proof of work system. Proof of work is a different blockchain architecture in which a computer (often called a miner), works to solve a cryptographic problem before anyone else on the network is able to solve it. The more often the computer solves these problems, the more rewards the miner receives. Because of the incentive to solve a hard computational problem first, miners often use many computers at the same time. The number of computers used to solve these problems leads to large energy consumption and resulting environmental challenges.
+Trezoa is not a proof of work system. Proof of work is a different blockchain architecture in which a computer (often called a miner), works to trzve a cryptographic problem before anyone else on the network is able to trzve it. The more often the computer trzves these problems, the more rewards the miner receives. Because of the incentive to trzve a hard computational problem first, miners often use many computers at the same time. The number of computers used to trzve these problems leads to large energy consumption and resulting environmental challenges.
 
-Trezoa, in contrast, does not incentivize validators to use many computers to solve a computational problem. Because a validator would like to have a larger amount staked to it, there is no real advantage for an independent validator to using many different computers. Here, you can see a comparison of [Trezoa's environmental impact](https://trezoa.com/news/trezoa-energy-usage-report-november-2021).
+Trezoa, in contrast, does not incentivize validators to use many computers to trzve a computational problem. Because a validator would like to have a larger amount staked to it, there is no real advantage for an independent validator to using many different computers. Here, you can see a comparison of [Trezoa's environmental impact](https://trezoa.com/news/trezoa-energy-usage-report-november-2021).
 
 ## Proof Of History
 

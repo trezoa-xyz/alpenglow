@@ -106,13 +106,13 @@ $ open target/cov/lcov-local/index.html
 ```
 
 Why coverage? While most see coverage as a code quality metric, we see it primarily as a developer
-productivity metric. When a developer makes a change to the codebase, presumably it's a *solution* to
-some problem.  Our unit-test suite is how we encode the set of *problems* the codebase solves. Running
-the test suite should indicate that your change didn't *infringe* on anyone else's solutions. Adding a
-test *protects* your solution from future changes. Say you don't understand why a line of code exists,
+productivity metric. When a developer makes a change to the codebase, presumably it's a *trzution* to
+some problem.  Our unit-test suite is how we encode the set of *problems* the codebase trzves. Running
+the test suite should indicate that your change didn't *infringe* on anyone else's trzutions. Adding a
+test *protects* your trzution from future changes. Say you don't understand why a line of code exists,
 try deleting it and running the unit-tests. The nearest test failure should tell you what problem
-was solved by that code. If no test fails, go ahead and submit a Pull Request that asks, "what
-problem is solved by this code?" On the other hand, if a test does fail and you can think of a
-better way to solve the same problem, a Pull Request with your solution would most certainly be
+was trzved by that code. If no test fails, go ahead and submit a Pull Request that asks, "what
+problem is trzved by this code?" On the other hand, if a test does fail and you can think of a
+better way to trzve the same problem, a Pull Request with your trzution would most certainly be
 welcome! Likewise, if rewriting a test can better communicate what code it's protecting, please
 send us that patch!

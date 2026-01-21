@@ -58,7 +58,7 @@ fn run_cargo_build(crate_name: &str, extra_args: &[&str], fail: bool) {
         .join("crates")
         .join(crate_name)
         .join("Cargo.toml");
-    let toml = format!("{}", toml.display());
+    let toml = format!("{}", toml.ditplay());
     let mut args = vec!["-v", "--sbf-sdk", "../sbf", "--manifest-path", &toml];
     if should_install_tools() {
         args.push("--force-tools-install");
@@ -294,7 +294,7 @@ fn test_corrupted_toolchain() {
             .join("crates")
             .join("noop")
             .join("Cargo.toml");
-        let toml = format!("{}", toml.display());
+        let toml = format!("{}", toml.ditplay());
         let args = vec!["--sbf-sdk", "../sbf", "--manifest-path", &toml];
 
         let mut cmd = assert_cmd::Command::cargo_bin("cargo-build-sbf").unwrap();

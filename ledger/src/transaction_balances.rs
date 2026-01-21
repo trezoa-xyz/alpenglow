@@ -68,7 +68,7 @@ mod tests {
         super::*,
         trezoa_account_decoder::parse_token::UiTokenAmount,
         trezoa_pubkey::Pubkey,
-        spl_generic_token::{token, token_2022},
+        trz_generic_token::{token, token_2022},
     };
 
     #[test]

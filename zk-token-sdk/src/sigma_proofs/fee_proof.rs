@@ -244,7 +244,7 @@ impl FeeSigmaProof {
         let z_max_proof = Scalar::random(&mut OsRng);
         let c_max_proof = Scalar::random(&mut OsRng); // random challenge
 
-        // solve for Y_max in the verification algebraic relation
+        // trzve for Y_max in the verification algebraic relation
         let Y_max_proof = RistrettoPoint::multiscalar_mul(
             vec![z_max_proof, -c_max_proof, c_max_proof * m],
             vec![&(*H), C_fee, &G],

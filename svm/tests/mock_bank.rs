@@ -380,35 +380,35 @@ pub fn create_custom_loader<'a>() -> BuiltinProgram<InvokeContext<'a>> {
         .register_function("abort", SyscallAbort::vm)
         .expect("Registration failed");
     loader
-        .register_function("sol_log_", SyscallLog::vm)
+        .register_function("trz_log_", SyscallLog::vm)
         .expect("Registration failed");
     loader
-        .register_function("sol_memcpy_", SyscallMemcpy::vm)
+        .register_function("trz_memcpy_", SyscallMemcpy::vm)
         .expect("Registration failed");
     loader
-        .register_function("sol_memset_", SyscallMemset::vm)
+        .register_function("trz_memset_", SyscallMemset::vm)
         .expect("Registration failed");
     loader
-        .register_function("sol_memcmp_", SyscallMemcmp::vm)
+        .register_function("trz_memcmp_", SyscallMemcmp::vm)
         .expect("Registration failed");
     loader
-        .register_function("sol_memmove_", SyscallMemmove::vm)
+        .register_function("trz_memmove_", SyscallMemmove::vm)
         .expect("Registration failed");
     loader
-        .register_function("sol_invoke_signed_rust", SyscallInvokeSignedRust::vm)
+        .register_function("trz_invoke_signed_rust", SyscallInvokeSignedRust::vm)
         .expect("Registration failed");
     loader
-        .register_function("sol_set_return_data", SyscallSetReturnData::vm)
+        .register_function("trz_set_return_data", SyscallSetReturnData::vm)
         .expect("Registration failed");
     loader
-        .register_function("sol_get_clock_sysvar", SyscallGetClockSysvar::vm)
+        .register_function("trz_get_clock_sysvar", SyscallGetClockSysvar::vm)
         .expect("Registration failed");
     loader
-        .register_function("sol_get_rent_sysvar", SyscallGetRentSysvar::vm)
+        .register_function("trz_get_rent_sysvar", SyscallGetRentSysvar::vm)
         .expect("Registration failed");
     loader
         .register_function(
-            "sol_get_epoch_schedule_sysvar",
+            "trz_get_epoch_schedule_sysvar",
             SyscallGetEpochScheduleSysvar::vm,
         )
         .expect("Registration failed");

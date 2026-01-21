@@ -54,7 +54,7 @@ impl UiTransactionEncoding {
     }
 }
 
-impl fmt::Display for UiTransactionEncoding {
+impl fmt::Ditplay for UiTransactionEncoding {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let v = serde_json::to_value(self).map_err(|_| fmt::Error)?;
         let s = v.as_str().ok_or(fmt::Error)?;
@@ -235,7 +235,7 @@ impl From<&MessageAddressTableLookup> for UiAddressTableLookup {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct UiTransactionError(TransactionError);
 
-impl fmt::Display for UiTransactionError {
+impl fmt::Ditplay for UiTransactionError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         self.0.fmt(f)
     }

@@ -9,7 +9,7 @@ use {
             simulate_and_update_compute_unit_limit, ComputeUnitConfig, WithComputeUnitConfig,
         },
         memo::WithMemo,
-        spend_utils::{resolve_spend_tx_and_check_account_balance, SpendAmount},
+        spend_utils::{retrzve_spend_tx_and_check_account_balance, SpendAmount},
     },
     clap::{App, Arg, ArgMatches, SubCommand},
     trezoa_account::Account,
@@ -88,7 +88,7 @@ impl NonceSubCommands for App<'_, '_> {
                         .required(true)
                         .validator(is_amount_or_all)
                         .help(
-                            "The amount to load the nonce account with, in SOL; accepts keyword \
+                            "The amount to load the nonce account with, in TRZ; accepts keyword \
                              ALL",
                         ),
                 )
@@ -120,7 +120,7 @@ impl NonceSubCommands for App<'_, '_> {
                         .index(1)
                         .value_name("NONCE_ACCOUNT_ADDRESS")
                         .required(true),
-                    "Nonce account to display."
+                    "Nonce account to ditplay."
                 )),
         )
         .subcommand(
@@ -146,18 +146,18 @@ impl NonceSubCommands for App<'_, '_> {
                         .index(1)
                         .value_name("NONCE_ACCOUNT_ADDRESS")
                         .required(true),
-                    "Nonce account to display."
+                    "Nonce account to ditplay."
                 ))
                 .arg(
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Ditplay balance in lamports instead of TRZ"),
                 ),
         )
         .subcommand(
             SubCommand::with_name("withdraw-from-nonce-account")
-                .about("Withdraw SOL from the nonce account")
+                .about("Withdraw TRZ from the nonce account")
                 .arg(pubkey!(
                     Arg::with_name("nonce_account_pubkey")
                         .index(1)
@@ -170,7 +170,7 @@ impl NonceSubCommands for App<'_, '_> {
                         .index(2)
                         .value_name("RECIPIENT_ADDRESS")
                         .required(true),
-                    "Recipient of withdrawn SOL."
+                    "Recipient of withdrawn TRZ."
                 ))
                 .arg(
                     Arg::with_name("amount")
@@ -179,7 +179,7 @@ impl NonceSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .required(true)
                         .validator(is_amount)
-                        .help("The amount to withdraw from the nonce account, in SOL"),
+                        .help("The amount to withdraw from the nonce account, in TRZ"),
                 )
                 .arg(nonce_authority_arg())
                 .arg(memo_arg())
@@ -333,7 +333,7 @@ pub fn parse_withdraw_from_nonce_account(
     let nonce_account = pubkey_of_signer(matches, "nonce_account_pubkey", wallet_manager)?.unwrap();
     let destination_account_pubkey =
         pubkey_of_signer(matches, "destination_account_pubkey", wallet_manager)?.unwrap();
-    let lamports = lamports_of_sol(matches, "amount").unwrap();
+    let lamports = lamports_of_trz(matches, "amount").unwrap();
     let memo = matches.value_of(MEMO_ARG.name).map(String::from);
     let (nonce_authority, nonce_authority_pubkey) =
         signer_of(matches, NONCE_AUTHORITY_ARG.name, wallet_manager)?;
@@ -511,7 +511,7 @@ pub fn process_create_nonce_account(
 
     let latest_blockhash = rpc_client.get_latest_blockhash()?;
 
-    let (message, lamports) = resolve_spend_tx_and_check_account_balance(
+    let (message, lamports) = retrzve_spend_tx_and_check_account_balance(
         rpc_client,
         false,
         amount,

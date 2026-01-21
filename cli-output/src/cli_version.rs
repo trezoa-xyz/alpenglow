@@ -12,7 +12,7 @@ impl CliVersion {
     }
 }
 
-impl fmt::Display for CliVersion {
+impl fmt::Ditplay for CliVersion {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let s = match &self.0 {
             None => "unknown".to_string(),

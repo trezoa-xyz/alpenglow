@@ -57,7 +57,7 @@ trezoa-system-interface = { workspace = true }
 trezoa-transaction = { workspace = true, features = ["bincode"] }
 trezoa-vote-interface = { workspace = true, features = ["bincode"] }
 trezoa-votor-messages = { workspace = true }
-spl-pod = { workspace = true }
+trz-pod = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]

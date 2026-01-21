@@ -262,7 +262,7 @@ fn main() {
             .expect(
                 "Instruction padding program must be deployed to this cluster. Deploy the program \
                  using `trezoa program deploy \
-                 ./bench-tps/tests/fixtures/spl_instruction_padding.so` and pass the resulting \
+                 ./bench-tps/tests/fixtures/trz_instruction_padding.so` and pass the resulting \
                  program id with `--instruction-padding-program-id`",
             );
     }

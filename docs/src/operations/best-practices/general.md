@@ -194,7 +194,7 @@ It is important that you do not accidentally run out of funds in your identity
 account, as your node will stop voting. It is also important to note that this
 account keypair is the most vulnerable of the three keypairs in a vote account
 because the keypair for the identity account is stored on your validator when
-running the `trezoa-validator` software. How much SOL you should store there is
+running the `trezoa-validator` software. How much TRZ you should store there is
 up to you. As a best practice, make sure to check the account regularly and
 refill or deduct from it as needed. To check the account balance do:
 

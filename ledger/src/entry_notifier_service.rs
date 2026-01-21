@@ -32,7 +32,7 @@ impl EntryNotifierService {
     pub fn new(entry_notifier: EntryNotifierArc, exit: Arc<AtomicBool>) -> Self {
         let (entry_notification_sender, entry_notification_receiver) = unbounded();
         let thread_hdl = Builder::new()
-            .name("solEntryNotif".to_string())
+            .name("trzEntryNotif".to_string())
             .spawn(move || loop {
                 if exit.load(Ordering::Relaxed) {
                     break;

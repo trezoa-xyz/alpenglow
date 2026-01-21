@@ -46,7 +46,7 @@ while true; do
   "${REPO_ROOT}"/net/net.sh netem --config-file "$NETEM_CONFIG_FILE" -n $num_online_nodes
   sleep "$PARTITION_DURATION"
 
-  execution_step "Resolving partition"
+  execution_step "Retrzving partition"
   "${REPO_ROOT}"/net/net.sh netem --config-file "$NETEM_CONFIG_FILE" --netem-cmd cleanup -n $num_online_nodes
 
   get_validator_confirmation_time 10
@@ -61,7 +61,7 @@ while true; do
       exit 0
     fi
   done
-  echo "  Validator confirmation is $mean_confirmation_ms ms $SECONDS seconds after resolving the partition" >> "$RESULT_FILE"
+  echo "  Validator confirmation is $mean_confirmation_ms ms $SECONDS seconds after retrzving the partition" >> "$RESULT_FILE"
 
   last=""
   while [[ -z $mean_confirmation_ms || $mean_confirmation_ms -gt $target ]]; do

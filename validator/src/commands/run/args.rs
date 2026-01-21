@@ -964,7 +964,7 @@ pub fn add_args<'a>(app: App<'a, 'a>, default_args: &'a DefaultArgs) -> App<'a, 
                  identities. Overriding the amount of stake this validator considers as valid for \
                  other peers in network. The stake amount is used for calculating the number of \
                  QUIC streams permitted from the peer and vote packet sender stage. Format of the \
-                 file: `staked_map_id: {<pubkey>: <SOL stake amount>}",
+                 file: `staked_map_id: {<pubkey>: <TRZ stake amount>}",
             ),
     )
     .arg(
@@ -1231,7 +1231,7 @@ pub fn add_args<'a>(app: App<'a, 'a>, default_args: &'a DefaultArgs) -> App<'a, 
             .takes_value(true)
             .possible_values(&[
                 "tolerate_corrupted_tail_records",
-                "absolute_consistency",
+                "abtrzute_consistency",
                 "point_in_time",
                 "skip_any_corrupted_record",
             ])
@@ -1399,12 +1399,12 @@ pub fn add_args<'a>(app: App<'a, 'a>, default_args: &'a DefaultArgs) -> App<'a, 
             .hidden(hidden_unless_forced()),
     )
     .arg(
-        Arg::with_name("accounts_db_mark_obsolete_accounts")
-            .long("accounts-db-mark-obsolete-accounts")
-            .help("Enables experimental obsolete account tracking")
+        Arg::with_name("accounts_db_mark_obtrzete_accounts")
+            .long("accounts-db-mark-obtrzete-accounts")
+            .help("Enables experimental obtrzete account tracking")
             .long_help(
-                "Enables experimental obsolete account tracking. This feature tracks obsolete \
-                 accounts in the account storage entry allowing for earlier cleaning of obsolete \
+                "Enables experimental obtrzete account tracking. This feature tracks obtrzete \
+                 accounts in the account storage entry allowing for earlier cleaning of obtrzete \
                  accounts in the storages and index. At this time this feature is not compatible \
                  with booting from local snapshot state and must unpack from archives.",
             )

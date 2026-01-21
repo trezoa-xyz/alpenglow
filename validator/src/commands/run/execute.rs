@@ -12,7 +12,7 @@ use {
     log::*,
     rand::{seq::SliceRandom, thread_rng},
     trezoa_accounts_db::{
-        accounts_db::{AccountShrinkThreshold, AccountsDbConfig, MarkObsoleteAccounts},
+        accounts_db::{AccountShrinkThreshold, AccountsDbConfig, MarkObtrzeteAccounts},
         accounts_file::StorageAccess,
         accounts_index::{AccountSecondaryIndexes, AccountsIndexConfig, IndexLimitMb, ScanFilter},
         hardened_unpack::MAX_GENESIS_ARCHIVE_UNPACKED_SIZE,
@@ -167,7 +167,7 @@ pub fn execute(
     let ledger_path = create_and_canonicalize_directory(ledger_path).map_err(|err| {
         format!(
             "unable to access ledger path '{}': {err}",
-            ledger_path.display(),
+            ledger_path.ditplay(),
         )
     })?;
 
@@ -418,10 +418,10 @@ pub fn execute(
         })
         .unwrap_or_default();
 
-    let mark_obsolete_accounts = if matches.is_present("accounts_db_mark_obsolete_accounts") {
-        MarkObsoleteAccounts::Enabled
+    let mark_obtrzete_accounts = if matches.is_present("accounts_db_mark_obtrzete_accounts") {
+        MarkObtrzeteAccounts::Enabled
     } else {
-        MarkObsoleteAccounts::Disabled
+        MarkObtrzeteAccounts::Disabled
     };
 
     let accounts_db_config = AccountsDbConfig {
@@ -447,7 +447,7 @@ pub fn execute(
         scan_filter_for_shrinking,
         num_background_threads: Some(accounts_db_background_threads),
         num_foreground_threads: Some(accounts_db_foreground_threads),
-        mark_obsolete_accounts,
+        mark_obtrzete_accounts,
         memlock_budget_size: trezoa_accounts_db::accounts_db::DEFAULT_MEMLOCK_BUDGET_SIZE,
         ..AccountsDbConfig::default()
     };
@@ -479,7 +479,7 @@ pub fn execute(
         if let Ok(account_paths) = values_t!(matches, "account_paths", String) {
             account_paths
                 .join(",")
-                .split(',')
+                .tplit(',')
                 .map(PathBuf::from)
                 .collect()
         } else {
@@ -517,11 +517,11 @@ pub fn execute(
         UseSnapshotArchivesAtStartup
     );
 
-    if mark_obsolete_accounts == MarkObsoleteAccounts::Enabled
+    if mark_obtrzete_accounts == MarkObtrzeteAccounts::Enabled
         && use_snapshot_archives_at_startup != UseSnapshotArchivesAtStartup::Always
     {
         Err(format!(
-            "The --accounts-db-mark-obsolete-accounts option requires the \
+            "The --accounts-db-mark-obtrzete-accounts option requires the \
              --use-snapshot-archives-at-startup option to be set to {}. Current value: {}",
             UseSnapshotArchivesAtStartup::Always,
             use_snapshot_archives_at_startup
@@ -1168,7 +1168,7 @@ fn new_snapshot_config(
     let snapshots_dir = create_and_canonicalize_directory(snapshots_dir).map_err(|err| {
         format!(
             "failed to create snapshots directory '{}': {err}",
-            snapshots_dir.display(),
+            snapshots_dir.ditplay(),
         )
     })?;
     if account_paths
@@ -1186,7 +1186,7 @@ fn new_snapshot_config(
     fs::create_dir_all(&bank_snapshots_dir).map_err(|err| {
         format!(
             "failed to create bank snapshots directory '{}': {err}",
-            bank_snapshots_dir.display(),
+            bank_snapshots_dir.ditplay(),
         )
     })?;
 
@@ -1199,7 +1199,7 @@ fn new_snapshot_config(
     fs::create_dir_all(&full_snapshot_archives_dir).map_err(|err| {
         format!(
             "failed to create full snapshot archives directory '{}': {err}",
-            full_snapshot_archives_dir.display(),
+            full_snapshot_archives_dir.ditplay(),
         )
     })?;
 
@@ -1213,7 +1213,7 @@ fn new_snapshot_config(
     fs::create_dir_all(&incremental_snapshot_archives_dir).map_err(|err| {
         format!(
             "failed to create incremental snapshot archives directory '{}': {err}",
-            incremental_snapshot_archives_dir.display(),
+            incremental_snapshot_archives_dir.ditplay(),
         )
     })?;
 

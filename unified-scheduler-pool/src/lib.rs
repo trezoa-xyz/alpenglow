@@ -104,7 +104,7 @@ type AtomicSchedulerId = AtomicU64;
 
 /// A pool of idling schedulers (usually [`PooledScheduler`]), ready to be taken by bank.
 ///
-/// Also, the pool runs a _cleaner_ thread named as `solScCleaner`. its jobs include:
+/// Also, the pool runs a _cleaner_ thread named as `trzScCleaner`. its jobs include:
 ///
 /// - Shrink of pool if there are too many idle schedulers.
 /// - Invocation of timeouts registered by [`InstalledSchedulerPool::register_timeout_listener`].
@@ -624,7 +624,7 @@ where
         };
 
         let cleaner_thread = thread::Builder::new()
-            .name("solScCleaner".to_owned())
+            .name("trzScCleaner".to_owned())
             .spawn_tracked(cleaner_main_loop)
             .unwrap();
 
@@ -711,7 +711,7 @@ where
             }
 
             // Delay drop()-ing this trashed returned scheduler inner by stashing it in
-            // self.trashed_scheduler_inners, which is periodically drained by the `solScCleaner`
+            // self.trashed_scheduler_inners, which is periodically drained by the `trzScCleaner`
             // thread. Dropping it could take long time (in fact,
             // PooledSchedulerInner::usage_queue_loader can contain many entries to drop).
             self.trashed_scheduler_inners
@@ -976,7 +976,7 @@ where
                     break pool;
                 }
                 Err(that) => {
-                    // It seems solScCleaner is active... retry later
+                    // It seems trzScCleaner is active... retry later
                     this = that;
                     sleep(Duration::from_millis(100));
                     // Yes, indefinite loop, but the situation isn't so different from the
@@ -1038,7 +1038,7 @@ impl TaskHandler for DefaultTaskHandler {
                 // unlocking as well. So, we resort to spin lock here with mercy of slight
                 // humbleness (100us sleep per retry).
                 //
-                // Note that this is quite coarse/suboptimal solution to the above problem.
+                // Note that this is quite coarse/suboptimal trzution to the above problem.
                 // Ideally, this should be handled more gracefully. As for the worst case analysis,
                 // this will indeed create a rather noisy lock contention. However, this is already
                 // the case as well for the other block producing method (CentralScheduler). So,
@@ -1344,7 +1344,7 @@ mod chained_channel {
 /// mapping responsibility as documented by `UsageQueue`.
 ///
 /// Currently, the simplest implementation. This grows memory usage in unbounded way. Overgrown
-/// instance destruction is managed via `solScCleaner`. This struct is here to be put outside
+/// instance destruction is managed via `trzScCleaner`. This struct is here to be put outside
 /// `trezoa-unified-scheduler-logic` for the crate's original intent (separation of concerns from
 /// the pure-logic-only crate). Some practical and mundane pruning will be implemented in this type.
 #[derive(Default, Debug)]
@@ -1458,7 +1458,7 @@ fn disconnected<T>() -> Receiver<T> {
 ///
 /// Timeouts are for rare conditions where there are abandoned-yet-unpruned banks in the
 /// [`BankForks`](trezoa_runtime::bank_forks::BankForks) under forky (unsteady rooting) cluster
-/// conditions. The pool's background cleaner thread (`solScCleaner`) triggers the timeout-based
+/// conditions. The pool's background cleaner thread (`trzScCleaner`) triggers the timeout-based
 /// out-of-pool (i.e. _taken_) scheduler reclaimation with prior coordination of
 /// [`BankForks::insert()`](trezoa_runtime::bank_forks::BankForks::insert) via
 /// [`InstalledSchedulerPool::register_timeout_listener`].
@@ -1477,18 +1477,18 @@ fn disconnected<T>() -> Receiver<T> {
 ///
 /// ```mermaid
 /// stateDiagram-v2
-///     [*] --> Active: Spawned (New bank by solReplayStage)
+///     [*] --> Active: Spawned (New bank by trzReplayStage)
 ///     state trezoa-runtime {
 ///         state if_usable <<choice>>
-///         Active --> if_usable: Returned (Bank-freezing by solReplayStage)
-///         Active --> if_usable: Dropped (BankForks-pruning by solReplayStage)
-///         Aborted --> if_usable: Dropped (BankForks-pruning by solReplayStage)
+///         Active --> if_usable: Returned (Bank-freezing by trzReplayStage)
+///         Active --> if_usable: Dropped (BankForks-pruning by trzReplayStage)
+///         Aborted --> if_usable: Dropped (BankForks-pruning by trzReplayStage)
 ///         if_usable --> Pooled: IF !overgrown && !aborted
 ///         Active --> Aborted: Errored on TX execution
 ///         Aborted --> Stale: !Droppped after TIMEOUT_DURATION since taken
 ///         Active --> Stale: No new TX after TIMEOUT_DURATION since taken
-///         Stale --> if_usable: Returned (Timeout-triggered by solScCleaner)
-///         Pooled --> Active: Taken (New bank by solReplayStage)
+///         Stale --> if_usable: Returned (Timeout-triggered by trzScCleaner)
+///         Pooled --> Active: Taken (New bank by trzReplayStage)
 ///     }
 ///     state trezoa-unified-scheduler-pool {
 ///         Pooled --> Idle: !Taken after POOLING_DURATION
@@ -1496,7 +1496,7 @@ fn disconnected<T>() -> Receiver<T> {
 ///         Idle --> Retired
 ///         Trashed --> Retired
 ///     }
-///     Retired --> [*]: Terminated (by solScCleaner)
+///     Retired --> [*]: Terminated (by trzScCleaner)
 /// ```
 #[derive(Debug)]
 pub struct PooledScheduler<TH: TaskHandler> {
@@ -1896,7 +1896,7 @@ impl<S: SpawnableScheduler<TH>, TH: TaskHandler> ThreadManager<S, TH> {
         //
         // It's generally harmless for the blocked task buffer to be flooded, stalling the idle
         // tasks completely. Firstly, it's unlikely without malice, considering all blocked tasks
-        // must have independently been blocked for each isolated linearized runs. That's because
+        // must have independently been blocked for each itrzated linearized runs. That's because
         // all to-be-handled tasks of the blocked and idle buffers must not be conflicting with
         // each other by definition. Furthermore, handler threads would still be saturated to
         // maximum even under such a block-verification situation, meaning no remotely-controlled
@@ -2357,7 +2357,7 @@ impl<S: SpawnableScheduler<TH>, TH: TaskHandler> ThreadManager<S, TH> {
 
         self.scheduler_thread = Some(
             thread::Builder::new()
-                .name(format!("solSchedule{mode_char}"))
+                .name(format!("trzSchedule{mode_char}"))
                 .spawn_tracked(scheduler_main_loop)
                 .unwrap(),
         );
@@ -2366,7 +2366,7 @@ impl<S: SpawnableScheduler<TH>, TH: TaskHandler> ThreadManager<S, TH> {
             .map({
                 |thx| {
                     thread::Builder::new()
-                        .name(format!("solScHandle{mode_char}{thx:02}"))
+                        .name(format!("trzScHandle{mode_char}{thx:02}"))
                         .spawn_tracked(handler_main_loop())
                         .unwrap()
                 }
@@ -2842,11 +2842,11 @@ mod tests {
         sleep(SHORTENED_MAX_POOLING_DURATION * 10);
         Box::new(new_scheduler.into_inner().1).return_to_pool();
 
-        // Block solScCleaner until we see returned schedlers...
+        // Block trzScCleaner until we see returned schedlers...
         assert_eq!(pool_raw.scheduler_inners.lock().unwrap().len(), 2);
         sleepless_testing::at(TestCheckPoint::BeforeIdleSchedulerCleaned);
 
-        // See the old (= idle) scheduler gone only after solScCleaner did its job...
+        // See the old (= idle) scheduler gone only after trzScCleaner did its job...
         sleepless_testing::at(&TestCheckPoint::AfterIdleSchedulerCleaned);
 
         // The following assertion is racy.
@@ -2919,12 +2919,12 @@ mod tests {
         Box::new(small_scheduler.into_inner().1).return_to_pool();
         Box::new(big_scheduler.into_inner().1).return_to_pool();
 
-        // Block solScCleaner until we see trashed schedler...
+        // Block trzScCleaner until we see trashed schedler...
         assert_eq!(pool_raw.scheduler_inners.lock().unwrap().len(), 1);
         assert_eq!(pool_raw.trashed_scheduler_inners.lock().unwrap().len(), 1);
         sleepless_testing::at(TestCheckPoint::BeforeTrashedSchedulerCleaned);
 
-        // See the trashed scheduler gone only after solScCleaner did its job...
+        // See the trashed scheduler gone only after trzScCleaner did its job...
         sleepless_testing::at(&TestCheckPoint::AfterTrashedSchedulerCleaned);
         assert_eq!(pool_raw.scheduler_inners.lock().unwrap().len(), 1);
         assert_eq!(pool_raw.trashed_scheduler_inners.lock().unwrap().len(), 0);
@@ -2983,7 +2983,7 @@ mod tests {
         assert_eq!(pool_raw.trashed_scheduler_inners.lock().unwrap().len(), 0);
         assert_matches!(bank.wait_for_completed_scheduler(), Some((Ok(()), _)));
 
-        // See the stale scheduler gone only after solScCleaner did its job...
+        // See the stale scheduler gone only after trzScCleaner did its job...
         sleepless_testing::at(&TestCheckPoint::AfterIdleSchedulerCleaned);
         assert_eq!(pool_raw.scheduler_inners.lock().unwrap().len(), 0);
         assert_eq!(pool_raw.trashed_scheduler_inners.lock().unwrap().len(), 0);
@@ -3606,11 +3606,11 @@ mod tests {
             Some((Err(TransactionError::AccountNotFound), _timings))
         );
 
-        // Block solScCleaner until we see trashed schedler...
+        // Block trzScCleaner until we see trashed schedler...
         assert_eq!(pool_raw.trashed_scheduler_inners.lock().unwrap().len(), 1);
         sleepless_testing::at(TestCheckPoint::BeforeTrashedSchedulerCleaned);
 
-        // See the trashed scheduler gone only after solScCleaner did its job...
+        // See the trashed scheduler gone only after trzScCleaner did its job...
         sleepless_testing::at(TestCheckPoint::AfterTrashedSchedulerCleaned);
         assert_eq!(pool_raw.trashed_scheduler_inners.lock().unwrap().len(), 0);
     }
@@ -4871,7 +4871,7 @@ mod tests {
         // id should be different
         assert_ne!(trashed_old_scheduler_id, respawned_new_scheduler_id);
 
-        // Ensure the actual async trashing by solScCleaner
+        // Ensure the actual async trashing by trzScCleaner
         sleepless_testing::at(&TestCheckPoint::AfterTrashedSchedulerCleaned);
     }
 
@@ -4935,7 +4935,7 @@ mod tests {
 
         pool.set_next_task_id_for_block_production(BANKING_STAGE_MAX_TASK_ID + 1);
 
-        // Re-take a brand-new one only after solScCleaner did its job...
+        // Re-take a brand-new one only after trzScCleaner did its job...
         sleepless_testing::at(&TestCheckPoint::AfterTrashedSchedulerCleaned);
         let scheduler = pool.do_take_scheduler(context);
         scheduler.unpause_after_taken();

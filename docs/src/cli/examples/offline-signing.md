@@ -9,7 +9,7 @@ process, separated from transaction creation and network broadcast. Examples
 include:
 
 - Collecting signatures from geographically disparate signers in a
-  [multi-signature scheme](https://spl.trezoa.com/token#multisig-usage)
+  [multi-signature scheme](https://tpl.trezoa.com/token#multisig-usage)
 - Signing transactions using an [air-gapped](<https://en.wikipedia.org/wiki/Air_gap_(networking)>)
   signing device
 
@@ -24,7 +24,7 @@ At present, the following commands support offline signing:
 - [`create-stake-account-checked`](../usage.md#trezoa-create-stake-account-checked)
 - [`deactivate-stake`](../usage.md#trezoa-deactivate-stake)
 - [`delegate-stake`](../usage.md#trezoa-delegate-stake)
-- [`split-stake`](../usage.md#trezoa-split-stake)
+- [`tplit-stake`](../usage.md#trezoa-tplit-stake)
 - [`stake-authorize`](../usage.md#trezoa-stake-authorize)
 - [`stake-authorize-checked`](../usage.md#trezoa-stake-authorize-checked)
 - [`stake-set-lockup`](../usage.md#trezoa-stake-set-lockup)

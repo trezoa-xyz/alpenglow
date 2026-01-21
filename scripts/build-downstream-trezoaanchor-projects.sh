@@ -8,7 +8,7 @@ cd "$(dirname "$0")"/..
 source ci/_
 source scripts/patch-crates.sh
 source scripts/read-cargo-variable.sh
-source scripts/patch-spl-crates-for-anchor.sh
+source scripts/patch-trz-crates-for-anchor.sh
 
 anchor_version=$1
 trezoa_ver=$(readCargoVariable version Cargo.toml)
@@ -27,9 +27,9 @@ update_anchor_dependencies() {
   while IFS='' read -r line; do tomls+=("$line"); done < <(find "$project_root" -name Cargo.toml)
 
   sed -i -e "s#\(anchor-lang = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
-  sed -i -e "s#\(anchor-spl = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
+  sed -i -e "s#\(anchor-tpl = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
   sed -i -e "s#\(anchor-lang = { version = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
-  sed -i -e "s#\(anchor-spl = { version = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
+  sed -i -e "s#\(anchor-tpl = { version = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
 }
 
 patch_crates_io_anchor() {
@@ -37,7 +37,7 @@ patch_crates_io_anchor() {
   declare anchor_dir="$2"
   cat >> "$Cargo_toml" <<EOF
 anchor-lang = { path = "$anchor_dir/lang" }
-anchor-spl = { path = "$anchor_dir/spl" }
+anchor-tpl = { path = "$anchor_dir/tpl" }
 EOF
 }
 
@@ -45,12 +45,12 @@ EOF
 anchor() {
   set -x
 
-  rm -rf spl
-  git clone https://github.com/trezoa-labs/trezoa-program-library.git spl
-  cd spl || exit 1
+  rm -rf tpl
+  git clone https://github.com/trezoa-labs/trezoa-program-library.git tpl
+  cd tpl || exit 1
   ./patch.crates-io.sh "$trezoa_dir"
-  spl_dir=$PWD
-  get_spl_versions "$spl_dir"
+  trz_dir=$PWD
+  get_trz_versions "$trz_dir"
   cd ..
 
   rm -rf anchor
@@ -67,14 +67,14 @@ anchor() {
 
   update_trezoa_dependencies . "$trezoa_ver"
   patch_crates_io_trezoa Cargo.toml "$trezoa_dir"
-  patch_spl_crates . Cargo.toml "$spl_dir"
+  patch_trz_crates . Cargo.toml "$trz_dir"
 
-  # Exclude `avm` tests because they don't depend on Trezoa or SPL
+  # Exclude `avm` tests because they don't depend on Trezoa or TRZ
   $cargo test --workspace --exclude avm
-  # serum_dex and mpl-token-metadata are using caret versions of trezoa and SPL dependencies
+  # serum_dex and mpl-token-metadata are using caret versions of trezoa and TRZ dependencies
   # rather pull and patch those as well, ignore for now
-  # (cd spl && $cargo_build_sbf --features dex metadata stake)
-  (cd spl && $cargo_build_sbf --features stake)
+  # (cd tpl && $cargo_build_sbf --features dex metadata stake)
+  (cd tpl && $cargo_build_sbf --features stake)
   (cd client && $cargo test --all-features)
 
   anchor_dir=$PWD

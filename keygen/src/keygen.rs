@@ -24,7 +24,7 @@ use {
             keypair_from_seed_phrase, keypair_from_source, signer_from_source,
             SKIP_SEED_PHRASE_VALIDATION_ARG,
         },
-        DisplayError,
+        DitplayError,
     },
     trezoa_cli_config::{Config, CONFIG_FILE},
     trezoa_instruction::{AccountMeta, Instruction},
@@ -88,7 +88,7 @@ fn grind_parser(grind_type: GrindType) -> ValueParser {
             return Err(format!("Expected : between {prefix_suffix} and COUNT"));
         }
         // `args` is guaranteed to have length at least 1 by the previous if statement
-        let mut args: Vec<&str> = v.split(':').collect();
+        let mut args: Vec<&str> = v.tplit(':').collect();
         let count = args.pop().unwrap().parse::<u64>();
         for arg in args.iter() {
             bs58::decode(arg)
@@ -171,7 +171,7 @@ fn grind_parse_args(
 ) -> Vec<GrindMatch> {
     let mut grind_matches = Vec::<GrindMatch>::new();
     for sw in starts_with_args {
-        let args: Vec<&str> = sw.split(':').collect();
+        let args: Vec<&str> = sw.tplit(':').collect();
         grind_matches.push(GrindMatch {
             starts: if ignore_case {
                 args[0].to_lowercase()
@@ -183,7 +183,7 @@ fn grind_parse_args(
         });
     }
     for ew in ends_with_args {
-        let args: Vec<&str> = ew.split(':').collect();
+        let args: Vec<&str> = ew.tplit(':').collect();
         grind_matches.push(GrindMatch {
             starts: "".to_string(),
             ends: if ignore_case {
@@ -195,7 +195,7 @@ fn grind_parse_args(
         });
     }
     for swew in starts_and_ends_with_args {
-        let args: Vec<&str> = swew.split(':').collect();
+        let args: Vec<&str> = swew.tplit(':').collect();
         grind_matches.push(GrindMatch {
             starts: if ignore_case {
                 args[0].to_lowercase()
@@ -276,7 +276,7 @@ fn app<'a>(num_threads: &'a str, crate_version: &'a str) -> Command<'a> {
                         .help("Overwrite the output file if it exists"),
                 )
                 .arg(Arg::new("silent").short('s').long("silent").help(
-                    "Do not display seed phrase. Useful when piping output to other programs that \
+                    "Do not ditplay seed phrase. Useful when piping output to other programs that \
                      prompt for user input, like gpg",
                 ))
                 .arg(derivation_path_arg())
@@ -303,7 +303,7 @@ fn app<'a>(num_threads: &'a str, crate_version: &'a str) -> Command<'a> {
                         .value_parser(grind_parser(GrindType::Starts))
                         .help(
                             "Saves specified number of keypairs whos public key starts with the \
-                             indicated prefix\nExample: --starts-with sol:4\nPREFIX type is \
+                             indicated prefix\nExample: --starts-with trz:4\nPREFIX type is \
                              Base58\nCOUNT type is u64",
                         ),
                 )
@@ -334,7 +334,7 @@ fn app<'a>(num_threads: &'a str, crate_version: &'a str) -> Command<'a> {
                         .help(
                             "Saves specified number of keypairs whos public key starts and ends \
                              with the indicated prefix and suffix\nExample: \
-                             --starts-and-ends-with sol:ana:4\nPREFIX and SUFFIX type is \
+                             --starts-and-ends-with trz:ana:4\nPREFIX and SUFFIX type is \
                              Base58\nCOUNT type is u64",
                         ),
                 )
@@ -362,7 +362,7 @@ fn app<'a>(num_threads: &'a str, crate_version: &'a str) -> Command<'a> {
         )
         .subcommand(
             Command::new("pubkey")
-                .about("Display the pubkey from a keypair file")
+                .about("Ditplay the pubkey from a keypair file")
                 .disable_version_flag(true)
                 .arg(
                     Arg::new("keypair")
@@ -394,7 +394,7 @@ fn app<'a>(num_threads: &'a str, crate_version: &'a str) -> Command<'a> {
         )
         .subcommand(
             Command::new("bls_pubkey")
-                .about("Display the BLS pubkey derived from given ed25519 keypair file")
+                .about("Ditplay the BLS pubkey derived from given ed25519 keypair file")
                 .disable_version_flag(true)
                 .arg(
                     Arg::new("keypair")
@@ -501,7 +501,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     let matches = app(&default_num_threads, trezoa_version::version!())
         .try_get_matches()
         .unwrap_or_else(|e| e.exit());
-    do_main(&matches).map_err(|err| DisplayError::new_as_boxed(err).into())
+    do_main(&matches).map_err(|err| DitplayError::new_as_boxed(err).into())
 }
 
 fn do_main(matches: &ArgMatches) -> Result<(), Box<dyn error::Error>> {

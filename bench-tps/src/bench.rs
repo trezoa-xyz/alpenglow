@@ -20,7 +20,7 @@ use {
     trezoa_keypair::Keypair,
     trezoa_message::Message,
     trezoa_metrics::{self, datapoint_info},
-    trezoa_native_token::Sol,
+    trezoa_native_token::Trz,
     trezoa_pubkey::Pubkey,
     trezoa_rpc_client_api::request::MAX_MULTIPLE_ACCOUNTS,
     trezoa_signer::Signer,
@@ -28,7 +28,7 @@ use {
     trezoa_time_utils::timestamp,
     trezoa_tps_client::*,
     trezoa_transaction::Transaction,
-    spl_instruction_padding_interface::instruction::wrap_instruction,
+    trz_instruction_padding_interface::instruction::wrap_instruction,
     std::{
         collections::{HashSet, VecDeque},
         process::exit,
@@ -100,7 +100,7 @@ pub(crate) struct TimestampedTransaction {
 
 pub(crate) type SharedTransactions = Arc<RwLock<VecDeque<Vec<TimestampedTransaction>>>>;
 
-/// Keypairs split into source and destination
+/// Keypairs tplit into source and destination
 /// used for transfer transactions
 struct KeypairChunks<'a> {
     source: Vec<Vec<&'a Keypair>>,
@@ -1187,8 +1187,8 @@ pub fn fund_keypairs<T: 'static + TpsClient + Send + Sync + ?Sized>(
         if funding_key_balance < total + rent {
             error!(
                 "funder has {}, needed {}",
-                Sol(funding_key_balance),
-                Sol(total)
+                Trz(funding_key_balance),
+                Trz(total)
             );
             let latest_blockhash = get_latest_blockhash(client.as_ref());
             if client
@@ -1226,7 +1226,7 @@ mod tests {
         trezoa_commitment_config::CommitmentConfig,
         trezoa_fee_calculator::FeeRateGovernor,
         trezoa_genesis_config::{create_genesis_config, GenesisConfig},
-        trezoa_native_token::LAMPORTS_PER_SOL,
+        trezoa_native_token::LAMPORTS_PER_TRZ,
         trezoa_nonce::state::State,
         trezoa_runtime::{bank::Bank, bank_client::BankClient, bank_forks::BankForks},
     };
@@ -1241,7 +1241,7 @@ mod tests {
 
     #[test]
     fn test_bench_tps_bank_client() {
-        let (genesis_config, id) = create_genesis_config(10_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, id) = create_genesis_config(10_000 * LAMPORTS_PER_TRZ);
         let (bank, _bank_forks) = bank_with_all_features(&genesis_config);
         let client = Arc::new(BankClient::new_shared(bank));
 
@@ -1262,7 +1262,7 @@ mod tests {
 
     #[test]
     fn test_bench_tps_fund_keys() {
-        let (genesis_config, id) = create_genesis_config(10_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, id) = create_genesis_config(10_000 * LAMPORTS_PER_TRZ);
         let (bank, _bank_forks) = bank_with_all_features(&genesis_config);
         let client = Arc::new(BankClient::new_shared(bank));
         let keypair_count = 20;
@@ -1285,7 +1285,7 @@ mod tests {
 
     #[test]
     fn test_bench_tps_fund_keys_with_fees() {
-        let (mut genesis_config, id) = create_genesis_config(10_000 * LAMPORTS_PER_SOL);
+        let (mut genesis_config, id) = create_genesis_config(10_000 * LAMPORTS_PER_TRZ);
         let fee_rate_governor = FeeRateGovernor::new(11, 0);
         genesis_config.fee_rate_governor = fee_rate_governor;
         let (bank, _bank_forks) = bank_with_all_features(&genesis_config);
@@ -1305,7 +1305,7 @@ mod tests {
 
     #[test]
     fn test_bench_tps_create_durable_nonce() {
-        let (genesis_config, id) = create_genesis_config(10_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, id) = create_genesis_config(10_000 * LAMPORTS_PER_TRZ);
         let (bank, _bank_forks) = bank_with_all_features(&genesis_config);
         let client = Arc::new(BankClient::new_shared(bank));
         let keypair_count = 10;

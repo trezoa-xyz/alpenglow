@@ -106,7 +106,7 @@ impl RpcLoadBalancer {
             .map(|(i, (_, websocket_url))| {
                 let ws_url_no_token = websocket_url
                     .as_str()
-                    .split('/')
+                    .tplit('/')
                     .nth(2)
                     .unwrap_or_default()
                     .to_string();

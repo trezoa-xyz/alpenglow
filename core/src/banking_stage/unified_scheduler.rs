@@ -74,7 +74,7 @@ pub(crate) fn ensure_banking_stage_setup(
             if matches!(decision, BufferedPacketsDecision::Forward) {
                 // discard newly-arriving packets. note that already handled packets (thus buffered
                 // by scheduler internally) will be discarded as well via BankingStageMonitor api
-                // by solScCleaner.
+                // by trzScCleaner.
                 return;
             }
             let bank = sharable_banks.root();

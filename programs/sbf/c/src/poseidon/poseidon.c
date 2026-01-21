@@ -1,9 +1,9 @@
 /**
  * @brief Poseidon syscall test
  */
-#include <sol/assert.h>
-#include <sol/poseidon.h>
-#include <sol/string.h>
+#include <trz/assert.h>
+#include <trz/poseidon.h>
+#include <trz/string.h>
 
 extern uint64_t entrypoint(const uint8_t *input) {
   // Two inputs: ones and twos (big-endian).
@@ -17,18 +17,18 @@ extern uint64_t entrypoint(const uint8_t *input) {
                         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     uint8_t input2[] = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
-    const SolBytes inputs[] = {{input1, SOL_ARRAY_SIZE(input1)},
-                               {input2, SOL_ARRAY_SIZE(input2)}};
+    const SolBytes inputs[] = {{input1, TRZ_ARRAY_SIZE(input1)},
+                               {input2, TRZ_ARRAY_SIZE(input2)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // Two inputs: ones and twos (little-endian).
   {
@@ -41,18 +41,18 @@ extern uint64_t entrypoint(const uint8_t *input) {
                         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     uint8_t input2[] = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
-    const SolBytes inputs[] = {{input1, SOL_ARRAY_SIZE(input1)},
-                               {input2, SOL_ARRAY_SIZE(input2)}};
+    const SolBytes inputs[] = {{input1, TRZ_ARRAY_SIZE(input1)},
+                               {input2, TRZ_ARRAY_SIZE(input2)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_LITTLE_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
 
   uint8_t input1[] = {
@@ -69,17 +69,17 @@ extern uint64_t entrypoint(const uint8_t *input) {
         51,  132, 139, 137, 125, 197, 2,   130, 1,   51,
     };
 
-    const SolBytes inputs[] = {{input1, SOL_ARRAY_SIZE(input1)}};
+    const SolBytes inputs[] = {{input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 2 inputs.
   {
@@ -90,18 +90,18 @@ extern uint64_t entrypoint(const uint8_t *input) {
         231, 63,  144, 175, 226, 124, 173, 64,  30,  129,
     };
 
-    const SolBytes inputs[] = {{input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)}};
+    const SolBytes inputs[] = {{input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 3 inputs.
   {
@@ -112,19 +112,19 @@ extern uint64_t entrypoint(const uint8_t *input) {
         205, 35,  194, 2,   177, 134, 115, 191, 37,  67,
     };
 
-    const SolBytes inputs[] = {{input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)}};
+    const SolBytes inputs[] = {{input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 4 inputs.
   {
@@ -135,20 +135,20 @@ extern uint64_t entrypoint(const uint8_t *input) {
         133, 153, 28,  23,  214, 252, 12, 75,  125, 113,
     };
 
-    const SolBytes inputs[] = {{input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)}};
+    const SolBytes inputs[] = {{input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 5 inputs.
   {
@@ -159,21 +159,21 @@ extern uint64_t entrypoint(const uint8_t *input) {
         156, 177, 191, 134, 135, 65,  178, 6,   185, 187,
     };
 
-    const SolBytes inputs[] = {{input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)},
-                               {input1, SOL_ARRAY_SIZE(input1)}};
+    const SolBytes inputs[] = {{input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)},
+                               {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 6 inputs.
   {
@@ -185,19 +185,19 @@ extern uint64_t entrypoint(const uint8_t *input) {
     };
 
     const SolBytes inputs[] = {
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)}};
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 7 inputs.
   {
@@ -209,20 +209,20 @@ extern uint64_t entrypoint(const uint8_t *input) {
     };
 
     const SolBytes inputs[] = {
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}};
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 8 inputs.
   {
@@ -234,20 +234,20 @@ extern uint64_t entrypoint(const uint8_t *input) {
     };
 
     const SolBytes inputs[] = {
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)}};
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 9 inputs.
   {
@@ -259,21 +259,21 @@ extern uint64_t entrypoint(const uint8_t *input) {
     };
 
     const SolBytes inputs[] = {
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}};
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 10 inputs.
   {
@@ -285,21 +285,21 @@ extern uint64_t entrypoint(const uint8_t *input) {
     };
 
     const SolBytes inputs[] = {
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)}};
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 11 inputs.
   {
@@ -311,22 +311,22 @@ extern uint64_t entrypoint(const uint8_t *input) {
     };
 
     const SolBytes inputs[] = {
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}};
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   // 12 inputs.
   {
@@ -338,22 +338,22 @@ extern uint64_t entrypoint(const uint8_t *input) {
     };
 
     const SolBytes inputs[] = {
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)},
-        {input1, SOL_ARRAY_SIZE(input1)}, {input1, SOL_ARRAY_SIZE(input1)}};
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)},
+        {input1, TRZ_ARRAY_SIZE(input1)}, {input1, TRZ_ARRAY_SIZE(input1)}};
 
-    sol_poseidon(
+    trz_poseidon(
       POSEIDON_PARAMETERS_BN254_X5,
       POSEIDON_ENDIANNESS_BIG_ENDIAN,
       inputs,
-      SOL_ARRAY_SIZE(inputs),
+      TRZ_ARRAY_SIZE(inputs),
       result
     );
 
-    sol_assert(0 == sol_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
+    trz_assert(0 == trz_memcmp(result, expected, POSEIDON_RESULT_LENGTH));
   }
   return SUCCESS;
 }

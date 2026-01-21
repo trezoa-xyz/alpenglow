@@ -33,7 +33,7 @@ use {
         gossip_error::GossipError,
         ping_pong::Pong,
         protocol::{
-            split_gossip_messages, Ping, PingCache, Protocol, PruneData,
+            tplit_gossip_messages, Ping, PingCache, Protocol, PruneData,
             DUPLICATE_SHRED_MAX_PAYLOAD_SIZE, MAX_INCREMENTAL_SNAPSHOT_HASHES,
             MAX_PRUNE_DATA_NODES, PULL_RESPONSE_MAX_PAYLOAD_SIZE,
             PULL_RESPONSE_MIN_SERIALIZED_SIZE, PUSH_MESSAGE_MAX_PAYLOAD_SIZE,
@@ -314,7 +314,7 @@ impl ClusterInfo {
                 if let Err(err) = bincode::serialize_into(&mut writer, &nodes) {
                     warn!(
                         "Failed to serialize contact info info {}: {}",
-                        tmp_filename.display(),
+                        tmp_filename.ditplay(),
                         err
                     );
                     return;
@@ -324,7 +324,7 @@ impl ClusterInfo {
                 }
             }
             Err(err) => {
-                warn!("Failed to create {}: {}", tmp_filename.display(), err);
+                warn!("Failed to create {}: {}", tmp_filename.ditplay(), err);
                 return;
             }
         }
@@ -334,14 +334,14 @@ impl ClusterInfo {
                 info!(
                     "Saved contact info for {} nodes into {}",
                     nodes.len(),
-                    filename.display()
+                    filename.ditplay()
                 );
             }
             Err(err) => {
                 warn!(
                     "Failed to rename {} to {}: {}",
-                    tmp_filename.display(),
-                    filename.display(),
+                    tmp_filename.ditplay(),
+                    filename.ditplay(),
                     err
                 );
             }
@@ -360,12 +360,12 @@ impl ClusterInfo {
         let nodes: Vec<CrdsValue> = match File::open(&filename) {
             Ok(file) => {
                 bincode::deserialize_from(&mut BufReader::new(file)).unwrap_or_else(|err| {
-                    warn!("Failed to deserialize {}: {}", filename.display(), err);
+                    warn!("Failed to deserialize {}: {}", filename.ditplay(), err);
                     vec![]
                 })
             }
             Err(err) => {
-                warn!("Failed to open {}: {}", filename.display(), err);
+                warn!("Failed to open {}: {}", filename.ditplay(), err);
                 vec![]
             }
         };
@@ -373,7 +373,7 @@ impl ClusterInfo {
         info!(
             "Loaded contact info for {} nodes from {}",
             nodes.len(),
-            filename.display()
+            filename.ditplay()
         );
         let now = timestamp();
         let mut gossip_crds = self.gossip.crds.write().unwrap();
@@ -1328,7 +1328,7 @@ impl ClusterInfo {
             .flat_map(move |(peer, msgs): (SocketAddr, Vec<usize>)| {
                 let entries = Rc::clone(&entries);
                 let msgs = msgs.into_iter().map(move |k| entries[k].clone());
-                let msgs = split_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, msgs)
+                let msgs = tplit_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, msgs)
                     .map(move |msgs| Protocol::PushMessage(self_id, msgs));
                 repeat(peer).zip(msgs)
             })
@@ -1473,12 +1473,12 @@ impl ClusterInfo {
     ) -> JoinHandle<()> {
         let thread_pool = ThreadPoolBuilder::new()
             .num_threads(std::cmp::min(get_thread_count(), 8))
-            .thread_name(|i| format!("solGossipRun{i:02}"))
+            .thread_name(|i| format!("trzGossipRun{i:02}"))
             .build()
             .unwrap();
         let mut epoch_specs = bank_forks.clone().map(EpochSpecs::from);
         Builder::new()
-            .name("solGossip".to_string())
+            .name("trzGossip".to_string())
             .spawn(move || {
                 let mut last_push = 0;
                 let mut last_contact_info_trace = timestamp();
@@ -1745,7 +1745,7 @@ impl ClusterInfo {
             .zip(pull_responses)
             .flat_map(|(PullRequest { addr, .. }, values)| {
                 num_crds_values += values.len();
-                split_gossip_messages(PULL_RESPONSE_MAX_PAYLOAD_SIZE, values).map(move |values| {
+                tplit_gossip_messages(PULL_RESPONSE_MAX_PAYLOAD_SIZE, values).map(move |values| {
                     let score = values.iter().map(get_score).max().unwrap_or_default();
                     (score, (addr, values))
                 })
@@ -2250,7 +2250,7 @@ impl ClusterInfo {
     ) -> JoinHandle<()> {
         let thread_pool = ThreadPoolBuilder::new()
             .num_threads(get_thread_count().min(8))
-            .thread_name(|i| format!("solGossipCons{i:02}"))
+            .thread_name(|i| format!("trzGossipCons{i:02}"))
             .build()
             .unwrap();
         let mut epoch_specs = bank_forks.map(EpochSpecs::from);
@@ -2276,7 +2276,7 @@ impl ClusterInfo {
                 }
             }
         };
-        let thread_name = String::from("solGossipConsum");
+        let thread_name = String::from("trzGossipConsum");
         Builder::new().name(thread_name).spawn(run_consume).unwrap()
     }
 
@@ -2291,13 +2291,13 @@ impl ClusterInfo {
         let recycler = PacketBatchRecycler::default();
         let thread_pool = ThreadPoolBuilder::new()
             .num_threads(get_thread_count().min(8))
-            .thread_name(|i| format!("solGossipWork{i:02}"))
+            .thread_name(|i| format!("trzGossipWork{i:02}"))
             .build()
             .unwrap();
         let mut epoch_specs = bank_forks.map(EpochSpecs::from);
         let mut packet_buf = Vec::with_capacity(CHANNEL_CONSUME_CAPACITY);
         Builder::new()
-            .name("solGossipListen".to_string())
+            .name("trzGossipListen".to_string())
             .spawn(move || {
                 while !exit.load(Ordering::Relaxed) {
                     let result = self.run_listen(
@@ -2434,7 +2434,7 @@ pub fn push_messages_to_peer_for_tests(
     peer_gossip: SocketAddr,
     socket_addr_space: &SocketAddrSpace,
 ) -> Result<(), GossipError> {
-    let reqs: Vec<_> = split_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, messages)
+    let reqs: Vec<_> = tplit_gossip_messages(PUSH_MESSAGE_MAX_PAYLOAD_SIZE, messages)
         .map(move |payload| (peer_gossip, Protocol::PushMessage(self_id, payload)))
         .collect();
     let packet_batch = make_gossip_packet_batch(
@@ -3607,7 +3607,7 @@ mod tests {
             .is_ok());
         cluster_info.flush_push_queue();
         let entries = cluster_info.get_duplicate_shreds(&mut cursor);
-        // One duplicate shred proof is split into 3 chunks.
+        // One duplicate shred proof is tplit into 3 chunks.
         assert_eq!(3, entries.len());
         for (i, shred_data) in entries.iter().enumerate() {
             assert_eq!(shred_data.from, host1_key.pubkey());
@@ -3625,7 +3625,7 @@ mod tests {
             .is_ok());
         cluster_info.flush_push_queue();
         let entries1 = cluster_info.get_duplicate_shreds(&mut cursor);
-        // One duplicate shred proof is split into 3 chunks.
+        // One duplicate shred proof is tplit into 3 chunks.
         assert_eq!(3, entries1.len());
         for (i, shred_data) in entries1.iter().enumerate() {
             assert_eq!(shred_data.from, host1_key.pubkey());

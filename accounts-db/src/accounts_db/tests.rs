@@ -727,10 +727,10 @@ fn test_flush_slots_with_reclaim_old_slots() {
     for slot in 1..5 {
         assert!(accounts.storage.get_slot_storage_entry(slot).is_some());
 
-        // Verify that the obsolete accounts for the remaining slots are correct
+        // Verify that the obtrzete accounts for the remaining slots are correct
         let storage = accounts.storage.get_slot_storage_entry(slot).unwrap();
         assert_eq!(
-            storage.get_obsolete_accounts(Some(new_slot)).len() as u64,
+            storage.get_obtrzete_accounts(Some(new_slot)).len() as u64,
             5 - slot
         );
     }
@@ -956,12 +956,12 @@ fn test_account_grow() {
 fn test_lazy_gc_slot() {
     trezoa_logger::setup();
 
-    // Only run this test with mark obsolete accounts disabled as garbage collection
-    // is not lazy with mark obsolete accounts enabled
+    // Only run this test with mark obtrzete accounts disabled as garbage collection
+    // is not lazy with mark obtrzete accounts enabled
     let accounts = AccountsDb::new_with_config(
         Vec::new(),
         AccountsDbConfig {
-            mark_obsolete_accounts: MarkObsoleteAccounts::Disabled,
+            mark_obtrzete_accounts: MarkObtrzeteAccounts::Disabled,
             ..ACCOUNTS_DB_CONFIG_FOR_TESTING
         },
         None,
@@ -1078,19 +1078,19 @@ fn test_clean_zero_lamport_and_dead_slot() {
 }
 
 #[test]
-fn test_clean_dead_slot_with_obsolete_accounts() {
+fn test_clean_dead_slot_with_obtrzete_accounts() {
     trezoa_logger::setup();
 
     // This test is triggering a scenario in reclaim_accounts where the entire slot is reclaimed
     // When an entire slot is reclaimed, it normally unrefs the pubkeys, while when individual
     // accounts are reclaimed it does not unref the pubkeys
 
-    // Obsolete accounts are already unreffed so they should not be unreffed again
+    // Obtrzete accounts are already unreffed so they should not be unreffed again
 
     let accounts = AccountsDb::new_with_config(
         Vec::new(),
         AccountsDbConfig {
-            mark_obsolete_accounts: MarkObsoleteAccounts::Enabled,
+            mark_obtrzete_accounts: MarkObtrzeteAccounts::Enabled,
             ..ACCOUNTS_DB_CONFIG_FOR_TESTING
         },
         None,
@@ -1124,10 +1124,10 @@ fn test_clean_dead_slot_with_obsolete_accounts() {
     assert!(accounts.storage.get_slot_storage_entry(1).is_some());
     let slot = accounts.storage.get_slot_storage_entry(1).unwrap();
 
-    // Ensure that slot1 also still contains the obsolete account
-    assert_eq!(slot.get_obsolete_accounts(None).len(), 1);
+    // Ensure that slot1 also still contains the obtrzete account
+    assert_eq!(slot.get_obtrzete_accounts(None).len(), 1);
 
-    // Ref count for pubkey1 should be 1 as obsolete accounts are enabled
+    // Ref count for pubkey1 should be 1 as obtrzete accounts are enabled
     accounts.assert_ref_count(&pubkey, 1);
 
     // Clean, which will remove slot1
@@ -1137,7 +1137,7 @@ fn test_clean_dead_slot_with_obsolete_accounts() {
     assert!(accounts.storage.get_slot_storage_entry(1).is_none());
 
     // Ref count for pubkey should be 1. It was NOT decremented during clean_accounts_for_tests
-    // despite slot 1 being removed, because the account was already obsolete
+    // despite slot 1 being removed, because the account was already obtrzete
     accounts.assert_ref_count(&pubkey, 1);
 }
 
@@ -1460,15 +1460,15 @@ fn test_clean_zero_lamport_and_old_roots() {
     assert!(!accounts.accounts_index.contains_with(&pubkey, None, None));
 }
 
-#[test_case(MarkObsoleteAccounts::Enabled)]
-#[test_case(MarkObsoleteAccounts::Disabled)]
-fn test_clean_old_with_normal_account(mark_obsolete_accounts: MarkObsoleteAccounts) {
+#[test_case(MarkObtrzeteAccounts::Enabled)]
+#[test_case(MarkObtrzeteAccounts::Disabled)]
+fn test_clean_old_with_normal_account(mark_obtrzete_accounts: MarkObtrzeteAccounts) {
     trezoa_logger::setup();
 
     let accounts = AccountsDb::new_with_config(
         Vec::new(),
         AccountsDbConfig {
-            mark_obsolete_accounts,
+            mark_obtrzete_accounts,
             ..ACCOUNTS_DB_CONFIG_FOR_TESTING
         },
         None,
@@ -1487,8 +1487,8 @@ fn test_clean_old_with_normal_account(mark_obsolete_accounts: MarkObsoleteAccoun
 
     assert_eq!(accounts.alive_account_count_in_slot(1), 1);
 
-    // With obsolete accounts enabled, slot 0 is cleaned during flush
-    if mark_obsolete_accounts == MarkObsoleteAccounts::Disabled {
+    // With obtrzete accounts enabled, slot 0 is cleaned during flush
+    if mark_obtrzete_accounts == MarkObtrzeteAccounts::Disabled {
         assert_eq!(accounts.alive_account_count_in_slot(0), 1);
         accounts.clean_accounts_for_tests();
     }
@@ -1498,15 +1498,15 @@ fn test_clean_old_with_normal_account(mark_obsolete_accounts: MarkObsoleteAccoun
     assert_eq!(accounts.alive_account_count_in_slot(1), 1);
 }
 
-#[test_case(MarkObsoleteAccounts::Enabled)]
-#[test_case(MarkObsoleteAccounts::Disabled)]
-fn test_clean_old_with_zero_lamport_account(mark_obsolete_accounts: MarkObsoleteAccounts) {
+#[test_case(MarkObtrzeteAccounts::Enabled)]
+#[test_case(MarkObtrzeteAccounts::Disabled)]
+fn test_clean_old_with_zero_lamport_account(mark_obtrzete_accounts: MarkObtrzeteAccounts) {
     trezoa_logger::setup();
 
     let accounts = AccountsDb::new_with_config(
         Vec::new(),
         AccountsDbConfig {
-            mark_obsolete_accounts,
+            mark_obtrzete_accounts,
             ..ACCOUNTS_DB_CONFIG_FOR_TESTING
         },
         None,
@@ -1530,8 +1530,8 @@ fn test_clean_old_with_zero_lamport_account(mark_obsolete_accounts: MarkObsolete
 
     accounts.print_accounts_stats("");
 
-    // With obsolete accounts enabled, slot 0 is cleaned during flush
-    if mark_obsolete_accounts == MarkObsoleteAccounts::Disabled {
+    // With obtrzete accounts enabled, slot 0 is cleaned during flush
+    if mark_obtrzete_accounts == MarkObtrzeteAccounts::Disabled {
         // even if rooted, old state isn't cleaned up
         assert_eq!(accounts.alive_account_count_in_slot(0), 2);
         accounts.clean_accounts_for_tests();
@@ -1542,10 +1542,10 @@ fn test_clean_old_with_zero_lamport_account(mark_obsolete_accounts: MarkObsolete
     assert_eq!(accounts.alive_account_count_in_slot(1), 2);
 }
 
-#[test_case(MarkObsoleteAccounts::Enabled)]
-#[test_case(MarkObsoleteAccounts::Disabled)]
+#[test_case(MarkObtrzeteAccounts::Enabled)]
+#[test_case(MarkObtrzeteAccounts::Disabled)]
 fn test_clean_old_with_both_normal_and_zero_lamport_accounts(
-    mark_obsolete_accounts: MarkObsoleteAccounts,
+    mark_obtrzete_accounts: MarkObtrzeteAccounts,
 ) {
     trezoa_logger::setup();
 
@@ -1554,7 +1554,7 @@ fn test_clean_old_with_both_normal_and_zero_lamport_accounts(
         ..AccountsDb::new_with_config(
             Vec::new(),
             AccountsDbConfig {
-                mark_obsolete_accounts,
+                mark_obtrzete_accounts,
                 ..ACCOUNTS_DB_CONFIG_FOR_TESTING
             },
             None,
@@ -1565,17 +1565,17 @@ fn test_clean_old_with_both_normal_and_zero_lamport_accounts(
     let pubkey2 = trezoa_pubkey::new_rand();
 
     // Set up account to be added to secondary index
-    const SPL_TOKEN_INITIALIZED_OFFSET: usize = 108;
+    const TPL_TOKEN_INITIALIZED_OFFSET: usize = 108;
     let mint_key = Pubkey::new_unique();
-    let mut account_data_with_mint = vec![0; spl_generic_token::token::Account::get_packed_len()];
+    let mut account_data_with_mint = vec![0; trz_generic_token::token::Account::get_packed_len()];
     account_data_with_mint[..PUBKEY_BYTES].clone_from_slice(&(mint_key.to_bytes()));
-    account_data_with_mint[SPL_TOKEN_INITIALIZED_OFFSET] = 1;
+    account_data_with_mint[TPL_TOKEN_INITIALIZED_OFFSET] = 1;
 
     let mut normal_account = AccountSharedData::new(1, 0, AccountSharedData::default().owner());
-    normal_account.set_owner(spl_generic_token::token::id());
+    normal_account.set_owner(trz_generic_token::token::id());
     normal_account.set_data(account_data_with_mint.clone());
     let mut zero_account = AccountSharedData::new(0, 0, AccountSharedData::default().owner());
-    zero_account.set_owner(spl_generic_token::token::id());
+    zero_account.set_owner(trz_generic_token::token::id());
     zero_account.set_data(account_data_with_mint);
 
     //store an account
@@ -1590,8 +1590,8 @@ fn test_clean_old_with_both_normal_and_zero_lamport_accounts(
     accounts.add_root_and_flush_write_cache(1);
     accounts.add_root_and_flush_write_cache(2);
 
-    if mark_obsolete_accounts == MarkObsoleteAccounts::Enabled {
-        // With obsolete accounts enabled, slot 0 is cleaned during flush
+    if mark_obtrzete_accounts == MarkObtrzeteAccounts::Enabled {
+        // With obtrzete accounts enabled, slot 0 is cleaned during flush
         assert_eq!(accounts.alive_account_count_in_slot(0), 0);
     } else {
         //even if rooted, old state isn't cleaned up
@@ -1695,15 +1695,15 @@ fn test_clean_old_with_both_normal_and_zero_lamport_accounts(
     assert_eq!(found_accounts, vec![pubkey2]);
 }
 
-#[test_case(MarkObsoleteAccounts::Enabled)]
-#[test_case(MarkObsoleteAccounts::Disabled)]
-fn test_clean_max_slot_zero_lamport_account(mark_obsolete_accounts: MarkObsoleteAccounts) {
+#[test_case(MarkObtrzeteAccounts::Enabled)]
+#[test_case(MarkObtrzeteAccounts::Disabled)]
+fn test_clean_max_slot_zero_lamport_account(mark_obtrzete_accounts: MarkObtrzeteAccounts) {
     trezoa_logger::setup();
 
     let accounts = AccountsDb::new_with_config(
         Vec::new(),
         AccountsDbConfig {
-            mark_obsolete_accounts,
+            mark_obtrzete_accounts,
             ..ACCOUNTS_DB_CONFIG_FOR_TESTING
         },
         None,
@@ -1722,8 +1722,8 @@ fn test_clean_max_slot_zero_lamport_account(mark_obsolete_accounts: MarkObsolete
     accounts.add_root_and_flush_write_cache(0);
     accounts.add_root_and_flush_write_cache(1);
 
-    // Clean is performed as part of flush with obsolete accounts marked, so explicit clean isn't needed
-    if mark_obsolete_accounts == MarkObsoleteAccounts::Disabled {
+    // Clean is performed as part of flush with obtrzete accounts marked, so explicit clean isn't needed
+    if mark_obtrzete_accounts == MarkObtrzeteAccounts::Disabled {
         // Only clean up to account 0, should not purge slot 0 based on
         // updates in later slots in slot 1
         assert_eq!(accounts.alive_account_count_in_slot(0), 1);
@@ -2035,7 +2035,7 @@ fn test_stored_readable_account() {
     let executable = true;
     let rent_epoch = 2;
     let meta = StoredMeta {
-        write_version_obsolete: 5,
+        write_version_obtrzete: 5,
         pubkey: Pubkey::new_unique(),
         data_len: 7,
     };
@@ -2069,7 +2069,7 @@ fn test_stored_readable_account() {
 fn test_hash_stored_account() {
     // Number are just sequential.
     let meta = StoredMeta {
-        write_version_obsolete: 0x09_0a_0b_0c_0d_0e_0f_10,
+        write_version_obtrzete: 0x09_0a_0b_0c_0d_0e_0f_10,
         data_len: 0x11_12_13_14_15_16_17_18,
         pubkey: Pubkey::from([
             0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,
@@ -2593,7 +2593,7 @@ fn test_select_candidates_by_total_usage_no_candidates() {
 
 #[test_case(StorageAccess::Mmap)]
 #[test_case(StorageAccess::File)]
-fn test_select_candidates_by_total_usage_3_way_split_condition(storage_access: StorageAccess) {
+fn test_select_candidates_by_total_usage_3_way_tplit_condition(storage_access: StorageAccess) {
     // three candidates, one selected for shrink, one is put back to the candidate list and one is ignored
     trezoa_logger::setup();
     let mut candidates = ShrinkCandidates::default();
@@ -2660,7 +2660,7 @@ fn test_select_candidates_by_total_usage_3_way_split_condition(storage_access: S
 
 #[test_case(StorageAccess::Mmap)]
 #[test_case(StorageAccess::File)]
-fn test_select_candidates_by_total_usage_2_way_split_condition(storage_access: StorageAccess) {
+fn test_select_candidates_by_total_usage_2_way_tplit_condition(storage_access: StorageAccess) {
     // three candidates, 2 are selected for shrink, one is ignored
     trezoa_logger::setup();
     let db = AccountsDb::new_single_for_tests();
@@ -3377,13 +3377,13 @@ fn test_flush_cache_clean() {
         .is_none());
 }
 
-#[test_case(MarkObsoleteAccounts::Enabled)]
-#[test_case(MarkObsoleteAccounts::Disabled)]
-fn test_flush_cache_dont_clean_zero_lamport_account(mark_obsolete_accounts: MarkObsoleteAccounts) {
+#[test_case(MarkObtrzeteAccounts::Enabled)]
+#[test_case(MarkObtrzeteAccounts::Disabled)]
+fn test_flush_cache_dont_clean_zero_lamport_account(mark_obtrzete_accounts: MarkObtrzeteAccounts) {
     let db = AccountsDb::new_with_config(
         Vec::new(),
         AccountsDbConfig {
-            mark_obsolete_accounts,
+            mark_obtrzete_accounts,
             ..ACCOUNTS_DB_CONFIG_FOR_TESTING
         },
         None,
@@ -3431,17 +3431,17 @@ fn test_flush_cache_dont_clean_zero_lamport_account(mark_obsolete_accounts: Mark
 
     // The `zero_lamport_account_key` is still alive in slot 0, so refcount for the
     // pubkey should be 2
-    if mark_obsolete_accounts == MarkObsoleteAccounts::Disabled {
+    if mark_obtrzete_accounts == MarkObtrzeteAccounts::Disabled {
         db.assert_ref_count(&zero_lamport_account_key, 2);
     } else {
-        // However, if obsolete accounts are enabled, it will only be alive in slot 2
+        // However, if obtrzete accounts are enabled, it will only be alive in slot 2
         db.assert_ref_count(&zero_lamport_account_key, 1);
     }
     db.assert_ref_count(&other_account_key, 1);
 
     // The zero-lamport account in slot 2 should not be purged yet, because the
     // entry in slot 0 is blocking cleanup of the zero-lamport account.
-    // With obsolete accounts enabled, the zero lamport account being newer
+    // With obtrzete accounts enabled, the zero lamport account being newer
     // than the latest full snapshot blocks cleanup
     let max_root = None;
     // Fine to simulate a transaction load since we are not doing any out of band
@@ -3651,7 +3651,7 @@ impl AccountsDb {
 define_accounts_db_test!(test_alive_bytes, |accounts_db| {
     let slot: Slot = 0;
     let num_keys = 10;
-    let mut num_obsolete_accounts = 0;
+    let mut num_obtrzete_accounts = 0;
 
     for data_size in 0..num_keys {
         let account = AccountSharedData::new(1, data_size, &Pubkey::default());
@@ -3679,11 +3679,11 @@ define_accounts_db_test!(test_alive_bytes, |accounts_db| {
                 [0];
             assert_eq!(account_info.0, slot);
             let reclaims = [account_info];
-            num_obsolete_accounts += reclaims.len();
+            num_obtrzete_accounts += reclaims.len();
             accounts_db.remove_dead_accounts(
                 reclaims.iter(),
                 None,
-                MarkAccountsObsolete::Yes(slot),
+                MarkAccountsObtrzete::Yes(slot),
             );
             let after_size = storage0.alive_bytes();
             if storage0.count() == 0 {
@@ -3693,8 +3693,8 @@ define_accounts_db_test!(test_alive_bytes, |accounts_db| {
                 let stored_size_aligned = storage0.accounts.calculate_stored_size(account.data_len);
                 assert_eq!(before_size, after_size + stored_size_aligned);
                 assert_eq!(
-                    storage0.get_obsolete_accounts(None).len(),
-                    num_obsolete_accounts
+                    storage0.get_obtrzete_accounts(None).len(),
+                    num_obtrzete_accounts
                 );
             }
         })
@@ -4252,7 +4252,7 @@ fn test_clean_drop_dead_storage_handle_zero_lamport_single_ref_accounts() {
 }
 
 /// Tests that shrink correctly marks newly single ref zero lamport accounts and sends them to clean
-/// This test is still relevant with obsolete accounts enabled, but can be removed if all
+/// This test is still relevant with obtrzete accounts enabled, but can be removed if all
 /// scenarios where flush_write_cache doesn't clean are eliminated.
 #[test]
 fn test_shrink_unref_handle_zero_lamport_single_ref_accounts() {
@@ -4309,8 +4309,8 @@ fn test_shrink_unref_handle_zero_lamport_single_ref_accounts() {
     db.get_and_assert_single_storage(1);
     db.clean_accounts(Some(2), false, &EpochSchedule::default());
 
-    // No stores should exist for slot 0. If obsolete accounts are enabled, slot 0 stores are
-    // cleaned when slot 2 is flushed. If obsolete accounts are disabled, slot 0 stores are
+    // No stores should exist for slot 0. If obtrzete accounts are enabled, slot 0 stores are
+    // cleaned when slot 2 is flushed. If obtrzete accounts are disabled, slot 0 stores are
     // cleaned during the clean_accounts function call.
     assert_no_storages_at_slot(&db, 0);
     // No store should exit for slot 1 too as it has only a zero lamport single ref account.
@@ -4406,7 +4406,7 @@ fn start_load_thread(
                     return;
                 }
                 // Meddle load_limit to cover all branches of implementation.
-                // There should absolutely no behavioral difference; the load_limit triggered
+                // There should abtrzutely no behavioral difference; the load_limit triggered
                 // slow branch should only affect the performance.
                 // Ordering::Relaxed is ok because of no data dependencies; the modified field is
                 // completely free-standing cfg(test) control-flow knob.
@@ -4699,7 +4699,7 @@ fn test_cache_flush_remove_unrooted_race_multiple_slots() {
         // 2) Flushing thread trying to flush while/after we're trying to dump the slot,
         // in which case flush should ignore/move past the slot to be dumped
         //
-        // Hence, we split into chunks to get the dumping of each chunk to race with the
+        // Hence, we tplit into chunks to get the dumping of each chunk to race with the
         // flushes. If we were to dump the entire chunk at once, then this reduces the possibility
         // of the flush occurring first since the dumping logic reserves all the slots it's about
         // to dump immediately.
@@ -5923,7 +5923,7 @@ fn test_shrink_collect_simple() {
 }
 
 #[test]
-fn test_shrink_collect_with_obsolete_accounts() {
+fn test_shrink_collect_with_obtrzete_accounts() {
     trezoa_logger::setup();
     let account_count = 100;
     let pubkeys: Vec<_> = iter::repeat_with(Pubkey::new_unique)
@@ -5940,7 +5940,7 @@ fn test_shrink_collect_with_obsolete_accounts() {
     );
 
     let mut regular_pubkeys = Vec::new();
-    let mut obsolete_pubkeys = Vec::new();
+    let mut obtrzete_pubkeys = Vec::new();
     let mut zero_lamport_pubkeys = Vec::new();
     let mut unref_pubkeys = Vec::new();
 
@@ -5964,7 +5964,7 @@ fn test_shrink_collect_with_obsolete_accounts() {
     let storage = db.get_and_assert_single_storage(slot);
 
     for (i, pubkey) in pubkeys.iter().enumerate() {
-        // Mark Some accounts obsolete. These will include zero lamport and non zero lamport accounts
+        // Mark Some accounts obtrzete. These will include zero lamport and non zero lamport accounts
         if i % 5 == 0 {
             // Lookup the pubkey in the database and find the AccountInfo
             db.accounts_index
@@ -5972,11 +5972,11 @@ fn test_shrink_collect_with_obsolete_accounts() {
                     db.remove_dead_accounts(
                         [account_info].iter(),
                         None,
-                        MarkAccountsObsolete::Yes(slot),
+                        MarkAccountsObtrzete::Yes(slot),
                     );
                 });
 
-            obsolete_pubkeys.push(*pubkey);
+            obtrzete_pubkeys.push(*pubkey);
         } else if i % 4 == 0 {
             // Purge accounts via clean and ensure that they will be unreffed.
             db.accounts_index.purge_exact(
@@ -5999,7 +5999,7 @@ fn test_shrink_collect_with_obsolete_accounts() {
 
     assert_eq!(shrink_collect.slot, slot);
 
-    // Ensure that the keys to unref does not include the obsolete accounts and only includes the unreferenced accounts
+    // Ensure that the keys to unref does not include the obtrzete accounts and only includes the unreferenced accounts
     assert_eq!(
         shrink_collect
             .pubkeys_to_unref
@@ -6008,7 +6008,7 @@ fn test_shrink_collect_with_obsolete_accounts() {
         unref_pubkeys.iter().clone().collect::<HashSet<_>>()
     );
 
-    // Ensure that the obsolete accounts and accounts to unref are not in the alive list
+    // Ensure that the obtrzete accounts and accounts to unref are not in the alive list
     assert_eq!(
         shrink_collect
             .alive_accounts
@@ -6020,7 +6020,7 @@ fn test_shrink_collect_with_obsolete_accounts() {
         regular_pubkeys
             .into_iter()
             .filter(|account| !unref_pubkeys.contains(account))
-            .filter(|account| !obsolete_pubkeys.contains(account))
+            .filter(|account| !obtrzete_pubkeys.contains(account))
             .sorted()
             .collect::<Vec<Pubkey>>()
     );
@@ -6314,12 +6314,12 @@ fn test_handle_dropped_roots_for_ancient_assert(storage_access: StorageAccess) {
 /// `clean`.  In this case, `clean` should still reclaim the old versions of these accounts.
 #[test]
 fn test_clean_old_storages_with_reclaims_rooted() {
-    // Test is testing clean behaviour that is specific to obsolete accounts disabled
-    // Only run in obsolete accounts disabled mode
+    // Test is testing clean behaviour that is specific to obtrzete accounts disabled
+    // Only run in obtrzete accounts disabled mode
     let accounts_db = AccountsDb::new_with_config(
         Vec::new(),
         AccountsDbConfig {
-            mark_obsolete_accounts: MarkObsoleteAccounts::Disabled,
+            mark_obtrzete_accounts: MarkObtrzeteAccounts::Disabled,
             ..ACCOUNTS_DB_CONFIG_FOR_TESTING
         },
         None,
@@ -6484,23 +6484,23 @@ fn test_calculate_capitalization_overflow_inter_slot() {
 }
 
 #[test]
-fn test_mark_obsolete_accounts_at_startup_none() {
+fn test_mark_obtrzete_accounts_at_startup_none() {
     let (_accounts_dirs, paths) = get_temp_accounts_paths(2).unwrap();
     let accounts_db = AccountsDb::new_for_tests(paths);
     let slots = 0;
     let pubkeys_with_duplicates_by_bin = vec![];
 
-    let obsolete_stats =
-        accounts_db.mark_obsolete_accounts_at_startup(slots, pubkeys_with_duplicates_by_bin);
+    let obtrzete_stats =
+        accounts_db.mark_obtrzete_accounts_at_startup(slots, pubkeys_with_duplicates_by_bin);
 
     assert_eq!(
-        obsolete_stats.accounts_marked_obsolete, 0,
+        obtrzete_stats.accounts_marked_obtrzete, 0,
         "No accounts should be reclaimed for empty bin"
     );
 }
 
 #[test]
-fn test_mark_obsolete_accounts_at_startup_purge_slot() {
+fn test_mark_obtrzete_accounts_at_startup_purge_slot() {
     let (_accounts_dirs, paths) = get_temp_accounts_paths(2).unwrap();
     let accounts_db = AccountsDb::new_for_tests(paths);
     let slots = 2;
@@ -6519,8 +6519,8 @@ fn test_mark_obsolete_accounts_at_startup_purge_slot() {
 
     let pubkeys_with_duplicates_by_bin = vec![vec![pubkey1]];
 
-    let obsolete_stats =
-        accounts_db.mark_obsolete_accounts_at_startup(slots, pubkeys_with_duplicates_by_bin);
+    let obtrzete_stats =
+        accounts_db.mark_obtrzete_accounts_at_startup(slots, pubkeys_with_duplicates_by_bin);
 
     // Verify that slot 0 has not been purged
     assert!(accounts_db.storage.get_slot_storage_entry(0).is_some());
@@ -6531,11 +6531,11 @@ fn test_mark_obsolete_accounts_at_startup_purge_slot() {
     // Verify that the pubkey ref1's count is 1
     accounts_db.assert_ref_count(&pubkey1, 1);
 
-    assert_eq!(obsolete_stats.accounts_marked_obsolete, 2);
+    assert_eq!(obtrzete_stats.accounts_marked_obtrzete, 2);
 }
 
 #[test]
-fn test_mark_obsolete_accounts_at_startup_multiple_bins() {
+fn test_mark_obtrzete_accounts_at_startup_multiple_bins() {
     let (_accounts_dirs, paths) = get_temp_accounts_paths(2).unwrap();
     let accounts_db = AccountsDb::new_for_tests(paths);
     let pubkey1 = Pubkey::from([0; 32]); // Ensure pubkey1 is in bin 0
@@ -6552,8 +6552,8 @@ fn test_mark_obsolete_accounts_at_startup_multiple_bins() {
 
     let pubkeys_with_duplicates_by_bin = vec![vec![pubkey1], vec![pubkey2]];
 
-    let obsolete_stats =
-        accounts_db.mark_obsolete_accounts_at_startup(2, pubkeys_with_duplicates_by_bin);
+    let obtrzete_stats =
+        accounts_db.mark_obtrzete_accounts_at_startup(2, pubkeys_with_duplicates_by_bin);
 
     // Verify that slot 0 has been purged
     assert!(accounts_db.storage.get_slot_storage_entry(0).is_none());
@@ -6566,8 +6566,8 @@ fn test_mark_obsolete_accounts_at_startup_multiple_bins() {
     accounts_db.assert_ref_count(&pubkey2, 1);
 
     // Ensure that stats were accumulated correctly
-    assert_eq!(obsolete_stats.accounts_marked_obsolete, 2);
-    assert_eq!(obsolete_stats.slots_removed, 1);
+    assert_eq!(obtrzete_stats.accounts_marked_obtrzete, 2);
+    assert_eq!(obtrzete_stats.slots_removed, 1);
 }
 
 #[test]

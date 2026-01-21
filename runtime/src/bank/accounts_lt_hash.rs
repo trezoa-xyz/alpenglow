@@ -395,7 +395,7 @@ mod tests {
         },
         trezoa_account::{ReadableAccount as _, WritableAccount as _},
         trezoa_accounts_db::{
-            accounts_db::{AccountsDbConfig, MarkObsoleteAccounts, ACCOUNTS_DB_CONFIG_FOR_TESTING},
+            accounts_db::{AccountsDbConfig, MarkObtrzeteAccounts, ACCOUNTS_DB_CONFIG_FOR_TESTING},
             accounts_index::{
                 AccountsIndexConfig, IndexLimitMb, ACCOUNTS_INDEX_CONFIG_FOR_TESTING,
             },
@@ -403,7 +403,7 @@ mod tests {
         trezoa_fee_calculator::FeeRateGovernor,
         trezoa_genesis_config::{self, GenesisConfig},
         trezoa_keypair::Keypair,
-        trezoa_native_token::LAMPORTS_PER_SOL,
+        trezoa_native_token::LAMPORTS_PER_TRZ,
         trezoa_pubkey::{self as pubkey, Pubkey},
         trezoa_signer::Signer as _,
         std::{cmp, iter, str::FromStr as _, sync::Arc},
@@ -422,7 +422,7 @@ mod tests {
 
     /// Creates a genesis config with `features` enabled
     fn genesis_config_with(features: Features) -> (GenesisConfig, Keypair) {
-        let mint_lamports = 123_456_789 * LAMPORTS_PER_SOL;
+        let mint_lamports = 123_456_789 * LAMPORTS_PER_TRZ;
         match features {
             Features::None => trezoa_genesis_config::create_genesis_config(mint_lamports),
             Features::All => {
@@ -451,13 +451,13 @@ mod tests {
         let keypair5 = Keypair::new();
 
         let (mut genesis_config, mint_keypair) =
-            trezoa_genesis_config::create_genesis_config(123_456_789 * LAMPORTS_PER_SOL);
+            trezoa_genesis_config::create_genesis_config(123_456_789 * LAMPORTS_PER_TRZ);
         genesis_config.fee_rate_governor = FeeRateGovernor::new(0, 0);
         let (bank, bank_forks) = Bank::new_with_bank_forks_for_tests(&genesis_config);
 
         let amount = cmp::max(
             bank.get_minimum_balance_for_rent_exemption(0),
-            LAMPORTS_PER_SOL,
+            LAMPORTS_PER_TRZ,
         );
 
         // send lamports to accounts 1, 2, and 5 so they are alive,
@@ -612,7 +612,7 @@ mod tests {
         assert_eq!(bank.slot(), 0);
 
         // process a transaction that modifies a primordial account
-        bank.transfer(LAMPORTS_PER_SOL, &mint_keypair, &Pubkey::new_unique())
+        bank.transfer(LAMPORTS_PER_TRZ, &mint_keypair, &Pubkey::new_unique())
             .unwrap();
 
         // manually freeze the bank to trigger update_accounts_lt_hash() to run
@@ -744,7 +744,7 @@ mod tests {
 
         let amount = cmp::max(
             bank.get_minimum_balance_for_rent_exemption(0),
-            LAMPORTS_PER_SOL,
+            LAMPORTS_PER_TRZ,
         );
 
         // create some banks with some modified accounts so that there are stored accounts
@@ -781,12 +781,12 @@ mod tests {
     #[test_matrix(
         [Features::None, Features::All],
         [IndexLimitMb::Minimal, IndexLimitMb::InMemOnly],
-        [MarkObsoleteAccounts::Disabled, MarkObsoleteAccounts::Enabled]
+        [MarkObtrzeteAccounts::Disabled, MarkObtrzeteAccounts::Enabled]
     )]
     fn test_verify_accounts_lt_hash_at_startup(
         features: Features,
         accounts_index_limit: IndexLimitMb,
-        mark_obsolete_accounts: MarkObsoleteAccounts,
+        mark_obtrzete_accounts: MarkObtrzeteAccounts,
     ) {
         let (mut genesis_config, mint_keypair) = genesis_config_with(features);
         // This test requires zero fees so that we can easily transfer an account's entire balance.
@@ -795,7 +795,7 @@ mod tests {
 
         let amount = cmp::max(
             bank.get_minimum_balance_for_rent_exemption(0),
-            LAMPORTS_PER_SOL,
+            LAMPORTS_PER_TRZ,
         );
 
         // Write to this pubkey multiple times, so there are guaranteed duplicates in the storages.
@@ -877,7 +877,7 @@ mod tests {
         };
         let accounts_db_config = AccountsDbConfig {
             index: Some(accounts_index_config),
-            mark_obsolete_accounts,
+            mark_obtrzete_accounts,
             ..ACCOUNTS_DB_CONFIG_FOR_TESTING
         };
         let roundtrip_bank = snapshot_bank_utils::bank_from_snapshot_archives(
@@ -947,7 +947,7 @@ mod tests {
 
         let amount = cmp::max(
             bank.get_minimum_balance_for_rent_exemption(0),
-            LAMPORTS_PER_SOL,
+            LAMPORTS_PER_TRZ,
         );
 
         // create some banks with some modified accounts so that there are stored accounts

@@ -283,7 +283,7 @@ pub mod test {
         outstanding_repairs = HashMap::new();
         slot_meta_cache = HashMap::default();
         let keypair = Keypair::new();
-        let reed_solomon_cache = ReedSolomonCache::default();
+        let reed_trzomon_cache = ReedSolomonCache::default();
 
         let completed_shreds: Vec<Shred> = [0, 2, 4, 6]
             .iter()
@@ -296,7 +296,7 @@ pub mod test {
                     Some(Hash::default()),
                     last_shred as u32,
                     last_shred as u32,
-                    &reed_solomon_cache,
+                    &reed_trzomon_cache,
                     &mut ProcessShredsStats::default(),
                 );
                 shreds

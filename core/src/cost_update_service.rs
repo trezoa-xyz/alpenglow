@@ -31,7 +31,7 @@ const LOOP_LIMITER: Duration = Duration::from_millis(10);
 impl CostUpdateService {
     pub fn new(cost_update_receiver: CostUpdateReceiver) -> Self {
         let thread_hdl = Builder::new()
-            .name("solCostUpdtSvc".to_string())
+            .name("trzCostUpdtSvc".to_string())
             .spawn(move || {
                 Self::service_loop(cost_update_receiver);
             })

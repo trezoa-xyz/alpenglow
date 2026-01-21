@@ -3,7 +3,7 @@
 use {
     trezoa_account_info::AccountInfo,
     trezoa_msg::msg,
-    trezoa_program::{program::invoke, syscalls::sol_invoke_signed_c},
+    trezoa_program::{program::invoke, syscalls::trz_invoke_signed_c},
     trezoa_program_error::{ProgramError, ProgramResult},
     trezoa_pubkey::Pubkey,
     trezoa_system_interface::instruction as system_instruction,
@@ -122,7 +122,7 @@ fn process_instruction(
             unsafe {
                 check!(
                     0,
-                    sol_invoke_signed_c(
+                    trz_invoke_signed_c(
                         &instruction as *const _ as *const _,
                         READONLY_ACCOUNTS.as_ptr() as *const _,
                         READONLY_ACCOUNTS.len() as u64,
@@ -156,7 +156,7 @@ fn process_instruction(
             unsafe {
                 check!(
                     0,
-                    sol_invoke_signed_c(
+                    trz_invoke_signed_c(
                         &instruction as *const _ as *const _,
                         new_accounts.as_ptr() as *const _,
                         new_accounts.len() as u64,

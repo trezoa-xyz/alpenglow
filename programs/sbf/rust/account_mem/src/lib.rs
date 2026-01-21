@@ -3,7 +3,7 @@
 use {
     trezoa_account_info::AccountInfo,
     trezoa_program_error::{ProgramError, ProgramResult},
-    trezoa_program_memory::{sol_memcmp, sol_memcpy, sol_memmove, sol_memset},
+    trezoa_program_memory::{trz_memcmp, trz_memcpy, trz_memmove, trz_memset},
     trezoa_pubkey::Pubkey,
 };
 
@@ -36,7 +36,7 @@ pub fn process_instruction(
                     buf[i] = too_early(8)[i];
                 }
 
-                sol_memcmp(too_early(8), &buf, 500);
+                trz_memcmp(too_early(8), &buf, 500);
             }
             1 => {
                 // memcmp overlaps begining
@@ -45,7 +45,7 @@ pub fn process_instruction(
                     buf[i] = too_early(9)[i];
                 }
 
-                sol_memcmp(&buf, too_early(9), 12);
+                trz_memcmp(&buf, too_early(9), 12);
             }
             2 => {
                 // memcmp overlaps begining
@@ -55,48 +55,48 @@ pub fn process_instruction(
                 }
 
                 // memset overlaps begin of account area
-                sol_memset(too_early(2), 3, 3);
-                sol_memcpy(too_early(2), &buf, 3);
+                trz_memset(too_early(2), 3, 3);
+                trz_memcpy(too_early(2), &buf, 3);
             }
             3 => {
                 // memcpy src overlaps begin of account
-                sol_memcpy(&mut buf, too_early(3), 10);
+                trz_memcpy(&mut buf, too_early(3), 10);
             }
             4 => {
                 // memmov src overlaps begin of account
-                sol_memmove(buf.as_mut_ptr(), too_early(3).as_ptr(), 10);
+                trz_memmove(buf.as_mut_ptr(), too_early(3).as_ptr(), 10);
             }
             5 => {
                 // memcpy dst overlaps begin of account
-                sol_memcpy(too_early(3), &buf, 10);
+                trz_memcpy(too_early(3), &buf, 10);
             }
             6 => {
                 // memmov dst overlaps begin of account
-                sol_memmove(too_early(3).as_mut_ptr(), buf.as_ptr(), 10);
+                trz_memmove(too_early(3).as_mut_ptr(), buf.as_ptr(), 10);
             }
             7 => {
                 // memmove dst overlaps begin of account, reverse order
-                sol_memmove(too_early(0).as_mut_ptr(), too_early(3).as_ptr(), 10);
+                trz_memmove(too_early(0).as_mut_ptr(), too_early(3).as_ptr(), 10);
             }
             8 => {
                 // memcmp overlaps end
-                sol_memcmp(&buf, &data[data_len.saturating_sub(8)..], 16);
+                trz_memcmp(&buf, &data[data_len.saturating_sub(8)..], 16);
             }
             9 => {
                 // memcmp overlaps end
-                sol_memcmp(&data[data_len.saturating_sub(7)..], &buf, 15);
+                trz_memcmp(&data[data_len.saturating_sub(7)..], &buf, 15);
             }
             10 => {
                 // memset overlaps end of account
-                sol_memset(&mut data[data_len.saturating_sub(2)..], 0, 3);
+                trz_memset(&mut data[data_len.saturating_sub(2)..], 0, 3);
             }
             11 => {
                 // memcpy src overlaps end of account
-                sol_memcpy(&mut buf, &data[data_len.saturating_sub(3)..], 10);
+                trz_memcpy(&mut buf, &data[data_len.saturating_sub(3)..], 10);
             }
             12 => {
                 // memmov src overlaps end of account
-                sol_memmove(
+                trz_memmove(
                     buf.as_mut_ptr(),
                     data[data_len.saturating_sub(3)..].as_ptr(),
                     10,
@@ -104,11 +104,11 @@ pub fn process_instruction(
             }
             13 => {
                 // memcpy dst overlaps end of account
-                sol_memcpy(&mut data[data_len.saturating_sub(3)..], &buf, 10);
+                trz_memcpy(&mut data[data_len.saturating_sub(3)..], &buf, 10);
             }
             14 => {
                 // memmov dst overlaps end of account
-                sol_memmove(
+                trz_memmove(
                     data[data_len.saturating_sub(3)..].as_mut_ptr(),
                     buf.as_ptr(),
                     10,
@@ -116,7 +116,7 @@ pub fn process_instruction(
             }
             15 => {
                 // memmove dst overlaps end of account, reverse order
-                sol_memmove(
+                trz_memmove(
                     data[data_len..].as_mut_ptr(),
                     data[data_len.saturating_sub(3)..].as_mut_ptr(),
                     10,

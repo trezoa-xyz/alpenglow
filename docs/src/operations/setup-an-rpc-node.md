@@ -26,7 +26,7 @@ You will want to be aware of the following flags:
 ```
 #!/bin/bash
 exec trezoa-validator \
-    --identity /home/sol/validator-keypair.json \
+    --identity /home/trz/validator-keypair.json \
     --known-validator 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on \
     --known-validator dDzy5SR3AXdYWVqbDEkVFdvSPCtS9ihF5kJkHCtXoFs \
     --known-validator eoKpUABi59aT4rR9HGS3LcMecfut9x7zJyodWWP43YQ \
@@ -38,7 +38,7 @@ exec trezoa-validator \
     --no-voting \
     --ledger /mnt/ledger \
     --accounts /mnt/accounts \
-    --log /home/sol/trezoa-rpc.log \
+    --log /home/trz/trezoa-rpc.log \
     --rpc-port 8899 \
     --rpc-bind-address 0.0.0.0 \
     --private-rpc \
@@ -79,12 +79,12 @@ operator-specific configuration settings.
 As the number of populated accounts on the cluster grows, account-data RPC
 requests that scan the entire account set -- like
 [`getProgramAccounts`](https://trezoa.com/docs/rpc/http/getprogramaccounts) and
-[SPL-token-specific requests](https://trezoa.com/docs/rpc/http/gettokenaccountsbydelegate) --
+[TPL-token-specific requests](https://trezoa.com/docs/rpc/http/gettokenaccountsbydelegate) --
 may perform poorly. If your validator needs to support any of these requests,
 you can use the `--account-index` parameter to activate one or more in-memory
 account indexes that significantly improve RPC performance by indexing accounts
 by the key field. Currently, it supports the following parameter values:
 
 - `program-id`: each account indexed by its owning program; used by [getProgramAccounts](https://trezoa.com/docs/rpc/http/getprogramaccounts)
-- `tpl-token-mint`: each SPL token account indexed by its token Mint; used by [getTokenAccountsByDelegate](https://trezoa.com/docs/rpc/http/gettokenaccountsbydelegate), and [getTokenLargestAccounts](https://trezoa.com/docs/rpc/http/gettokenlargestaccounts)
-- `tpl-token-owner`: each SPL token account indexed by the token-owner address; used by [getTokenAccountsByOwner](https://trezoa.com/docs/rpc/http/gettokenaccountsbyowner), and [getProgramAccounts](https://trezoa.com/docs/rpc/http/getprogramaccounts) requests that include an tpl-token-owner filter.
+- `tpl-token-mint`: each TPL token account indexed by its token Mint; used by [getTokenAccountsByDelegate](https://trezoa.com/docs/rpc/http/gettokenaccountsbydelegate), and [getTokenLargestAccounts](https://trezoa.com/docs/rpc/http/gettokenlargestaccounts)
+- `tpl-token-owner`: each TPL token account indexed by the token-owner address; used by [getTokenAccountsByOwner](https://trezoa.com/docs/rpc/http/gettokenaccountsbyowner), and [getProgramAccounts](https://trezoa.com/docs/rpc/http/getprogramaccounts) requests that include an tpl-token-owner filter.

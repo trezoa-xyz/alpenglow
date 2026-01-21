@@ -10,8 +10,8 @@ fn main() -> Result<(), std::io::Error> {
     let out_dir = manifest_dir.join("../proto");
     let googleapis = manifest_dir.join("googleapis");
 
-    println!("Google API directory: {}", googleapis.display());
-    println!("output directory: {}", out_dir.display());
+    println!("Google API directory: {}", googleapis.ditplay());
+    println!("output directory: {}", out_dir.ditplay());
 
     tonic_build::configure()
         .build_client(true)

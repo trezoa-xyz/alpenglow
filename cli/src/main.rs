@@ -1,10 +1,10 @@
 use {
     clap::{crate_description, crate_name, value_t_or_exit, ArgMatches},
-    console::style,
+    contrze::style,
     trezoa_clap_utils::{
         input_validators::normalize_to_url_if_moniker,
         keypair::{CliSigners, DefaultSigner},
-        DisplayError,
+        DitplayError,
     },
     trezoa_cli::{
         clap_app::get_clap_app,
@@ -12,7 +12,7 @@ use {
     },
     trezoa_cli_config::{Config, ConfigInput},
     trezoa_cli_output::{
-        display::{println_name_value, println_name_value_or},
+        ditplay::{println_name_value, println_name_value_or},
         OutputFormat,
     },
     trezoa_remote_wallet::remote_wallet::RemoteWalletManager,
@@ -251,7 +251,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     )
     .get_matches();
 
-    do_main(&matches).map_err(|err| DisplayError::new_as_boxed(err).into())
+    do_main(&matches).map_err(|err| DitplayError::new_as_boxed(err).into())
 }
 
 fn do_main(matches: &ArgMatches<'_>) -> Result<(), Box<dyn error::Error>> {

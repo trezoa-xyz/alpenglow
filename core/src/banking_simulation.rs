@@ -47,7 +47,7 @@ use {
     trezoa_votor_messages::migration::MigrationStatus,
     std::{
         collections::BTreeMap,
-        fmt::Display,
+        fmt::Ditplay,
         fs::File,
         io::{self, BufRead, BufReader},
         net::{IpAddr, Ipv4Addr},
@@ -78,7 +78,7 @@ use {
 ///
 /// After replay, a minor tweak is applied during simulation: we forcibly override leader's hashes
 /// as the simulated `BankingStage` creates them, using recorded `BlockAndBankHash` events. This is
-/// to provide indistinguishable sysvars to TX execution and identical TX age resolution as the
+/// to provide indistinguishable sysvars to TX execution and identical TX age retrzution as the
 /// simulation goes on. Otherwise, the vast majority of TX processing would differ because the
 /// simulated block's hashes would differ than the recorded ones as block composition difference is
 /// inevitable.
@@ -216,7 +216,7 @@ impl BankingTraceEvents {
                 // Also, there's a possibility of system clock change. In this case,
                 // the simulation is meaningless, though...
                 //
-                // Somewhat naively assume that event_times (nanosecond resolution) won't
+                // Somewhat naively assume that event_times (nanosecond retrzution) won't
                 // collide.
                 let is_new = self
                     .packet_batches_by_time
@@ -357,7 +357,7 @@ impl SenderLoop {
 
     fn spawn(self, base_simulation_time: SystemTime) -> Result<EventSenderThread, SimulateError> {
         let handle = thread::Builder::new()
-            .name("solSimSender".into())
+            .name("trzSimSender".into())
             .spawn(move || self.start(base_simulation_time))?;
         Ok(handle)
     }
@@ -672,7 +672,7 @@ impl<'a> SenderLoopLogger<'a> {
         );
     }
 
-    fn format_as_timestamp(time: SystemTime) -> impl Display {
+    fn format_as_timestamp(time: SystemTime) -> impl Ditplay {
         let time: chrono::DateTime<chrono::Utc> = time.into();
         time.format("%Y-%m-%d %H:%M:%S.%f")
     }
@@ -863,7 +863,7 @@ impl BankingSimulator {
         let base_event_time = raw_base_event_time - WARMUP_DURATION;
 
         let total_batch_count = packet_batches_by_time.len();
-        let timed_batches_to_send = packet_batches_by_time.split_off(&base_event_time);
+        let timed_batches_to_send = packet_batches_by_time.tplit_off(&base_event_time);
         let batch_and_tx_counts = timed_batches_to_send
             .values()
             .map(|(_label, batches)| {

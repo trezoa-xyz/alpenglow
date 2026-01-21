@@ -133,7 +133,7 @@ pub fn get_pubkey_from_tls_certificate(
 /// since Trezoa does not rely on DNS names, but we need to provide a unique
 /// one to ensure that we present correct QUIC tokens to the correct server.
 pub fn socket_addr_to_quic_server_name(peer: SocketAddr) -> String {
-    format!("{}.{}.sol", peer.ip(), peer.port())
+    format!("{}.{}.trz", peer.ip(), peer.port())
 }
 
 #[cfg(test)]
@@ -147,7 +147,7 @@ mod tests {
     #[test]
     fn test_socket_addr_to_quic_server_name() {
         let socket = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(1, 2, 3, 4)), 8004);
-        assert_eq!(socket_addr_to_quic_server_name(socket), "1.2.3.4.8004.sol");
+        assert_eq!(socket_addr_to_quic_server_name(socket), "1.2.3.4.8004.trz");
     }
 
     #[test]

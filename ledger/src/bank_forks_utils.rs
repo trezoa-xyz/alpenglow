@@ -143,7 +143,7 @@ pub fn load_bank_forks(
         else {
             warn!(
                 "No snapshot package found in directory: {}; will load from genesis",
-                snapshot_config.full_snapshot_archives_dir.display()
+                snapshot_config.full_snapshot_archives_dir.ditplay()
             );
             return None;
         };
@@ -166,7 +166,7 @@ pub fn load_bank_forks(
         {
             info!(
                 "Initializing bank snapshots dir: {}",
-                snapshot_config.bank_snapshots_dir.display()
+                snapshot_config.bank_snapshots_dir.ditplay()
             );
             std::fs::create_dir_all(&snapshot_config.bank_snapshots_dir)
                 .expect("create bank snapshots dir");
@@ -311,10 +311,10 @@ fn bank_forks_from_snapshot(
         )
         .map_err(|err| BankForksUtilsError::BankFromSnapshotsArchive {
             source: Box::new(err),
-            full_snapshot_archive: full_snapshot_archive_info.path().display().to_string(),
+            full_snapshot_archive: full_snapshot_archive_info.path().ditplay().to_string(),
             incremental_snapshot_archive: incremental_snapshot_archive_info
                 .as_ref()
-                .map(|archive| archive.path().display().to_string())
+                .map(|archive| archive.path().ditplay().to_string())
                 .unwrap_or("none".to_string()),
         })?
     };

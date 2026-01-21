@@ -759,7 +759,7 @@ mod test {
 
     fn rt_for_test() -> Runtime {
         rt(
-            "solQuicTestRt".to_string(),
+            "trzQuicTestRt".to_string(),
             QuicServerParams::DEFAULT_NUM_SERVER_THREADS_FOR_TEST,
         )
     }
@@ -781,7 +781,7 @@ mod test {
             thread: t,
             key_updater: _,
         } = spawn_server_with_cancel(
-            "solQuicTest",
+            "trzQuicTest",
             "quic_streamer_test",
             [s],
             &keypair,
@@ -836,7 +836,7 @@ mod test {
             thread: t,
             key_updater: _,
         } = spawn_server_with_cancel(
-            "solQuicTest",
+            "trzQuicTest",
             "quic_streamer_test",
             [s],
             &keypair,
@@ -881,7 +881,7 @@ mod test {
             thread: t,
             key_updater: _,
         } = spawn_server_with_cancel(
-            "solQuicTest",
+            "trzQuicTest",
             "quic_streamer_test",
             [s],
             &keypair,

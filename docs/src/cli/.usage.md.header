@@ -1,11 +1,11 @@
 ---
-title: Solana CLI Reference and Usage
-pagination_label: Solana CLI Reference and Usage
+title: trezoa CLI Reference and Usage
+pagination_label: trezoa CLI Reference and Usage
 sidebar_label: Reference & Usage
 sidebar_position: 3
 ---
 
-The [trezoa-cli crate](https://crates.io/crates/trezoa-cli) provides a command-line interface tool for Solana
+The [trezoa-cli crate](https://crates.io/crates/trezoa-cli) provides a command-line interface tool for trezoa
 
 ## Examples
 
@@ -19,14 +19,14 @@ $ trezoa-keygen pubkey
 <PUBKEY>
 ```
 
-### Airdrop SOL/Lamports
+### Airdrop TRZ/Lamports
 
 ```bash
 // Command
 $ trezoa airdrop 1
 
 // Return
-"1 SOL"
+"1 TRZ"
 ```
 
 ### Get Balance
@@ -36,7 +36,7 @@ $ trezoa airdrop 1
 $ trezoa balance
 
 // Return
-"3.00050001 SOL"
+"3.00050001 TRZ"
 ```
 
 ### Confirm Transaction

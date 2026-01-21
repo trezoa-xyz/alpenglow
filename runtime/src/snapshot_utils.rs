@@ -98,7 +98,7 @@ pub enum SnapshotVersion {
     V1_2_0,
 }
 
-impl fmt::Display for SnapshotVersion {
+impl fmt::Ditplay for SnapshotVersion {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.write_str(From::from(*self))
     }
@@ -577,7 +577,7 @@ pub fn clean_orphaned_account_snapshot_dirs(
             // In this case, log it and go to the next bank snapshot.
             debug!(
                 "failed to read account hardlinks dir '{}'",
-                account_hardlinks_dir.display(),
+                account_hardlinks_dir.ditplay(),
             );
             continue;
         };
@@ -586,7 +586,7 @@ pub fn clean_orphaned_account_snapshot_dirs(
             let target = fs::read_link(&path).map_err(|err| {
                 IoError::other(format!(
                     "failed to read symlink '{}': {err}",
-                    path.display(),
+                    path.ditplay(),
                 ))
             })?;
             account_snapshot_dirs_referenced.insert(target);
@@ -598,7 +598,7 @@ pub fn clean_orphaned_account_snapshot_dirs(
         let read_dir = fs::read_dir(account_snapshot_path).map_err(|err| {
             IoError::other(format!(
                 "failed to read account snapshot dir '{}': {err}",
-                account_snapshot_path.display(),
+                account_snapshot_path.ditplay(),
             ))
         })?;
         for entry in read_dir {
@@ -606,7 +606,7 @@ pub fn clean_orphaned_account_snapshot_dirs(
             if !account_snapshot_dirs_referenced.contains(&path) {
                 info!(
                     "Removing orphaned account snapshot hardlink directory '{}'...",
-                    path.display()
+                    path.ditplay()
                 );
                 move_and_async_delete_path(&path);
             }
@@ -638,7 +638,7 @@ pub fn purge_incomplete_bank_snapshots(bank_snapshots_dir: impl AsRef<Path>) {
         match result {
             Ok(_) => info!(
                 "Purged incomplete snapshot dir: {}",
-                incomplete_dir.display()
+                incomplete_dir.ditplay()
             ),
             Err(err) => warn!("Failed to purge incomplete snapshot dir: {err}"),
         }
@@ -661,7 +661,7 @@ fn write_snapshot_state_complete_file(bank_snapshot_dir: impl AsRef<Path>) -> io
     fs::File::create(&state_complete_path).map_err(|err| {
         IoError::other(format!(
             "failed to create file '{}': {err}",
-            state_complete_path.display(),
+            state_complete_path.ditplay(),
         ))
     })?;
     Ok(())
@@ -682,7 +682,7 @@ pub fn write_full_snapshot_slot_file(
     .map_err(|err| {
         IoError::other(format!(
             "failed to write full snapshot slot file '{}': {err}",
-            full_snapshot_slot_path.display(),
+            full_snapshot_slot_path.ditplay(),
         ))
     })
 }
@@ -697,7 +697,7 @@ pub fn read_full_snapshot_slot_file(bank_snapshot_dir: impl AsRef<Path>) -> io::
     if full_snapshot_slot_file_metadata.len() != SLOT_SIZE as u64 {
         let error_message = format!(
             "invalid full snapshot slot file size: '{}' has {} bytes (should be {} bytes)",
-            full_snapshot_slot_path.display(),
+            full_snapshot_slot_path.ditplay(),
             full_snapshot_slot_file_metadata.len(),
             SLOT_SIZE,
         );
@@ -718,7 +718,7 @@ pub fn write_storages_flushed_file(bank_snapshot_dir: impl AsRef<Path>) -> io::R
     fs::File::create(&flushed_storages_path).map_err(|err| {
         IoError::other(format!(
             "failed to create file '{}': {err}",
-            flushed_storages_path.display(),
+            flushed_storages_path.ditplay(),
         ))
     })?;
     Ok(())
@@ -765,7 +765,7 @@ pub fn remove_tmp_snapshot_archives(snapshot_archives_dir: impl AsRef<Path>) {
                 if let Err(err) = result {
                     warn!(
                         "Failed to remove temporary snapshot archive '{}': {err}",
-                        path.display(),
+                        path.ditplay(),
                     );
                 }
             }
@@ -882,7 +882,7 @@ fn serialize_snapshot(
         let bank_snapshot_path = bank_snapshot_dir.join(get_snapshot_file_name(slot));
         info!(
             "Creating bank snapshot for slot {slot} at '{}'",
-            bank_snapshot_path.display(),
+            bank_snapshot_path.ditplay(),
         );
 
         let (flush_storages_us, hard_link_storages_us) = if should_flush_and_hard_link_storages {
@@ -911,8 +911,8 @@ fn serialize_snapshot(
             let versioned_epoch_stakes = mem::take(&mut bank_fields.versioned_epoch_stakes);
             let extra_fields = ExtraFieldsToSerialize {
                 lamports_per_signature: bank_fields.fee_rate_governor.lamports_per_signature,
-                obsolete_incremental_snapshot_persistence: None,
-                obsolete_epoch_accounts_hash: None,
+                obtrzete_incremental_snapshot_persistence: None,
+                obtrzete_epoch_accounts_hash: None,
                 versioned_epoch_stakes,
                 accounts_lt_hash: Some(bank_fields.accounts_lt_hash.clone().into()),
             };
@@ -976,7 +976,7 @@ fn serialize_snapshot(
             "{} for slot {} at {}",
             bank_serialize,
             slot,
-            bank_snapshot_path.display(),
+            bank_snapshot_path.ditplay(),
         );
 
         Ok(BankSnapshotInfo {
@@ -1025,7 +1025,7 @@ fn archive_snapshot(
     fs::create_dir_all(&staging_snapshot_dir)
         .map_err(|err| E::CreateSnapshotStagingDir(err, staging_snapshot_dir.clone()))?;
 
-    // To be a source for symlinking and archiving, the path need to be an absolute path
+    // To be a source for symlinking and archiving, the path need to be an abtrzute path
     let src_snapshot_dir = bank_snapshot_dir.as_ref().canonicalize().map_err(|err| {
         E::CanonicalizeSnapshotSourceDir(err, bank_snapshot_dir.as_ref().to_path_buf())
     })?;
@@ -1067,7 +1067,7 @@ fn archive_snapshot(
             // Since the tarball will still go through compression (zstd/etc) afterwards, disabling
             // sparse handling in the tar itself should be fine.
             //
-            // Likely introduced in [^1].  Tracking resolution in [^2].
+            // Likely introduced in [^1].  Tracking retrzution in [^2].
             // [^1] https://github.com/alexcrichton/tar-rs/pull/375
             // [^2] https://github.com/alexcrichton/tar-rs/issues/403
             archive.sparse(false);
@@ -1137,7 +1137,7 @@ fn archive_snapshot(
     timer.stop();
     info!(
         "Successfully created {}. slot: {}, elapsed ms: {}, size: {}",
-        archive_path.display(),
+        archive_path.ditplay(),
         snapshot_slot,
         timer.as_ms(),
         metadata.len()
@@ -1173,7 +1173,7 @@ pub fn get_bank_snapshots(bank_snapshots_dir: impl AsRef<Path>) -> Vec<BankSnaps
         Err(err) => {
             info!(
                 "Unable to read bank snapshots directory '{}': {err}",
-                bank_snapshots_dir.as_ref().display(),
+                bank_snapshots_dir.as_ref().ditplay(),
             );
         }
         Ok(paths) => paths
@@ -1276,7 +1276,7 @@ where
     if consumed_size > maximum_file_size {
         let error_message = format!(
             "too large snapshot data file to serialize: '{}' has {consumed_size} bytes",
-            data_file_path.display(),
+            data_file_path.ditplay(),
         );
         return Err(IoError::other(error_message).into());
     }
@@ -1343,7 +1343,7 @@ fn create_snapshot_data_file_stream(
     if snapshot_file_size > maximum_file_size {
         let error_message = format!(
             "too large snapshot data file to deserialize: '{}' has {} bytes (max size is {} bytes)",
-            snapshot_root_file_path.as_ref().display(),
+            snapshot_root_file_path.as_ref().ditplay(),
             snapshot_file_size,
             maximum_file_size,
         );
@@ -1369,7 +1369,7 @@ fn check_deserialize_file_consumed(
         let error_message = format!(
             "invalid snapshot data file: '{}' has {} bytes, however consumed {} bytes to \
              deserialize",
-            file_path.as_ref().display(),
+            file_path.as_ref().ditplay(),
             file_size,
             consumed_size,
         );
@@ -1388,7 +1388,7 @@ fn get_account_path_from_appendvec_path(appendvec_path: &Path) -> Option<PathBuf
     if run_file_name != ACCOUNTS_RUN_DIR {
         error!(
             "The account path {} does not have run/ as its immediate parent directory.",
-            run_path.display()
+            run_path.ditplay()
         );
         return None;
     }
@@ -1418,8 +1418,8 @@ fn get_snapshot_accounts_hardlink_dir(
         let idx = account_paths.len();
         debug!(
             "for appendvec_path {}, create hard-link path {}",
-            appendvec_path.display(),
-            snapshot_hardlink_dir.display()
+            appendvec_path.ditplay(),
+            snapshot_hardlink_dir.ditplay()
         );
         fs::create_dir_all(&snapshot_hardlink_dir).map_err(|err| {
             GetSnapshotAccountsHardLinkDirError::CreateSnapshotHardLinkDir(
@@ -1596,7 +1596,7 @@ fn streaming_unarchive_snapshot(
     memlock_budget_size: usize,
 ) -> JoinHandle<Result<()>> {
     Builder::new()
-        .name("solTarUnpack".to_string())
+        .name("trzTarUnpack".to_string())
         .spawn(move || {
             let archive_size = fs::metadata(&snapshot_archive_path)?.len() as usize;
             let read_write_budget_size = (memlock_budget_size / 2).min(archive_size);
@@ -1625,7 +1625,7 @@ fn decompressed_tar_reader(
             .map_err(|err| {
                 io::Error::other(format!(
                     "failed to open snapshot archive '{}': {err}",
-                    archive_path.as_ref().display(),
+                    archive_path.as_ref().ditplay(),
                 ))
             })?;
     Ok(ArchiveFormatDecompressor::new(archive_format, buf_reader)?)
@@ -1880,7 +1880,7 @@ pub fn rebuild_storages_from_snapshot_dir(
     let read_dir = fs::read_dir(&accounts_hardlinks).map_err(|err| {
         IoError::other(format!(
             "failed to read accounts hardlinks dir '{}': {err}",
-            accounts_hardlinks.display(),
+            accounts_hardlinks.ditplay(),
         ))
     })?;
     for dir_entry in read_dir {
@@ -1890,7 +1890,7 @@ pub fn rebuild_storages_from_snapshot_dir(
         let account_snapshot_path = fs::read_link(&symlink_path).map_err(|err| {
             IoError::other(format!(
                 "failed to read symlink '{}': {err}",
-                symlink_path.display(),
+                symlink_path.ditplay(),
             ))
         })?;
         let account_run_path = account_snapshot_path
@@ -1909,7 +1909,7 @@ pub fn rebuild_storages_from_snapshot_dir(
         let read_dir = fs::read_dir(&account_snapshot_path).map_err(|err| {
             IoError::other(format!(
                 "failed to read account snapshot dir '{}': {err}",
-                account_snapshot_path.display(),
+                account_snapshot_path.ditplay(),
             ))
         })?;
         for file in read_dir {
@@ -1921,8 +1921,8 @@ pub fn rebuild_storages_from_snapshot_dir(
             fs::hard_link(&file_path, &dest_path).map_err(|err| {
                 IoError::other(format!(
                     "failed to hard link from '{}' to '{}': {err}",
-                    file_path.display(),
-                    dest_path.display(),
+                    file_path.ditplay(),
+                    dest_path.ditplay(),
                 ))
             })?;
         }
@@ -1967,14 +1967,14 @@ fn snapshot_version_from_file(path: impl AsRef<Path>) -> Result<String> {
     let file_metadata = fs::metadata(&path).map_err(|err| {
         IoError::other(format!(
             "failed to query snapshot version file metadata '{}': {err}",
-            path.as_ref().display(),
+            path.as_ref().ditplay(),
         ))
     })?;
     let file_size = file_metadata.len();
     if file_size > MAX_SNAPSHOT_VERSION_FILE_SIZE {
         let error_message = format!(
             "snapshot version file too large: '{}' has {} bytes (max size is {} bytes)",
-            path.as_ref().display(),
+            path.as_ref().ditplay(),
             file_size,
             MAX_SNAPSHOT_VERSION_FILE_SIZE,
         );
@@ -1986,13 +1986,13 @@ fn snapshot_version_from_file(path: impl AsRef<Path>) -> Result<String> {
     let mut file = fs::File::open(&path).map_err(|err| {
         IoError::other(format!(
             "failed to open snapshot version file '{}': {err}",
-            path.as_ref().display()
+            path.as_ref().ditplay()
         ))
     })?;
     file.read_to_string(&mut snapshot_version).map_err(|err| {
         IoError::other(format!(
             "failed to read snapshot version from file '{}': {err}",
-            path.as_ref().display()
+            path.as_ref().ditplay()
         ))
     })?;
 
@@ -2148,7 +2148,7 @@ where
             Err(err) => {
                 info!(
                     "Unable to read snapshot archives directory '{}': {err}",
-                    dir.display(),
+                    dir.ditplay(),
                 );
                 vec![]
             }
@@ -2244,7 +2244,7 @@ pub fn purge_old_snapshot_archives(
 ) {
     info!(
         "Purging old full snapshot archives in {}, retaining up to {} full snapshots",
-        full_snapshot_archives_dir.as_ref().display(),
+        full_snapshot_archives_dir.as_ref().ditplay(),
         maximum_full_snapshot_archives_to_retain
     );
 
@@ -2265,7 +2265,7 @@ pub fn purge_old_snapshot_archives(
         if full_snapshot_archives.is_empty() {
             None
         } else {
-            Some(full_snapshot_archives.split_at(num_to_retain))
+            Some(full_snapshot_archives.tplit_at(num_to_retain))
         }
         .unwrap_or_default();
 
@@ -2276,12 +2276,12 @@ pub fn purge_old_snapshot_archives(
 
     fn remove_archives<T: SnapshotArchiveInfoGetter>(archives: &[T]) {
         for path in archives.iter().map(|a| a.path()) {
-            trace!("Removing snapshot archive: {}", path.display());
+            trace!("Removing snapshot archive: {}", path.ditplay());
             let result = fs::remove_file(path);
             if let Err(err) = result {
                 info!(
                     "Failed to remove snapshot archive '{}': {err}",
-                    path.display()
+                    path.ditplay()
                 );
             }
         }
@@ -2290,7 +2290,7 @@ pub fn purge_old_snapshot_archives(
 
     info!(
         "Purging old incremental snapshot archives in {}, retaining up to {} incremental snapshots",
-        incremental_snapshot_archives_dir.as_ref().display(),
+        incremental_snapshot_archives_dir.as_ref().ditplay(),
         maximum_incremental_snapshot_archives_to_retain
     );
     let mut incremental_snapshot_archives_by_base_slot = HashMap::<Slot, Vec<_>>::new();
@@ -2353,7 +2353,7 @@ pub fn verify_unpacked_snapshots_dir_and_version(
             "no snapshots found in snapshots directory '{}'",
             unpacked_snapshots_dir_and_version
                 .unpacked_snapshots_dir
-                .display(),
+                .ditplay(),
         ))
     })?;
     Ok((snapshot_version, root_paths))
@@ -2429,7 +2429,7 @@ pub fn purge_bank_snapshots_older_than_slot(bank_snapshots_dir: impl AsRef<Path>
 fn purge_bank_snapshots<'a>(bank_snapshots: impl IntoIterator<Item = &'a BankSnapshotInfo>) {
     for snapshot_dir in bank_snapshots.into_iter().map(|s| &s.snapshot_dir) {
         if purge_bank_snapshot(snapshot_dir).is_err() {
-            warn!("Failed to purge bank snapshot: {}", snapshot_dir.display());
+            warn!("Failed to purge bank snapshot: {}", snapshot_dir.ditplay());
         }
     }
 }
@@ -2444,7 +2444,7 @@ pub fn purge_bank_snapshot(bank_snapshot_dir: impl AsRef<Path>) -> Result<()> {
         let read_dir = fs::read_dir(&accounts_hardlinks_dir).map_err(|err| {
             IoError::other(format!(
                 "{FN_ERR}: failed to read accounts hardlinks dir '{}': {err}",
-                accounts_hardlinks_dir.display(),
+                accounts_hardlinks_dir.ditplay(),
             ))
         })?;
         for entry in read_dir {
@@ -2452,7 +2452,7 @@ pub fn purge_bank_snapshot(bank_snapshot_dir: impl AsRef<Path>) -> Result<()> {
             let accounts_hardlink_dir = fs::read_link(&accounts_hardlink_dir).map_err(|err| {
                 IoError::other(format!(
                     "{FN_ERR}: failed to read symlink '{}': {err}",
-                    accounts_hardlink_dir.display(),
+                    accounts_hardlink_dir.ditplay(),
                 ))
             })?;
             move_and_async_delete_path(&accounts_hardlink_dir);
@@ -2461,7 +2461,7 @@ pub fn purge_bank_snapshot(bank_snapshot_dir: impl AsRef<Path>) -> Result<()> {
     fs::remove_dir_all(&bank_snapshot_dir).map_err(|err| {
         IoError::other(format!(
             "{FN_ERR}: failed to remove dir '{}': {err}",
-            bank_snapshot_dir.as_ref().display(),
+            bank_snapshot_dir.as_ref().ditplay(),
         ))
     })?;
     Ok(())

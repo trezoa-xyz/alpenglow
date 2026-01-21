@@ -1175,7 +1175,7 @@ async fn handle_connection(
         // Virtually all small transactions will fit in 1 chunk. Larger transactions will fit in 1
         // or 2 chunks if the first chunk starts towards the end of a datagram. A small number of
         // transaction will have other protocol frames inserted in the middle. Empirically it's been
-        // observed that 4 is the maximum number of chunks txs get split into.
+        // observed that 4 is the maximum number of chunks txs get tplit into.
         //
         // Bytes values are small, so overall the array takes only 128 bytes, and the "cost" of
         // overallocating a few bytes is negligible compared to the cost of having to do multiple

@@ -36,7 +36,7 @@ impl CompletedDataSetsService {
         max_slots: Arc<MaxSlots>,
     ) -> Self {
         let thread_hdl = Builder::new()
-            .name("solComplDataSet".to_string())
+            .name("trzComplDataSet".to_string())
             .spawn(move || {
                 info!("CompletedDataSetsService has started");
                 loop {

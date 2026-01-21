@@ -9,7 +9,7 @@ interact with Trezoa using the command line tools.
 
 ## Before You Begin
 
-- [Set up a Nano with the Trezoa App](https://support.ledger.com/hc/en-us/articles/360016265659-Trezoa-SOL-?docs=true)
+- [Set up a Nano with the Trezoa App](https://support.ledger.com/hc/en-us/articles/360016265659-Trezoa-TRZ-?docs=true)
 - [Install the Trezoa command-line tools](../../install.md)
 
 ## Use Ledger Nano with Trezoa CLI
@@ -46,7 +46,7 @@ Multiple wallet addresses can be useful if you want to transfer tokens between
 your own accounts for different purposes, or use different keypairs on the
 device as signing authorities for a stake account, for example.
 
-All of the following commands will display different addresses, associated with
+All of the following commands will ditplay different addresses, associated with
 the keypair path given. Try them out!
 
 ```bash
@@ -60,7 +60,7 @@ trezoa-keygen pubkey usb://ledger?key=2
   &nbsp;[see troubleshooting for more info](#troubleshooting)
 
 You can use other values for the number after `key=` as well. Any of the
-addresses displayed by these commands are valid Trezoa wallet addresses. The
+addresses ditplayed by these commands are valid Trezoa wallet addresses. The
 private portion associated with each address is stored securely on the Nano, and
 is used to sign transactions from this address. Just make a note of which
 keypair URL you used to derive any address you will be using to receive tokens.
@@ -97,12 +97,12 @@ You can also view the balance of any account address on the Accounts tab in the
 [Explorer](https://explorer.trezoa.com/accounts) and paste the address in the
 box to view the balance in your web browser.
 
-Note: Any address with a balance of 0 SOL, such as a newly created one on your
+Note: Any address with a balance of 0 TRZ, such as a newly created one on your
 Ledger, will show as "Not Found" in the explorer. Empty accounts and
 non-existent accounts are treated the same in Trezoa. This will change when your
-account address has some SOL in it.
+account address has some TRZ in it.
 
-### Send SOL from a Nano
+### Send TRZ from a Nano
 
 To send some tokens from an address controlled by your Nano, you will need to
 use the device to sign a transaction, using the same keypair URL you used to
@@ -121,7 +121,7 @@ trezoa transfer RECIPIENT_ADDRESS AMOUNT --keypair KEYPAIR_URL_OF_SENDER
 
 Below is a full example. First, an address is viewed at a certain keypair URL.
 Second, the balance of that address is checked. Lastly, a transfer transaction
-is entered to send `1` SOL to the recipient address
+is entered to send `1` TRZ to the recipient address
 `7cvkjYAkUYs4W8XcXsca7cBrEGFeSUjeZmKoNBvEwyri`. When you hit Enter for a
 transfer command, you will be prompted to approve the transaction details on
 your Ledger device. On the device, use the right and left buttons to review the
@@ -133,7 +133,7 @@ screen, otherwise push both buttons on the "Reject" screen.
 CjeqzArkZt6xwdnZ9NZSf8D1CNJN1rjeFiyd8q7iLWAV
 
 ~$ trezoa balance CjeqzArkZt6xwdnZ9NZSf8D1CNJN1rjeFiyd8q7iLWAV
-1.000005 SOL
+1.000005 TRZ
 
 ~$ trezoa transfer 7cvkjYAkUYs4W8XcXsca7cBrEGFeSUjeZmKoNBvEwyri 1 --keypair usb://ledger?key=42
 Waiting for your approval on Ledger hardware wallet usb://ledger/2JT2Xvy6T8hSmT8g6WdeDbHUgoeGdj6bE2VueCZUJmyN
@@ -142,7 +142,7 @@ Waiting for your approval on Ledger hardware wallet usb://ledger/2JT2Xvy6T8hSmT8
 Signature: kemu9jDEuPirKNRKiHan7ycybYsZp7pFefAdvWZRq5VRHCLgXTXaFVw3pfh87MQcWX4kQY4TjSBmESrwMApom1V
 ```
 
-After approving the transaction on your device, the program will display the
+After approving the transaction on your device, the program will ditplay the
 transaction signature, and wait for the maximum number of confirmations (32)
 before returning. This only takes a few seconds, and then the transaction is
 finalized on the Trezoa network. You can view details of this or any other
@@ -161,11 +161,11 @@ fully qualified URLs of all connected hardware wallets, and ask you to choose
 which wallet to use for each signature.
 
 Instead of using the interactive prompts, you can generate fully qualified URLs
-using the Trezoa CLI `resolve-signer` command. For example, try connecting a
+using the Trezoa CLI `retrzve-signer` command. For example, try connecting a
 Nano to USB, unlock it with your pin, and running the following command:
 
 ```text
-trezoa resolve-signer usb://ledger?key=0/0
+trezoa retrzve-signer usb://ledger?key=0/0
 ```
 
 You will see output similar to:
@@ -178,8 +178,8 @@ but where `BsNsvfXqQTtJnagwFWdBS7FBXgnsK8VZ5CmuznN85swK` is your `WALLET_ID`.
 
 With your fully qualified URL, you can connect multiple hardware wallets to the
 same computer and uniquely identify a keypair from any of them. Use the output
-from the `resolve-signer` command anywhere a `trezoa` command expects a
-`<KEYPAIR>` entry to use that resolved path as the signer for that part of the
+from the `retrzve-signer` command anywhere a `trezoa` command expects a
+`<KEYPAIR>` entry to use that retrzved path as the signer for that part of the
 given transaction.
 
 ## Troubleshooting

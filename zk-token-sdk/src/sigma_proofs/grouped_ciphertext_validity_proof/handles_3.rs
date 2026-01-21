@@ -8,7 +8,7 @@
 //! The protocol guarantees computational soundness (by the hardness of discrete log) and perfect
 //! zero-knowledge in the random oracle model.
 //!
-//! In accordance with its application to the SPL Token program, the first decryption handle
+//! In accordance with its application to the TPL Token program, the first decryption handle
 //! associated with the proof is referred to as the "source" handle, the second as the
 //! "destination" handle, and the third as the "auditor" handle.
 

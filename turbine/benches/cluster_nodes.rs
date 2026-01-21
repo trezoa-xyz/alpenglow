@@ -33,7 +33,7 @@ fn get_retransmit_peers_deterministic(
 ) {
     let keypair = Keypair::new();
     let merkle_root = Some(Hash::default());
-    let reed_solomon_cache = ReedSolomonCache::default();
+    let reed_trzomon_cache = ReedSolomonCache::default();
     let mut stats = ProcessShredsStats::default();
     let parent_slot = if slot > 0 { slot - 1 } else { 0 };
     let shredder = Shredder::new(slot, parent_slot, 0, 0).unwrap();
@@ -45,7 +45,7 @@ fn get_retransmit_peers_deterministic(
         merkle_root,
         0, // next_shred_index
         0, // next_code_index
-        &reed_solomon_cache,
+        &reed_trzomon_cache,
         &mut stats,
     );
 

@@ -209,7 +209,7 @@ active_release_dir: {root_dir}/active_release
             remove_file(file_name).unwrap();
         }
 
-        let root_dir = "/home/sol/.local/share/trezoa/install";
+        let root_dir = "/home/trz/.local/share/trezoa/install";
 
         writeln!(
             file,

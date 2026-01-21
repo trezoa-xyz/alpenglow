@@ -249,11 +249,11 @@ impl PartitionInfo {
             self.partition_start_time = Some(Instant::now());
         } else if self.partition_start_time.is_some() && !partition_detected {
             warn!(
-                "PARTITION resolved heaviest fork: {heaviest_slot} last vote: \
+                "PARTITION retrzved heaviest fork: {heaviest_slot} last vote: \
                  {last_voted_slot:?}, reset slot: {reset_bank_slot}"
             );
             datapoint_info!(
-                "replay_stage-partition-resolved",
+                "replay_stage-partition-retrzved",
                 ("heaviest_slot", heaviest_slot as i64, i64),
                 ("last_vote_slot", last_voted_slot as i64, i64),
                 ("reset_slot", reset_bank_slot as i64, i64),
@@ -794,7 +794,7 @@ impl ReplayStage {
             } else {
                 let pool = rayon::ThreadPoolBuilder::new()
                     .num_threads(replay_forks_threads.get())
-                    .thread_name(|i| format!("solReplayFork{i:02}"))
+                    .thread_name(|i| format!("trzReplayFork{i:02}"))
                     .build()
                     .expect("new rayon threadpool");
                 ForkReplayMode::Parallel(pool)
@@ -802,7 +802,7 @@ impl ReplayStage {
             // Thread pool to replay multiple transactions within one block in parallel
             let replay_tx_thread_pool = rayon::ThreadPoolBuilder::new()
                 .num_threads(replay_transactions_threads.get())
-                .thread_name(|i| format!("solReplayTx{i:02}"))
+                .thread_name(|i| format!("trzReplayTx{i:02}"))
                 .build()
                 .expect("new rayon threadpool");
 
@@ -1421,7 +1421,7 @@ impl ReplayStage {
             }
         };
         let t_replay = Builder::new()
-            .name("solReplayStage".to_string())
+            .name("trzReplayStage".to_string())
             .spawn(run_replay)
             .unwrap();
 
@@ -2214,7 +2214,7 @@ impl ReplayStage {
 
     // Check for any newly duplicate confirmed slots by the cluster.
     // This only tracks duplicate slot confirmations on the exact
-    // single slots and does not account for votes on their descendants. Used solely
+    // single slots and does not account for votes on their descendants. Used trzely
     // for duplicate slot recovery.
     #[allow(clippy::too_many_arguments)]
     fn process_duplicate_confirmed_slots(
@@ -4660,14 +4660,14 @@ impl ReplayStage {
             ..
         } = tbft_structs;
         heaviest_subtree_fork_choice.set_tree_root((new_root, bank_forks.root_bank().hash()));
-        *duplicate_slots_tracker = duplicate_slots_tracker.split_off(&new_root);
+        *duplicate_slots_tracker = duplicate_slots_tracker.tplit_off(&new_root);
         // duplicate_slots_tracker now only contains entries >= `new_root`
 
-        *duplicate_confirmed_slots = duplicate_confirmed_slots.split_off(&new_root);
+        *duplicate_confirmed_slots = duplicate_confirmed_slots.tplit_off(&new_root);
         // gossip_confirmed_slots now only contains entries >= `new_root`
 
         unfrozen_gossip_verified_vote_hashes.set_root(new_root);
-        *epoch_slots_frozen_slots = epoch_slots_frozen_slots.split_off(&new_root);
+        *epoch_slots_frozen_slots = epoch_slots_frozen_slots.tplit_off(&new_root);
         // epoch_slots_frozen_slots now only contains entries >= `new_root`
     }
 
@@ -5585,7 +5585,7 @@ pub(crate) mod tests {
 
             let shredder = Shredder::new(bank.slot(), bank.parent_slot(), 0, 0).unwrap();
             let keypair = Keypair::new();
-            let reed_solomon_cache = ReedSolomonCache::default();
+            let reed_trzomon_cache = ReedSolomonCache::default();
 
             shredder
                 .make_shreds_from_data_slice(
@@ -5595,7 +5595,7 @@ pub(crate) mod tests {
                     Some(Hash::default()),
                     0,
                     0,
-                    &reed_solomon_cache,
+                    &reed_trzomon_cache,
                     &mut ProcessShredsStats::default(),
                 )
                 .unwrap()
@@ -5678,7 +5678,7 @@ pub(crate) mod tests {
             let exit = Arc::new(AtomicBool::new(false));
             let replay_tx_thread_pool = rayon::ThreadPoolBuilder::new()
                 .num_threads(1)
-                .thread_name(|i| format!("solReplayTest{i:02}"))
+                .thread_name(|i| format!("trzReplayTest{i:02}"))
                 .build()
                 .expect("new rayon threadpool");
             let res = ReplayStage::replay_blockstore_into_bank(
@@ -5879,7 +5879,7 @@ pub(crate) mod tests {
             mut genesis_config,
             mint_keypair,
             ..
-        } = create_genesis_config(trezoa_native_token::LAMPORTS_PER_SOL * 1000);
+        } = create_genesis_config(trezoa_native_token::LAMPORTS_PER_TRZ * 1000);
         genesis_config.rent.lamports_per_byte_year = 50;
         genesis_config.rent.exemption_threshold = 2.0;
         let (ledger_path, _) = create_new_tmp_ledger!(&genesis_config);
@@ -7520,7 +7520,7 @@ pub(crate) mod tests {
         let _ = vote_simulator
             .tbft_structs
             .heaviest_subtree_fork_choice
-            .split_off(&(6, bank6_hash));
+            .tplit_off(&(6, bank6_hash));
         // Should now pick 5 as the heaviest fork from last vote again.
         let (vote_fork, reset_fork, heaviest_fork_failures) = run_compute_and_select_forks(
             &bank_forks,
@@ -9797,7 +9797,7 @@ pub(crate) mod tests {
         let recyclers = VerifyRecyclers::default();
         let replay_tx_thread_pool = rayon::ThreadPoolBuilder::new()
             .num_threads(1)
-            .thread_name(|i| format!("solReplayTx{i:02}"))
+            .thread_name(|i| format!("trzReplayTx{i:02}"))
             .build()
             .expect("new rayon threadpool");
 

@@ -30,7 +30,7 @@ impl VerifiedPacketReceiver {
             .enumerate()
             .map(|(i, socket)| {
                 streamer::receiver(
-                    format!("solVtxRcvr{i:02}"),
+                    format!("trzVtxRcvr{i:02}"),
                     socket,
                     exit.clone(),
                     sender.clone(),

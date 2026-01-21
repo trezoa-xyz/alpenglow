@@ -10,7 +10,7 @@ use {
         },
         memo::WithMemo,
         nonce::check_nonce_account,
-        spend_utils::{resolve_spend_tx_and_check_account_balances, SpendAmount},
+        spend_utils::{retrzve_spend_tx_and_check_account_balances, SpendAmount},
         stake::check_current_authority,
     },
     clap::{value_t_or_exit, App, Arg, ArgMatches, SubCommand},
@@ -26,7 +26,7 @@ use {
         offline::*,
     },
     trezoa_cli_output::{
-        display::build_balance_message, return_signers_with_config, CliEpochVotingHistory,
+        ditplay::build_balance_message, return_signers_with_config, CliEpochVotingHistory,
         CliLandedVote, CliVoteAccount, ReturnSignersConfig,
     },
     trezoa_commitment_config::CommitmentConfig,
@@ -337,13 +337,13 @@ impl VoteSubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Ditplay balance in lamports instead of TRZ"),
                 )
                 .arg(
                     Arg::with_name("with_rewards")
                         .long("with-rewards")
                         .takes_value(false)
-                        .help("Display inflation rewards"),
+                        .help("Ditplay inflation rewards"),
                 )
                 .arg(
                     Arg::with_name("csv")
@@ -357,7 +357,7 @@ impl VoteSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .value_name("NUM")
                         .requires("with_rewards")
-                        .help("Start displaying from epoch NUM"),
+                        .help("Start ditplaying from epoch NUM"),
                 )
                 .arg(
                     Arg::with_name("num_rewards_epochs")
@@ -368,7 +368,7 @@ impl VoteSubCommands for App<'_, '_> {
                         .default_value_if("with_rewards", None, "1")
                         .requires("with_rewards")
                         .help(
-                            "Display rewards for NUM recent epochs, max 10 [default: latest epoch \
+                            "Ditplay rewards for NUM recent epochs, max 10 [default: latest epoch \
                              only]",
                         ),
                 ),
@@ -388,7 +388,7 @@ impl VoteSubCommands for App<'_, '_> {
                         .index(2)
                         .value_name("RECIPIENT_ADDRESS")
                         .required(true),
-                    "The recipient of withdrawn SOL."
+                    "The recipient of withdrawn TRZ."
                 ))
                 .arg(
                     Arg::with_name("amount")
@@ -398,7 +398,7 @@ impl VoteSubCommands for App<'_, '_> {
                         .required(true)
                         .validator(is_amount_or_all)
                         .help(
-                            "The amount to withdraw, in SOL; accepts keyword ALL, which for this \
+                            "The amount to withdraw, in TRZ; accepts keyword ALL, which for this \
                              command means account balance minus rent-exempt minimum",
                         ),
                 )
@@ -431,7 +431,7 @@ impl VoteSubCommands for App<'_, '_> {
                         .index(2)
                         .value_name("RECIPIENT_ADDRESS")
                         .required(true),
-                    "The recipient of all withdrawn SOL."
+                    "The recipient of all withdrawn TRZ."
                 ))
                 .arg(
                     Arg::with_name("authorized_withdrawer")
@@ -883,7 +883,7 @@ pub fn process_create_vote_account(
 
     let recent_blockhash = blockhash_query.get_blockhash(rpc_client, config.commitment)?;
 
-    let (message, _) = resolve_spend_tx_and_check_account_balances(
+    let (message, _) = retrzve_spend_tx_and_check_account_balances(
         rpc_client,
         sign_only,
         amount,
@@ -1411,7 +1411,7 @@ pub fn process_withdraw_from_vote_account(
         }
     };
 
-    let (message, _) = resolve_spend_tx_and_check_account_balances(
+    let (message, _) = retrzve_spend_tx_and_check_account_balances(
         rpc_client,
         sign_only,
         withdraw_amount,
@@ -1431,7 +1431,7 @@ pub fn process_withdraw_from_vote_account(
             let balance_remaining = current_balance.saturating_sub(withdraw_amount);
             if balance_remaining < minimum_balance && balance_remaining != 0 {
                 return Err(CliError::BadParameter(format!(
-                    "Withdraw amount too large. The vote account balance must be at least {} SOL \
+                    "Withdraw amount too large. The vote account balance must be at least {} TRZ \
                      to remain rent exempt",
                     build_balance_message(minimum_balance, false, false)
                 ))

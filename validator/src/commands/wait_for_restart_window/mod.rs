@@ -5,7 +5,7 @@ use {
         new_spinner_progress_bar, println_name_value,
     },
     clap::{value_t_or_exit, App, Arg, ArgMatches, SubCommand},
-    console::style,
+    contrze::style,
     trezoa_clap_utils::{
         input_parsers::pubkey_of,
         input_validators::{is_parsable, is_pubkey_or_keypair, is_valid_percentage},
@@ -181,7 +181,7 @@ pub fn wait_for_restart_window(
                 "Fetching leader schedule for epoch {}...",
                 epoch_info.epoch
             ));
-            let first_slot_in_epoch = epoch_info.absolute_slot - epoch_info.slot_index;
+            let first_slot_in_epoch = epoch_info.abtrzute_slot - epoch_info.slot_index;
             leader_schedule = rpc_client
                 .get_leader_schedule_with_config(
                     Some(first_slot_in_epoch),
@@ -198,7 +198,7 @@ pub fn wait_for_restart_window(
                 .unwrap_or_default()
                 .into_iter()
                 .map(|slot_index| first_slot_in_epoch.saturating_add(slot_index as u64))
-                .filter(|slot| *slot > epoch_info.absolute_slot)
+                .filter(|slot| *slot > epoch_info.abtrzute_slot)
                 .collect::<VecDeque<_>>();
 
             upcoming_idle_windows.clear();
@@ -206,7 +206,7 @@ pub fn wait_for_restart_window(
                 let mut leader_schedule = leader_schedule.clone();
                 let mut max_idle_window = 0;
 
-                let mut idle_window_start_slot = epoch_info.absolute_slot;
+                let mut idle_window_start_slot = epoch_info.abtrzute_slot;
                 while let Some(next_leader_slot) = leader_schedule.pop_front() {
                     let idle_window = next_leader_slot - idle_window_start_slot;
                     max_idle_window = max_idle_window.max(idle_window);
@@ -240,14 +240,14 @@ pub fn wait_for_restart_window(
                 } else {
                     while leader_schedule
                         .front()
-                        .map(|slot| *slot < epoch_info.absolute_slot)
+                        .map(|slot| *slot < epoch_info.abtrzute_slot)
                         .unwrap_or(false)
                     {
                         leader_schedule.pop_front();
                     }
                     while upcoming_idle_windows
                         .first()
-                        .map(|(slot, _)| *slot < epoch_info.absolute_slot)
+                        .map(|(slot, _)| *slot < epoch_info.abtrzute_slot)
                         .unwrap_or(false)
                     {
                         upcoming_idle_windows.pop();
@@ -259,7 +259,7 @@ pub fn wait_for_restart_window(
                         }
                         Some(next_leader_slot) => {
                             let idle_slots =
-                                next_leader_slot.saturating_sub(epoch_info.absolute_slot);
+                                next_leader_slot.saturating_sub(epoch_info.abtrzute_slot);
                             if idle_slots >= min_idle_slots {
                                 Ok(())
                             } else {
@@ -267,7 +267,7 @@ pub fn wait_for_restart_window(
                                     Some((starting_slot, length_in_slots)) => {
                                         format!(
                                             "Next idle window in {} slots, for {} slots",
-                                            starting_slot.saturating_sub(epoch_info.absolute_slot),
+                                            starting_slot.saturating_sub(epoch_info.abtrzute_slot),
                                             length_in_slots
                                         )
                                     }
@@ -332,7 +332,7 @@ pub fn wait_for_restart_window(
                     elapsed.num_seconds() % 60
                 )
             },
-            epoch_info.absolute_slot,
+            epoch_info.abtrzute_slot,
             if monitoring_another_validator {
                 "".to_string()
             } else {

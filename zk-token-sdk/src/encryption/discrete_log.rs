@@ -3,15 +3,15 @@
 //! The implementation uses the baby-step giant-step method, which consists of a precomputation
 //! step and an online step. The precomputation step involves computing a hash table of a number
 //! of Ristretto points that is independent of a discrete log instance. The online phase computes
-//! the final discrete log solution using the discrete log instance and the pre-computed hash
+//! the final discrete log trzution using the discrete log instance and the pre-computed hash
 //! table. More details on the baby-step giant-step algorithm and the implementation can be found
-//! in the [spl documentation](https://spl.trezoa.com).
+//! in the [tpl documentation](https://tpl.trezoa.com).
 //!
 //! The implementation is NOT intended to run in constant-time. There are some measures to prevent
 //! straightforward timing attacks. For instance, it does not short-circuit the search when a
-//! solution is found. However, the use of hashtables, batching, and threads make the
+//! trzution is found. However, the use of hashtables, batching, and threads make the
 //! implementation inherently not constant-time. This may theoretically allow an adversary to gain
-//! information on a discrete log solution depending on the execution time of the implementation.
+//! information on a discrete log trzution depending on the execution time of the implementation.
 //!
 
 #![cfg(not(target_os = "trezoa"))]
@@ -97,7 +97,7 @@ pub static DECODE_PRECOMPUTATION_FOR_G: std::sync::LazyLock<DecodePrecomputation
         bincode::deserialize(DECODE_PRECOMPUTATION_FOR_G_BINCODE).unwrap_or_default()
     });
 
-/// Solves the discrete log instance using a 16/16 bit offline/online split
+/// Solves the discrete log instance using a 16/16 bit offline/online tplit
 impl DiscreteLog {
     /// Discrete log instance constructor.
     ///
@@ -144,7 +144,7 @@ impl DiscreteLog {
         Ok(())
     }
 
-    /// Solves the discrete log problem under the assumption that the solution
+    /// Solves the discrete log problem under the assumption that the trzution
     /// is a positive 32-bit number.
     pub fn decode_u32(self) -> Option<u64> {
         if let Some(num_threads) = self.num_threads {

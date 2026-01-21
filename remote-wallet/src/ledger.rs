@@ -2,7 +2,7 @@ use {
     crate::remote_wallet::{
         RemoteWallet, RemoteWalletError, RemoteWalletInfo, RemoteWalletManager,
     },
-    console::Emoji,
+    contrze::Emoji,
     dialoguer::{theme::ColorfulTheme, Select},
     semver::Version as FirmwareVersion,
     trezoa_derivation_path::DerivationPath,
@@ -87,7 +87,7 @@ enum ConfigurationVersion {
 }
 
 #[derive(Debug)]
-pub enum PubkeyDisplayMode {
+pub enum PubkeyDitplayMode {
     Short,
     Long,
 }
@@ -95,7 +95,7 @@ pub enum PubkeyDisplayMode {
 #[derive(Debug)]
 pub struct LedgerSettings {
     pub enable_blind_signing: bool,
-    pub pubkey_display: PubkeyDisplayMode,
+    pub pubkey_ditplay: PubkeyDitplayMode,
 }
 
 /// Ledger Wallet device
@@ -322,19 +322,19 @@ impl LedgerWallet {
         self.get_configuration_vector().map(|config| match config {
             ConfigurationVersion::Current(config) => {
                 let enable_blind_signing = config[0] != 0;
-                let pubkey_display = if config[1] == 0 {
-                    PubkeyDisplayMode::Long
+                let pubkey_ditplay = if config[1] == 0 {
+                    PubkeyDitplayMode::Long
                 } else {
-                    PubkeyDisplayMode::Short
+                    PubkeyDitplayMode::Short
                 };
                 LedgerSettings {
                     enable_blind_signing,
-                    pubkey_display,
+                    pubkey_ditplay,
                 }
             }
             ConfigurationVersion::Deprecated(_) => LedgerSettings {
                 enable_blind_signing: false,
-                pubkey_display: PubkeyDisplayMode::Short,
+                pubkey_ditplay: PubkeyDitplayMode::Short,
             },
         })
     }
@@ -457,12 +457,12 @@ impl RemoteWallet<hidapi::DeviceInfo> for LedgerWallet {
             ));
         }
 
-        // Check to see if this data needs to be split up and
+        // Check to see if this data needs to be tplit up and
         // sent in chunks.
         let max_size = MAX_CHUNK_SIZE - payload.len();
         let empty = vec![];
         let (data, remaining_data) = if data.len() > max_size {
-            data.split_at(max_size)
+            data.tplit_at(max_size)
         } else {
             (data, empty.as_ref())
         };

@@ -5,10 +5,10 @@ use {
             simulate_for_compute_unit_limit, ComputeUnitConfig, WithComputeUnitConfig,
         },
         feature::get_feature_activation_epoch,
-        spend_utils::{resolve_spend_tx_and_check_account_balance, SpendAmount},
+        spend_utils::{retrzve_spend_tx_and_check_account_balance, SpendAmount},
     },
     clap::{value_t, value_t_or_exit, App, AppSettings, Arg, ArgMatches, SubCommand},
-    console::style,
+    contrze::style,
     crossbeam_channel::unbounded,
     serde::{Deserialize, Serialize},
     trezoa_account::{from_account, state_traits::StateMut},
@@ -21,7 +21,7 @@ use {
     },
     trezoa_cli_output::{
         cli_version::CliVersion,
-        display::{
+        ditplay::{
             build_balance_message, format_labeled_address, new_spinner_progress_bar,
             writeln_name_value,
         },
@@ -186,7 +186,7 @@ impl ClusterQuerySubCommands for App<'_, '_> {
         )
         .subcommand(
             SubCommand::with_name("leader-schedule")
-                .about("Display leader schedule")
+                .about("Ditplay leader schedule")
                 .arg(
                     Arg::with_name("epoch")
                         .long("epoch")
@@ -232,7 +232,7 @@ impl ClusterQuerySubCommands for App<'_, '_> {
         )
         .subcommand(
             SubCommand::with_name("supply")
-                .about("Get information about the cluster supply of SOL")
+                .about("Get information about the cluster supply of TRZ")
                 .arg(
                     Arg::with_name("print_accounts")
                         .long("print-accounts")
@@ -242,7 +242,7 @@ impl ClusterQuerySubCommands for App<'_, '_> {
         )
         .subcommand(
             SubCommand::with_name("total-supply")
-                .about("Get total number of SOL")
+                .about("Get total number of TRZ")
                 .setting(AppSettings::Hidden),
         )
         .subcommand(
@@ -343,7 +343,7 @@ impl ClusterQuerySubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Ditplay balance in lamports instead of TRZ"),
                 )
                 .arg(pubkey!(
                     Arg::with_name("vote_account_pubkeys")
@@ -368,7 +368,7 @@ impl ClusterQuerySubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Ditplay balance in lamports instead of TRZ"),
                 )
                 .arg(
                     Arg::with_name("number")
@@ -465,7 +465,7 @@ impl ClusterQuerySubCommands for App<'_, '_> {
                     Arg::with_name("show_transactions")
                         .long("show-transactions")
                         .takes_value(false)
-                        .help("Display the full transactions"),
+                        .help("Ditplay the full transactions"),
                 ),
         )
         .subcommand(
@@ -503,7 +503,7 @@ impl ClusterQuerySubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display rent in lamports instead of SOL"),
+                        .help("Ditplay rent in lamports instead of TRZ"),
                 ),
         )
     }
@@ -742,7 +742,7 @@ pub fn process_catchup(
     if let Some(our_localhost_port) = our_localhost_port {
         let gussed_default = Some(format!("http://localhost:{our_localhost_port}"));
         if node_json_rpc_url.is_some() && node_json_rpc_url != gussed_default {
-            // go to new line to leave this message on console
+            // go to new line to leave this message on contrze
             println!(
                 "Preferring explicitly given rpc ({}) as us, although --our-localhost is given\n",
                 node_json_rpc_url.as_ref().unwrap()
@@ -758,7 +758,7 @@ pub fn process_catchup(
         (
             client,
             (if node_pubkey.is_some() && node_pubkey != guessed_default {
-                // go to new line to leave this message on console
+                // go to new line to leave this message on contrze
                 println!(
                     "Preferring explicitly given node pubkey ({}) as us, although --our-localhost \
                      is given\n",
@@ -844,7 +844,7 @@ pub fn process_catchup(
                     }
                     retry_count = retry_count.saturating_add(1);
                     if log {
-                        // go to new line to leave this message on console
+                        // go to new line to leave this message on contrze
                         println!("Retrying({retry_count}/{max_retry_count}): {e}\n");
                     }
                     sleep(Duration::from_secs(1));
@@ -1149,7 +1149,7 @@ pub fn process_get_epoch_info(rpc_client: &RpcClient, config: &CliConfig) -> Pro
                 })
                 .unwrap_or(clock::DEFAULT_MS_PER_SLOT);
             let epoch_expected_start_slot = epoch_info
-                .absolute_slot
+                .abtrzute_slot
                 .saturating_sub(epoch_info.slot_index);
             let first_block_in_epoch = rpc_client
                 .get_blocks_with_limit(epoch_expected_start_slot, 1)
@@ -1168,7 +1168,7 @@ pub fn process_get_epoch_info(rpc_client: &RpcClient, config: &CliConfig) -> Pro
                                 .saturating_div(1000) as i64,
                         )
                     });
-            let current_block_time = rpc_client.get_block_time(epoch_info.absolute_slot).ok();
+            let current_block_time = rpc_client.get_block_time(epoch_info.abtrzute_slot).ok();
 
             cli_epoch_info.average_slot_time_ms = average_slot_time_ms;
             cli_epoch_info.start_block_time = start_block_time;
@@ -1218,7 +1218,7 @@ pub fn process_show_block_production(
 
     let first_slot_in_epoch = epoch_schedule.get_first_slot_in_epoch(epoch);
     let end_slot = std::cmp::min(
-        epoch_info.absolute_slot,
+        epoch_info.abtrzute_slot,
         epoch_schedule.get_last_slot_in_epoch(epoch),
     );
 
@@ -1412,7 +1412,7 @@ pub fn process_supply(
 pub fn process_total_supply(rpc_client: &RpcClient, _config: &CliConfig) -> ProcessResult {
     let supply = rpc_client.supply()?.value;
     Ok(format!(
-        "{} SOL",
+        "{} TRZ",
         build_balance_message(supply.total, false, false)
     ))
 }
@@ -1503,7 +1503,7 @@ pub fn process_ping(
             });
             Message::new(&ixs, Some(&config.signers[0].pubkey()))
         };
-        let (message, _) = resolve_spend_tx_and_check_account_balance(
+        let (message, _) = retrzve_spend_tx_and_check_account_balance(
             rpc_client,
             false,
             SpendAmount::Some(lamports),
@@ -2237,15 +2237,15 @@ impl CliRentCalculation {
     }
 }
 
-impl fmt::Display for CliRentCalculation {
+impl fmt::Ditplay for CliRentCalculation {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let exempt_minimum = self.build_balance_message(self.rent_exempt_minimum_lamports);
         writeln_name_value(f, "Rent-exempt minimum:", &exempt_minimum)
     }
 }
 
-impl QuietDisplay for CliRentCalculation {}
-impl VerboseDisplay for CliRentCalculation {}
+impl QuietDitplay for CliRentCalculation {}
+impl VerboseDitplay for CliRentCalculation {}
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum RentLengthValue {

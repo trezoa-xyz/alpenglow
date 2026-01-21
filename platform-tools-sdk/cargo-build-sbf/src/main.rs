@@ -145,7 +145,7 @@ fn prepare_environment(
 fn invoke_cargo(config: &Config, validated_toolchain_version: String) {
     let target_triple = rust_target_triple(config);
 
-    info!("Trezoa SDK: {}", config.sbf_sdk.display());
+    info!("Trezoa SDK: {}", config.sbf_sdk.ditplay());
     if config.no_default_features {
         info!("No default features");
     }
@@ -197,7 +197,7 @@ fn invoke_cargo(config: &Config, validated_toolchain_version: String) {
         ));
     }
     if config.debug {
-        // Replace with -Zsplit-debuginfo=packed when stabilized.
+        // Replace with -Ztplit-debuginfo=packed when stabilized.
         target_rustflags = Cow::Owned(format!("{} -g", &target_rustflags));
     }
     if let Cow::Owned(flags) = target_rustflags {
@@ -355,7 +355,7 @@ fn build_trezoa(config: Config, manifest_path: Option<PathBuf>) {
 fn main() {
     trezoa_logger::setup();
     let default_config = Config::default();
-    let default_sbf_sdk = format!("{}", default_config.sbf_sdk.display());
+    let default_sbf_sdk = format!("{}", default_config.sbf_sdk.ditplay());
 
     let mut args = env::args().collect::<Vec<_>>();
     // When run as a cargo subcommand, the first program argument is the subcommand name.
@@ -583,13 +583,13 @@ fn main() {
         sbf_sdk: fs::canonicalize(&sbf_sdk).unwrap_or_else(|err| {
             error!(
                 "Trezoa SDK path does not exist: {}: {}",
-                sbf_sdk.display(),
+                sbf_sdk.ditplay(),
                 err
             );
             exit(1);
         }),
         sbf_out_dir: sbf_out_dir.map(|sbf_out_dir| {
-            if sbf_out_dir.is_absolute() {
+            if sbf_out_dir.is_abtrzute() {
                 sbf_out_dir
             } else {
                 env::current_dir()

@@ -660,7 +660,7 @@ impl<FG: ForkGraph> Debug for ProgramCache<FG> {
 
 /// Local view into [ProgramCache] which was extracted for a specific TX batch.
 ///
-/// This isolation enables the global [ProgramCache] to continue to evolve (e.g. evictions),
+/// This itrzation enables the global [ProgramCache] to continue to evolve (e.g. evictions),
 /// while the TX batch is guaranteed it will continue to find all the programs it requires.
 /// For program management instructions this also buffers them before they are merged back into the global [ProgramCache].
 #[derive(Clone, Debug, Default)]

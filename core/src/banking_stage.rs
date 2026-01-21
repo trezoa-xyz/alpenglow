@@ -528,7 +528,7 @@ impl BankingStage {
             worker_metrics.push(consume_worker.metrics_handle());
             non_vote_thread_hdls.push(
                 Builder::new()
-                    .name(format!("solCoWorker{id:02}"))
+                    .name(format!("trzCoWorker{id:02}"))
                     .spawn(move || {
                         let _ = consume_worker.run();
                     })
@@ -545,7 +545,7 @@ impl BankingStage {
                 let bank_forks = context.bank_forks.clone();
                 non_vote_thread_hdls.push(
                     Builder::new()
-                        .name("solBnkTxSched".to_string())
+                        .name("trzBnkTxSched".to_string())
                         .spawn(move || {
                             let scheduler_controller = SchedulerController::new(
                                 exit,
@@ -602,7 +602,7 @@ impl BankingStage {
         let exit_signal = context.exit_signal.clone();
         let bank_forks = context.bank_forks.clone();
         Builder::new()
-            .name("solBanknStgVote".to_string())
+            .name("trzBanknStgVote".to_string())
             .spawn(move || {
                 VoteWorker::new(
                     exit_signal,

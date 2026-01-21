@@ -197,7 +197,7 @@ impl Memcmp {
 
     /// Returns reference to bytes if variant is MemcmpEncodedBytes::Bytes;
     /// otherwise returns None. Used exclusively by trezoa-rpc to check
-    /// SPL-token filters.
+    /// TPL-token filters.
     pub fn raw_bytes_as_ref(&self) -> Option<&[u8]> {
         use MemcmpEncodedBytes::*;
         if let Bytes(bytes) = &self.bytes {

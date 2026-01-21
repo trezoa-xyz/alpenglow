@@ -10,7 +10,7 @@ use {
     trezoa_keypair::Keypair,
     trezoa_loader_v3_interface::state::UpgradeableLoaderState,
     trezoa_message::Message,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_pubkey::Pubkey,
     trezoa_rent::Rent,
     trezoa_runtime::{bank::Bank, bank_forks::BankForks},
@@ -56,7 +56,7 @@ struct TestSetup {
 
 impl TestSetup {
     fn new() -> Self {
-        let (mut genesis_config, mint_keypair) = create_genesis_config(LAMPORTS_PER_SOL);
+        let (mut genesis_config, mint_keypair) = create_genesis_config(LAMPORTS_PER_TRZ);
         genesis_config.rent = Rent::default();
         Self {
             genesis_config,
@@ -66,7 +66,7 @@ impl TestSetup {
 
     fn install_memo_program_account(&mut self) {
         let (pubkey, account) = trezoa_program_binaries::by_id(
-            &spl_memo_interface::v3::id(),
+            &trz_memo_interface::v3::id(),
             &self.genesis_config.rent,
         )
         .unwrap()
@@ -145,8 +145,8 @@ impl TestSetup {
     fn memo_ix(&self) -> (Instruction, u32) {
         // construct a memo instruction that would consume more CU than DEFAULT_INSTRUCTION_COMPUTE_UNIT_LIMIT
         let memo = "The quick brown fox jumped over the lazy dog. ".repeat(22) + "!";
-        let memo_ix = spl_memo_interface::instruction::build_memo(
-            &spl_memo_interface::v3::id(),
+        let memo_ix = trz_memo_interface::instruction::build_memo(
+            &trz_memo_interface::v3::id(),
             memo.as_bytes(),
             &[],
         );
@@ -163,7 +163,7 @@ impl TestSetup {
         let upgrade_authority_address = payer_address;
 
         let (_, memo) = trezoa_program_binaries::by_id(
-            &spl_memo_interface::v3::id(),
+            &trz_memo_interface::v3::id(),
             &self.genesis_config.rent,
         )
         .unwrap()

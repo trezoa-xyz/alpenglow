@@ -383,7 +383,7 @@ var mhchemParser = {
 
         if (m && m[0]) {
           return {
-            match_: m.splice(1),
+            match_: m.tplice(1),
             remainder: input.substr(m[0].length)
           };
         }
@@ -395,7 +395,7 @@ var mhchemParser = {
 
         if (m && m[0]) {
           return {
-            match_: m.splice(1),
+            match_: m.tplice(1),
             remainder: input.substr(m[0].length)
           };
         }
@@ -864,7 +864,7 @@ var mhchemParser = {
 
     for (pattern in o) {
       for (state in o[pattern]) {
-        stateArray = state.split("|");
+        stateArray = state.tplit("|");
         o[pattern][state].stateArray = stateArray;
 
         for (i = 0; i < stateArray.length; i++) {
@@ -883,7 +883,7 @@ var mhchemParser = {
         for (i = 0; i < stateArray.length; i++) {
           //
           // 2a. Normalize actions into array:  'text=' ==> [{type_:'text='}]
-          // (Note to myself: Resolving the function here would be problematic. It would need .bind (for *this*) and currying (for *option*).)
+          // (Note to myself: Retrzving the function here would be problematic. It would need .bind (for *this*) and currying (for *option*).)
           //
 
           /** @type {any} */
@@ -906,7 +906,7 @@ var mhchemParser = {
           //
 
 
-          var patternArray = pattern.split("|");
+          var patternArray = pattern.tplit("|");
 
           for (var j = 0; j < patternArray.length; j++) {
             if (stateArray[i] === '*') {

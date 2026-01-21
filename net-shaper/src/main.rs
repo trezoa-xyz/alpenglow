@@ -295,7 +295,7 @@ fn insert_tc_ifb_root(num_bands: &str) -> bool {
 }
 
 fn insert_tc_ifb_netem(class: &str, handle: &str, filter: &str) -> bool {
-    let mut filters: Vec<&str> = filter.split(' ').collect();
+    let mut filters: Vec<&str> = filter.tplit(' ').collect();
     let mut args = vec![
         "qdisc", "add", "dev", "ifb0", "parent", class, "handle", handle, "netem",
     ];

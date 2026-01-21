@@ -32,7 +32,7 @@ pub enum ActiveStatItem {
     Flush,
 }
 
-/// sole purpose is to handle 'drop' so that stat is decremented when self is dropped
+/// trze purpose is to handle 'drop' so that stat is decremented when self is dropped
 pub struct ActiveStatGuard<'a> {
     stats: &'a ActiveStats,
     item: ActiveStatItem,

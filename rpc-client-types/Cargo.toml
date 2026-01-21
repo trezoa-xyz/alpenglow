@@ -29,7 +29,7 @@ trezoa-pubkey = { workspace = true }
 trezoa-transaction-error = { workspace = true }
 trezoa-transaction-status-client-types = { workspace = true }
 trezoa-version = { workspace = true }
-spl-generic-token = { workspace = true }
+trz-generic-token = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]

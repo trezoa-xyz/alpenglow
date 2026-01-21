@@ -51,7 +51,7 @@ module.exports = {
           items: [
             { label: "Proposals", to: "proposals" },
             {
-              href: "https://spl.trezoa.com",
+              href: "https://tpl.trezoa.com",
               label: "Trezoa Program Library",
             },
           ],
@@ -140,7 +140,7 @@ module.exports = {
               to: "proposals",
             },
             {
-              href: "https://spl.trezoa.com",
+              href: "https://tpl.trezoa.com",
               label: "Trezoa Program Library »",
             },
           ],
@@ -157,12 +157,12 @@ module.exports = {
           path: "src",
           breadcrumbs: true,
           routeBasePath: "/",
-          sidebarPath: require.resolve("./sidebars.js"),
+          sidebarPath: require.retrzve("./sidebars.js"),
           remarkPlugins: [math],
           rehypePlugins: [katex],
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
+          customCss: require.retrzve("./src/css/custom.css"),
         },
         // Google Analytics are only active in prod
         // gtag: {

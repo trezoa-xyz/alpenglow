@@ -3,7 +3,7 @@
 use {
     trezoa_account_info::AccountInfo,
     trezoa_program_error::ProgramResult,
-    trezoa_program_memory::{sol_memcmp, sol_memcpy, sol_memmove, sol_memset},
+    trezoa_program_memory::{trz_memcmp, trz_memcpy, trz_memmove, trz_memset},
     trezoa_pubkey::Pubkey,
     trezoa_sbf_rust_mem_dep::{run_mem_tests, MemOps},
 };
@@ -19,16 +19,16 @@ pub fn process_instruction(
     struct MemOpSyscalls();
     impl MemOps for MemOpSyscalls {
         unsafe fn memcpy(&self, dst: &mut [u8], src: &[u8], n: usize) {
-            sol_memcpy(dst, src, n)
+            trz_memcpy(dst, src, n)
         }
         unsafe fn memmove(&self, dst: *mut u8, src: *mut u8, n: usize) {
-            sol_memmove(dst, src, n)
+            trz_memmove(dst, src, n)
         }
         unsafe fn memset(&self, s: &mut [u8], c: u8, n: usize) {
-            sol_memset(s, c, n)
+            trz_memset(s, c, n)
         }
         unsafe fn memcmp(&self, s1: &[u8], s2: &[u8], n: usize) -> i32 {
-            sol_memcmp(s1, s2, n)
+            trz_memcmp(s1, s2, n)
         }
     }
     run_mem_tests(MemOpSyscalls::default());

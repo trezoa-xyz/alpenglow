@@ -8,7 +8,7 @@ use {
     },
     libc::{
         bind, getsockopt, sa_family_t, sendto, setsockopt, sockaddr, sockaddr_xdp, socket,
-        socklen_t, xdp_mmap_offsets, xdp_umem_reg, AF_XDP, SOCK_RAW, SOL_XDP, XDP_COPY,
+        socklen_t, xdp_mmap_offsets, xdp_umem_reg, AF_XDP, SOCK_RAW, TRZ_XDP, XDP_COPY,
         XDP_MMAP_OFFSETS, XDP_PGOFF_RX_RING, XDP_PGOFF_TX_RING, XDP_RING_NEED_WAKEUP, XDP_RX_RING,
         XDP_TX_RING, XDP_UMEM_COMPLETION_RING, XDP_UMEM_FILL_RING, XDP_UMEM_PGOFF_COMPLETION_RING,
         XDP_UMEM_PGOFF_FILL_RING, XDP_USE_NEED_WAKEUP, XDP_ZEROCOPY,
@@ -58,7 +58,7 @@ impl<U: Umem> Socket<U> {
 
             if setsockopt(
                 fd.as_raw_fd(),
-                libc::SOL_XDP,
+                libc::TRZ_XDP,
                 libc::XDP_UMEM_REG,
                 &reg as *const _ as *const libc::c_void,
                 mem::size_of::<xdp_umem_reg>() as libc::socklen_t,
@@ -80,7 +80,7 @@ impl<U: Umem> Socket<U> {
 
                 if setsockopt(
                     fd.as_raw_fd(),
-                    SOL_XDP,
+                    TRZ_XDP,
                     ring,
                     &size as *const _ as *const libc::c_void,
                     mem::size_of::<u32>() as socklen_t,
@@ -94,7 +94,7 @@ impl<U: Umem> Socket<U> {
             let mut optlen = mem::size_of::<xdp_mmap_offsets>() as socklen_t;
             if getsockopt(
                 fd.as_raw_fd(),
-                SOL_XDP,
+                TRZ_XDP,
                 XDP_MMAP_OFFSETS,
                 &mut offsets as *mut _ as *mut libc::c_void,
                 &mut optlen,

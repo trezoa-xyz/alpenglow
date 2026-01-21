@@ -7,17 +7,17 @@ pub struct ArgConstant<'a> {
 }
 
 /// Error type for forwarding Errors out of `main()` of a `clap` app
-/// and still using the `Display` formatter
+/// and still using the `Ditplay` formatter
 #[derive(Error)]
 #[error("{0}")]
-pub struct DisplayError(Box<dyn std::error::Error>);
-impl DisplayError {
+pub struct DitplayError(Box<dyn std::error::Error>);
+impl DitplayError {
     pub fn new_as_boxed(inner: Box<dyn std::error::Error>) -> Box<Self> {
-        DisplayError(inner).into()
+        DitplayError(inner).into()
     }
 }
 
-impl std::fmt::Debug for DisplayError {
+impl std::fmt::Debug for DitplayError {
     fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(fmt, "{}", self.0)
     }

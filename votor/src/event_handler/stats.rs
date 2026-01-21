@@ -249,7 +249,7 @@ impl EventHandlerStats {
             );
         }
         // Only report if the slot is lower than root_slot
-        let split_off_map = self.slot_tracking_map.split_off(&self.root_slot);
+        let tplit_off_map = self.slot_tracking_map.tplit_off(&self.root_slot);
         for (slot, tracking) in &self.slot_tracking_map {
             let start = tracking.start;
             datapoint_info!(
@@ -307,6 +307,6 @@ impl EventHandlerStats {
         let root_slot = self.root_slot;
         *self = EventHandlerStats::new();
         self.root_slot = root_slot;
-        self.slot_tracking_map = split_off_map;
+        self.slot_tracking_map = tplit_off_map;
     }
 }

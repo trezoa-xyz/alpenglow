@@ -380,16 +380,16 @@ fn test_bank_forks_incremental_snapshot() {
     trace!(
         "SnapshotTestConfig:\naccounts_dir: {}\nbank_snapshots_dir: \
          {}\nfull_snapshot_archives_dir: {}\nincremental_snapshot_archives_dir: {}",
-        snapshot_test_config.accounts_dir.display(),
-        snapshot_test_config.bank_snapshots_dir.path().display(),
+        snapshot_test_config.accounts_dir.ditplay(),
+        snapshot_test_config.bank_snapshots_dir.path().ditplay(),
         snapshot_test_config
             .full_snapshot_archives_dir
             .path()
-            .display(),
+            .ditplay(),
         snapshot_test_config
             .incremental_snapshot_archives_dir
             .path()
-            .display()
+            .ditplay()
     );
 
     let bank_forks = snapshot_test_config.bank_forks.clone();

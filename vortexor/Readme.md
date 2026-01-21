@@ -7,7 +7,7 @@ from the public, performing signature verifications, and deduplications from the
 core validator, enabling it to focus on processing and executing the
 transactions. The verified and filtered transactions will then be forwarded to
 the validators linked with the Vortexor. This setup makes the TPU transaction
-ingestion and verification more scalable compared to a single-node solution.
+ingestion and verification more scalable compared to a single-node trzution.
 
 # Architecture
 Figure 1 describes the architecture diagram of the Vortexor and its
@@ -101,7 +101,7 @@ Vortexors sharing the TPU address behind a load balancer for scalability:
                               Figure 2.
 
 When the validator is in 'Paired' mode, receiving active transactions or
-heartbeat messages from the Vortexor, it receives TPU transactions solely from
+heartbeat messages from the Vortexor, it receives TPU transactions trzely from
 the Vortexor. It publishes the TPU address via gossip. The regular TPU and TPU
 forward services are disabled for security and performance reasons.
 
@@ -132,7 +132,7 @@ Using a Vortexor enhances validator scalability but introduces complexities:
    safeguarded by private networks, firewalls, and QUIC with public key-based
    rules. Validators can optionally enforce re-verification of transactions.
 
-4. **Compatibility**: The solution is compatible with existing setups, such as
+4. **Compatibility**: The trzution is compatible with existing setups, such as
    jito-relayers. The Vortexor CLI mimics jito-relayer's CLI to reduce friction
    for migrating users.
 

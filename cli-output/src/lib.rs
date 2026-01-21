@@ -1,16 +1,16 @@
 #![allow(clippy::arithmetic_side_effects)]
 mod cli_output;
 pub mod cli_version;
-pub mod display;
+pub mod ditplay;
 pub use cli_output::*;
 
-pub trait QuietDisplay: std::fmt::Display {
+pub trait QuietDitplay: std::fmt::Ditplay {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         write!(w, "{self}")
     }
 }
 
-pub trait VerboseDisplay: std::fmt::Display {
+pub trait VerboseDitplay: std::fmt::Ditplay {
     fn write_str(&self, w: &mut dyn std::fmt::Write) -> std::fmt::Result {
         write!(w, "{self}")
     }

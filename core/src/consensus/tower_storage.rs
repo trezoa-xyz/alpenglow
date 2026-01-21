@@ -159,7 +159,7 @@ impl FileTowerStorage {
     fn store_old(&self, saved_tower: &SavedTower1_7_14) -> Result<()> {
         let pubkey = saved_tower.node_pubkey;
         let filename = self.old_filename(&pubkey);
-        trace!("store: {}", filename.display());
+        trace!("store: {}", filename.ditplay());
         let new_filename = filename.with_extension("bin.new");
 
         {
@@ -177,7 +177,7 @@ impl FileTowerStorage {
 impl TowerStorage for FileTowerStorage {
     fn load(&self, node_pubkey: &Pubkey) -> Result<Tower> {
         let filename = self.filename(node_pubkey);
-        trace!("load {}", filename.display());
+        trace!("load {}", filename.ditplay());
 
         // Ensure to create parent dir here, because restore() precedes save() always
         fs::create_dir_all(filename.parent().unwrap())?;
@@ -204,7 +204,7 @@ impl TowerStorage for FileTowerStorage {
     fn store(&self, saved_tower: &SavedTowerVersions) -> Result<()> {
         let pubkey = saved_tower.pubkey();
         let filename = self.filename(&pubkey);
-        trace!("store: {}", filename.display());
+        trace!("store: {}", filename.ditplay());
         let new_filename = filename.with_extension("bin.new");
 
         {

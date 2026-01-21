@@ -9,14 +9,14 @@ use {
     trezoa_keypair::read_keypair_file,
     trezoa_pubkey::{Pubkey, MAX_SEED_LEN},
     trezoa_signature::Signature,
-    std::{fmt::Display, ops::RangeBounds, str::FromStr},
+    std::{fmt::Ditplay, ops::RangeBounds, str::FromStr},
 };
 
 fn is_parsable_generic<U, T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
     U: FromStr,
-    U::Err: Display,
+    U::Err: Ditplay,
 {
     string
         .as_ref()
@@ -31,7 +31,7 @@ where
 pub fn is_parsable<T>(string: &str) -> Result<(), String>
 where
     T: FromStr,
-    T::Err: Display,
+    T::Err: Ditplay,
 {
     is_parsable_generic::<T, &str>(string)
 }
@@ -45,7 +45,7 @@ where
 pub fn is_within_range<T, R>(string: String, range: R) -> Result<(), String>
 where
     T: FromStr + Copy + std::fmt::Debug + PartialOrd + std::ops::Add<Output = T> + From<usize>,
-    T::Err: Display,
+    T::Err: Ditplay,
     R: RangeBounds<T> + std::fmt::Debug,
 {
     match string.parse::<T>() {
@@ -76,7 +76,7 @@ pub fn is_pubkey(string: &str) -> Result<(), String> {
 )]
 pub fn is_hash<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_parsable_generic::<Hash, _>(string)
 }
@@ -88,7 +88,7 @@ where
 )]
 pub fn is_keypair<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     read_keypair_file(string.as_ref())
         .map(|_| ())
@@ -104,7 +104,7 @@ where
 )]
 pub fn is_keypair_or_ask_keyword<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     if string.as_ref() == ASK_KEYWORD {
         return Ok(());
@@ -145,7 +145,7 @@ pub fn is_prompt_signer_source(string: &str) -> Result<(), String> {
 #[allow(deprecated)]
 pub fn is_pubkey_or_keypair<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_pubkey(string.as_ref()).or_else(|_| is_keypair(string))
 }
@@ -159,7 +159,7 @@ where
 #[allow(deprecated)]
 pub fn is_valid_pubkey<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     match SignerSource::parse(string.as_ref())
         .map_err(|err| format!("{err}"))?
@@ -185,7 +185,7 @@ where
 #[allow(deprecated)]
 pub fn is_valid_signer<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_valid_pubkey(string)
 }
@@ -198,9 +198,9 @@ where
 #[allow(deprecated)]
 pub fn is_pubkey_sig<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
-    let mut signer = string.as_ref().split('=');
+    let mut signer = string.as_ref().tplit('=');
     match Pubkey::from_str(
         signer
             .next()
@@ -224,7 +224,7 @@ where
 #[deprecated(since = "1.17.0", note = "please use `parse_url` instead")]
 pub fn is_url<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     match url::Url::parse(string.as_ref()) {
         Ok(url) => {
@@ -241,7 +241,7 @@ where
 #[deprecated(since = "1.17.0", note = "please use `parse_url_or_moniker` instead")]
 pub fn is_url_or_moniker<T>(string: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     match url::Url::parse(&normalize_to_url_if_moniker(string.as_ref())) {
         Ok(url) => {
@@ -272,7 +272,7 @@ pub fn normalize_to_url_if_moniker<T: AsRef<str>>(url_or_moniker: T) -> String {
 )]
 pub fn is_epoch<T>(epoch: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_parsable_generic::<Epoch, _>(epoch)
 }
@@ -283,7 +283,7 @@ where
 )]
 pub fn is_slot<T>(slot: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_parsable_generic::<Slot, _>(slot)
 }
@@ -291,7 +291,7 @@ where
 #[deprecated(since = "1.17.0", note = "please use `parse_pow2` instead")]
 pub fn is_pow2<T>(bins: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     bins.as_ref()
         .parse::<usize>()
@@ -311,7 +311,7 @@ where
 )]
 pub fn is_port<T>(port: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     is_parsable_generic::<u16, _>(port)
 }
@@ -319,7 +319,7 @@ where
 #[deprecated(since = "1.17.0", note = "please use `parse_percentage` instead")]
 pub fn is_valid_percentage<T>(percentage: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     percentage
         .as_ref()
@@ -339,7 +339,7 @@ where
 #[deprecated(since = "1.17.0", note = "please use `Amount::parse_decimal` instead")]
 pub fn is_amount<T>(amount: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     if amount.as_ref().parse::<u64>().is_ok() || amount.as_ref().parse::<f64>().is_ok() {
         Ok(())
@@ -356,7 +356,7 @@ where
 )]
 pub fn is_amount_or_all<T>(amount: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     if amount.as_ref().parse::<u64>().is_ok()
         || amount.as_ref().parse::<f64>().is_ok()
@@ -373,7 +373,7 @@ where
 #[deprecated(since = "1.17.0", note = "please use `parse_rfc3339_datetime` instead")]
 pub fn is_rfc3339_datetime<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     DateTime::parse_from_rfc3339(value.as_ref())
         .map(|_| ())
@@ -383,10 +383,10 @@ where
 #[deprecated(since = "1.17.0", note = "please use `parse_derivation` instead")]
 pub fn is_derivation<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     let value = value.as_ref().replace('\'', "");
-    let mut parts = value.split('/');
+    let mut parts = value.tplit('/');
     let account = parts.next().unwrap();
     account
         .parse::<u32>()
@@ -406,11 +406,11 @@ where
 #[deprecated(since = "1.17.0", note = "please use `parse_structured_seed` instead")]
 pub fn is_structured_seed<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     let (prefix, value) = value
         .as_ref()
-        .split_once(':')
+        .tplit_once(':')
         .ok_or("Seed must contain ':' as delimiter")
         .unwrap();
     if prefix.is_empty() || value.is_empty() {
@@ -455,7 +455,7 @@ where
 )]
 pub fn is_derived_address_seed<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     let value = value.as_ref();
     if value.len() > MAX_SEED_LEN {

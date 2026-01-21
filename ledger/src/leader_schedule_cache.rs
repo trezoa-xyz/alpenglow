@@ -516,7 +516,7 @@ mod tests {
             bootstrap_validator_stake_lamports()
                 + trezoa_stake_program::get_minimum_delegation(
                     bank.feature_set.is_active(
-                        &trezoa_feature_set::stake_raise_minimum_delegation_to_1_sol::id(),
+                        &trezoa_feature_set::stake_raise_minimum_delegation_to_1_trz::id(),
                     ),
                 ),
         );

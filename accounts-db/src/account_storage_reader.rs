@@ -12,9 +12,9 @@ use {
 };
 
 /// A wrapper type around `AccountStorageEntry` that implements the `Read` trait.
-/// This type skips over the data in accounts contained in the obsolete accounts structure
+/// This type skips over the data in accounts contained in the obtrzete accounts structure
 pub struct AccountStorageReader<'a> {
-    sorted_obsolete_accounts: Vec<(Offset, usize)>,
+    sorted_obtrzete_accounts: Vec<(Offset, usize)>,
     current_offset: usize,
     file: Option<File>,
     internals: InternalsForArchive<'a>,
@@ -24,30 +24,30 @@ pub struct AccountStorageReader<'a> {
 
 impl<'a> AccountStorageReader<'a> {
     /// Creates a new `AccountStorageReader` from an `AccountStorageEntry`.
-    /// The obsolete accounts structure is sorted during initialization.
+    /// The obtrzete accounts structure is sorted during initialization.
     pub fn new(storage: &'a AccountStorageEntry, snapshot_slot: Option<Slot>) -> io::Result<Self> {
         let internals = storage.accounts.internals_for_archive();
         let num_total_bytes = storage.accounts.len();
-        let num_alive_bytes = num_total_bytes - storage.get_obsolete_bytes(snapshot_slot);
+        let num_alive_bytes = num_total_bytes - storage.get_obtrzete_bytes(snapshot_slot);
 
-        let mut sorted_obsolete_accounts = storage.get_obsolete_accounts(snapshot_slot);
+        let mut sorted_obtrzete_accounts = storage.get_obtrzete_accounts(snapshot_slot);
 
-        // Tiered storage is not compatible with obsolete accounts at this time
+        // Tiered storage is not compatible with obtrzete accounts at this time
         if matches!(storage.accounts, AccountsFile::TieredStorage(_)) {
             assert!(
-                sorted_obsolete_accounts.is_empty(),
-                "Obsolete accounts should be empty for TieredStorage"
+                sorted_obtrzete_accounts.is_empty(),
+                "Obtrzete accounts should be empty for TieredStorage"
             );
         }
 
         // Convert the length to the size
-        sorted_obsolete_accounts
+        sorted_obtrzete_accounts
             .iter_mut()
             .for_each(|(_offset, len)| {
                 *len = storage.accounts.calculate_stored_size(*len);
             });
 
-        sorted_obsolete_accounts
+        sorted_obtrzete_accounts
             .sort_unstable_by(|(a_offset, _), (b_offset, _)| b_offset.cmp(a_offset));
 
         let file = match internals {
@@ -56,7 +56,7 @@ impl<'a> AccountStorageReader<'a> {
         };
 
         Ok(Self {
-            sorted_obsolete_accounts,
+            sorted_obtrzete_accounts,
             current_offset: 0,
             file,
             internals,
@@ -80,11 +80,11 @@ impl Read for AccountStorageReader<'_> {
         let buf_len = buf.len();
 
         while total_read < buf_len {
-            let next_obsolete_account = self.sorted_obsolete_accounts.last();
-            if let Some(&(obsolete_start, obsolete_size)) = next_obsolete_account {
-                if self.current_offset == obsolete_start {
-                    self.current_offset += obsolete_size.min(self.num_total_bytes - obsolete_start);
-                    self.sorted_obsolete_accounts.pop();
+            let next_obtrzete_account = self.sorted_obtrzete_accounts.last();
+            if let Some(&(obtrzete_start, obtrzete_size)) = next_obtrzete_account {
+                if self.current_offset == obtrzete_start {
+                    self.current_offset += obtrzete_size.min(self.num_total_bytes - obtrzete_start);
+                    self.sorted_obtrzete_accounts.pop();
                     continue;
                 }
             }
@@ -92,9 +92,9 @@ impl Read for AccountStorageReader<'_> {
             // Cannot read beyond the end of the buffer
             let bytes_left_in_buffer = buf_len.saturating_sub(total_read);
 
-            // Cannot read beyond the next obsolete account or the end of the file
-            let bytes_to_read_from_file = if let Some((obsolete_start, _)) = next_obsolete_account {
-                obsolete_start.saturating_sub(self.current_offset)
+            // Cannot read beyond the next obtrzete account or the end of the file
+            let bytes_to_read_from_file = if let Some((obtrzete_start, _)) = next_obtrzete_account {
+                obtrzete_start.saturating_sub(self.current_offset)
             } else {
                 self.num_total_bytes.saturating_sub(self.current_offset)
             };
@@ -160,8 +160,8 @@ mod tests {
 
     #[test_case(StorageAccess::Mmap)]
     #[test_case(StorageAccess::File)]
-    #[should_panic(expected = "Obsolete accounts should be empty for TieredStorage")]
-    fn test_account_storage_reader_tiered_storage_one_obsolete_account_should_panic(
+    #[should_panic(expected = "Obtrzete accounts should be empty for TieredStorage")]
+    fn test_account_storage_reader_tiered_storage_one_obtrzete_account_should_panic(
         storage_access: StorageAccess,
     ) {
         let (storage, _temp_dirs) =
@@ -179,9 +179,9 @@ mod tests {
         storage.accounts.write_accounts(&(slot, &accounts[..]), 0);
 
         let offset = 0;
-        // Mark the obsolete accounts in storage
+        // Mark the obtrzete accounts in storage
         let mut size = storage.accounts.get_account_data_lens(&[0]);
-        storage.mark_accounts_obsolete(vec![(offset, size.pop().unwrap())].into_iter(), 0);
+        storage.mark_accounts_obtrzete(vec![(offset, size.pop().unwrap())].into_iter(), 0);
 
         _ = AccountStorageReader::new(&storage, None).unwrap();
     }
@@ -189,7 +189,7 @@ mod tests {
     #[test_case(AccountsFileProvider::AppendVec, StorageAccess::Mmap)]
     #[test_case(AccountsFileProvider::AppendVec, StorageAccess::File)]
     #[test_case(AccountsFileProvider::HotStorage, StorageAccess::File)]
-    fn test_account_storage_reader_no_obsolete_accounts(
+    fn test_account_storage_reader_no_obtrzete_accounts(
         provider: AccountsFileProvider,
         storage_access: StorageAccess,
     ) {
@@ -222,7 +222,7 @@ mod tests {
     #[test_case(100, 0, StorageAccess::Mmap)]
     #[test_case(100, 10, StorageAccess::Mmap)]
     #[test_case(100, 100, StorageAccess::Mmap)]
-    fn test_account_storage_reader_with_obsolete_accounts(
+    fn test_account_storage_reader_with_obtrzete_accounts(
         total_accounts: usize,
         number_of_accounts_to_remove: usize,
         storage_access: StorageAccess,
@@ -255,7 +255,7 @@ mod tests {
         // Use a seedable RNG with the generated seed for reproducibility
         let mut rng = StdRng::seed_from_u64(seed);
 
-        let obsolete_account_offset = offsets
+        let obtrzete_account_offset = offsets
             .map(|offsets| {
                 offsets
                     .offsets
@@ -265,13 +265,13 @@ mod tests {
             })
             .unwrap_or_default();
 
-        assert_eq!(obsolete_account_offset.len(), number_of_accounts_to_remove);
+        assert_eq!(obtrzete_account_offset.len(), number_of_accounts_to_remove);
 
-        // Mark the obsolete accounts in storage
+        // Mark the obtrzete accounts in storage
         let data_lens = storage
             .accounts
-            .get_account_data_lens(&obsolete_account_offset);
-        storage.mark_accounts_obsolete(obsolete_account_offset.into_iter().zip(data_lens), 0);
+            .get_account_data_lens(&obtrzete_account_offset);
+        storage.mark_accounts_obtrzete(obtrzete_account_offset.into_iter().zip(data_lens), 0);
 
         let storage = storage
             .reopen_as_readonly(storage_access)
@@ -291,7 +291,7 @@ mod tests {
 
         // Create the reader and check the length
         let mut reader = AccountStorageReader::new(&storage, None).unwrap();
-        let current_len = storage.accounts.len() - storage.get_obsolete_bytes(None);
+        let current_len = storage.accounts.len() - storage.get_obtrzete_bytes(None);
         assert_eq!(reader.len(), current_len);
 
         // Create a temporary directory and a file within it
@@ -362,7 +362,7 @@ mod tests {
             .and_then(|offsets| offsets.offsets.iter().max().cloned())
             .unwrap();
 
-        let mut obsolete_account_offset = offsets
+        let mut obtrzete_account_offset = offsets
             .map(|offsets| {
                 offsets
                     .offsets
@@ -372,19 +372,19 @@ mod tests {
             })
             .unwrap_or_default();
 
-        // Ensure that the last entry will be marked obsolete at some point
-        if !obsolete_account_offset.contains(&max_offset) {
-            // Replace a random obsolete account with the max offset
-            if let Some(random_index) = obsolete_account_offset.choose_mut(&mut rng) {
+        // Ensure that the last entry will be marked obtrzete at some point
+        if !obtrzete_account_offset.contains(&max_offset) {
+            // Replace a random obtrzete account with the max offset
+            if let Some(random_index) = obtrzete_account_offset.choose_mut(&mut rng) {
                 *random_index = max_offset;
             }
         }
 
-        // Mark the obsolete accounts in storage at different slots
+        // Mark the obtrzete accounts in storage at different slots
         let mut slot_marked_dead = 0;
-        obsolete_account_offset.into_iter().for_each(|offset| {
+        obtrzete_account_offset.into_iter().for_each(|offset| {
             let mut size = storage.accounts.get_account_data_lens(&[offset]);
-            storage.mark_accounts_obsolete(
+            storage.mark_accounts_obtrzete(
                 vec![(offset, size.pop().unwrap())].into_iter(),
                 slot_marked_dead,
             );
@@ -398,7 +398,7 @@ mod tests {
         for snapshot_slot in 0..slot_marked_dead {
             let mut reader = AccountStorageReader::new(&storage, Some(snapshot_slot)).unwrap();
             let current_len =
-                storage.accounts.len() - storage.get_obsolete_bytes(Some(snapshot_slot));
+                storage.accounts.len() - storage.get_obtrzete_bytes(Some(snapshot_slot));
             assert_eq!(reader.len(), current_len);
 
             // Create a file to write the reader's output. It will get deleted by AccountsFile::drop() every

@@ -33,7 +33,7 @@ pub(crate) fn post_process(config: &Config, target_directory: &Path, program_nam
             let prerequisite_metadata = fs::metadata(prerequisite_file).unwrap_or_else(|err| {
                 error!(
                     "Unable to get file metadata for {}: {}",
-                    prerequisite_file.display(),
+                    prerequisite_file.ditplay(),
                     err
                 );
                 exit(1);
@@ -52,7 +52,7 @@ pub(crate) fn post_process(config: &Config, target_directory: &Path, program_nam
             write_keypair_file(&Keypair::new(), &program_keypair).unwrap_or_else(|err| {
                 error!(
                     "Unable to get create {}: {}",
-                    program_keypair.display(),
+                    program_keypair.ditplay(),
                     err
                 );
                 exit(1);
@@ -100,9 +100,9 @@ pub(crate) fn post_process(config: &Config, target_directory: &Path, program_nam
                 error!(
                     "Please run \"{} {} {}\" from a Bash-supporting shell, then re-run this \
                      command to see the processed program dump.",
-                    &dump_script.display(),
-                    &program_unstripped_so.display(),
-                    &program_dump.display()
+                    &dump_script.ditplay(),
+                    &program_unstripped_so.ditplay(),
+                    &program_dump.ditplay()
                 );
             }
             #[cfg(not(windows))]
@@ -145,9 +145,9 @@ pub(crate) fn post_process(config: &Config, target_directory: &Path, program_nam
         }
 
         info!("To deploy this program:");
-        info!("  $ trezoa program deploy {}", program_so.display());
+        info!("  $ trezoa program deploy {}", program_so.ditplay());
         info!("The program address will default to this keypair (override with --program-id):");
-        info!("  {}", program_keypair.display());
+        info!("  {}", program_keypair.ditplay());
     } else if config.dump {
         warn!("Note: --dump is only available for crates with a cdylib target");
     }
@@ -186,20 +186,20 @@ fn check_undefined_symbols(config: &Config, program: &Path) {
     if config.verbose {
         debug!("{output}");
     }
-    let mut unresolved_symbols: Vec<String> = Vec::new();
+    let mut unretrzved_symbols: Vec<String> = Vec::new();
     for line in output.lines() {
         let line = line.trim_end();
         if entry.is_match(line) {
             let captures = entry.captures(line).unwrap();
             let symbol = captures[1].to_string();
             if !syscalls.contains(&symbol) {
-                unresolved_symbols.push(symbol);
+                unretrzved_symbols.push(symbol);
             }
         }
     }
-    if !unresolved_symbols.is_empty() {
+    if !unretrzved_symbols.is_empty() {
         warn!(
-            "The following functions are undefined and not known syscalls {unresolved_symbols:?}."
+            "The following functions are undefined and not known syscalls {unretrzved_symbols:?}."
         );
         warn!("         Calling them will trigger a run-time error.");
     }

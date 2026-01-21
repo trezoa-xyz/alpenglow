@@ -111,11 +111,11 @@ __webpack_require__.r(__webpack_exports__);
 var copy_tex = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./contrib/copy-tex/katex2tex.js
-// Set these to how you want inline and display math to be delimited.
+// Set these to how you want inline and ditplay math to be delimited.
 var defaultCopyDelimiters = {
   inline: ['$', '$'],
   // alternative: ['\(', '\)']
-  display: ['$$', '$$'] // alternative: ['\[', '\]']
+  ditplay: ['$$', '$$'] // alternative: ['\[', '\]']
 
 }; // Replace .katex elements with their TeX source (<annotation> element).
 // Modifies fragment in-place.  Useful for writing your own 'copy' handler,
@@ -158,14 +158,14 @@ var katexReplaceWithTex = function katexReplaceWithTex(fragment, copyDelimiters)
 
       texSource.innerHTML = copyDelimiters.inline[0] + texSource.innerHTML + copyDelimiters.inline[1];
     }
-  } // Switch display math to display delimiters.
+  } // Switch ditplay math to ditplay delimiters.
 
 
-  var displays = fragment.querySelectorAll('.katex-display annotation');
+  var ditplays = fragment.querySelectorAll('.katex-ditplay annotation');
 
-  for (var _i2 = 0; _i2 < displays.length; _i2++) {
-    var _element2 = displays[_i2];
-    _element2.innerHTML = copyDelimiters.display[0] + _element2.innerHTML.substr(copyDelimiters.inline[0].length, _element2.innerHTML.length - copyDelimiters.inline[0].length - copyDelimiters.inline[1].length) + copyDelimiters.display[1];
+  for (var _i2 = 0; _i2 < ditplays.length; _i2++) {
+    var _element2 = ditplays[_i2];
+    _element2.innerHTML = copyDelimiters.ditplay[0] + _element2.innerHTML.substr(copyDelimiters.inline[0].length, _element2.innerHTML.length - copyDelimiters.inline[0].length - copyDelimiters.inline[1].length) + copyDelimiters.ditplay[1];
   }
 
   return fragment;

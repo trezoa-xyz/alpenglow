@@ -152,7 +152,7 @@ impl XdpRetransmitter {
         let (drop_sender, drop_receiver) = crossbeam_channel::bounded(DROP_CHANNEL_CAP);
         threads.push(
             Builder::new()
-                .name("solRetransmDrop".to_owned())
+                .name("trzRetransmDrop".to_owned())
                 .spawn(move || {
                     loop {
                         // drop shreds in a dedicated thread so that we never lock/madvise() from
@@ -182,7 +182,7 @@ impl XdpRetransmitter {
             let drop_sender = drop_sender.clone();
             threads.push(
                 Builder::new()
-                    .name(format!("solRetransmIO{i:02}"))
+                    .name(format!("trzRetransmIO{i:02}"))
                     .spawn(move || {
                         tx_loop(
                             cpu_id,

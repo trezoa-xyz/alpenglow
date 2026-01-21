@@ -23,8 +23,8 @@ pub struct AccountsStats {
     pub handle_dead_keys_us: AtomicU64,
     pub purge_exact_us: AtomicU64,
     pub purge_exact_count: AtomicU64,
-    pub num_obsolete_slots_removed: AtomicUsize,
-    pub num_obsolete_bytes_removed: AtomicU64,
+    pub num_obtrzete_slots_removed: AtomicUsize,
+    pub num_obtrzete_bytes_removed: AtomicU64,
     pub add_zero_lamport_accounts_us: AtomicU64,
     pub num_zero_lamport_accounts_added: AtomicU64,
 }
@@ -346,7 +346,7 @@ pub struct ShrinkStats {
     pub alive_accounts: AtomicU64,
     pub index_scan_returned_none: AtomicU64,
     pub index_scan_returned_some: AtomicU64,
-    pub obsolete_accounts_filtered: AtomicU64,
+    pub obtrzete_accounts_filtered: AtomicU64,
     pub accounts_loaded: AtomicU64,
     pub initial_candidates_count: AtomicU64,
     pub purged_zero_lamports: AtomicU64,
@@ -383,8 +383,8 @@ impl ShrinkStats {
                     i64
                 ),
                 (
-                    "obsolete_accounts_filtered",
-                    self.obsolete_accounts_filtered.swap(0, Ordering::Relaxed),
+                    "obtrzete_accounts_filtered",
+                    self.obtrzete_accounts_filtered.swap(0, Ordering::Relaxed),
                     i64
                 ),
                 (
@@ -763,18 +763,18 @@ impl ShrinkAncientStats {
 }
 
 #[derive(Debug, Default)]
-pub struct ObsoleteAccountsStats {
-    pub accounts_marked_obsolete: u64,
+pub struct ObtrzeteAccountsStats {
+    pub accounts_marked_obtrzete: u64,
     pub slots_removed: u64,
 }
 
-impl Sum<Self> for ObsoleteAccountsStats {
+impl Sum<Self> for ObtrzeteAccountsStats {
     fn sum<I>(iter: I) -> Self
     where
         I: Iterator<Item = Self>,
     {
         iter.fold(Self::default(), |mut accumulated_stats, item| {
-            accumulated_stats.accounts_marked_obsolete += item.accounts_marked_obsolete;
+            accumulated_stats.accounts_marked_obtrzete += item.accounts_marked_obtrzete;
             accumulated_stats.slots_removed += item.slots_removed;
             accumulated_stats
         })

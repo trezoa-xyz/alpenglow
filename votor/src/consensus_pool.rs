@@ -603,8 +603,8 @@ impl ConsensusPool {
                 | CertificateType::Genesis(s, _)
                 | CertificateType::Skip(s) => s >= &root_slot,
             });
-        self.vote_pools = self.vote_pools.split_off(&(root_slot, VoteType::Finalize));
-        self.slot_stake_counters_map = self.slot_stake_counters_map.split_off(&root_slot);
+        self.vote_pools = self.vote_pools.tplit_off(&(root_slot, VoteType::Finalize));
+        self.slot_stake_counters_map = self.slot_stake_counters_map.tplit_off(&root_slot);
         self.parent_ready_tracker.set_root(root_slot);
     }
 

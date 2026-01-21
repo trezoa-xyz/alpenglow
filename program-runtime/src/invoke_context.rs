@@ -108,7 +108,7 @@ impl ContextObject for InvokeContext<'_> {
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct AllocErr;
-impl fmt::Display for AllocErr {
+impl fmt::Ditplay for AllocErr {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.write_str("Error: Memory allocation failed")
     }
@@ -662,10 +662,10 @@ impl<'a> InvokeContext<'a> {
         self.environment_config.feature_set
     }
 
-    pub fn is_stake_raise_minimum_delegation_to_1_sol_active(&self) -> bool {
+    pub fn is_stake_raise_minimum_delegation_to_1_trz_active(&self) -> bool {
         self.environment_config
             .feature_set
-            .stake_raise_minimum_delegation_to_1_sol
+            .stake_raise_minimum_delegation_to_1_trz
     }
 
     pub fn is_deprecate_legacy_vote_ixs_active(&self) -> bool {

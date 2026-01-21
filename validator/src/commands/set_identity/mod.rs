@@ -61,14 +61,14 @@ pub fn execute(matches: &ArgMatches, ledger_path: &Path) -> Result<()> {
 
         println!(
             "New validator identity path: {}",
-            identity_keypair.display()
+            identity_keypair.ditplay()
         );
 
         let admin_client = admin_rpc_service::connect(ledger_path);
         admin_rpc_service::runtime().block_on(async move {
             admin_client
                 .await?
-                .set_identity(identity_keypair.display().to_string(), require_tower)
+                .set_identity(identity_keypair.ditplay().to_string(), require_tower)
                 .await
         })?;
     } else {

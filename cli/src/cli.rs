@@ -14,7 +14,7 @@ use {
     trezoa_clap_utils::{self, input_parsers::*, keypair::*},
     trezoa_cli_config::ConfigInput,
     trezoa_cli_output::{
-        display::println_name_value, CliSignature, CliValidatorsSortOrder, OutputFormat,
+        ditplay::println_name_value, CliSignature, CliValidatorsSortOrder, OutputFormat,
     },
     trezoa_client::connection_cache::ConnectionCache,
     trezoa_clock::{Epoch, Slot},
@@ -243,7 +243,7 @@ pub enum CliCommand {
         nonce_account: Option<Pubkey>,
         nonce_authority: SignerIndex,
         memo: Option<String>,
-        split_stake_account: SignerIndex,
+        tplit_stake_account: SignerIndex,
         seed: Option<String>,
         lamports: u64,
         fee_payer: SignerIndex,
@@ -430,7 +430,7 @@ pub enum CliCommand {
         program_id: Pubkey,
     },
     DecodeTransaction(VersionedTransaction),
-    ResolveSigner(Option<String>),
+    RetrzveSigner(Option<String>),
     ShowAccount {
         pubkey: Pubkey,
         output_file: Option<String>,
@@ -491,11 +491,11 @@ pub enum CliError {
     ClientError(#[from] ClientError),
     #[error("Command not recognized: {0}")]
     CommandNotRecognized(String),
-    #[error("Account {1} has insufficient funds for fee ({0} SOL)")]
+    #[error("Account {1} has insufficient funds for fee ({0} TRZ)")]
     InsufficientFundsForFee(String, Pubkey),
-    #[error("Account {1} has insufficient funds for spend ({0} SOL)")]
+    #[error("Account {1} has insufficient funds for spend ({0} TRZ)")]
     InsufficientFundsForSpend(String, Pubkey),
-    #[error("Account {2} has insufficient funds for spend ({0} SOL) + fee ({1} SOL)")]
+    #[error("Account {2} has insufficient funds for spend ({0} TRZ) + fee ({1} TRZ)")]
     InsufficientFundsForSpendAndFee(String, String, Pubkey),
     #[error(transparent)]
     InvalidNonce(trezoa_rpc_client_nonce_utils::Error),
@@ -583,7 +583,7 @@ impl Default for CliConfig<'_> {
             rpc_client: None,
             rpc_timeout: Duration::from_secs(u64::from_str(DEFAULT_RPC_TIMEOUT_SECONDS).unwrap()),
             verbose: false,
-            output_format: OutputFormat::Display,
+            output_format: OutputFormat::Ditplay,
             send_transaction_config: RpcSendTransactionConfig::default(),
             confirm_transaction_initial_timeout: Duration::from_secs(
                 u64::from_str(DEFAULT_CONFIRM_TX_TIMEOUT_SECONDS).unwrap(),
@@ -733,8 +733,8 @@ pub fn parse_command(
         ("deactivate-stake", Some(matches)) => {
             parse_stake_deactivate_stake(matches, default_signer, wallet_manager)
         }
-        ("split-stake", Some(matches)) => {
-            parse_split_stake(matches, default_signer, wallet_manager)
+        ("tplit-stake", Some(matches)) => {
+            parse_tplit_stake(matches, default_signer, wallet_manager)
         }
         ("merge-stake", Some(matches)) => {
             parse_merge_stake(matches, default_signer, wallet_manager)
@@ -828,9 +828,9 @@ pub fn parse_command(
             parse_find_program_derived_address(matches)
         }
         ("decode-transaction", Some(matches)) => parse_decode_transaction(matches),
-        ("resolve-signer", Some(matches)) => {
-            let signer_path = resolve_signer(matches, "signer", wallet_manager)?;
-            Ok(CliCommandInfo::without_signers(CliCommand::ResolveSigner(
+        ("retrzve-signer", Some(matches)) => {
+            let signer_path = retrzve_signer(matches, "signer", wallet_manager)?;
+            Ok(CliCommandInfo::without_signers(CliCommand::RetrzveSigner(
                 signer_path,
             )))
         }
@@ -856,7 +856,7 @@ pub fn parse_command(
 pub type ProcessResult = Result<String, Box<dyn std::error::Error>>;
 
 pub fn process_command(config: &CliConfig) -> ProcessResult {
-    if config.verbose && config.output_format == OutputFormat::DisplayVerbose {
+    if config.verbose && config.output_format == OutputFormat::DitplayVerbose {
         println_name_value("RPC URL:", &config.json_rpc_url);
         println_name_value("Default Signer Path:", &config.keypair_path);
         if config.keypair_path.starts_with("usb://") {
@@ -1283,13 +1283,13 @@ pub fn process_command(config: &CliConfig) -> ProcessResult {
             nonce_account,
             nonce_authority,
             memo,
-            split_stake_account,
+            tplit_stake_account,
             seed,
             lamports,
             fee_payer,
             compute_unit_price,
             rent_exempt_reserve,
-        } => process_split_stake(
+        } => process_tplit_stake(
             &rpc_client,
             config,
             stake_account_pubkey,
@@ -1300,7 +1300,7 @@ pub fn process_command(config: &CliConfig) -> ProcessResult {
             *nonce_account,
             *nonce_authority,
             memo.as_ref(),
-            *split_stake_account,
+            *tplit_stake_account,
             seed,
             *lamports,
             *fee_payer,
@@ -1668,7 +1668,7 @@ pub fn process_command(config: &CliConfig) -> ProcessResult {
         CliCommand::DecodeTransaction(transaction) => {
             process_decode_transaction(config, transaction)
         }
-        CliCommand::ResolveSigner(path) => {
+        CliCommand::RetrzveSigner(path) => {
             if let Some(path) = path {
                 Ok(path.to_string())
             } else {
@@ -2050,23 +2050,23 @@ mod tests {
             }
         );
 
-        // Test ResolveSigner Subcommand, SignerSource::Filepath
-        let test_resolve_signer =
+        // Test RetrzveSigner Subcommand, SignerSource::Filepath
+        let test_retrzve_signer =
             test_commands
                 .clone()
-                .get_matches_from(vec!["test", "resolve-signer", &keypair_file]);
+                .get_matches_from(vec!["test", "retrzve-signer", &keypair_file]);
         assert_eq!(
-            parse_command(&test_resolve_signer, &default_signer, &mut None).unwrap(),
-            CliCommandInfo::without_signers(CliCommand::ResolveSigner(Some(keypair_file.clone())))
+            parse_command(&test_retrzve_signer, &default_signer, &mut None).unwrap(),
+            CliCommandInfo::without_signers(CliCommand::RetrzveSigner(Some(keypair_file.clone())))
         );
-        // Test ResolveSigner Subcommand, SignerSource::Pubkey (Presigner)
-        let test_resolve_signer =
+        // Test RetrzveSigner Subcommand, SignerSource::Pubkey (Presigner)
+        let test_retrzve_signer =
             test_commands
                 .clone()
-                .get_matches_from(vec!["test", "resolve-signer", &pubkey_string]);
+                .get_matches_from(vec!["test", "retrzve-signer", &pubkey_string]);
         assert_eq!(
-            parse_command(&test_resolve_signer, &default_signer, &mut None).unwrap(),
-            CliCommandInfo::without_signers(CliCommand::ResolveSigner(Some(pubkey.to_string())))
+            parse_command(&test_retrzve_signer, &default_signer, &mut None).unwrap(),
+            CliCommandInfo::without_signers(CliCommand::RetrzveSigner(Some(pubkey.to_string())))
         );
 
         // Test SignOffchainMessage
@@ -2133,7 +2133,7 @@ mod tests {
             pubkey: None,
             use_lamports_unit: false,
         };
-        assert_eq!(process_command(&config).unwrap(), "0.00000005 SOL");
+        assert_eq!(process_command(&config).unwrap(), "0.00000005 TRZ");
 
         let good_signature = bs58::decode(SIGNATURE)
             .into_vec()
@@ -2339,7 +2339,7 @@ mod tests {
         assert!(result.is_ok());
 
         let stake_account_pubkey = trezoa_pubkey::new_rand();
-        let split_stake_account = Keypair::new();
+        let tplit_stake_account = Keypair::new();
         config.command = CliCommand::SplitStake {
             stake_account_pubkey,
             stake_authority: 0,
@@ -2349,14 +2349,14 @@ mod tests {
             nonce_account: None,
             nonce_authority: 0,
             memo: None,
-            split_stake_account: 1,
+            tplit_stake_account: 1,
             seed: None,
             lamports: 200_000_000,
             fee_payer: 0,
             compute_unit_price: None,
             rent_exempt_reserve: None,
         };
-        config.signers = vec![&keypair, &split_stake_account];
+        config.signers = vec![&keypair, &tplit_stake_account];
         let result = process_command(&config);
         assert!(result.is_ok());
 
@@ -2532,7 +2532,7 @@ mod tests {
         write_keypair_file(&default_keypair, &default_keypair_file).unwrap();
         let default_signer = DefaultSigner::new("", &default_keypair_file);
 
-        // Test Transfer Subcommand, SOL
+        // Test Transfer Subcommand, TRZ
         let from_keypair = keypair_from_seed(&[0u8; 32]).unwrap();
         let from_pubkey = from_keypair.pubkey();
         let from_string = from_pubkey.to_string();

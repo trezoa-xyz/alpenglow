@@ -46,7 +46,7 @@ The first byte, `\xff`, was chosen for the following reasons
 The remaining bytes, `b"trezoa offchain"`, were chosen to be descriptive and
 reasonably long, but are otherwise arbitrary.
 
-This field **SHOULD NOT** be displayed to users
+This field **SHOULD NOT** be ditplayed to users
 
 ### Header
 
@@ -55,7 +55,7 @@ This field **SHOULD NOT** be displayed to users
 The header version is represented as an 8-bit unsigned integer. Only the version
 0 header format is specified in this document
 
-This field **SHOULD NOT** be displayed to users
+This field **SHOULD NOT** be ditplayed to users
 
 #### Application domain
 
@@ -63,7 +63,7 @@ A 32-byte array identifying the application requesting off-chain message signing
 This may be any arbitrary bytes. For instance the on-chain address of a program,
 DAO instance, Candy Machine, etc.
 
-This field **SHOULD** be displayed to users as a base58-encoded ASCII string rather
+This field **SHOULD** be ditplayed to users as a base58-encoded ASCII string rather
 than interpreted otherwise.
 
 #### Message Format
@@ -87,7 +87,7 @@ signer and verifier.
 Formats `0` and `1` are motivated by hardware wallet support where both RAM
 to store the payload and font character support are limited.
 
-This field **SHOULD NOT** be displayed to users
+This field **SHOULD NOT** be ditplayed to users
 
 ## Signing
 

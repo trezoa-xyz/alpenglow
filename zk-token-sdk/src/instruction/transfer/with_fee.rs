@@ -15,7 +15,7 @@ use {
             transfer::{
                 encryption::{FeeEncryption, TransferAmountCiphertext},
                 try_combine_lo_hi_ciphertexts, try_combine_lo_hi_commitments,
-                try_combine_lo_hi_openings, try_combine_lo_hi_u64, try_split_u64, FeeParameters,
+                try_combine_lo_hi_openings, try_combine_lo_hi_u64, try_tplit_u64, FeeParameters,
                 Role,
             },
         },
@@ -124,8 +124,8 @@ impl TransferWithFeeData {
         fee_parameters: FeeParameters,
         withdraw_withheld_authority_pubkey: &ElGamalPubkey,
     ) -> Result<Self, ProofGenerationError> {
-        // split and encrypt transfer amount
-        let (amount_lo, amount_hi) = try_split_u64(transfer_amount, TRANSFER_AMOUNT_LO_BITS)
+        // tplit and encrypt transfer amount
+        let (amount_lo, amount_hi) = try_tplit_u64(transfer_amount, TRANSFER_AMOUNT_LO_BITS)
             .map_err(|_| ProofGenerationError::IllegalAmountBitLength)?;
 
         let (ciphertext_lo, opening_lo) = TransferAmountCiphertext::new(
@@ -175,9 +175,9 @@ impl TransferWithFeeData {
         let fee_to_encrypt =
             u64::conditional_select(&fee_parameters.maximum_fee, &fee_amount, below_max);
 
-        // split and encrypt fee
+        // tplit and encrypt fee
         let (fee_to_encrypt_lo, fee_to_encrypt_hi) =
-            try_split_u64(fee_to_encrypt, FEE_AMOUNT_LO_BITS)
+            try_tplit_u64(fee_to_encrypt, FEE_AMOUNT_LO_BITS)
                 .map_err(|_| ProofGenerationError::IllegalAmountBitLength)?;
 
         let (fee_ciphertext_lo, opening_fee_lo) = FeeEncryption::new(

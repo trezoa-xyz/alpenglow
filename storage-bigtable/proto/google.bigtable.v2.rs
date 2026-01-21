@@ -875,7 +875,7 @@ pub mod read_rows_response {
         /// example, a table which specifies millisecond granularity will
         /// only allow values of `timestamp_micros` which are multiples of
         /// 1000.  Timestamps are only set in the first CellChunk per cell
-        /// (for cells split into multiple chunks).
+        /// (for cells tplit into multiple chunks).
         #[prost(int64, tag = "4")]
         pub timestamp_micros: i64,
         /// Labels applied to the cell by a
@@ -883,7 +883,7 @@ pub mod read_rows_response {
         /// on the first CellChunk per cell.
         #[prost(string, repeated, tag = "5")]
         pub labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// The value stored in the cell.  Cell values can be split across
+        /// The value stored in the cell.  Cell values can be tplit across
         /// multiple CellChunks.  In that case only the value field will be
         /// set in CellChunks after the first: the timestamp and labels
         /// will only be present in the first CellChunk, even if the first
@@ -1271,7 +1271,7 @@ pub mod read_change_stream_response {
         }
     }
     /// A message corresponding to one or more mutations to the partition
-    /// being streamed. A single logical `DataChange` message may also be split
+    /// being streamed. A single logical `DataChange` message may also be tplit
     /// across a sequence of multiple individual messages. Messages other than
     /// the first in a sequence will only have the `type` and `chunks` fields
     /// populated, with the final message in the sequence also containing `done`
@@ -1294,8 +1294,8 @@ pub mod read_change_stream_response {
         #[prost(message, optional, tag = "4")]
         pub commit_timestamp: ::core::option::Option<::prost_types::Timestamp>,
         /// A value that lets stream consumers reconstruct Bigtable's
-        /// conflict resolution semantics.
-        /// <https://cloud.google.com/bigtable/docs/writes#conflict-resolution>
+        /// conflict retrzution semantics.
+        /// <https://cloud.google.com/bigtable/docs/writes#conflict-retrzution>
         /// In the event that the same row key, column family, column qualifier,
         /// timestamp are modified on different clusters at the same
         /// `commit_timestamp`, the mutation with the larger `tiebreaker` will be the

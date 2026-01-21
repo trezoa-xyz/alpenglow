@@ -24,7 +24,7 @@ pub const SIGNER_ARG: ArgConstant<'static> = ArgConstant {
 pub const DUMP_TRANSACTION_MESSAGE: ArgConstant<'static> = ArgConstant {
     name: "dump_transaction_message",
     long: "dump-transaction-message",
-    help: "Display the base64 encoded binary transaction message in sign-only mode",
+    help: "Ditplay the base64 encoded binary transaction message in sign-only mode",
 };
 
 pub fn blockhash_arg<'a, 'b>() -> Arg<'a, 'b> {

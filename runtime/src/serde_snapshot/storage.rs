@@ -16,10 +16,10 @@ pub struct SerializableAccountStorageEntry {
 
 impl SerializableAccountStorageEntry {
     /// Creates a new SerializableAccountStorageEntry from the current
-    /// AccountStorageEntry and a given snapshot slot. When obsolete accounts
-    /// are enabled, the saved size is decreased by the amount of obsolete bytes
-    /// in the storage. The number of obsolete bytes is determined by the snapshot
-    /// slot, as an entry's obsolescence is dependent on the slot that marked it
+    /// AccountStorageEntry and a given snapshot slot. When obtrzete accounts
+    /// are enabled, the saved size is decreased by the amount of obtrzete bytes
+    /// in the storage. The number of obtrzete bytes is determined by the snapshot
+    /// slot, as an entry's obtrzescence is dependent on the slot that marked it
     /// as such.
     pub fn new(
         accounts: &AccountStorageEntry,
@@ -28,7 +28,7 @@ impl SerializableAccountStorageEntry {
         SerializableAccountStorageEntry {
             id: accounts.id() as SerializedAccountsFileId,
             accounts_current_len: accounts.accounts.len()
-                - accounts.get_obsolete_bytes(Some(snapshot_slot)),
+                - accounts.get_obtrzete_bytes(Some(snapshot_slot)),
         }
     }
 }

@@ -41,7 +41,7 @@ impl SnapshotPackagerService {
         enable_gossip_push: bool,
     ) -> Self {
         let t_snapshot_packager = Builder::new()
-            .name("solSnapshotPkgr".to_string())
+            .name("trzSnapshotPkgr".to_string())
             .spawn(move || {
                 if let Some(exit_backpressure) = &exit_backpressure {
                     exit_backpressure.store(true, Ordering::Relaxed);
@@ -179,7 +179,7 @@ impl SnapshotPackagerService {
             if let Err(err) = result {
                 warn!(
                     "Failed to flush account storage '{}': {err}",
-                    storage.path().display(),
+                    storage.path().ditplay(),
                 );
                 // If flushing a storage failed, we do *NOT* want to write
                 // the "storages flushed" file, so return early.

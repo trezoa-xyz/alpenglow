@@ -461,7 +461,7 @@ impl RepairService {
             let repair_info = repair_info.clone();
             let migration_status = migration_status.clone();
             Builder::new()
-                .name("solRepairSvc".to_string())
+                .name("trzRepairSvc".to_string())
                 .spawn(move || {
                     Self::run(
                         blockstore,
@@ -524,7 +524,7 @@ impl RepairService {
                     // question would have already been purged in `repair_weight.set_root`
                     // and there is no chance of it being part of the rooted path.
                     if slot >= repair_weight.root() {
-                        let dumped_slots = repair_weight.split_off(slot);
+                        let dumped_slots = repair_weight.tplit_off(slot);
                         // Remove from outstanding ancestor hashes requests. Also clean any
                         // requests that might have been since fixed
                         popular_pruned_forks_requests.retain(|slot| {
@@ -981,7 +981,7 @@ impl RepairService {
                     Some((
                         *pubkey,
                         peer_repair_addr,
-                        (stake / trezoa_native_token::LAMPORTS_PER_SOL) as u32,
+                        (stake / trezoa_native_token::LAMPORTS_PER_TRZ) as u32,
                     ))
                 } else {
                     None

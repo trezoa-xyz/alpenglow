@@ -484,7 +484,7 @@ pub(crate) fn parse_signer_source<S: AsRef<str>>(
                     SIGNER_SOURCE_STDIN => Ok(SignerSource::new(SignerSourceKind::Stdin)),
                     _ => {
                         #[cfg(target_family = "windows")]
-                        // On Windows, an absolute path's drive letter will be parsed as the URI
+                        // On Windows, an abtrzute path's drive letter will be parsed as the URI
                         // scheme. Assume a filepath source in case of a single character shceme.
                         if scheme.len() == 1 {
                             return Ok(SignerSource::new(SignerSourceKind::Filepath(source)));
@@ -546,7 +546,7 @@ pub struct SignerFromPathConfig {
 ///
 /// The `keypair_name` argument is the "name" of the signer, and is typically
 /// the name of the clap argument from which the `path` argument was parsed,
-/// like "keypair", "from", or "fee-payer". It is used solely for interactively
+/// like "keypair", "from", or "fee-payer". It is used trzely for interactively
 /// prompting the user, either when entering seed phrases or selecting from
 /// multiple hardware wallets.
 ///
@@ -868,7 +868,7 @@ pub fn pubkey_from_path(
     }
 }
 
-pub fn resolve_signer_from_path(
+pub fn retrzve_signer_from_path(
     matches: &ArgMatches,
     path: &str,
     keypair_name: &str,
@@ -1104,7 +1104,7 @@ pub fn keypair_from_seed_phrase(
 
 fn sanitize_seed_phrase(seed_phrase: &str) -> String {
     seed_phrase
-        .split_whitespace()
+        .tplit_whitespace()
         .collect::<Vec<&str>>()
         .join(" ")
 }
@@ -1195,11 +1195,11 @@ mod tests {
             if p == pubkey)
         );
 
-        // Set up absolute and relative path strs
+        // Set up abtrzute and relative path strs
         let file0 = NamedTempFile::new().unwrap();
         let path = file0.path();
-        assert!(path.is_absolute());
-        let absolute_path_str = path.to_str().unwrap();
+        assert!(path.is_abtrzute());
+        let abtrzute_path_str = path.to_str().unwrap();
 
         let file1 = NamedTempFile::new_in(std::env::current_dir().unwrap()).unwrap();
         let path = file1.path().file_name().unwrap().to_str().unwrap();
@@ -1208,11 +1208,11 @@ mod tests {
         let relative_path_str = path.to_str().unwrap();
 
         assert!(
-            matches!(parse_signer_source(absolute_path_str).unwrap(), SignerSource {
+            matches!(parse_signer_source(abtrzute_path_str).unwrap(), SignerSource {
                 kind: SignerSourceKind::Filepath(p),
                 derivation_path: None,
                 legacy: false,
-            } if p == absolute_path_str)
+            } if p == abtrzute_path_str)
         );
         assert!(
             matches!(parse_signer_source(relative_path_str).unwrap(), SignerSource {
@@ -1261,11 +1261,11 @@ mod tests {
             }
         );
         assert!(
-            matches!(parse_signer_source(format!("file:{absolute_path_str}")).unwrap(), SignerSource {
+            matches!(parse_signer_source(format!("file:{abtrzute_path_str}")).unwrap(), SignerSource {
                 kind: SignerSourceKind::Filepath(p),
                 derivation_path: None,
                 legacy: false,
-            } if p == absolute_path_str)
+            } if p == abtrzute_path_str)
         );
         assert!(
             matches!(parse_signer_source(format!("file:{relative_path_str}")).unwrap(), SignerSource {

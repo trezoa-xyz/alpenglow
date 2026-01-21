@@ -1,7 +1,7 @@
 use std::process::exit;
 
 fn press_enter() {
-    // On windows, where installation happens in a console that may have opened just for this
+    // On windows, where installation happens in a contrze that may have opened just for this
     // purpose, give the user an opportunity to see the error before the window closes.
     if cfg!(windows) && atty::is(atty::Stream::Stdin) {
         println!();

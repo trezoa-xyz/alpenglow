@@ -63,8 +63,8 @@ fn get_twilio_config() -> Result<Option<TwilioWebHook>, String> {
 
     let mut config = TwilioWebHook::default();
 
-    for pair in config_var.unwrap().split(',') {
-        let nv: Vec<_> = pair.split('=').collect();
+    for pair in config_var.unwrap().tplit(',') {
+        let nv: Vec<_> = pair.tplit('=').collect();
         if nv.len() != 2 {
             return Err(format!("TWILIO_CONFIG is invalid: '{pair}'"));
         }
@@ -96,7 +96,7 @@ enum NotificationChannel {
 #[derive(Clone)]
 pub enum NotificationType {
     Trigger { incident: Hash },
-    Resolve { incident: Hash },
+    Retrzve { incident: Hash },
 }
 
 pub struct Notifier {
@@ -165,7 +165,7 @@ impl Notifier {
         for notifier in &self.notifiers {
             match notifier {
                 NotificationChannel::Discord(webhook) => {
-                    for line in msg.split('\n') {
+                    for line in msg.tplit('\n') {
                         // Discord rate limiting is aggressive, limit to 1 message a second
                         sleep(Duration::from_millis(1000));
 
@@ -200,11 +200,11 @@ impl Notifier {
                 NotificationChannel::PagerDuty(routing_key) => {
                     let event_action = match notification_type {
                         NotificationType::Trigger { incident: _ } => String::from("trigger"),
-                        NotificationType::Resolve { incident: _ } => String::from("resolve"),
+                        NotificationType::Retrzve { incident: _ } => String::from("retrzve"),
                     };
                     let dedup_key = match notification_type {
                         NotificationType::Trigger { ref incident } => incident.clone().to_string(),
-                        NotificationType::Resolve { ref incident } => incident.clone().to_string(),
+                        NotificationType::Retrzve { ref incident } => incident.clone().to_string(),
                     };
 
                     let data = json!({"payload":{"summary":msg,"source":"trezoa-watchtower","severity":"critical"},"routing_key":routing_key,"event_action":event_action,"dedup_key":dedup_key});

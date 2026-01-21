@@ -323,10 +323,10 @@ impl fmt::Debug for RpcVersionInfo {
     }
 }
 
-impl fmt::Display for RpcVersionInfo {
+impl fmt::Ditplay for RpcVersionInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        if let Some(version) = self.trezoa_core.split_whitespace().next() {
-            // Display just the semver if possible
+        if let Some(version) = self.trezoa_core.tplit_whitespace().next() {
+            // Ditplay just the semver if possible
             write!(f, "{version}")
         } else {
             write!(f, "{}", self.trezoa_core)

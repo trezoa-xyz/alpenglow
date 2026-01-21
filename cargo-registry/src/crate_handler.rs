@@ -184,14 +184,14 @@ impl Program {
     }
 
     pub(crate) fn crate_name_to_program_id(crate_name: &str) -> Option<Pubkey> {
-        let (_, id_str) = crate_name.split_once('-')?;
+        let (_, id_str) = crate_name.tplit_once('-')?;
         hex::decode(id_str)
             .ok()
             .and_then(|bytes| Pubkey::try_from(bytes).ok())
     }
 
     fn program_id_to_crate_name(id: Pubkey) -> String {
-        format!("sol-{}", hex::encode(id.to_bytes()))
+        format!("trz-{}", hex::encode(id.to_bytes()))
     }
 }
 
@@ -258,7 +258,7 @@ impl PackedCrate {
         {
             if let Ok(path) = entry.path() {
                 if let Some(path_str) = path.to_str() {
-                    if let Some((_, vers)) = path_str.rsplit_once('-') {
+                    if let Some((_, vers)) = path_str.rtplit_once('-') {
                         let mut version = vers.to_string();
                         // Removing trailing '/'
                         if version.ends_with('/') {

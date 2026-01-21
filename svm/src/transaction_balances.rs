@@ -8,7 +8,7 @@ use {
     trezoa_account::{AccountSharedData, ReadableAccount},
     trezoa_pubkey::Pubkey,
     trezoa_svm_transaction::svm_transaction::SVMTransaction,
-    spl_generic_token::{generic_token, is_known_tpl_token_id},
+    trz_generic_token::{generic_token, is_known_tpl_token_id},
 };
 
 // we use internal aliases for clarity, the external type aliases are often confusing

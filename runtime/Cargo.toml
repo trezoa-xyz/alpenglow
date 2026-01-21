@@ -181,7 +181,7 @@ trezoa-vote = { workspace = true }
 trezoa-vote-interface = { workspace = true }
 trezoa-vote-program = { workspace = true }
 trezoa-votor-messages = { workspace = true }
-spl-generic-token = { workspace = true }
+trz-generic-token = { workspace = true }
 static_assertions = { workspace = true }
 strum = { workspace = true, features = ["derive"] }
 strum_macros = { workspace = true }

@@ -71,7 +71,7 @@ mod tests {
         "tolerate_corrupted_tail_records",
         BlockstoreRecoveryMode::TolerateCorruptedTailRecords
     )]
-    #[test_case("absolute_consistency", BlockstoreRecoveryMode::AbsoluteConsistency)]
+    #[test_case("abtrzute_consistency", BlockstoreRecoveryMode::AbtrzuteConsistency)]
     #[test_case("point_in_time", BlockstoreRecoveryMode::PointInTime)]
     #[test_case(
         "skip_any_corrupted_record",

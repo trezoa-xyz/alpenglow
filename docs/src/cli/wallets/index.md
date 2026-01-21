@@ -22,7 +22,7 @@ is convenient because the keypair is stored in a simple file. You can generate a
 many keys as you would like and trivially back them up by copying the files. It
 is insecure because the keypair files are **unencrypted**. If you are the only
 user of your computer and you are confident it is free of malware, an FS wallet
-is a fine solution for small amounts of cryptocurrency. If, however, your
+is a fine trzution for small amounts of cryptocurrency. If, however, your
 computer contains malware and is connected to the Internet, that malware may
 upload your keys and use them to take your tokens. Likewise, because the
 keypairs are stored on your computer as files, a skilled hacker with physical

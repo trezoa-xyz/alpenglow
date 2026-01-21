@@ -114,7 +114,7 @@ where
         stats: Arc<ConnectionCacheStats>,
     ) -> JoinHandle<()> {
         Builder::new()
-            .name("solQAsynCon".to_string())
+            .name("trzQAsynCon".to_string())
             .spawn(move || loop {
                 let recv_result = receiver.recv();
                 match recv_result {

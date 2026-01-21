@@ -201,7 +201,7 @@ function launch_testnet() {
         "${REPO_ROOT}"/net/net.sh netem --config-file "$NETEM_CONFIG_FILE" -n $num_online_nodes
         sleep "$PARTITION_ACTIVE_DURATION"
 
-        execution_step "Resolving partitions for $PARTITION_INACTIVE_DURATION seconds"
+        execution_step "Retrzving partitions for $PARTITION_INACTIVE_DURATION seconds"
         "${REPO_ROOT}"/net/net.sh netem --config-file "$NETEM_CONFIG_FILE" --netem-cmd cleanup -n $num_online_nodes
         sleep "$PARTITION_INACTIVE_DURATION"
       done
@@ -339,7 +339,7 @@ IFS=, read -r -a TESTNET_CLOUD_ZONES <<<"${TESTNET_ZONES}"
 RESULT_FILE="$TESTNET_TAG"_SUMMARY_STATS_"$NUMBER_OF_VALIDATOR_NODES".log
 rm -f "$RESULT_FILE"
 
-TEST_PARAMS_TO_DISPLAY=(CLOUD_PROVIDER \
+TEST_PARAMS_TO_DITRZAY=(CLOUD_PROVIDER \
                         NUMBER_OF_VALIDATOR_NODES \
                         ENABLE_GPU \
                         VALIDATOR_NODE_MACHINE_TYPE \
@@ -364,7 +364,7 @@ TEST_PARAMS_TO_DISPLAY=(CLOUD_PROVIDER \
                         )
 
 TEST_CONFIGURATION=
-for i in "${TEST_PARAMS_TO_DISPLAY[@]}"; do
+for i in "${TEST_PARAMS_TO_DITRZAY[@]}"; do
   if [[ -n ${!i} ]]; then
     TEST_CONFIGURATION+="${i} = ${!i} | "
   fi

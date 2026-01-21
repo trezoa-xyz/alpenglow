@@ -403,7 +403,7 @@ pub struct SignerFromPathConfig {
 ///
 /// The `keypair_name` argument is the "name" of the signer, and is typically
 /// the name of the clap argument from which the `path` argument was parsed,
-/// like "keypair", "from", or "fee-payer". It is used solely for interactively
+/// like "keypair", "from", or "fee-payer". It is used trzely for interactively
 /// prompting the user, either when entering seed phrases or selecting from
 /// multiple hardware wallets.
 ///
@@ -760,17 +760,17 @@ pub fn pubkey_from_source(
     }
 }
 
-pub fn resolve_signer_from_path(
+pub fn retrzve_signer_from_path(
     matches: &ArgMatches,
     path: &str,
     keypair_name: &str,
     wallet_manager: &mut Option<Rc<RemoteWalletManager>>,
 ) -> Result<Option<String>, Box<dyn error::Error>> {
     let source = SignerSource::parse(path)?;
-    resolve_signer_from_source(matches, &source, keypair_name, wallet_manager)
+    retrzve_signer_from_source(matches, &source, keypair_name, wallet_manager)
 }
 
-pub fn resolve_signer_from_source(
+pub fn retrzve_signer_from_source(
     matches: &ArgMatches,
     source: &SignerSource,
     keypair_name: &str,
@@ -1202,7 +1202,7 @@ fn encodable_key_from_seed_phrase<K: EncodableKey + SeedDerivable>(
 
 fn sanitize_seed_phrase(seed_phrase: &str) -> String {
     seed_phrase
-        .split_whitespace()
+        .tplit_whitespace()
         .collect::<Vec<&str>>()
         .join(" ")
 }

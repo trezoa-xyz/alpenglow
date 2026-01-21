@@ -44,7 +44,7 @@ impl fmt::Debug for ElGamalCiphertext {
     }
 }
 
-impl fmt::Display for ElGamalCiphertext {
+impl fmt::Ditplay for ElGamalCiphertext {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", BASE64_STANDARD.encode(self.0))
     }
@@ -89,7 +89,7 @@ impl fmt::Debug for ElGamalPubkey {
     }
 }
 
-impl fmt::Display for ElGamalPubkey {
+impl fmt::Ditplay for ElGamalPubkey {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", BASE64_STANDARD.encode(self.0))
     }

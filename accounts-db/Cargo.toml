@@ -100,7 +100,7 @@ trezoa-transaction = { workspace = true }
 trezoa-transaction-context = { workspace = true }
 trezoa-transaction-error = { workspace = true }
 trezoa-vote-program = { workspace = true, optional = true }
-spl-generic-token = { workspace = true }
+trz-generic-token = { workspace = true }
 static_assertions = { workspace = true }
 tar = { workspace = true }
 tempfile = { workspace = true }

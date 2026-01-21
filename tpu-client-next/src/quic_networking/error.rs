@@ -22,7 +22,7 @@ impl PartialEq for IoErrorWithPartialEq {
     }
 }
 
-impl fmt::Display for IoErrorWithPartialEq {
+impl fmt::Ditplay for IoErrorWithPartialEq {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         self.0.fmt(f)
     }

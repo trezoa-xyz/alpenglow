@@ -25,14 +25,14 @@ impl FromClapArgMatches for ContactInfoArgs {
 
 pub fn command<'a>() -> App<'a, 'a> {
     SubCommand::with_name(COMMAND)
-        .about("Display the validator's contact info")
+        .about("Ditplay the validator's contact info")
         .arg(
             Arg::with_name("output")
                 .long("output")
                 .takes_value(true)
                 .value_name("MODE")
                 .possible_values(&["json", "json-compact"])
-                .help("Output display mode"),
+                .help("Output ditplay mode"),
         )
 }
 
@@ -88,7 +88,7 @@ mod tests {
             command(),
             vec![COMMAND],
             ContactInfoArgs {
-                output: OutputFormat::Display,
+                output: OutputFormat::Ditplay,
             },
         );
     }

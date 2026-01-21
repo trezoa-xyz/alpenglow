@@ -26,7 +26,7 @@ trezoa balance --lamports
 
 ## Check Vote Activity
 
-The `trezoa vote-account` command displays the recent voting activity from
+The `trezoa vote-account` command ditplays the recent voting activity from
 your validator:
 
 ```bash

@@ -68,7 +68,7 @@ static ASYNC_TASK_SEMAPHORE: std::sync::LazyLock<AsyncTaskSemaphore> =
     std::sync::LazyLock::new(|| AsyncTaskSemaphore::new(MAX_OUTSTANDING_TASK));
 static RUNTIME: std::sync::LazyLock<Runtime> = std::sync::LazyLock::new(|| {
     tokio::runtime::Builder::new_multi_thread()
-        .thread_name("solQuicClientRt")
+        .thread_name("trzQuicClientRt")
         .enable_all()
         .build()
         .unwrap()

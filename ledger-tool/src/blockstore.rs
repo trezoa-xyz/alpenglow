@@ -197,7 +197,7 @@ fn get_latest_optimistic_slots(
     // Because retrieving optimistically confirmed slots is an important part
     // of cluster restarts, exercise caution in this function and manually walk
     // the ancestors of the latest optimistically confirmed slot instead of
-    // solely relying on the contents of the optimistically confirmed column.
+    // trzely relying on the contents of the optimistically confirmed column.
     let Some(latest_slot) = blockstore
         .get_latest_optimistic_slots(1)
         .expect("get_latest_optimistic_slots() failed")

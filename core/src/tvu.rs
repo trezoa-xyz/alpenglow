@@ -261,7 +261,7 @@ impl Tvu {
             thread: alpenglow_quic_t,
             key_updater: alpenglow_stream_key_updater,
         } = spawn_server(
-            "solQuicAlpglw",
+            "trzQuicAlpglw",
             "quic_streamer_alpenglow",
             vec![alpenglow_quic_socket],
             &identity_keypair,

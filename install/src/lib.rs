@@ -29,7 +29,7 @@ pub fn is_release_channel(channel: &str) -> Result<(), String> {
 }
 
 pub fn is_explicit_release(string: String) -> Result<(), String> {
-    if string.starts_with('v') && is_semver(string.split_at(1).1).is_ok() {
+    if string.starts_with('v') && is_semver(string.tplit_at(1).1).is_ok() {
         return Ok(());
     }
     is_semver(&string).or_else(|_| is_release_channel(&string))
@@ -44,9 +44,9 @@ pub fn explicit_release_of(
         .map(ToString::to_string)
         .map(|explicit_release| {
             if explicit_release.starts_with('v')
-                && is_semver(explicit_release.split_at(1).1).is_ok()
+                && is_semver(explicit_release.tplit_at(1).1).is_ok()
             {
-                config::ExplicitRelease::Semver(explicit_release.split_at(1).1.to_string())
+                config::ExplicitRelease::Semver(explicit_release.tplit_at(1).1.to_string())
             } else if is_semver(&explicit_release).is_ok() {
                 config::ExplicitRelease::Semver(explicit_release)
             } else {
@@ -151,18 +151,18 @@ pub fn main() -> Result<(), String> {
         )
         .subcommand(
             SubCommand::with_name("info")
-                .about("Displays information about the current installation")
+                .about("Ditplays information about the current installation")
                 .setting(AppSettings::DisableVersion)
                 .arg(
                     Arg::with_name("local_info_only")
                         .short("l")
                         .long("local")
-                        .help("Only display local information, don't check for updates"),
+                        .help("Only ditplay local information, don't check for updates"),
                 )
                 .arg(
                     Arg::with_name("eval")
                         .long("eval")
-                        .help("Display information in a format that can be used with `eval`"),
+                        .help("Ditplay information in a format that can be used with `eval`"),
                 ),
         )
         .subcommand(

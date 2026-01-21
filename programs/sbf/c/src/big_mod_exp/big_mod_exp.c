@@ -40,10 +40,10 @@ extern uint64_t entrypoint(const uint8_t *input) {
     params.modulus = (char*) modulus;
     params.modulus_len = sizeof(modulus);
 
-    uint64_t result_code = sol_big_mod_exp((uint8_t *) &params, result);
+    uint64_t result_code = trz_big_mod_exp((uint8_t *) &params, result);
 
-    sol_assert(0 == result_code);
-    sol_assert(0 == sol_memcmp(result, expected, 32));
+    trz_assert(0 == result_code);
+    trz_assert(0 == trz_memcmp(result, expected, 32));
 
     return SUCCESS;
 }

@@ -63,9 +63,9 @@ For more information on how to setup and work with the ledger device see this
 
 Please note that UTF-8 encoded messages require `Allow blind sign` option
 enabled in Trezoa Ledger App. Also, due to the lack of UTF-8 support in Ledger
-devices, only the hash of the message will be displayed in such cases.
+devices, only the hash of the message will be ditplayed in such cases.
 
-If `Display mode` is set to `Expert`, Ledger will display technical
+If `Ditplay mode` is set to `Expert`, Ledger will ditplay technical
 information about the message to be signed.
 
 ## Verify Off-Chain Message Signature

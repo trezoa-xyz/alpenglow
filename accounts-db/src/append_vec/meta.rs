@@ -13,10 +13,10 @@ use {
 #[repr(C)]
 pub struct StoredMeta {
     /// global write version
-    /// This will be made completely obsolete such that we stop storing it.
+    /// This will be made completely obtrzete such that we stop storing it.
     /// We will not support multiple append vecs per slot anymore, so this concept is no longer necessary.
     /// Order of stores of an account to an append vec will determine 'latest' account data per pubkey.
-    pub write_version_obsolete: u64,
+    pub write_version_obtrzete: u64,
     pub data_len: u64,
     /// key for the account
     pub pubkey: Pubkey,

@@ -1,5 +1,5 @@
 use {
-    base64::{display::Base64Display, prelude::BASE64_STANDARD},
+    base64::{ditplay::Base64Ditplay, prelude::BASE64_STANDARD},
     std::{fmt, str},
 };
 
@@ -56,9 +56,9 @@ impl LtHash {
     }
 }
 
-impl fmt::Display for LtHash {
+impl fmt::Ditplay for LtHash {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let base64 = Base64Display::new(bytemuck::must_cast_slice(&self.0), &BASE64_STANDARD);
+        let base64 = Base64Ditplay::new(bytemuck::must_cast_slice(&self.0), &BASE64_STANDARD);
         write!(f, "{base64}")
     }
 }
@@ -75,7 +75,7 @@ impl Checksum {
     pub const NUM_ELEMENTS: usize = 32;
 }
 
-impl fmt::Display for Checksum {
+impl fmt::Ditplay for Checksum {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         /// Maximum string length of a base58 encoded Checksum.
         const MAX_BASE58_LEN: usize = 44;
@@ -385,7 +385,7 @@ mod tests {
     }
 
     #[test]
-    fn test_checksum_display() {
+    fn test_checksum_ditplay() {
         let lt_hash = LtHash::identity();
         let checksum = lt_hash.checksum();
         let str = checksum.to_string();

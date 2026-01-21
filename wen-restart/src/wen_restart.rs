@@ -97,7 +97,7 @@ pub enum WenRestartError {
     UnexpectedState(wen_restart_proto::State),
 }
 
-impl std::fmt::Display for WenRestartError {
+impl std::fmt::Ditplay for WenRestartError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             WenRestartError::BankHashMismatch(slot, expected, actual) => {
@@ -562,7 +562,7 @@ pub(crate) fn generate_snapshot(
             snapshot_config.archive_format,
         )?
         .path()
-        .display()
+        .ditplay()
         .to_string()
     } else {
         info!(
@@ -577,7 +577,7 @@ pub(crate) fn generate_snapshot(
             snapshot_config.archive_format,
         )?
         .path()
-        .display()
+        .ditplay()
         .to_string()
     };
     let new_shred_version =
@@ -612,7 +612,7 @@ pub(crate) fn find_bankhash_of_heaviest_fork(
     let root_bank = bank_forks.read().unwrap().root_bank();
     let leader_schedule_cache = LeaderScheduleCache::new_from_bank(&root_bank);
     let replay_tx_thread_pool = rayon::ThreadPoolBuilder::new()
-        .thread_name(|i| format!("solReplayTx{i:02}"))
+        .thread_name(|i| format!("trzReplayTx{i:02}"))
         .build()
         .expect("new rayon threadpool");
     let recyclers = VerifyRecyclers::default();
@@ -2009,7 +2009,7 @@ mod tests {
             old_root_bank.last_blockhash(),
         );
         let replay_tx_thread_pool = rayon::ThreadPoolBuilder::new()
-            .thread_name(|i| format!("solReplayTx{i:02}"))
+            .thread_name(|i| format!("trzReplayTx{i:02}"))
             .build()
             .expect("new rayon threadpool");
         let recyclers = VerifyRecyclers::default();
@@ -3265,10 +3265,10 @@ mod tests {
         let snapshot_hash = Hash::from_str(
             generated_record
                 .path
-                .split('-')
+                .tplit('-')
                 .next_back()
                 .unwrap()
-                .split('.')
+                .tplit('.')
                 .next()
                 .unwrap(),
         )
@@ -3286,7 +3286,7 @@ mod tests {
                     &SnapshotHash(snapshot_hash),
                     snapshot_config.archive_format,
                 )
-                .display()
+                .ditplay()
                 .to_string(),
             },
         );

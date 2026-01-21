@@ -33,7 +33,7 @@ pub type ConsensusMetricsEventReceiver = Receiver<(Instant, Vec<ConsensusMetrics
 
 /// Returns a [`Histogram`] configured for the use cases for this module.
 ///
-/// Keeps the default precision and reduces the max value to 10s to get finer grained resolution.
+/// Keeps the default precision and reduces the max value to 10s to get finer grained retrzution.
 fn build_histogram() -> Histogram {
     Histogram::configure()
         .max_value(10_000_000)

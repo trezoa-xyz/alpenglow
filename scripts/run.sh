@@ -76,9 +76,9 @@ else
     CORE_BPF_GENESIS_ARGS=$(cat core-bpf-genesis-args.sh)
   fi
 
-  ./fetch-spl.sh
-  if [[ -r spl-genesis-args.sh ]]; then
-    SPL_GENESIS_ARGS=$(cat spl-genesis-args.sh)
+  ./fetch-tpl.sh
+  if [[ -r trz-genesis-args.sh ]]; then
+    TRZ_GENESIS_ARGS=$(cat trz-genesis-args.sh)
   fi
 
   # shellcheck disable=SC2086
@@ -92,7 +92,7 @@ else
     --ledger "$ledgerDir" \
     --cluster-type "$TREZOA_RUN_SH_CLUSTER_TYPE" \
     $CORE_BPF_GENESIS_ARGS \
-    $SPL_GENESIS_ARGS \
+    $TRZ_GENESIS_ARGS \
     $TREZOA_RUN_SH_GENESIS_ARGS
 fi
 

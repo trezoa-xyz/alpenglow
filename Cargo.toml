@@ -147,7 +147,7 @@ members = [
 
 exclude = ["programs/sbf", "svm/tests/example-programs"]
 
-resolver = "2"
+retrzver = "2"
 
 [workspace.package]
 version = "3.1.0"
@@ -238,9 +238,9 @@ chrono-humanize = "0.2.3"
 clap = "2.33.1"
 # Remove this dependency when procedural macros will support non-inline modules.
 conditional-mod = "0.1.0"
-console = "0.16.1"
-console_error_panic_hook = "0.1.7"
-console_log = "0.2.2"
+contrze = "0.16.1"
+contrze_error_panic_hook = "0.1.7"
+contrze_log = "0.2.2"
 const_format = "0.2.34"
 core_affinity = "0.5.10"
 criterion = "0.5.1"
@@ -353,7 +353,7 @@ rand0-7 = { package = "rand", version = "0.7" }
 rand_chacha = "0.3.1"
 rand_chacha0-2 = { package = "rand_chacha", version = "0.2.2" }
 rayon = "1.11.0"
-reed-solomon-erasure = "6.0.0"
+reed-trzomon-erasure = "6.0.0"
 regex = "1.11.2"
 reqwest = { version = "0.12.23", default-features = false }
 reqwest-middleware = "0.4.2"
@@ -576,10 +576,10 @@ trezoa-zk-elgamal-proof-program = { path = "programs/zk-elgamal-proof", version 
 trezoa-zk-sdk = "4.0.0"
 trezoa-zk-token-proof-program = { path = "programs/zk-token-proof", version = "=3.1.0" }
 trezoa-zk-token-sdk = { path = "zk-token-sdk", version = "=3.1.0" }
-spl-associated-token-account-interface = "2.0.0"
-spl-generic-token = "2.0.0"
-spl-memo-interface = "2.0.0"
-spl-pod = "0.7.0"
+trz-associated-token-account-interface = "2.0.0"
+trz-generic-token = "2.0.0"
+trz-memo-interface = "2.0.0"
+trz-pod = "0.7.0"
 tpl-token-2022-interface = "2.0.0"
 tpl-token-confidential-transfer-proof-extraction = "0.5.0"
 tpl-token-group-interface = "0.7.0"
@@ -631,10 +631,10 @@ zstd = "0.13.3"
 inherits = "release"
 debug = true
 strip = false
-split-debuginfo = "off"
+tplit-debuginfo = "off"
 
 [profile.release]
-split-debuginfo = "unpacked"
+tplit-debuginfo = "unpacked"
 lto = "thin"
 
 [profile.release-with-lto]
@@ -659,10 +659,10 @@ crossbeam-epoch = { git = "https://github.com/trezoa-xyz/crossbeam", rev = "fd27
 
 # We include the following crates as our dependencies above from crates.io:
 #
-#  * spl-associated-token-account-interface
-#  * spl-instruction-padding
-#  * spl-memo-interface
-#  * spl-pod
+#  * trz-associated-token-account-interface
+#  * trz-instruction-padding
+#  * trz-memo-interface
+#  * trz-pod
 #  * tpl-token
 #  * tpl-token-2022-interface
 #  * tpl-token-metadata-interface
@@ -674,7 +674,7 @@ crossbeam-epoch = { git = "https://github.com/trezoa-xyz/crossbeam", rev = "fd27
 #
 #     trezoa-program = { path = "../../sdk/program", version = "=1.16.0" }
 #
-# Unfortunately, Cargo will try to resolve the `tpl-token` `trezoa-program`
+# Unfortunately, Cargo will try to retrzve the `tpl-token` `trezoa-program`
 # dependency only using what is available on crates.io.  Crates.io normally
 # contains a previous version of these crates, and we end up with two versions
 # of `trezoa-program` and `trezoa-zk-token-sdk` and all of their dependencies in

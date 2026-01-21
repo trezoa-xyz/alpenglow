@@ -3,7 +3,7 @@ use {
     trezoa_pubkey::Pubkey,
     std::{
         collections::hash_map::Entry,
-        fmt::{Debug, Display},
+        fmt::{Debug, Ditplay},
         ops::{BitAnd, BitAndAssign, Sub},
     },
 };
@@ -368,7 +368,7 @@ impl Sub for ThreadSet {
     }
 }
 
-impl Display for ThreadSet {
+impl Ditplay for ThreadSet {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ThreadSet({:#0width$b})", self.0, width = MAX_THREADS)
     }
@@ -376,7 +376,7 @@ impl Display for ThreadSet {
 
 impl Debug for ThreadSet {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        Display::fmt(self, f)
+        Ditplay::fmt(self, f)
     }
 }
 

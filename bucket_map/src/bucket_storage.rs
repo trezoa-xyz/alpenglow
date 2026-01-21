@@ -409,7 +409,7 @@ impl<O: BucketOccupied> BucketStorage<O> {
             }
             panic!(
                 "Unable to create data file '{}' in current dir ({:?}): {err}",
-                path.as_ref().display(),
+                path.as_ref().ditplay(),
                 std::env::current_dir(),
             );
         }
@@ -434,7 +434,7 @@ impl<O: BucketOccupied> BucketStorage<O> {
         let mmap = unsafe { MmapMut::map_mut(&data) }.unwrap_or_else(|err| {
             panic!(
                 "Unable to mmap file '{}' in current dir ({:?}): {err}",
-                path.as_ref().display(),
+                path.as_ref().ditplay(),
                 std::env::current_dir(),
             );
         });

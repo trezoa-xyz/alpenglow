@@ -163,7 +163,7 @@ impl FetchStage {
                 .enumerate()
                 .map(|(i, socket)| {
                     streamer::receiver(
-                        format!("solRcvrTpu{i:02}"),
+                        format!("trzRcvrTpu{i:02}"),
                         socket,
                         exit.clone(),
                         sender.clone(),
@@ -187,7 +187,7 @@ impl FetchStage {
                 .enumerate()
                 .map(|(i, socket)| {
                     streamer::receiver(
-                        format!("solRcvrTpuFwd{i:02}"),
+                        format!("trzRcvrTpuFwd{i:02}"),
                         socket,
                         exit.clone(),
                         forward_sender.clone(),
@@ -210,7 +210,7 @@ impl FetchStage {
             .enumerate()
             .map(|(i, socket)| {
                 streamer::receiver(
-                    format!("solRcvrTpuVot{i:02}"),
+                    format!("trzRcvrTpuVot{i:02}"),
                     socket,
                     exit.clone(),
                     vote_sender.clone(),
@@ -228,7 +228,7 @@ impl FetchStage {
         let poh_recorder = poh_recorder.clone();
 
         let fwd_thread_hdl = Builder::new()
-            .name("solFetchStgFwRx".to_string())
+            .name("trzFetchStgFwRx".to_string())
             .spawn(move || loop {
                 if let Err(e) =
                     Self::handle_forwarded_packets(&forward_receiver, &sender, &poh_recorder)
@@ -245,7 +245,7 @@ impl FetchStage {
             .unwrap();
 
         let metrics_thread_hdl = Builder::new()
-            .name("solFetchStgMetr".to_string())
+            .name("trzFetchStgMetr".to_string())
             .spawn(move || loop {
                 sleep(Duration::from_secs(1));
 

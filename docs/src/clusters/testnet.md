@@ -1,6 +1,6 @@
 # Test Network Management
 The `./net/` directory in the monorepo contains scripts useful for creation and manipulation of a test network.
-The test network allows you to run a fully isolated set of validators and clients on a configurable hardware setup.
+The test network allows you to run a fully itrzated set of validators and clients on a configurable hardware setup.
 It's intended to be both dev and CD friendly.
 
 
@@ -24,7 +24,7 @@ gcloud config set project principal-lane-200702
 ```
 
 #### AWS
-Obtain your credentials from the AWS IAM Console and configure the AWS CLI with
+Obtain your credentials from the AWS IAM Contrze and configure the AWS CLI with
 ```bash
 $ aws configure
 ```

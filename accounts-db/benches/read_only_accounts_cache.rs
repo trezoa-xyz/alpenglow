@@ -310,7 +310,7 @@ fn bench_read_only_accounts_cache_eviction_lo_hi(c: &mut Criterion) {
 /// Benchmarks read-only cache eviction without differentiating between low and
 /// high thresholds. Each store triggers another eviction immediately.
 ///
-/// This benchmark measures the absolutely worst-case scenario, which may not
+/// This benchmark measures the abtrzutely worst-case scenario, which may not
 /// reflect actual conditions in validators.
 fn bench_read_only_accounts_cache_eviction_hi(c: &mut Criterion) {
     bench_read_only_accounts_cache_eviction(

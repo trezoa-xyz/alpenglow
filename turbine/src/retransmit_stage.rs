@@ -669,13 +669,13 @@ impl RetransmitStage {
             let num_threads = retransmit_sockets.len();
             ThreadPoolBuilder::new()
                 .num_threads(num_threads)
-                .thread_name(|i| format!("solRetransmit{i:02}"))
+                .thread_name(|i| format!("trzRetransmit{i:02}"))
                 .build()
                 .unwrap()
         };
 
         let retransmit_thread_handle = Builder::new()
-            .name("solRetransmittr".to_string())
+            .name("trzRetransmittr".to_string())
             .spawn(move || {
                 let mut shred_buf = Vec::with_capacity(RETRANSMIT_BATCH_SIZE);
                 loop {

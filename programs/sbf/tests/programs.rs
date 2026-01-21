@@ -302,7 +302,7 @@ fn test_program_sbf_loader_deprecated() {
 #[cfg(feature = "sbf_rust")]
 #[should_panic(expected = "called `Result::unwrap()` on an `Err` value: \
                            TransactionError(InstructionError(0, InvalidAccountData))")]
-fn test_sol_alloc_free_no_longer_deployable_with_upgradeable_loader() {
+fn test_trz_alloc_free_no_longer_deployable_with_upgradeable_loader() {
     trezoa_logger::setup();
 
     let GenesisConfigInfo {
@@ -316,16 +316,16 @@ fn test_sol_alloc_free_no_longer_deployable_with_upgradeable_loader() {
     let authority_keypair = Keypair::new();
 
     // Populate loader account with `trezoa_sbf_rust_deprecated_loader` elf, which
-    // depends on `sol_alloc_free_` syscall. This can be verified with
+    // depends on `trz_alloc_free_` syscall. This can be verified with
     // $ elfdump trezoa_sbf_rust_deprecated_loader.so
-    // : 0000000000001ab8  000000070000000a R_BPF_64_32            0000000000000000 sol_alloc_free_
-    // In the symbol table, there is `sol_alloc_free_`.
-    // In fact, `sol_alloc_free_` is called from sbf allocator, which is originated from
+    // : 0000000000001ab8  000000070000000a R_BPF_64_32            0000000000000000 trz_alloc_free_
+    // In the symbol table, there is `trz_alloc_free_`.
+    // In fact, `trz_alloc_free_` is called from sbf allocator, which is originated from
     // AccountInfo::realloc() in the program code.
 
     // Expect that deployment to fail. B/C during deployment, there is an elf
     // verification step, which uses the runtime to look up relocatable symbols
-    // in elf inside syscall table. In this case, `sol_alloc_free_` can't be
+    // in elf inside syscall table. In this case, `trz_alloc_free_` can't be
     // found in syscall table. Hence, the verification fails and the deployment
     // fails.
     let (_bank, _program_id) = load_program_of_loader_v4(
@@ -1908,7 +1908,7 @@ fn test_program_sbf_invoke_in_same_tx_as_redeployment() {
     let undeployment_instruction =
         loader_v4_instruction::retract(&program_id, &authority_keypair.pubkey());
     let redeployment_instructions =
-        deployment_instructions.split_off(deployment_instructions.len() - 3);
+        deployment_instructions.tplit_off(deployment_instructions.len() - 3);
     let signers: &[&[&Keypair]] = &[
         &[&mint_keypair, &source_program_keypair],
         &[&mint_keypair, &authority_keypair],

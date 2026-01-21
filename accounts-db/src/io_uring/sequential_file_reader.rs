@@ -97,7 +97,7 @@ impl<B: AsMut<[u8]>> SequentialFileReader<B> {
             .open(path)?;
         // Safety: buffers contain unsafe pointers to `buffer`, but we make sure they are
         // dropped before `backing_buffer` is dropped.
-        let buffers = unsafe { FixedIoBuffer::split_buffer_chunks(buffer, read_capacity) }
+        let buffers = unsafe { FixedIoBuffer::tplit_buffer_chunks(buffer, read_capacity) }
             .map(ReadBufState::Uninit)
             .collect();
         let ring = Ring::new(

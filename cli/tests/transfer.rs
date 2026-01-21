@@ -13,7 +13,7 @@ use {
     trezoa_fee_structure::FeeStructure,
     trezoa_keypair::{keypair_from_seed, Keypair},
     trezoa_message::Message,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_nonce::state::State as NonceState,
     trezoa_pubkey::Pubkey,
     trezoa_rpc_client::rpc_client::RpcClient,
@@ -56,16 +56,16 @@ fn test_transfer(skip_preflight: bool) {
     let sender_pubkey = config.signers[0].pubkey();
     let recipient_pubkey = Pubkey::from([1u8; 32]);
 
-    request_and_confirm_airdrop(&rpc_client, &config, &sender_pubkey, 5 * LAMPORTS_PER_SOL)
+    request_and_confirm_airdrop(&rpc_client, &config, &sender_pubkey, 5 * LAMPORTS_PER_TRZ)
         .unwrap();
-    check_balance!(5 * LAMPORTS_PER_SOL, &rpc_client, &sender_pubkey);
+    check_balance!(5 * LAMPORTS_PER_TRZ, &rpc_client, &sender_pubkey);
     check_balance!(0, &rpc_client, &recipient_pubkey);
 
     check_ready(&rpc_client);
 
     // Plain ole transfer
     config.command = CliCommand::Transfer {
-        amount: SpendAmount::Some(LAMPORTS_PER_SOL),
+        amount: SpendAmount::Some(LAMPORTS_PER_TRZ),
         to: recipient_pubkey,
         from: 0,
         sign_only: false,
@@ -83,15 +83,15 @@ fn test_transfer(skip_preflight: bool) {
     };
     process_command(&config).unwrap();
     check_balance!(
-        4 * LAMPORTS_PER_SOL - fee_one_sig,
+        4 * LAMPORTS_PER_TRZ - fee_one_sig,
         &rpc_client,
         &sender_pubkey
     );
-    check_balance!(LAMPORTS_PER_SOL, &rpc_client, &recipient_pubkey);
+    check_balance!(LAMPORTS_PER_TRZ, &rpc_client, &recipient_pubkey);
 
     // Plain ole transfer, failure due to InsufficientFundsForSpendAndFee
     config.command = CliCommand::Transfer {
-        amount: SpendAmount::Some(4 * LAMPORTS_PER_SOL),
+        amount: SpendAmount::Some(4 * LAMPORTS_PER_TRZ),
         to: recipient_pubkey,
         from: 0,
         sign_only: false,
@@ -109,11 +109,11 @@ fn test_transfer(skip_preflight: bool) {
     };
     assert!(process_command(&config).is_err());
     check_balance!(
-        4 * LAMPORTS_PER_SOL - fee_one_sig,
+        4 * LAMPORTS_PER_TRZ - fee_one_sig,
         &rpc_client,
         &sender_pubkey
     );
-    check_balance!(LAMPORTS_PER_SOL, &rpc_client, &recipient_pubkey);
+    check_balance!(LAMPORTS_PER_TRZ, &rpc_client, &recipient_pubkey);
 
     let mut offline = CliConfig::recent_for_tests();
     offline.json_rpc_url = String::default();
@@ -123,13 +123,13 @@ fn test_transfer(skip_preflight: bool) {
     process_command(&offline).unwrap_err();
 
     let offline_pubkey = offline.signers[0].pubkey();
-    request_and_confirm_airdrop(&rpc_client, &offline, &offline_pubkey, LAMPORTS_PER_SOL).unwrap();
-    check_balance!(LAMPORTS_PER_SOL, &rpc_client, &offline_pubkey);
+    request_and_confirm_airdrop(&rpc_client, &offline, &offline_pubkey, LAMPORTS_PER_TRZ).unwrap();
+    check_balance!(LAMPORTS_PER_TRZ, &rpc_client, &offline_pubkey);
 
     // Offline transfer
     let blockhash = rpc_client.get_latest_blockhash().unwrap();
     offline.command = CliCommand::Transfer {
-        amount: SpendAmount::Some(LAMPORTS_PER_SOL / 2),
+        amount: SpendAmount::Some(LAMPORTS_PER_TRZ / 2),
         to: recipient_pubkey,
         from: 0,
         sign_only: true,
@@ -152,7 +152,7 @@ fn test_transfer(skip_preflight: bool) {
     let offline_presigner = sign_only.presigner_of(&offline_pubkey).unwrap();
     config.signers = vec![&offline_presigner];
     config.command = CliCommand::Transfer {
-        amount: SpendAmount::Some(LAMPORTS_PER_SOL / 2),
+        amount: SpendAmount::Some(LAMPORTS_PER_TRZ / 2),
         to: recipient_pubkey,
         from: 0,
         sign_only: false,
@@ -170,7 +170,7 @@ fn test_transfer(skip_preflight: bool) {
     };
     process_command(&config).unwrap();
     check_balance!(
-        LAMPORTS_PER_SOL / 2 - fee_one_sig,
+        LAMPORTS_PER_TRZ / 2 - fee_one_sig,
         &rpc_client,
         &offline_pubkey
     );
@@ -192,7 +192,7 @@ fn test_transfer(skip_preflight: bool) {
     };
     process_command(&config).unwrap();
     check_balance!(
-        4 * LAMPORTS_PER_SOL - fee_one_sig - fee_two_sig - minimum_nonce_balance,
+        4 * LAMPORTS_PER_TRZ - fee_one_sig - fee_two_sig - minimum_nonce_balance,
         &rpc_client,
         &sender_pubkey,
     );
@@ -210,7 +210,7 @@ fn test_transfer(skip_preflight: bool) {
     // Nonced transfer
     config.signers = vec![&default_signer];
     config.command = CliCommand::Transfer {
-        amount: SpendAmount::Some(LAMPORTS_PER_SOL),
+        amount: SpendAmount::Some(LAMPORTS_PER_TRZ),
         to: recipient_pubkey,
         from: 0,
         sign_only: false,
@@ -231,7 +231,7 @@ fn test_transfer(skip_preflight: bool) {
     };
     process_command(&config).unwrap();
     check_balance!(
-        3 * LAMPORTS_PER_SOL - 2 * fee_one_sig - fee_two_sig - minimum_nonce_balance,
+        3 * LAMPORTS_PER_TRZ - 2 * fee_one_sig - fee_two_sig - minimum_nonce_balance,
         &rpc_client,
         &sender_pubkey,
     );
@@ -257,7 +257,7 @@ fn test_transfer(skip_preflight: bool) {
     };
     process_command(&config).unwrap();
     check_balance!(
-        3 * LAMPORTS_PER_SOL - 3 * fee_one_sig - fee_two_sig - minimum_nonce_balance,
+        3 * LAMPORTS_PER_TRZ - 3 * fee_one_sig - fee_two_sig - minimum_nonce_balance,
         &rpc_client,
         &sender_pubkey,
     );
@@ -318,7 +318,7 @@ fn test_transfer(skip_preflight: bool) {
     };
     process_command(&config).unwrap();
     check_balance!(
-        LAMPORTS_PER_SOL / 10 - 2 * fee_one_sig,
+        LAMPORTS_PER_TRZ / 10 - 2 * fee_one_sig,
         &rpc_client,
         &offline_pubkey
     );
@@ -352,23 +352,23 @@ fn test_transfer_multisession_signing() {
         &rpc_client,
         &CliConfig::recent_for_tests(),
         &offline_from_signer.pubkey(),
-        43 * LAMPORTS_PER_SOL,
+        43 * LAMPORTS_PER_TRZ,
     )
     .unwrap();
     request_and_confirm_airdrop(
         &rpc_client,
         &CliConfig::recent_for_tests(),
         &offline_fee_payer_signer.pubkey(),
-        LAMPORTS_PER_SOL + 2 * fee_two_sig,
+        LAMPORTS_PER_TRZ + 2 * fee_two_sig,
     )
     .unwrap();
     check_balance!(
-        43 * LAMPORTS_PER_SOL,
+        43 * LAMPORTS_PER_TRZ,
         &rpc_client,
         &offline_from_signer.pubkey(),
     );
     check_balance!(
-        LAMPORTS_PER_SOL + 2 * fee_two_sig,
+        LAMPORTS_PER_TRZ + 2 * fee_two_sig,
         &rpc_client,
         &offline_fee_payer_signer.pubkey(),
     );
@@ -386,7 +386,7 @@ fn test_transfer_multisession_signing() {
     fee_payer_config.command = CliCommand::ClusterVersion;
     process_command(&fee_payer_config).unwrap_err();
     fee_payer_config.command = CliCommand::Transfer {
-        amount: SpendAmount::Some(42 * LAMPORTS_PER_SOL),
+        amount: SpendAmount::Some(42 * LAMPORTS_PER_TRZ),
         to: to_pubkey,
         from: 1,
         sign_only: true,
@@ -418,7 +418,7 @@ fn test_transfer_multisession_signing() {
     from_config.command = CliCommand::ClusterVersion;
     process_command(&from_config).unwrap_err();
     from_config.command = CliCommand::Transfer {
-        amount: SpendAmount::Some(42 * LAMPORTS_PER_SOL),
+        amount: SpendAmount::Some(42 * LAMPORTS_PER_TRZ),
         to: to_pubkey,
         from: 1,
         sign_only: true,
@@ -447,7 +447,7 @@ fn test_transfer_multisession_signing() {
     config.json_rpc_url = test_validator.rpc_url();
     config.signers = vec![&fee_payer_presigner, &from_presigner];
     config.command = CliCommand::Transfer {
-        amount: SpendAmount::Some(42 * LAMPORTS_PER_SOL),
+        amount: SpendAmount::Some(42 * LAMPORTS_PER_TRZ),
         to: to_pubkey,
         from: 1,
         sign_only: false,
@@ -465,13 +465,13 @@ fn test_transfer_multisession_signing() {
     };
     process_command(&config).unwrap();
 
-    check_balance!(LAMPORTS_PER_SOL, &rpc_client, &offline_from_signer.pubkey(),);
+    check_balance!(LAMPORTS_PER_TRZ, &rpc_client, &offline_from_signer.pubkey(),);
     check_balance!(
-        LAMPORTS_PER_SOL + fee_two_sig,
+        LAMPORTS_PER_TRZ + fee_two_sig,
         &rpc_client,
         &offline_fee_payer_signer.pubkey(),
     );
-    check_balance!(42 * LAMPORTS_PER_SOL, &rpc_client, &to_pubkey);
+    check_balance!(42 * LAMPORTS_PER_TRZ, &rpc_client, &to_pubkey);
 }
 
 #[test_case(None; "default")]
@@ -642,18 +642,18 @@ fn test_transfer_with_seed() {
     )
     .unwrap();
 
-    request_and_confirm_airdrop(&rpc_client, &config, &sender_pubkey, LAMPORTS_PER_SOL).unwrap();
-    request_and_confirm_airdrop(&rpc_client, &config, &derived_address, 5 * LAMPORTS_PER_SOL)
+    request_and_confirm_airdrop(&rpc_client, &config, &sender_pubkey, LAMPORTS_PER_TRZ).unwrap();
+    request_and_confirm_airdrop(&rpc_client, &config, &derived_address, 5 * LAMPORTS_PER_TRZ)
         .unwrap();
-    check_balance!(LAMPORTS_PER_SOL, &rpc_client, &sender_pubkey);
-    check_balance!(5 * LAMPORTS_PER_SOL, &rpc_client, &derived_address);
+    check_balance!(LAMPORTS_PER_TRZ, &rpc_client, &sender_pubkey);
+    check_balance!(5 * LAMPORTS_PER_TRZ, &rpc_client, &derived_address);
     check_balance!(0, &rpc_client, &recipient_pubkey);
 
     check_ready(&rpc_client);
 
     // Transfer with seed
     config.command = CliCommand::Transfer {
-        amount: SpendAmount::Some(5 * LAMPORTS_PER_SOL),
+        amount: SpendAmount::Some(5 * LAMPORTS_PER_TRZ),
         to: recipient_pubkey,
         from: 0,
         sign_only: false,
@@ -670,7 +670,7 @@ fn test_transfer_with_seed() {
         compute_unit_price: None,
     };
     process_command(&config).unwrap();
-    check_balance!(LAMPORTS_PER_SOL - fee, &rpc_client, &sender_pubkey);
-    check_balance!(5 * LAMPORTS_PER_SOL, &rpc_client, &recipient_pubkey);
+    check_balance!(LAMPORTS_PER_TRZ - fee, &rpc_client, &sender_pubkey);
+    check_balance!(5 * LAMPORTS_PER_TRZ, &rpc_client, &recipient_pubkey);
     check_balance!(0, &rpc_client, &derived_address);
 }

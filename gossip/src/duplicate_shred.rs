@@ -33,7 +33,7 @@ pub struct DuplicateShred {
     // It is semantically unused, so we now deserialize it as a plain `u8`
     // to avoid strict enum validation errors on bad data.
     _unused_shred_type: u8,
-    // Serialized DuplicateSlotProof split into chunks.
+    // Serialized DuplicateSlotProof tplit into chunks.
     num_chunks: u8,
     chunk_index: u8,
     #[serde(with = "serde_bytes")]

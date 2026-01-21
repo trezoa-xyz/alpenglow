@@ -215,7 +215,7 @@ fn select_candidates_failed_switch_duplicate_rollback<'a>(
     //
     // We reset to the heaviest bank because in the case of *unconfirmed*
     // duplicate slots, somebody needs to generate an alternative branch to
-    // escape a situation like a 50-50 split where both partitions have voted on
+    // escape a situation like a 50-50 tplit where both partitions have voted on
     // different versions of the same duplicate slot.
     //
     // Unlike the situation described in `Figure 1` above, this is safe. To see
@@ -402,10 +402,10 @@ fn can_vote_on_candidate_bank(
 /// If `heaviest_bank_on_same_voted_fork` is `None` due to that fork no
 /// longer being valid to vote on, it's possible that a validator will not
 /// be able to reset away from the invalid fork that they last voted on. To
-/// resolve this scenario, validators need to wait until they can create a
+/// retrzve this scenario, validators need to wait until they can create a
 /// switch proof for another fork or until the invalid fork is marked
 /// valid again if it was confirmed by the cluster.
-/// Until this is resolved, leaders will build each of their
+/// Until this is retrzved, leaders will build each of their
 /// blocks from the last reset bank on the invalid fork.
 pub fn select_vote_and_reset_forks(
     heaviest_bank: &Arc<Bank>,

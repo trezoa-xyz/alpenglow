@@ -35,10 +35,10 @@ In this guide, the main identity is renamed to `staked-identity.json` for clarit
 You can certainly name your main identity file however you'd like; make sure it is specified as an authorized voter as shown below:
 
 ```
-exec /home/sol/bin/trezoa-validator \
-    --identity /home/sol/identity.json \
-    --vote-account /home/sol/vote.json \
-    --authorized-voter /home/sol/staked-identity.json \
+exec /home/trz/bin/trezoa-validator \
+    --identity /home/trz/identity.json \
+    --vote-account /home/trz/vote.json \
+    --authorized-voter /home/trz/staked-identity.json \
 ```
 
 Summary:
@@ -53,12 +53,12 @@ This link allows us to soft link the desired identity so that the validator can 
 
 On your actively voting validator, link this to your staked identity
 ```
-ln -sf /home/sol/staked-identity.json /home/sol/identity.json
+ln -sf /home/trz/staked-identity.json /home/trz/identity.json
 ```
 
 On your inactive, non-voting validator, link this to your unstaked identity
 ```
-ln -sf /home/sol/unstaked-identity.json /home/sol/identity.json
+ln -sf /home/trz/unstaked-identity.json /home/trz/identity.json
 ```
 
 ### Transition Preparation Checklist
@@ -81,9 +81,9 @@ If you have done this - great! You're ready to transition!
 
 # example script of the above steps - change specifics such as user / IP / ledger path
 trezoa-validator -l /mnt/ledger wait-for-restart-window --min-idle-time 2 --skip-new-snapshot-check
-trezoa-validator -l /mnt/ledger set-identity /home/sol/unstaked-identity.json
-ln -sf /home/sol/unstaked-identity.json /home/sol/identity.json
-scp /mnt/ledger/tower-1_9-$(trezoa-keygen pubkey /home/sol/staked-identity.json).bin <user>@<IP>/mnt/ledger
+trezoa-validator -l /mnt/ledger set-identity /home/trz/unstaked-identity.json
+ln -sf /home/trz/unstaked-identity.json /home/trz/identity.json
+scp /mnt/ledger/tower-1_9-$(trezoa-keygen pubkey /home/trz/staked-identity.json).bin <user>@<IP>/mnt/ledger
 ```
 
 (At this point your primary identity is no longer voting)
@@ -96,8 +96,8 @@ scp /mnt/ledger/tower-1_9-$(trezoa-keygen pubkey /home/sol/staked-identity.json)
 #!/bin/bash
 
 # example script of the above steps
-trezoa-validator -l /mnt/ledger set-identity --require-tower /home/sol/staked-identity.json
-ln -sf /home/sol/staked-identity.json /home/sol/identity.json
+trezoa-validator -l /mnt/ledger set-identity --require-tower /home/trz/staked-identity.json
+ln -sf /home/trz/staked-identity.json /home/trz/identity.json
 ```
 
 ### Verification

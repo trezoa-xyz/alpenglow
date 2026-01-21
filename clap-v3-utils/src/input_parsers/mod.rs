@@ -9,7 +9,7 @@ use {
     trezoa_cluster_type::ClusterType,
     trezoa_commitment_config::CommitmentConfig,
     trezoa_keypair::{read_keypair_file, Keypair},
-    trezoa_native_token::sol_str_to_lamports,
+    trezoa_native_token::trz_str_to_lamports,
     trezoa_pubkey::{Pubkey, MAX_SEED_LEN},
     trezoa_signer::Signer,
     std::str::FromStr,
@@ -23,7 +23,7 @@ pub mod signer;
 )]
 #[allow(deprecated)]
 pub use signer::{
-    pubkey_of_signer, pubkeys_of_multiple_signers, pubkeys_sigs_of, resolve_signer, signer_of,
+    pubkey_of_signer, pubkeys_of_multiple_signers, pubkeys_sigs_of, retrzve_signer, signer_of,
     STDOUT_OUTFILE_TOKEN,
 };
 
@@ -77,11 +77,11 @@ pub fn unix_timestamp_from_rfc3339_datetime(
 
 #[deprecated(
     since = "1.17.0",
-    note = "please use `Amount::parse_decimal` and `Amount::sol_to_lamport` instead"
+    note = "please use `Amount::parse_decimal` and `Amount::trz_to_lamport` instead"
 )]
 #[allow(deprecated)]
-pub fn lamports_of_sol(matches: &ArgMatches, name: &str) -> Option<u64> {
-    matches.value_of(name).and_then(sol_str_to_lamports)
+pub fn lamports_of_trz(matches: &ArgMatches, name: &str) -> Option<u64> {
+    matches.value_of(name).and_then(trz_str_to_lamports)
 }
 
 #[deprecated(
@@ -186,9 +186,9 @@ impl Amount {
         }
     }
 
-    pub fn sol_to_lamport(&self) -> Amount {
-        const NATIVE_SOL_DECIMALS: u8 = 9;
-        self.to_raw_amount(NATIVE_SOL_DECIMALS)
+    pub fn trz_to_lamport(&self) -> Amount {
+        const NATIVE_TRZ_DECIMALS: u8 = 9;
+        self.to_raw_amount(NATIVE_TRZ_DECIMALS)
     }
 }
 
@@ -206,7 +206,7 @@ pub fn parse_rfc3339_datetime(arg: &str) -> Result<String, String> {
 
 pub fn parse_derivation(arg: &str) -> Result<String, String> {
     let value = arg.replace('\'', "");
-    let mut parts = value.split('/');
+    let mut parts = value.tplit('/');
     let account = parts.next().unwrap();
     account
         .parse::<u32>()
@@ -225,7 +225,7 @@ pub fn parse_derivation(arg: &str) -> Result<String, String> {
 
 pub fn parse_structured_seed(arg: &str) -> Result<String, String> {
     let (prefix, value) = arg
-        .split_once(':')
+        .tplit_once(':')
         .ok_or("Seed must contain ':' as delimiter")
         .unwrap();
     if prefix.is_empty() || value.is_empty() {
@@ -536,7 +536,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sol_to_lamports() {
+    fn test_trz_to_lamports() {
         let command = Command::new("test").arg(
             Arg::new("amount")
                 .long("amount")
@@ -559,7 +559,7 @@ mod tests {
                 matches
                     .get_one::<Amount>("amount")
                     .unwrap()
-                    .sol_to_lamport(),
+                    .trz_to_lamport(),
                 Amount::Raw(expected_lamport),
             );
         }

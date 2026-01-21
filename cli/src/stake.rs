@@ -11,7 +11,7 @@ use {
         feature::get_feature_activation_epoch,
         memo::WithMemo,
         nonce::check_nonce_account,
-        spend_utils::{resolve_spend_tx_and_check_account_balances, SpendAmount},
+        spend_utils::{retrzve_spend_tx_and_check_account_balances, SpendAmount},
     },
     clap::{value_t, App, AppSettings, Arg, ArgGroup, ArgMatches, SubCommand},
     trezoa_account::{from_account, state_traits::StateMut, Account},
@@ -28,7 +28,7 @@ use {
         ArgConstant,
     },
     trezoa_cli_output::{
-        self, display::BuildBalanceMessageConfig, return_signers_with_config, CliBalance,
+        self, ditplay::BuildBalanceMessageConfig, return_signers_with_config, CliBalance,
         CliEpochReward, CliStakeHistory, CliStakeHistoryEntry, CliStakeState, CliStakeType,
         OutputFormat, ReturnSignersConfig,
     },
@@ -36,7 +36,7 @@ use {
     trezoa_commitment_config::CommitmentConfig,
     trezoa_epoch_schedule::EpochSchedule,
     trezoa_message::Message,
-    trezoa_native_token::Sol,
+    trezoa_native_token::Trz,
     trezoa_pubkey::Pubkey,
     trezoa_remote_wallet::remote_wallet::RemoteWalletManager,
     trezoa_rpc_client::rpc_client::RpcClient,
@@ -125,7 +125,7 @@ pub struct StakeAuthorizationIndexed {
 struct SignOnlySplitNeedsRent {}
 impl ArgsConfig for SignOnlySplitNeedsRent {
     fn sign_only_arg<'a, 'b>(&self, arg: Arg<'a, 'b>) -> Arg<'a, 'b> {
-        arg.requires("rent_exempt_reserve_sol")
+        arg.requires("rent_exempt_reserve_trz")
     }
 }
 
@@ -158,7 +158,7 @@ impl StakeSubCommands for App<'_, '_> {
                         .validator(is_amount_or_all)
                         .required(true)
                         .help(
-                            "The amount to send to the stake account, in SOL; accepts keyword ALL",
+                            "The amount to send to the stake account, in TRZ; accepts keyword ALL",
                         ),
                 )
                 .arg(pubkey!(
@@ -251,7 +251,7 @@ impl StakeSubCommands for App<'_, '_> {
                         .validator(is_amount_or_all)
                         .required(true)
                         .help(
-                            "The amount to send to the stake account, in SOL; accepts keyword ALL",
+                            "The amount to send to the stake account, in TRZ; accepts keyword ALL",
                         ),
                 )
                 .arg(
@@ -465,19 +465,19 @@ impl StakeSubCommands for App<'_, '_> {
                 .arg(compute_unit_price_arg()),
         )
         .subcommand(
-            SubCommand::with_name("split-stake")
-                .about("Duplicate a stake account, splitting the tokens between the two")
+            SubCommand::with_name("tplit-stake")
+                .about("Duplicate a stake account, tplitting the tokens between the two")
                 .arg(pubkey!(
                     Arg::with_name("stake_account_pubkey")
                         .index(1)
                         .value_name("STAKE_ACCOUNT_ADDRESS")
                         .required(true),
-                    "Stake account to split (or base of derived address if --seed is used)."
+                    "Stake account to tplit (or base of derived address if --seed is used)."
                 ))
                 .arg(
-                    Arg::with_name("split_stake_account")
+                    Arg::with_name("tplit_stake_account")
                         .index(2)
-                        .value_name("SPLIT_STAKE_ACCOUNT")
+                        .value_name("TPLIT_STAKE_ACCOUNT")
                         .takes_value(true)
                         .required(true)
                         .validator(is_valid_signer)
@@ -490,7 +490,7 @@ impl StakeSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .validator(is_amount)
                         .required(true)
-                        .help("The amount to move into the new stake account, in SOL"),
+                        .help("The amount to move into the new stake account, in TRZ"),
                 )
                 .arg(
                     Arg::with_name("seed")
@@ -499,7 +499,7 @@ impl StakeSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .help(
                             "Seed for address generation; if specified, the resulting account \
-                             will be at a derived address of SPLIT_STAKE_ACCOUNT",
+                             will be at a derived address of TPLIT_STAKE_ACCOUNT",
                         ),
                 )
                 .arg(stake_authority_arg())
@@ -509,13 +509,13 @@ impl StakeSubCommands for App<'_, '_> {
                 .arg(memo_arg())
                 .arg(compute_unit_price_arg())
                 .arg(
-                    Arg::with_name("rent_exempt_reserve_sol")
-                        .long("rent-exempt-reserve-sol")
+                    Arg::with_name("rent_exempt_reserve_trz")
+                        .long("rent-exempt-reserve-trz")
                         .value_name("AMOUNT")
                         .takes_value(true)
                         .validator(is_amount)
                         .help(
-                            "The rent-exempt amount to move into the new stake account, in SOL. \
+                            "The rent-exempt amount to move into the new stake account, in TRZ. \
                              Required for offline signing.",
                         ),
                 ),
@@ -547,7 +547,7 @@ impl StakeSubCommands for App<'_, '_> {
         )
         .subcommand(
             SubCommand::with_name("withdraw-stake")
-                .about("Withdraw the unstaked SOL from the stake account")
+                .about("Withdraw the unstaked TRZ from the stake account")
                 .arg(pubkey!(
                     Arg::with_name("stake_account_pubkey")
                         .index(1)
@@ -571,7 +571,7 @@ impl StakeSubCommands for App<'_, '_> {
                         .validator(is_amount_or_all_or_available)
                         .required(true)
                         .help(
-                            "The amount to withdraw from the stake account, in SOL; accepts \
+                            "The amount to withdraw from the stake account, in TRZ; accepts \
                              keywords ALL or AVAILABLE",
                         ),
                 )
@@ -718,19 +718,19 @@ impl StakeSubCommands for App<'_, '_> {
                         .index(1)
                         .value_name("STAKE_ACCOUNT_ADDRESS")
                         .required(true),
-                    "Stake account to display."
+                    "Stake account to ditplay."
                 ))
                 .arg(
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Ditplay balance in lamports instead of TRZ"),
                 )
                 .arg(
                     Arg::with_name("with_rewards")
                         .long("with-rewards")
                         .takes_value(false)
-                        .help("Display inflation rewards"),
+                        .help("Ditplay inflation rewards"),
                 )
                 .arg(
                     Arg::with_name("csv")
@@ -744,7 +744,7 @@ impl StakeSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .value_name("NUM")
                         .requires("with_rewards")
-                        .help("Start displaying from epoch NUM"),
+                        .help("Start ditplaying from epoch NUM"),
                 )
                 .arg(
                     Arg::with_name("num_rewards_epochs")
@@ -755,7 +755,7 @@ impl StakeSubCommands for App<'_, '_> {
                         .default_value_if("with_rewards", None, "1")
                         .requires("with_rewards")
                         .help(
-                            "Display rewards for NUM recent epochs, max 10 [default: latest epoch \
+                            "Ditplay rewards for NUM recent epochs, max 10 [default: latest epoch \
                              only]",
                         ),
                 ),
@@ -768,7 +768,7 @@ impl StakeSubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Ditplay balance in lamports instead of TRZ"),
                 )
                 .arg(
                     Arg::with_name("limit")
@@ -778,7 +778,7 @@ impl StakeSubCommands for App<'_, '_> {
                         .default_value("10")
                         .validator(|s| s.parse::<usize>().map(|_| ()).map_err(|e| e.to_string()))
                         .help(
-                            "Display NUM recent epochs worth of stake history in text mode. 0 for \
+                            "Ditplay NUM recent epochs worth of stake history in text mode. 0 for \
                              all",
                         ),
                 ),
@@ -790,7 +790,7 @@ impl StakeSubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display minimum delegation in lamports instead of SOL"),
+                        .help("Ditplay minimum delegation in lamports instead of TRZ"),
                 ),
         )
     }
@@ -1049,16 +1049,16 @@ pub fn parse_stake_authorize(
     })
 }
 
-pub fn parse_split_stake(
+pub fn parse_tplit_stake(
     matches: &ArgMatches<'_>,
     default_signer: &DefaultSigner,
     wallet_manager: &mut Option<Rc<RemoteWalletManager>>,
 ) -> Result<CliCommandInfo, CliError> {
     let stake_account_pubkey =
         pubkey_of_signer(matches, "stake_account_pubkey", wallet_manager)?.unwrap();
-    let (split_stake_account, split_stake_account_pubkey) =
-        signer_of(matches, "split_stake_account", wallet_manager)?;
-    let lamports = lamports_of_sol(matches, "amount").unwrap();
+    let (tplit_stake_account, tplit_stake_account_pubkey) =
+        signer_of(matches, "tplit_stake_account", wallet_manager)?;
+    let lamports = lamports_of_trz(matches, "amount").unwrap();
     let seed = matches.value_of("seed").map(|s| s.to_string());
 
     let sign_only = matches.is_present(SIGN_ONLY_ARG.name);
@@ -1072,14 +1072,14 @@ pub fn parse_split_stake(
         signer_of(matches, NONCE_AUTHORITY_ARG.name, wallet_manager)?;
     let (fee_payer, fee_payer_pubkey) = signer_of(matches, FEE_PAYER_ARG.name, wallet_manager)?;
 
-    let mut bulk_signers = vec![stake_authority, fee_payer, split_stake_account];
+    let mut bulk_signers = vec![stake_authority, fee_payer, tplit_stake_account];
     if nonce_account.is_some() {
         bulk_signers.push(nonce_authority);
     }
     let signer_info =
         default_signer.generate_unique_signers(bulk_signers, matches, wallet_manager)?;
     let compute_unit_price = value_of(matches, COMPUTE_UNIT_PRICE_ARG.name);
-    let rent_exempt_reserve = lamports_of_sol(matches, "rent_exempt_reserve_sol");
+    let rent_exempt_reserve = lamports_of_trz(matches, "rent_exempt_reserve_trz");
 
     Ok(CliCommandInfo {
         command: CliCommand::SplitStake {
@@ -1091,7 +1091,7 @@ pub fn parse_split_stake(
             nonce_account,
             nonce_authority: signer_info.index_of(nonce_authority_pubkey).unwrap(),
             memo,
-            split_stake_account: signer_info.index_of(split_stake_account_pubkey).unwrap(),
+            tplit_stake_account: signer_info.index_of(tplit_stake_account_pubkey).unwrap(),
             seed,
             lamports,
             fee_payer: signer_info.index_of(fee_payer_pubkey).unwrap(),
@@ -1473,7 +1473,7 @@ pub fn process_create_stake_account(
         };
     }
 
-    let (message, lamports) = resolve_spend_tx_and_check_account_balances(
+    let (message, lamports) = retrzve_spend_tx_and_check_account_balances(
         rpc_client,
         sign_only,
         amount,
@@ -1902,7 +1902,7 @@ pub fn process_withdraw_stake(
         }
     };
 
-    let (message, _) = resolve_spend_tx_and_check_account_balances(
+    let (message, _) = retrzve_spend_tx_and_check_account_balances(
         rpc_client,
         sign_only,
         amount,
@@ -1951,7 +1951,7 @@ pub fn process_withdraw_stake(
 }
 
 #[allow(clippy::too_many_arguments)]
-pub fn process_split_stake(
+pub fn process_tplit_stake(
     rpc_client: &RpcClient,
     config: &CliConfig,
     stake_account_pubkey: &Pubkey,
@@ -1962,22 +1962,22 @@ pub fn process_split_stake(
     nonce_account: Option<Pubkey>,
     nonce_authority: SignerIndex,
     memo: Option<&String>,
-    split_stake_account: SignerIndex,
-    split_stake_account_seed: &Option<String>,
+    tplit_stake_account: SignerIndex,
+    tplit_stake_account_seed: &Option<String>,
     lamports: u64,
     fee_payer: SignerIndex,
     compute_unit_price: Option<u64>,
     rent_exempt_reserve: Option<&u64>,
 ) -> ProcessResult {
-    let split_stake_account = config.signers[split_stake_account];
+    let tplit_stake_account = config.signers[tplit_stake_account];
     let fee_payer = config.signers[fee_payer];
 
-    if split_stake_account_seed.is_none() {
+    if tplit_stake_account_seed.is_none() {
         check_unique_pubkeys(
             (&fee_payer.pubkey(), "fee-payer keypair".to_string()),
             (
-                &split_stake_account.pubkey(),
-                "split_stake_account".to_string(),
+                &tplit_stake_account.pubkey(),
+                "tplit_stake_account".to_string(),
             ),
         )?;
     }
@@ -1988,17 +1988,17 @@ pub fn process_split_stake(
     check_unique_pubkeys(
         (stake_account_pubkey, "stake_account".to_string()),
         (
-            &split_stake_account.pubkey(),
-            "split_stake_account".to_string(),
+            &tplit_stake_account.pubkey(),
+            "tplit_stake_account".to_string(),
         ),
     )?;
 
     let stake_authority = config.signers[stake_authority];
 
-    let split_stake_account_address = if let Some(seed) = split_stake_account_seed {
-        Pubkey::create_with_seed(&split_stake_account.pubkey(), seed, &stake::program::id())?
+    let tplit_stake_account_address = if let Some(seed) = tplit_stake_account_seed {
+        Pubkey::create_with_seed(&tplit_stake_account.pubkey(), seed, &stake::program::id())?
     } else {
-        split_stake_account.pubkey()
+        tplit_stake_account.pubkey()
     };
 
     let rent_exempt_reserve = if let Some(rent_exempt_reserve) = rent_exempt_reserve {
@@ -2006,8 +2006,8 @@ pub fn process_split_stake(
     } else {
         let stake_minimum_delegation = rpc_client.get_stake_minimum_delegation()?;
         if lamports < stake_minimum_delegation {
-            let lamports = Sol(lamports);
-            let stake_minimum_delegation = Sol(stake_minimum_delegation);
+            let lamports = Trz(lamports);
+            let stake_minimum_delegation = Trz(stake_minimum_delegation);
             return Err(CliError::BadParameter(format!(
                 "need at least {stake_minimum_delegation} for minimum stake delegation, provided: \
                  {lamports}"
@@ -2018,28 +2018,28 @@ pub fn process_split_stake(
         let check_stake_account = |account: Account| -> Result<u64, CliError> {
             match account.owner {
                 owner if owner == stake::program::id() => Err(CliError::BadParameter(format!(
-                    "Stake account {split_stake_account_address} already exists"
+                    "Stake account {tplit_stake_account_address} already exists"
                 ))),
                 owner if owner == system_program::id() => {
                     if !account.data.is_empty() {
                         Err(CliError::BadParameter(format!(
-                            "Account {split_stake_account_address} has data and cannot be used to \
-                             split stake"
+                            "Account {tplit_stake_account_address} has data and cannot be used to \
+                             tplit stake"
                         )))
                     } else {
                         // if `stake_account`'s owner is the system_program and its data is
-                        // empty, `stake_account` is allowed to receive the stake split
+                        // empty, `stake_account` is allowed to receive the stake tplit
                         Ok(account.lamports)
                     }
                 }
                 _ => Err(CliError::BadParameter(format!(
-                    "Account {split_stake_account_address} already exists and cannot be used to \
-                     split stake"
+                    "Account {tplit_stake_account_address} already exists and cannot be used to \
+                     tplit stake"
                 ))),
             }
         };
         let current_balance =
-            if let Ok(stake_account) = rpc_client.get_account(&split_stake_account_address) {
+            if let Ok(stake_account) = rpc_client.get_account(&tplit_stake_account_address) {
                 check_stake_account(stake_account)?
             } else {
                 0
@@ -2057,7 +2057,7 @@ pub fn process_split_stake(
     if rent_exempt_reserve > 0 {
         ixs.push(system_instruction::transfer(
             &fee_payer.pubkey(),
-            &split_stake_account_address,
+            &tplit_stake_account_address,
             rent_exempt_reserve,
         ));
     }
@@ -2065,14 +2065,14 @@ pub fn process_split_stake(
         BlockhashQuery::None(_) | BlockhashQuery::FeeCalculator(_, _) => ComputeUnitLimit::Default,
         BlockhashQuery::All(_) => ComputeUnitLimit::Simulated,
     };
-    if let Some(seed) = split_stake_account_seed {
+    if let Some(seed) = tplit_stake_account_seed {
         ixs.append(
-            &mut stake_instruction::split_with_seed(
+            &mut stake_instruction::tplit_with_seed(
                 stake_account_pubkey,
                 &stake_authority.pubkey(),
                 lamports,
-                &split_stake_account_address,
-                &split_stake_account.pubkey(),
+                &tplit_stake_account_address,
+                &tplit_stake_account.pubkey(),
                 seed,
             )
             .with_memo(memo)
@@ -2083,11 +2083,11 @@ pub fn process_split_stake(
         )
     } else {
         ixs.append(
-            &mut stake_instruction::split(
+            &mut stake_instruction::tplit(
                 stake_account_pubkey,
                 &stake_authority.pubkey(),
                 lamports,
-                &split_stake_account_address,
+                &tplit_stake_account_address,
             )
             .with_memo(memo)
             .with_compute_unit_config(&ComputeUnitConfig {
@@ -4988,19 +4988,19 @@ mod tests {
         let (keypair_file, mut tmp_file) = make_tmp_file();
         let stake_account_keypair = Keypair::new();
         write_keypair(&stake_account_keypair, tmp_file.as_file_mut()).unwrap();
-        let (split_stake_account_keypair_file, mut tmp_file) = make_tmp_file();
-        let split_stake_account_keypair = Keypair::new();
-        write_keypair(&split_stake_account_keypair, tmp_file.as_file_mut()).unwrap();
+        let (tplit_stake_account_keypair_file, mut tmp_file) = make_tmp_file();
+        let tplit_stake_account_keypair = Keypair::new();
+        write_keypair(&tplit_stake_account_keypair, tmp_file.as_file_mut()).unwrap();
 
-        let test_split_stake_account = test_commands.clone().get_matches_from(vec![
+        let test_tplit_stake_account = test_commands.clone().get_matches_from(vec![
             "test",
-            "split-stake",
+            "tplit-stake",
             &keypair_file,
-            &split_stake_account_keypair_file,
+            &tplit_stake_account_keypair_file,
             "50",
         ]);
         assert_eq!(
-            parse_command(&test_split_stake_account, &default_signer, &mut None).unwrap(),
+            parse_command(&test_tplit_stake_account, &default_signer, &mut None).unwrap(),
             CliCommandInfo {
                 command: CliCommand::SplitStake {
                     stake_account_pubkey: stake_account_keypair.pubkey(),
@@ -5011,7 +5011,7 @@ mod tests {
                     nonce_account: None,
                     nonce_authority: 0,
                     memo: None,
-                    split_stake_account: 1,
+                    tplit_stake_account: 1,
                     seed: None,
                     lamports: 50_000_000_000,
                     fee_payer: 0,
@@ -5020,7 +5020,7 @@ mod tests {
                 },
                 signers: vec![
                     Box::new(read_keypair_file(&default_keypair_file).unwrap()),
-                    Box::new(read_keypair_file(&split_stake_account_keypair_file).unwrap())
+                    Box::new(read_keypair_file(&tplit_stake_account_keypair_file).unwrap())
                 ],
             }
         );
@@ -5041,11 +5041,11 @@ mod tests {
         let nonce_hash = Hash::new_from_array([4u8; 32]);
         let nonce_hash_string = nonce_hash.to_string();
 
-        let test_split_stake_account = test_commands.clone().get_matches_from(vec![
+        let test_tplit_stake_account = test_commands.clone().get_matches_from(vec![
             "test",
-            "split-stake",
+            "tplit-stake",
             &keypair_file,
-            &split_stake_account_keypair_file,
+            &tplit_stake_account_keypair_file,
             "50",
             "--stake-authority",
             &stake_auth_string,
@@ -5063,7 +5063,7 @@ mod tests {
             &stake_signer,
         ]);
         assert_eq!(
-            parse_command(&test_split_stake_account, &default_signer, &mut None).unwrap(),
+            parse_command(&test_tplit_stake_account, &default_signer, &mut None).unwrap(),
             CliCommandInfo {
                 command: CliCommand::SplitStake {
                     stake_account_pubkey: stake_account_keypair.pubkey(),
@@ -5077,7 +5077,7 @@ mod tests {
                     nonce_account: Some(nonce_account),
                     nonce_authority: 1,
                     memo: None,
-                    split_stake_account: 2,
+                    tplit_stake_account: 2,
                     seed: None,
                     lamports: 50_000_000_000,
                     fee_payer: 1,
@@ -5087,7 +5087,7 @@ mod tests {
                 signers: vec![
                     Box::new(Presigner::new(&stake_auth_pubkey, &stake_sig)),
                     Box::new(Presigner::new(&nonce_auth_pubkey, &nonce_sig)),
-                    Box::new(read_keypair_file(&split_stake_account_keypair_file).unwrap()),
+                    Box::new(read_keypair_file(&tplit_stake_account_keypair_file).unwrap()),
                 ],
             }
         );

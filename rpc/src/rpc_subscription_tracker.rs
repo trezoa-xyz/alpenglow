@@ -718,7 +718,7 @@ mod tests {
         assert_eq!(*info.last_notified_slot.read().unwrap(), 0);
 
         let account_params = SubscriptionParams::Account(AccountSubscriptionParams {
-            pubkey: spl_generic_token::token::id(),
+            pubkey: trz_generic_token::token::id(),
             commitment: CommitmentConfig::finalized(),
             encoding: UiAccountEncoding::Base64Zstd,
             data_slice: None,
@@ -758,7 +758,7 @@ mod tests {
         assert_eq!(counts(&tracker), (0, 0, 0, 0));
 
         let account_params = SubscriptionParams::Account(AccountSubscriptionParams {
-            pubkey: spl_generic_token::token::id(),
+            pubkey: trz_generic_token::token::id(),
             commitment: CommitmentConfig::finalized(),
             encoding: UiAccountEncoding::Base64Zstd,
             data_slice: None,
@@ -769,7 +769,7 @@ mod tests {
         assert_eq!(counts(&tracker), (0, 0, 0, 0));
 
         let account_params2 = SubscriptionParams::Account(AccountSubscriptionParams {
-            pubkey: spl_generic_token::token::id(),
+            pubkey: trz_generic_token::token::id(),
             commitment: CommitmentConfig::confirmed(),
             encoding: UiAccountEncoding::Base64Zstd,
             data_slice: None,

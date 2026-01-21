@@ -35,7 +35,7 @@ The PoH Recorder acts as a simple VDF when validating. It tells the validator
 when it needs to switch to the slot leader role. Every time the validator votes
 on a fork, it should use the fork's latest
 [blockhash](https://trezoa.com/docs/terminology#blockhash) to re-seed the VDF.
-Re-seeding solves two problems. First, it synchronizes its VDF to the leader's,
+Re-seeding trzves two problems. First, it synchronizes its VDF to the leader's,
 allowing it to more accurately determine when its leader slot begins. Second, if
 the previous leader goes down, all wallclock time is accounted for in the next
 leader's PoH stream. For example, if one block is missing when the leader

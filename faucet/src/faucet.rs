@@ -9,7 +9,7 @@ use {
     crossbeam_channel::{unbounded, Sender},
     log::*,
     serde_derive::{Deserialize, Serialize},
-    trezoa_cli_output::display::build_balance_message,
+    trezoa_cli_output::ditplay::build_balance_message,
     trezoa_hash::Hash,
     trezoa_instruction::Instruction,
     trezoa_keypair::Keypair,
@@ -124,7 +124,7 @@ impl Faucet {
         if let Some((per_request_cap, per_time_cap)) = per_request_cap.zip(per_time_cap) {
             if per_time_cap < per_request_cap {
                 warn!(
-                    "per_time_cap {} SOL < per_request_cap {} SOL; maximum single requests will \
+                    "per_time_cap {} TRZ < per_request_cap {} TRZ; maximum single requests will \
                      fail",
                     build_balance_message(per_time_cap, false, false),
                     build_balance_message(per_request_cap, false, false),
@@ -142,7 +142,7 @@ impl Faucet {
         }
     }
 
-    pub fn check_time_request_limit<T: LimitByTime + std::fmt::Display>(
+    pub fn check_time_request_limit<T: LimitByTime + std::fmt::Ditplay>(
         &mut self,
         request_amount: u64,
         to: T,
@@ -169,8 +169,8 @@ impl Faucet {
 
     /// Checks per-request and per-time-ip limits; if both pass, this method returns a signed
     /// SystemProgram::Transfer transaction from the faucet keypair to the requested recipient. If
-    /// the request exceeds this per-request limit, this method returns a signed SPL Memo
-    /// transaction with the memo: `"request too large; req: <REQUEST> SOL cap: <CAP> SOL"`
+    /// the request exceeds this per-request limit, this method returns a signed TPL Memo
+    /// transaction with the memo: `"request too large; req: <REQUEST> TRZ cap: <CAP> TRZ"`
     pub fn build_airdrop_transaction(
         &mut self,
         req: FaucetRequest,
@@ -185,7 +185,7 @@ impl Faucet {
             } => {
                 let mint_pubkey = self.faucet_keypair.pubkey();
                 info!(
-                    "Requesting airdrop of {} SOL to {:?}",
+                    "Requesting airdrop of {} TRZ to {:?}",
                     build_balance_message(lamports, false, false),
                     to
                 );
@@ -200,7 +200,7 @@ impl Faucet {
                             )
                         );
                         let memo_instruction = Instruction {
-                            program_id: spl_memo_interface::v3::id(),
+                            program_id: trz_memo_interface::v3::id(),
                             accounts: vec![],
                             data: memo.as_bytes().to_vec(),
                         };
@@ -701,7 +701,7 @@ mod tests {
             assert_eq!(tx.signatures.len(), 1);
             assert_eq!(
                 message.account_keys,
-                vec![mint_pubkey, spl_memo_interface::v3::id()]
+                vec![mint_pubkey, trz_memo_interface::v3::id()]
             );
             assert_eq!(message.recent_blockhash, blockhash);
 

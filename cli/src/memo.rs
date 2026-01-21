@@ -1,4 +1,4 @@
-use {trezoa_instruction::Instruction, trezoa_pubkey::Pubkey, spl_memo_interface::v3::id};
+use {trezoa_instruction::Instruction, trezoa_pubkey::Pubkey, trz_memo_interface::v3::id};
 
 pub trait WithMemo {
     fn with_memo<T: AsRef<str>>(self, memo: Option<T>) -> Self;

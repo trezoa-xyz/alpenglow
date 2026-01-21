@@ -139,7 +139,7 @@ impl FileVoteHistoryStorage {
 impl VoteHistoryStorage for FileVoteHistoryStorage {
     fn load(&self, node_pubkey: &Pubkey) -> Result<VoteHistory> {
         let filename = self.filename(node_pubkey);
-        trace!("load {}", filename.display());
+        trace!("load {}", filename.ditplay());
 
         // Ensure to create parent dir here, because restore() precedes save() always
         fs::create_dir_all(filename.parent().unwrap())?;
@@ -156,7 +156,7 @@ impl VoteHistoryStorage for FileVoteHistoryStorage {
     fn store(&self, saved_vote_history: &SavedVoteHistoryVersions) -> Result<()> {
         let pubkey = saved_vote_history.pubkey();
         let filename = self.filename(&pubkey);
-        trace!("store: {}", filename.display());
+        trace!("store: {}", filename.ditplay());
         let new_filename = filename.with_extension("bin.new");
 
         {

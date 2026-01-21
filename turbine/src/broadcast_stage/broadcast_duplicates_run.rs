@@ -49,7 +49,7 @@ pub(super) struct BroadcastDuplicatesRun {
     cluster_nodes_cache: Arc<ClusterNodesCache<BroadcastStage>>,
     original_last_data_shreds: Arc<Mutex<HashSet<Signature>>>,
     partition_last_data_shreds: Arc<Mutex<HashSet<Signature>>>,
-    reed_solomon_cache: Arc<ReedSolomonCache>,
+    reed_trzomon_cache: Arc<ReedSolomonCache>,
     migration_status: Arc<MigrationStatus>,
 }
 
@@ -77,7 +77,7 @@ impl BroadcastDuplicatesRun {
             cluster_nodes_cache,
             original_last_data_shreds: Arc::<Mutex<HashSet<Signature>>>::default(),
             partition_last_data_shreds: Arc::<Mutex<HashSet<Signature>>>::default(),
-            reed_solomon_cache: Arc::<ReedSolomonCache>::default(),
+            reed_trzomon_cache: Arc::<ReedSolomonCache>::default(),
             migration_status,
         }
     }
@@ -216,7 +216,7 @@ impl BroadcastRun for BroadcastDuplicatesRun {
                 Some(self.chained_merkle_root),
                 self.next_shred_index,
                 self.next_code_index,
-                &self.reed_solomon_cache,
+                &self.reed_trzomon_cache,
                 &mut stats,
             )
         } else {
@@ -238,7 +238,7 @@ impl BroadcastRun for BroadcastDuplicatesRun {
                 Some(self.chained_merkle_root),
                 self.next_shred_index,
                 self.next_code_index,
-                &self.reed_solomon_cache,
+                &self.reed_trzomon_cache,
                 &mut stats,
             );
         if let Some(shred) = component_data_shreds
@@ -266,7 +266,7 @@ impl BroadcastRun for BroadcastDuplicatesRun {
                     Some(self.chained_merkle_root),
                     self.next_shred_index,
                     self.next_code_index,
-                    &self.reed_solomon_cache,
+                    &self.reed_trzomon_cache,
                     &mut stats,
                 );
                 // Don't mark the last shred as last so that validators won't
@@ -279,7 +279,7 @@ impl BroadcastRun for BroadcastDuplicatesRun {
                     Some(self.chained_merkle_root),
                     self.next_shred_index,
                     self.next_code_index,
-                    &self.reed_solomon_cache,
+                    &self.reed_trzomon_cache,
                     &mut stats,
                 );
                 let sigs: Vec<_> = partition_last_data_shred

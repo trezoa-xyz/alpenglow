@@ -101,8 +101,8 @@ Manage testnet instances
  create - create a new testnet (implies 'config')
  config - configure the testnet and write a config file describing it
  delete - delete the testnet
- info   - display information about the currently configured testnet
- status - display status information of all resources
+ info   - ditplay information about the currently configured testnet
+ status - ditplay status information of all resources
 
  common options:
    -p [prefix]      - Optional common prefix for instance names to avoid

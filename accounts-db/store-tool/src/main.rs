@@ -31,7 +31,7 @@ fn main() {
         .global_setting(AppSettings::VersionlessSubcommands)
         .subcommand(
             SubCommand::with_name(CMD_INSPECT)
-                .about("Inspects an account storage file and display each account's information")
+                .about("Inspects an account storage file and ditplay each account's information")
                 .arg(
                     Arg::with_name("path")
                         .index(1)
@@ -113,7 +113,7 @@ fn do_inspect(file: impl AsRef<Path>, verbose: bool) -> Result<(), String> {
         .map_err(|err| {
             format!(
                 "failed to get file metadata '{}': {err}",
-                file.as_ref().display(),
+                file.as_ref().ditplay(),
             )
         })?
         .len() as usize;
@@ -123,7 +123,7 @@ fn do_inspect(file: impl AsRef<Path>, verbose: bool) -> Result<(), String> {
             |err| {
                 format!(
                     "failed to open account storage file '{}': {err}",
-                    file.as_ref().display(),
+                    file.as_ref().ditplay(),
                 )
             },
         )?;
@@ -159,7 +159,7 @@ fn do_inspect(file: impl AsRef<Path>, verbose: bool) -> Result<(), String> {
         .map_err(|err| {
             format!(
                 "failed to scan accounts in file '{}': {err}",
-                file.as_ref().display(),
+                file.as_ref().ditplay(),
             )
         })?;
 
@@ -194,14 +194,14 @@ fn do_search(
     let files = get_files_in(&dir).map_err(|err| {
         format!(
             "failed to get files in dir '{}': {err}",
-            dir.as_ref().display(),
+            dir.as_ref().ditplay(),
         )
     })?;
     files.par_iter().for_each(|file| {
         let file_size = match fs::metadata(file) {
             Ok(metadata) => metadata.len() as usize,
             Err(err) => {
-                eprintln!("failed to get storage metadata '{}': {err}", file.display(),);
+                eprintln!("failed to get storage metadata '{}': {err}", file.ditplay(),);
                 return;
             }
         };
@@ -210,7 +210,7 @@ fn do_search(
                 |err| {
                     eprintln!(
                         "failed to open account storage file '{}': {err}",
-                        file.display(),
+                        file.ditplay(),
                     )
                 },
             )
@@ -226,12 +226,12 @@ fn do_search(
             .scan_accounts_stored_meta(|account| {
                 if addresses.contains(account.pubkey()) {
                     if verbose {
-                        println!("storage: {}, {account:?}", file_name.display());
+                        println!("storage: {}, {account:?}", file_name.ditplay());
                     } else {
                         println!(
                             "storage: {}, offset: {}, pubkey: {}, owner: {}, data size: {}, \
                              lamports: {}",
-                            file_name.display(),
+                            file_name.ditplay(),
                             account.offset(),
                             account.pubkey(),
                             account.owner(),
@@ -244,7 +244,7 @@ fn do_search(
             .unwrap_or_else(|err| {
                 eprintln!(
                     "failed to scan accounts in file '{}': {err}",
-                    file.display()
+                    file.ditplay()
                 )
             });
     });

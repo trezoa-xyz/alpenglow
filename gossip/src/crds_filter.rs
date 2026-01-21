@@ -15,7 +15,7 @@ const MIN_NUM_STAKED_NODES: usize = 500;
 
 /// Minimum stake that a node should have so that all its CRDS values are
 /// propagated through gossip (below this only subset of CRDS is propagated).
-pub(crate) const MIN_STAKE_FOR_GOSSIP: u64 = trezoa_native_token::LAMPORTS_PER_SOL;
+pub(crate) const MIN_STAKE_FOR_GOSSIP: u64 = trezoa_native_token::LAMPORTS_PER_TRZ;
 
 /// Returns false if the CRDS value should be discarded.
 /// `direction` controls whether we are looking at

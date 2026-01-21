@@ -63,7 +63,7 @@ impl GossipService {
         let socket_addr_space = *cluster_info.socket_addr_space();
         let gossip_receiver_stats = Arc::new(StreamerReceiveStats::new("gossip_receiver"));
         let t_receiver = streamer::receiver_atomic(
-            "solRcvrGossip".to_string(),
+            "trzRcvrGossip".to_string(),
             gossip_sockets.clone(),
             cluster_info.bind_ip_addrs(),
             exit.clone(),
@@ -107,7 +107,7 @@ impl GossipService {
             stats_reporter_sender,
         );
         let t_metrics = Builder::new()
-            .name("solGossipMetr".to_string())
+            .name("trzGossipMetr".to_string())
             .spawn({
                 let cluster_info = cluster_info.clone();
                 let mut epoch_specs = bank_forks.map(EpochSpecs::from);

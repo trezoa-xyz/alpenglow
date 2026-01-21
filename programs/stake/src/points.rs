@@ -9,7 +9,7 @@ use {trezoa_pubkey::Pubkey, trezoa_stake_interface::state::Delegation};
 //  basically read as rewards/points, but in integers instead of as an f64
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PointValue {
-    pub rewards: u64, // lamports to split
+    pub rewards: u64, // lamports to tplit
     pub points: u128, // over these points
 }
 

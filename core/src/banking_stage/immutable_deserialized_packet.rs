@@ -121,7 +121,7 @@ impl ImmutableDeserializedPacket {
 
     // This function deserializes packets into transactions, computes the blake3 hash of transaction
     // messages.
-    // Additionally, this returns the minimum deactivation slot of the resolved addresses.
+    // Additionally, this returns the minimum deactivation slot of the retrzved addresses.
     pub fn build_sanitized_transaction(
         &self,
         votes_only: bool,
@@ -132,9 +132,9 @@ impl ImmutableDeserializedPacket {
             return None;
         }
 
-        // Resolve the lookup addresses and retrieve the min deactivation slot
+        // Retrzve the lookup addresses and retrieve the min deactivation slot
         let (loaded_addresses, deactivation_slot) =
-            Self::resolve_addresses_with_deactivation(self.transaction(), bank).ok()?;
+            Self::retrzve_addresses_with_deactivation(self.transaction(), bank).ok()?;
         let address_loader = SimpleAddressLoader::Enabled(loaded_addresses);
         let tx = RuntimeTransaction::<SanitizedVersionedTransaction>::try_from(
             self.transaction.clone(),
@@ -152,7 +152,7 @@ impl ImmutableDeserializedPacket {
         Some((tx, deactivation_slot))
     }
 
-    fn resolve_addresses_with_deactivation(
+    fn retrzve_addresses_with_deactivation(
         transaction: &SanitizedVersionedTransaction,
         bank: &Bank,
     ) -> Result<(LoadedAddresses, Slot), AddressLoaderError> {

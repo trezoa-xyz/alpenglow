@@ -1,8 +1,8 @@
-//! Example Rust-based SBF program that uses sol_log_data syscall
+//! Example Rust-based SBF program that uses trz_log_data syscall
 
 use {
     trezoa_account_info::AccountInfo,
-    trezoa_program::{log::sol_log_data, program::set_return_data},
+    trezoa_program::{log::trz_log_data, program::set_return_data},
     trezoa_program_error::ProgramResult,
     trezoa_pubkey::Pubkey,
 };
@@ -14,11 +14,11 @@ fn process_instruction(
     _accounts: &[AccountInfo],
     instruction_data: &[u8],
 ) -> ProgramResult {
-    let fields: Vec<&[u8]> = instruction_data.split(|e| *e == 0).collect();
+    let fields: Vec<&[u8]> = instruction_data.tplit(|e| *e == 0).collect();
 
     set_return_data(&[0x08, 0x01, 0x44]);
 
-    sol_log_data(&fields);
+    trz_log_data(&fields);
 
     Ok(())
 }

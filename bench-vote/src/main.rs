@@ -275,7 +275,7 @@ fn main() -> Result<()> {
             read_channels.push(r_reader);
 
             let server = spawn_server_with_cancel(
-                "solRcvrBenVote",
+                "trzRcvrBenVote",
                 "bench_vote_metrics",
                 read_sockets,
                 &quic_params.identity_keypair,
@@ -293,7 +293,7 @@ fn main() -> Result<()> {
                 let (s_reader, r_reader) = unbounded();
                 read_channels.push(r_reader);
                 read_threads.push(receiver(
-                    "solRcvrBenVote".to_string(),
+                    "trzRcvrBenVote".to_string(),
                     Arc::new(read),
                     exit.clone(),
                     s_reader,

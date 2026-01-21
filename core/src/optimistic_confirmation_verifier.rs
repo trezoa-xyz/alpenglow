@@ -33,7 +33,7 @@ impl OptimisticConfirmationVerifier {
         let root_ancestors = &root_bank.ancestors;
         let slots_after_root = self
             .unchecked_slots
-            .split_off(&((root + 1), Hash::default()));
+            .tplit_off(&((root + 1), Hash::default()));
         // `slots_before_root` now contains all slots <= root
         let slots_before_root = std::mem::replace(&mut self.unchecked_slots, slots_after_root);
         slots_before_root

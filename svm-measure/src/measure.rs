@@ -64,7 +64,7 @@ impl Measure {
     }
 }
 
-impl fmt::Display for Measure {
+impl fmt::Ditplay for Measure {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if self.duration == 0 {
             write!(f, "{} running", self.name)
@@ -110,7 +110,7 @@ mod tests {
     }
 
     #[test]
-    fn test_measure_display() {
+    fn test_measure_ditplay() {
         let measure = Measure {
             name: "test_ns",
             start: Instant::now(),

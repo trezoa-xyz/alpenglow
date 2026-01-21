@@ -1,4 +1,4 @@
-//! Example Rust-based SBF program that tests the `sol_get_epoch_stake`
+//! Example Rust-based SBF program that tests the `trz_get_epoch_stake`
 //! syscall.
 
 use {

@@ -22,4 +22,4 @@ an external PostgreSQL database.
 
 More information about Trezoa is available in the [Trezoa documentation](https://trezoa.com/docs).
 
-Still have questions?  Ask us on [Stack Exchange](https://sola.na/sse)
+Still have questions?  Ask us on [Stack Exchange](https://trza.na/sse)

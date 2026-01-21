@@ -53,7 +53,7 @@ jobs:
                   "cargo +$rust_nightly bench --manifest-path programs/sbf/Cargo.toml --features=sbf_c",
                 ],
             }
-          # spliting trezoa-accounts-db because it includes criterion bench
+          # tpliting trezoa-accounts-db because it includes criterion bench
           - {
               name: "trezoa-accounts-db",
               commands:

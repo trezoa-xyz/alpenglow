@@ -51,7 +51,7 @@ async fn realloc_smaller_in_cpi() {
     );
     let context = program_test.start_with_context().await;
 
-    let token_2022_id = spl_generic_token::token_2022::id();
+    let token_2022_id = trz_generic_token::token_2022::id();
     let mint = Keypair::new();
     let account = Keypair::new();
     let rent = context.banks_client.get_rent().await.unwrap();

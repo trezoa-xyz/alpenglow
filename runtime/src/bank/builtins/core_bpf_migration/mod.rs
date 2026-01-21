@@ -422,7 +422,7 @@ pub(crate) mod tests {
         trezoa_instruction::{AccountMeta, Instruction},
         trezoa_loader_v3_interface::{get_program_data_address, state::UpgradeableLoaderState},
         trezoa_message::Message,
-        trezoa_native_token::LAMPORTS_PER_SOL,
+        trezoa_native_token::LAMPORTS_PER_TRZ,
         trezoa_program_runtime::loaded_programs::{ProgramCacheEntry, ProgramCacheEntryType},
         trezoa_pubkey::Pubkey,
         trezoa_sdk_ids::{bpf_loader_upgradeable, native_loader},
@@ -1170,7 +1170,7 @@ pub(crate) mod tests {
     #[test_case(TestPrototype::Builtin(&BUILTINS[3]); "bpf_loader")]
     fn test_migrate_builtin_e2e(prototype: TestPrototype) {
         let (mut genesis_config, mint_keypair) =
-            create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+            create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let slots_per_epoch = 32;
         genesis_config.epoch_schedule =
             EpochSchedule::custom(slots_per_epoch, slots_per_epoch, false);

@@ -93,8 +93,8 @@ use {
     },
     trezoa_validator_exit::Exit,
     trezoa_vote_program::vote_state::MAX_LOCKOUT_HISTORY,
-    spl_generic_token::{
-        token::{SPL_TOKEN_ACCOUNT_MINT_OFFSET, SPL_TOKEN_ACCOUNT_OWNER_OFFSET},
+    trz_generic_token::{
+        token::{TPL_TOKEN_ACCOUNT_MINT_OFFSET, TPL_TOKEN_ACCOUNT_OWNER_OFFSET},
         token_2022::{self, ACCOUNTTYPE_ACCOUNT},
     },
     tpl_token_2022_interface::{
@@ -135,7 +135,7 @@ mod transaction {
     pub use trezoa_transaction_error::TransactionResult as Result;
 }
 
-pub mod account_resolver;
+pub mod account_retrzver;
 
 type RpcCustomResult<T> = std::result::Result<T, RpcCustomError>;
 
@@ -2284,7 +2284,7 @@ impl JsonRpcRequestProcessor {
         filters.push(RpcFilterType::TokenAccountState);
         // Filter on Owner address
         filters.push(RpcFilterType::Memcmp(Memcmp::new_raw_bytes(
-            SPL_TOKEN_ACCOUNT_OWNER_OFFSET,
+            TPL_TOKEN_ACCOUNT_OWNER_OFFSET,
             owner_key.to_bytes().into(),
         )));
 
@@ -2333,7 +2333,7 @@ impl JsonRpcRequestProcessor {
         filters.push(RpcFilterType::TokenAccountState);
         // Filter on Mint address
         filters.push(RpcFilterType::Memcmp(Memcmp::new_raw_bytes(
-            SPL_TOKEN_ACCOUNT_MINT_OFFSET,
+            TPL_TOKEN_ACCOUNT_MINT_OFFSET,
             mint_key.to_bytes().into(),
         )));
         if self
@@ -2392,7 +2392,7 @@ impl JsonRpcRequestProcessor {
         let bank = self.get_bank_with_config(config)?;
         let stake_minimum_delegation = trezoa_stake_program::get_minimum_delegation(
             bank.feature_set
-                .is_active(&trezoa_feature_set::stake_raise_minimum_delegation_to_1_sol::id()),
+                .is_active(&trezoa_feature_set::stake_raise_minimum_delegation_to_1_trz::id()),
         );
         Ok(new_response(&bank, stake_minimum_delegation))
     }
@@ -2522,7 +2522,7 @@ fn get_encoded_account(
     // only used for simulation results
     overwrite_accounts: Option<&HashMap<Pubkey, AccountSharedData>>,
 ) -> Result<Option<UiAccount>> {
-    match account_resolver::get_account_from_overwrites_or_bank(pubkey, bank, overwrite_accounts) {
+    match account_retrzver::get_account_from_overwrites_or_bank(pubkey, bank, overwrite_accounts) {
         Some(account) => {
             let response = if is_known_tpl_token_id(account.owner())
                 && encoding == UiAccountEncoding::JsonParsed
@@ -2587,7 +2587,7 @@ fn get_tpl_token_owner_filter(program_id: &Pubkey, filters: &[RpcFilterType]) ->
                 if let Some(bytes) = memcmp.raw_bytes_as_ref() {
                     if offset == account_packed_len && *program_id == token_2022::id() {
                         memcmp_filter = Some(bytes);
-                    } else if offset == SPL_TOKEN_ACCOUNT_OWNER_OFFSET {
+                    } else if offset == TPL_TOKEN_ACCOUNT_OWNER_OFFSET {
                         if bytes.len() == PUBKEY_BYTES {
                             owner_key = Pubkey::try_from(bytes).ok();
                         } else {
@@ -2637,7 +2637,7 @@ fn get_tpl_token_mint_filter(program_id: &Pubkey, filters: &[RpcFilterType]) -> 
                 if let Some(bytes) = memcmp.raw_bytes_as_ref() {
                     if offset == account_packed_len && *program_id == token_2022::id() {
                         memcmp_filter = Some(bytes);
-                    } else if offset == SPL_TOKEN_ACCOUNT_MINT_OFFSET {
+                    } else if offset == TPL_TOKEN_ACCOUNT_MINT_OFFSET {
                         if bytes.len() == PUBKEY_BYTES {
                             mint = Pubkey::try_from(bytes).ok();
                         } else {
@@ -3198,7 +3198,7 @@ pub mod rpc_accounts {
             block: Slot,
         ) -> Result<RpcBlockCommitment<BlockCommitmentArray>>;
 
-        // SPL Token-specific RPC endpoints
+        // TPL Token-specific RPC endpoints
         // See https://github.com/trezoa-labs/trezoa-program-library/releases/tag/token-v2.0.0 for
         // program details
 
@@ -3330,7 +3330,7 @@ pub mod rpc_accounts_scan {
             config: Option<RpcSupplyConfig>,
         ) -> BoxFuture<Result<RpcResponse<RpcSupply>>>;
 
-        // SPL Token-specific RPC endpoints
+        // TPL Token-specific RPC endpoints
         // See https://github.com/trezoa-labs/trezoa-program-library/releases/tag/token-v2.0.0 for
         // program details
 
@@ -4588,7 +4588,7 @@ pub mod tests {
             vote_instruction,
             vote_state::{self, TowerSync, VoteInit, VoteStateVersions, MAX_LOCKOUT_HISTORY},
         },
-        spl_pod::optional_keys::OptionalNonZeroPubkey,
+        trz_pod::optional_keys::OptionalNonZeroPubkey,
         tpl_token_2022_interface::{
             extension::{
                 immutable_owner::ImmutableOwner, memo_transfer::MemoTransfer,
@@ -4677,7 +4677,7 @@ pub mod tests {
 
         let instruction_data = instruction_context.get_instruction_data();
         let (lamports, space) = {
-            let (l_bytes, s_bytes) = instruction_data.split_at(8);
+            let (l_bytes, s_bytes) = instruction_data.tplit_at(8);
             let lamports = u64::from_le_bytes(l_bytes.try_into().unwrap());
             let space = u64::from_le_bytes(s_bytes.try_into().unwrap());
             (lamports, space)
@@ -7901,7 +7901,7 @@ pub mod tests {
             let token_account_pubkey = trezoa_pubkey::new_rand();
             let token_with_different_mint_pubkey = trezoa_pubkey::new_rand();
             let new_mint = Pubkey::new_from_array([5; 32]);
-            if program_id == spl_generic_token::token_2022::id() {
+            if program_id == trz_generic_token::token_2022::id() {
                 // Add the token account
                 let account_base = TokenAccount {
                     mint,
@@ -8158,7 +8158,7 @@ pub mod tests {
                 .expect("actual response deserialization");
             let accounts: Vec<RpcKeyedAccount> =
                 serde_json::from_value(result["result"].clone()).unwrap();
-            if program_id == spl_generic_token::token::id() {
+            if program_id == trz_generic_token::token::id() {
                 // native mint is included for token-v3
                 assert_eq!(accounts.len(), 4);
             } else {
@@ -8406,7 +8406,7 @@ pub mod tests {
         let supply = 500;
         let decimals = 2;
         let (program_name, account_size, mint_size, additional_data) = if program_id
-            == spl_generic_token::token_2022::id()
+            == trz_generic_token::token_2022::id()
         {
             let account_base = TokenAccount {
                 mint,
@@ -8577,7 +8577,7 @@ pub mod tests {
                 }
             }
         });
-        if program_id == spl_generic_token::token_2022::id() {
+        if program_id == trz_generic_token::token_2022::id() {
             expected_value["parsed"]["info"]["extensions"] = json!([
                 {
                     "extension": "immutableOwner"
@@ -8613,7 +8613,7 @@ pub mod tests {
                 }
             }
         });
-        if program_id == spl_generic_token::token_2022::id() {
+        if program_id == trz_generic_token::token_2022::id() {
             if interest_bearing_config.is_some() {
                 expected_value["parsed"]["info"]["extensions"] = json!([
                     {
@@ -8701,7 +8701,7 @@ pub mod tests {
 
         // Can't filter on account type for token-v3
         assert!(get_tpl_token_owner_filter(
-            &spl_generic_token::token::id(),
+            &trz_generic_token::token::id(),
             &[
                 RpcFilterType::Memcmp(Memcmp::new_raw_bytes(32, owner.to_bytes().to_vec())),
                 RpcFilterType::Memcmp(Memcmp::new_raw_bytes(165, vec![ACCOUNTTYPE_ACCOUNT])),
@@ -8711,7 +8711,7 @@ pub mod tests {
 
         // Filtering on mint instead of owner
         assert!(get_tpl_token_owner_filter(
-            &spl_generic_token::token::id(),
+            &trz_generic_token::token::id(),
             &[
                 RpcFilterType::Memcmp(Memcmp::new_raw_bytes(0, owner.to_bytes().to_vec())),
                 RpcFilterType::DataSize(165)
@@ -8744,7 +8744,7 @@ pub mod tests {
         let mint = Pubkey::new_unique();
         assert_eq!(
             get_tpl_token_mint_filter(
-                &spl_generic_token::token::id(),
+                &trz_generic_token::token::id(),
                 &[
                     RpcFilterType::Memcmp(Memcmp::new_raw_bytes(0, mint.to_bytes().to_vec())),
                     RpcFilterType::DataSize(165)
@@ -8757,7 +8757,7 @@ pub mod tests {
         // Filtering on token-2022 account type
         assert_eq!(
             get_tpl_token_mint_filter(
-                &spl_generic_token::token_2022::id(),
+                &trz_generic_token::token_2022::id(),
                 &[
                     RpcFilterType::Memcmp(Memcmp::new_raw_bytes(0, mint.to_bytes().to_vec())),
                     RpcFilterType::Memcmp(Memcmp::new_raw_bytes(165, vec![ACCOUNTTYPE_ACCOUNT])),
@@ -8770,7 +8770,7 @@ pub mod tests {
         // Filtering on token account state
         assert_eq!(
             get_tpl_token_mint_filter(
-                &spl_generic_token::token::id(),
+                &trz_generic_token::token::id(),
                 &[
                     RpcFilterType::Memcmp(Memcmp::new_raw_bytes(0, mint.to_bytes().to_vec())),
                     RpcFilterType::TokenAccountState,
@@ -8782,7 +8782,7 @@ pub mod tests {
 
         // Can't filter on account type for token-v3
         assert!(get_tpl_token_mint_filter(
-            &spl_generic_token::token::id(),
+            &trz_generic_token::token::id(),
             &[
                 RpcFilterType::Memcmp(Memcmp::new_raw_bytes(0, mint.to_bytes().to_vec())),
                 RpcFilterType::Memcmp(Memcmp::new_raw_bytes(165, vec![ACCOUNTTYPE_ACCOUNT])),
@@ -8792,7 +8792,7 @@ pub mod tests {
 
         // Filtering on owner instead of mint
         assert!(get_tpl_token_mint_filter(
-            &spl_generic_token::token::id(),
+            &trz_generic_token::token::id(),
             &[
                 RpcFilterType::Memcmp(Memcmp::new_raw_bytes(32, mint.to_bytes().to_vec())),
                 RpcFilterType::DataSize(165)
@@ -9154,7 +9154,7 @@ pub mod tests {
         let bank = rpc.working_bank();
         let expected_stake_minimum_delegation = trezoa_stake_program::get_minimum_delegation(
             bank.feature_set
-                .is_active(&trezoa_feature_set::stake_raise_minimum_delegation_to_1_sol::id()),
+                .is_active(&trezoa_feature_set::stake_raise_minimum_delegation_to_1_trz::id()),
         );
 
         let request = create_test_request("getStakeMinimumDelegation", None);

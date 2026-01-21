@@ -29,7 +29,7 @@ pub mod tests {
     use {
         super::*,
         crate::{
-            accounts_db::{AccountsDbConfig, MarkObsoleteAccounts, ACCOUNTS_DB_CONFIG_FOR_TESTING},
+            accounts_db::{AccountsDbConfig, MarkObtrzeteAccounts, ACCOUNTS_DB_CONFIG_FOR_TESTING},
             accounts_update_notifier_interface::{
                 AccountForGeyser, AccountsUpdateNotifier, AccountsUpdateNotifierInterface,
             },
@@ -95,13 +95,13 @@ pub mod tests {
         }
     }
 
-    #[test_case(MarkObsoleteAccounts::Enabled)]
-    #[test_case(MarkObsoleteAccounts::Disabled)]
-    fn test_notify_account_restore_from_snapshot(mark_obsolete_accounts: MarkObsoleteAccounts) {
+    #[test_case(MarkObtrzeteAccounts::Enabled)]
+    #[test_case(MarkObtrzeteAccounts::Disabled)]
+    fn test_notify_account_restore_from_snapshot(mark_obtrzete_accounts: MarkObtrzeteAccounts) {
         let mut accounts_db = AccountsDb::new_with_config(
             Vec::new(),
             AccountsDbConfig {
-                mark_obsolete_accounts,
+                mark_obtrzete_accounts,
                 ..ACCOUNTS_DB_CONFIG_FOR_TESTING
             },
             None,

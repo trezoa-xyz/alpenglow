@@ -52,12 +52,12 @@ if [[ -r core-bpf-genesis-args.sh ]]; then
   args+=($CORE_BPF_GENESIS_ARGS)
 fi
 
-"$TREZOA_ROOT"/fetch-spl.sh
-if [[ -r spl-genesis-args.sh ]]; then
-  SPL_GENESIS_ARGS=$(cat "$TREZOA_ROOT"/spl-genesis-args.sh)
+"$TREZOA_ROOT"/fetch-tpl.sh
+if [[ -r trz-genesis-args.sh ]]; then
+  TRZ_GENESIS_ARGS=$(cat "$TREZOA_ROOT"/trz-genesis-args.sh)
   #shellcheck disable=SC2207
   #shellcheck disable=SC2206
-  args+=($SPL_GENESIS_ARGS)
+  args+=($TRZ_GENESIS_ARGS)
 fi
 
 default_arg --ledger "$TREZOA_CONFIG_DIR"/bootstrap-validator

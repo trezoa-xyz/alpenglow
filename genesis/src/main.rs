@@ -35,7 +35,7 @@ use {
     trezoa_keypair::{read_keypair_file, Keypair},
     trezoa_ledger::{blockstore::create_new_ledger, blockstore_options::LedgerColumnOptions},
     trezoa_loader_v3_interface::state::UpgradeableLoaderState,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_poh_config::PohConfig,
     trezoa_pubkey::Pubkey,
     trezoa_rent::Rent,
@@ -354,12 +354,12 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     };
 
     // vote account
-    let default_bootstrap_validator_lamports = &(500 * LAMPORTS_PER_SOL)
+    let default_bootstrap_validator_lamports = &(500 * LAMPORTS_PER_TRZ)
         .max(rent.minimum_balance(VoteStateV3::size_of()))
         .to_string();
 
     // stake account
-    let default_bootstrap_validator_stake_lamports = &(LAMPORTS_PER_SOL / 2)
+    let default_bootstrap_validator_stake_lamports = &(LAMPORTS_PER_TRZ / 2)
         .max(rent.minimum_balance(StakeStateV2::size_of()))
         .to_string();
 

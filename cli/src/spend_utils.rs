@@ -7,9 +7,9 @@ use {
     },
     clap::ArgMatches,
     trezoa_clap_utils::{
-        compute_budget::ComputeUnitLimit, input_parsers::lamports_of_sol, offline::SIGN_ONLY_ARG,
+        compute_budget::ComputeUnitLimit, input_parsers::lamports_of_trz, offline::SIGN_ONLY_ARG,
     },
-    trezoa_cli_output::display::build_balance_message,
+    trezoa_cli_output::ditplay::build_balance_message,
     trezoa_commitment_config::CommitmentConfig,
     trezoa_hash::Hash,
     trezoa_message::Message,
@@ -43,7 +43,7 @@ impl SpendAmount {
 
     pub fn new_from_matches(matches: &ArgMatches<'_>, name: &str) -> Self {
         let sign_only = matches.is_present(SIGN_ONLY_ARG.name);
-        let amount = lamports_of_sol(matches, name);
+        let amount = lamports_of_trz(matches, name);
         if amount.is_some() {
             return SpendAmount::new(amount, sign_only);
         }
@@ -60,7 +60,7 @@ struct SpendAndFee {
     fee: u64,
 }
 
-pub fn resolve_spend_tx_and_check_account_balance<F>(
+pub fn retrzve_spend_tx_and_check_account_balance<F>(
     rpc_client: &RpcClient,
     sign_only: bool,
     amount: SpendAmount,
@@ -73,7 +73,7 @@ pub fn resolve_spend_tx_and_check_account_balance<F>(
 where
     F: Fn(u64) -> Message,
 {
-    resolve_spend_tx_and_check_account_balances(
+    retrzve_spend_tx_and_check_account_balances(
         rpc_client,
         sign_only,
         amount,
@@ -86,7 +86,7 @@ where
     )
 }
 
-pub fn resolve_spend_tx_and_check_account_balances<F>(
+pub fn retrzve_spend_tx_and_check_account_balances<F>(
     rpc_client: &RpcClient,
     sign_only: bool,
     amount: SpendAmount,
@@ -101,7 +101,7 @@ where
     F: Fn(u64) -> Message,
 {
     if sign_only {
-        let (message, SpendAndFee { spend, fee: _ }) = resolve_spend_message(
+        let (message, SpendAndFee { spend, fee: _ }) = retrzve_spend_message(
             rpc_client,
             amount,
             None,
@@ -148,7 +148,7 @@ where
                 from_balance = from_balance.saturating_sub(from_rent_exempt_minimum);
             }
         }
-        let (message, SpendAndFee { spend, fee }) = resolve_spend_message(
+        let (message, SpendAndFee { spend, fee }) = retrzve_spend_message(
             rpc_client,
             amount,
             Some(blockhash),
@@ -186,7 +186,7 @@ where
     }
 }
 
-fn resolve_spend_message<F>(
+fn retrzve_spend_message<F>(
     rpc_client: &RpcClient,
     amount: SpendAmount,
     blockhash: Option<&Hash>,

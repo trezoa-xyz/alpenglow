@@ -48,14 +48,14 @@ pub fn command<'a>() -> App<'a, 'a> {
         .setting(AppSettings::InferSubcommands)
         .subcommand(
             SubCommand::with_name("get")
-                .about("Display the validator's repair protocol whitelist")
+                .about("Ditplay the validator's repair protocol whitelist")
                 .arg(
                     Arg::with_name("output")
                         .long("output")
                         .takes_value(true)
                         .value_name("MODE")
                         .possible_values(&["json", "json-compact"])
-                        .help("Output display mode"),
+                        .help("Output ditplay mode"),
                 ),
         )
         .subcommand(
@@ -144,7 +144,7 @@ mod tests {
         assert_eq!(
             args,
             RepairWhitelistGetArgs {
-                output: OutputFormat::Display
+                output: OutputFormat::Ditplay
             }
         );
     }

@@ -39,7 +39,7 @@ impl ServeRepairService {
             serve_repair_socket.local_addr().unwrap()
         );
         let t_receiver = streamer::receiver(
-            "solRcvrServeRep".to_string(),
+            "trzRcvrServeRep".to_string(),
             serve_repair_socket.clone(),
             exit.clone(),
             request_sender,
@@ -51,7 +51,7 @@ impl ServeRepairService {
             false,                          // is_staked_service
         );
         let t_packet_adapter = Builder::new()
-            .name(String::from("solServRAdapt"))
+            .name(String::from("trzServRAdapt"))
             .spawn(|| adapt_repair_requests_packets(request_receiver, remote_request_sender))
             .unwrap();
         let (response_sender, response_receiver) = unbounded();

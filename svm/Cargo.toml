@@ -76,7 +76,7 @@ trezoa-system-interface = { workspace = true }
 trezoa-sysvar-id = { workspace = true }
 trezoa-transaction-context = { workspace = true }
 trezoa-transaction-error = { workspace = true }
-spl-generic-token = { workspace = true }
+trz-generic-token = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]

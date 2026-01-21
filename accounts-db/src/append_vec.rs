@@ -61,7 +61,7 @@ const _: () = assert!(
     STORE_META_OVERHEAD
         == mem::size_of::<StoredMeta>()
             + mem::size_of::<AccountMeta>()
-            + mem::size_of::<ObsoleteAccountHash>()
+            + mem::size_of::<ObtrzeteAccountHash>()
 );
 
 /// Returns the size this item will take to store plus possible alignment padding bytes before the next entry.
@@ -94,7 +94,7 @@ pub enum AppendVecError {
     #[error("too large file size {0} for AppendVec")]
     FileSizeTooLarge(usize),
 
-    #[error("incorrect layout/length/data in the appendvec at path {}", .0.display())]
+    #[error("incorrect layout/length/data in the appendvec at path {}", .0.ditplay())]
     IncorrectLayout(PathBuf),
 
     #[error("offset ({0}) is larger than file size ({1})")]
@@ -246,7 +246,7 @@ impl Drop for AppendVec {
                 // promote this to panic soon.
                 // disabled due to many false positive warnings while running tests.
                 // blocked by rpc's upgrade to jsonrpc v17
-                //error!("AppendVec failed to remove {}: {err}", &self.path.display());
+                //error!("AppendVec failed to remove {}: {err}", &self.path.ditplay());
                 inc_new_counter_info!("append_vec_drop_fail", 1);
             }
         }
@@ -277,7 +277,7 @@ impl AppendVec {
                 panic!(
                     "Unable to {} data file {} in current dir({:?}): {:?}",
                     if create { "create" } else { "open" },
-                    file.display(),
+                    file.ditplay(),
                     std::env::current_dir(),
                     e
                 );
@@ -472,7 +472,7 @@ impl AppendVec {
                  file size ({}) and current length ({}) do not match for '{}'",
                 new.file_size,
                 current_len,
-                new.path.display(),
+                new.path.ditplay(),
             );
             let _num_accounts = new.sanitize_layout_and_length()?;
             Ok(new)
@@ -729,7 +729,7 @@ impl AppendVec {
                 let slice = self.get_valid_slice_from_mmap(mmap);
                 let (meta, next) = Self::get_type::<StoredMeta>(slice, offset)?;
                 let (account_meta, next) = Self::get_type::<AccountMeta>(slice, next)?;
-                let (_hash, next) = Self::get_type::<ObsoleteAccountHash>(slice, next)?;
+                let (_hash, next) = Self::get_type::<ObtrzeteAccountHash>(slice, next)?;
                 let (data, next) = Self::get_slice(slice, next, meta.data_len as usize)?;
                 let stored_size = next - offset;
                 Some(callback(StoredAccountMeta {
@@ -754,7 +754,7 @@ impl AppendVec {
                 });
                 let (meta, next) = Self::get_type::<StoredMeta>(valid_bytes, 0)?;
                 let (account_meta, next) = Self::get_type::<AccountMeta>(valid_bytes, next)?;
-                let (_hash, next) = Self::get_type::<ObsoleteAccountHash>(valid_bytes, next)?;
+                let (_hash, next) = Self::get_type::<ObtrzeteAccountHash>(valid_bytes, next)?;
                 let data_len = meta.data_len;
                 let remaining_bytes_for_data = bytes_read - next;
                 Some(if remaining_bytes_for_data >= data_len as usize {
@@ -866,7 +866,7 @@ impl AppendVec {
                 });
                 let (meta, next) = Self::get_type::<StoredMeta>(valid_bytes, 0)?;
                 let (account_meta, next) = Self::get_type::<AccountMeta>(valid_bytes, next)?;
-                let (_hash, next) = Self::get_type::<ObsoleteAccountHash>(valid_bytes, next)?;
+                let (_hash, next) = Self::get_type::<ObtrzeteAccountHash>(valid_bytes, next)?;
                 let data_len = meta.data_len;
                 let remaining_bytes_for_data = bytes_read - next;
                 Some(if remaining_bytes_for_data >= data_len as usize {
@@ -1058,7 +1058,7 @@ impl AppendVec {
 
                     let (meta, next) = Self::get_type::<StoredMeta>(bytes, 0).unwrap();
                     let (account_meta, next) = Self::get_type::<AccountMeta>(bytes, next).unwrap();
-                    let (_hash, next) = Self::get_type::<ObsoleteAccountHash>(bytes, next).unwrap();
+                    let (_hash, next) = Self::get_type::<ObtrzeteAccountHash>(bytes, next).unwrap();
                     let data_len = meta.data_len as usize;
                     let leftover = bytes.len() - next;
                     if leftover >= data_len {
@@ -1272,16 +1272,16 @@ impl AppendVec {
                 let stored_meta = StoredMeta {
                     pubkey: *account.pubkey(),
                     data_len: account.data().len() as u64,
-                    write_version_obsolete: 0,
+                    write_version_obtrzete: 0,
                 };
                 let stored_meta_ptr = ptr::from_ref(&stored_meta).cast();
                 let account_meta_ptr = ptr::from_ref(&account_meta).cast();
-                let hash_ptr = ObsoleteAccountHash::ZEROED.0.as_ptr();
+                let hash_ptr = ObtrzeteAccountHash::ZEROED.0.as_ptr();
                 let data_ptr = account.data().as_ptr();
                 let ptrs = [
                     (stored_meta_ptr, mem::size_of::<StoredMeta>()),
                     (account_meta_ptr, mem::size_of::<AccountMeta>()),
-                    (hash_ptr, mem::size_of::<ObsoleteAccountHash>()),
+                    (hash_ptr, mem::size_of::<ObtrzeteAccountHash>()),
                     (data_ptr, stored_meta.data_len as usize),
                 ];
                 if let Some(start_offset) = self
@@ -1343,11 +1343,11 @@ pub(crate) fn new_scan_accounts_reader<'a>() -> impl RequiredLenBufFileRead<'a> 
 
 /// The per-account hash, stored in the AppendVec.
 ///
-/// This field is now obsolete, but it still lives in the file format.
+/// This field is now obtrzete, but it still lives in the file format.
 #[derive(Debug)]
-struct ObsoleteAccountHash([u8; 32]);
+struct ObtrzeteAccountHash([u8; 32]);
 
-impl ObsoleteAccountHash {
+impl ObtrzeteAccountHash {
     /// The constant of all zeroes, to be stored in the file.
     const ZEROED: Self = Self([0; 32]);
 }
@@ -1500,7 +1500,7 @@ pub mod tests {
     /// code is working correctly.
     fn truncate_and_test(av: AppendVec, index: usize) {
         // truncate the hash, 1 byte at a time
-        let hash_size = std::mem::size_of::<ObsoleteAccountHash>();
+        let hash_size = std::mem::size_of::<ObtrzeteAccountHash>();
         for _ in 0..hash_size {
             av.current_len.fetch_sub(1, Ordering::Relaxed);
             assert_eq!(av.get_account_test(index), None);
@@ -1994,7 +1994,7 @@ pub mod tests {
 
     #[test]
     fn test_type_layout() {
-        assert_eq!(offset_of!(StoredMeta, write_version_obsolete), 0x00);
+        assert_eq!(offset_of!(StoredMeta, write_version_obtrzete), 0x00);
         assert_eq!(offset_of!(StoredMeta, data_len), 0x08);
         assert_eq!(offset_of!(StoredMeta, pubkey), 0x10);
         assert_eq!(mem::size_of::<StoredMeta>(), 0x30);
@@ -2196,7 +2196,7 @@ pub mod tests {
     fn test_scan_pubkeys_missing_account_data(storage_access: StorageAccess) {
         test_scan_pubkeys_helper(storage_access, |path, size| {
             let fake_stored_meta = StoredMeta {
-                write_version_obsolete: 0,
+                write_version_obtrzete: 0,
                 data_len: 100,
                 pubkey: trezoa_pubkey::new_rand(),
             };
@@ -2295,7 +2295,7 @@ pub mod tests {
     fn test_scan_stored_accounts_no_data_missing_account_data(storage_access: StorageAccess) {
         test_scan_stored_accounts_no_data_helper(storage_access, |path, size| {
             let fake_stored_meta = StoredMeta {
-                write_version_obsolete: 0,
+                write_version_obtrzete: 0,
                 data_len: 100,
                 pubkey: trezoa_pubkey::new_rand(),
             };

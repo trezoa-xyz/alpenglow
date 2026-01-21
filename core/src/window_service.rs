@@ -197,7 +197,7 @@ fn run_insert<F>(
     ws_metrics: &mut WindowServiceMetrics,
     completed_data_sets_sender: Option<&CompletedDataSetsSender>,
     retransmit_sender: &EvictingSender<Vec<shred::Payload>>,
-    reed_solomon_cache: &ReedSolomonCache,
+    reed_trzomon_cache: &ReedSolomonCache,
     accept_repairs_only: bool,
 ) -> Result<()>
 where
@@ -236,7 +236,7 @@ where
         false, // is_trusted
         retransmit_sender,
         &handle_duplicate,
-        reed_solomon_cache,
+        reed_trzomon_cache,
         metrics,
     )?;
 
@@ -360,7 +360,7 @@ impl WindowService {
             inc_new_counter_error!("trezoa-check-duplicate-error", 1, 1);
         };
         Builder::new()
-            .name("solWinCheckDup".to_string())
+            .name("trzWinCheckDup".to_string())
             .spawn(move || {
                 while !exit.load(Ordering::Relaxed) {
                     if let Err(e) = run_check_duplicate(
@@ -393,9 +393,9 @@ impl WindowService {
         let handle_error = || {
             inc_new_counter_error!("trezoa-window-insert-error", 1, 1);
         };
-        let reed_solomon_cache = ReedSolomonCache::default();
+        let reed_trzomon_cache = ReedSolomonCache::default();
         Builder::new()
-            .name("solWinInsert".to_string())
+            .name("trzWinInsert".to_string())
             .spawn(move || {
                 let thread_pool = rayon::ThreadPoolBuilder::new()
                     .num_threads(get_thread_count().min(8))
@@ -403,7 +403,7 @@ impl WindowService {
                     // pool is used to process a small number of shreds, since they'll be processed
                     // directly on the current thread.
                     .use_current_thread()
-                    .thread_name(|i| format!("solWinInsert{i:02}"))
+                    .thread_name(|i| format!("trzWinInsert{i:02}"))
                     .build()
                     .unwrap();
                 let handle_duplicate = |possible_duplicate_shred| {
@@ -423,7 +423,7 @@ impl WindowService {
                         &mut ws_metrics,
                         completed_data_sets_sender.as_ref(),
                         &retransmit_sender,
-                        &reed_solomon_cache,
+                        &reed_trzomon_cache,
                         accept_repairs_only,
                     ) {
                         ws_metrics.record_error(&e);

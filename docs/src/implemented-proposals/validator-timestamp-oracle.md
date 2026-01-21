@@ -26,7 +26,7 @@ Requirements:
 
 - Any validator replaying the ledger in the future must come up with the same
   time for every block since genesis
-- Estimated block times should not drift more than an hour or so before resolving
+- Estimated block times should not drift more than an hour or so before retrzving
   to real-world (oracle) data
 - The block times are not controlled by a single centralized oracle, but
   ideally based on a function that uses inputs from all validators

@@ -91,11 +91,11 @@ impl PubSubService {
 
         let (trigger, tripwire) = Tripwire::new();
         let thread_hdl = Builder::new()
-            .name("solRpcPubSub".to_string())
+            .name("trzRpcPubSub".to_string())
             .spawn(move || {
                 info!("PubSubService has started");
                 let runtime = tokio::runtime::Builder::new_multi_thread()
-                    .thread_name("solRpcPubSubRt")
+                    .thread_name("trzRpcPubSubRt")
                     .worker_threads(pubsub_config.worker_threads)
                     .enable_all()
                     .build()
@@ -517,6 +517,6 @@ mod tests {
         let (_trigger, pubsub_service) =
             PubSubService::new(PubSubConfig::default(), &subscriptions, pubsub_addr);
         let thread = pubsub_service.thread_hdl.thread();
-        assert_eq!(thread.name().unwrap(), "solRpcPubSub");
+        assert_eq!(thread.name().unwrap(), "trzRpcPubSub");
     }
 }

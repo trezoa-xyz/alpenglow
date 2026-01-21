@@ -83,7 +83,7 @@ pub fn parse_stake(
         StakeInstruction::Split(lamports) => {
             check_num_stake_accounts(&instruction.accounts, 3)?;
             Ok(ParsedInstructionEnum {
-                instruction_type: "split".to_string(),
+                instruction_type: "tplit".to_string(),
                 info: json!({
                     "stakeAccount": account_keys[instruction.accounts[0] as usize].to_string(),
                     "newSplitAccount": account_keys[instruction.accounts[1] as usize].to_string(),
@@ -514,16 +514,16 @@ mod test {
     }
 
     #[test]
-    fn test_parse_stake_split_ix() {
+    fn test_parse_stake_tplit_ix() {
         let lamports = 55;
         let stake_pubkey = Pubkey::new_unique();
         let authorized_pubkey = Pubkey::new_unique();
-        let split_stake_pubkey = Pubkey::new_unique();
-        let instructions = instruction::split(
+        let tplit_stake_pubkey = Pubkey::new_unique();
+        let instructions = instruction::tplit(
             &stake_pubkey,
             &authorized_pubkey,
             lamports,
-            &split_stake_pubkey,
+            &tplit_stake_pubkey,
         );
         let mut message = Message::new(&instructions, None);
         assert_eq!(
@@ -533,10 +533,10 @@ mod test {
             )
             .unwrap(),
             ParsedInstructionEnum {
-                instruction_type: "split".to_string(),
+                instruction_type: "tplit".to_string(),
                 info: json!({
                     "stakeAccount": stake_pubkey.to_string(),
-                    "newSplitAccount": split_stake_pubkey.to_string(),
+                    "newSplitAccount": tplit_stake_pubkey.to_string(),
                     "stakeAuthority": authorized_pubkey.to_string(),
                     "lamports": lamports,
                 }),

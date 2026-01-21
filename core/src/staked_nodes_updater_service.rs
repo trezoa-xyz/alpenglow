@@ -27,7 +27,7 @@ impl StakedNodesUpdaterService {
         staked_nodes_overrides: Arc<RwLock<HashMap<Pubkey, u64>>>,
     ) -> Self {
         let thread_hdl = Builder::new()
-            .name("solStakedNodeUd".to_string())
+            .name("trzStakedNodeUd".to_string())
             .spawn(move || {
                 while !exit.load(Ordering::Relaxed) {
                     let stakes = {

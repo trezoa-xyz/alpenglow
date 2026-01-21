@@ -383,7 +383,7 @@ pub enum LaunchStage {
     /// guaranteed to be released.
     EarlyAccess = 1,
     /// Alpha is a limited availability test for releases before they are cleared
-    /// for widespread use. By Alpha, all significant design issues are resolved
+    /// for widespread use. By Alpha, all significant design issues are retrzved
     /// and we are in the process of verifying functionality. Alpha customers
     /// need to apply for access, agree to applicable terms, and have their
     /// projects allowlisted. Alpha releases don't have to be feature complete,

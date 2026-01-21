@@ -9,7 +9,7 @@ fn main() -> Result<()> {
 
     let proto_base_path = std::path::PathBuf::from("proto");
     let proto = proto_base_path.join("wen_restart.proto");
-    println!("cargo:rerun-if-changed={}", proto.display());
+    println!("cargo:rerun-if-changed={}", proto.ditplay());
 
     // Generate rust files from protos.
     prost_build::compile_protos(&[proto], &[proto_base_path])?;

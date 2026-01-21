@@ -213,7 +213,7 @@ impl SendTransactionService {
 
         debug!("Starting send-transaction-service::receive_txn_thread");
         Builder::new()
-            .name("solStxReceive".to_string())
+            .name("trzStxReceive".to_string())
             .spawn(move || loop {
                 let stats = &stats_report.stats;
                 let recv_result = receiver.recv_timeout(Duration::from_millis(batch_send_rate_ms));
@@ -318,7 +318,7 @@ impl SendTransactionService {
         let retry_interval_ms_default = MAX_RETRY_SLEEP_MS.min(config.retry_rate_ms);
         let mut retry_interval_ms = retry_interval_ms_default;
         Builder::new()
-            .name("solStxRetry".to_string())
+            .name("trzStxRetry".to_string())
             .spawn(move || loop {
                 sleep(Duration::from_millis(retry_interval_ms));
                 if exit.load(Ordering::Relaxed) {

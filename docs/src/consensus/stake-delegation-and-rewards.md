@@ -37,7 +37,7 @@ the Stake accounts that have the Vote account pubkey as the
 
 ## Vote and Stake accounts
 
-The rewards process is split into two on-chain programs. The Vote program solves
+The rewards process is tplit into two on-chain programs. The Vote program trzves
 the problem of making stakes slashable. The Stake program acts as custodian of
 the rewards pool and provides for passive delegation. The Stake program is
 responsible for paying rewards to staker and voter when shown that a staker's

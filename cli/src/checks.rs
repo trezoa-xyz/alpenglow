@@ -1,5 +1,5 @@
 use {
-    crate::cli::CliError, trezoa_cli_output::display::build_balance_message,
+    crate::cli::CliError, trezoa_cli_output::ditplay::build_balance_message,
     trezoa_commitment_config::CommitmentConfig, trezoa_message::Message, trezoa_pubkey::Pubkey,
     trezoa_rpc_client::rpc_client::RpcClient,
     trezoa_rpc_client_api::client_error::Result as ClientResult,

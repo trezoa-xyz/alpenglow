@@ -92,7 +92,7 @@ impl DataPoint {
     }
 }
 
-impl fmt::Display for DataPoint {
+impl fmt::Ditplay for DataPoint {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "datapoint: {}", self.name)?;
         for tag in &self.tags {

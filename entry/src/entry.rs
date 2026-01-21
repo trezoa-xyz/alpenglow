@@ -556,7 +556,7 @@ fn start_verify_transactions_gpu<Tx: TransactionWithMeta + Send + Sync + 'static
     let out_recycler = verify_recyclers.out_recycler;
     let num_packets = transactions.len();
     let gpu_verify_thread = thread::Builder::new()
-        .name("solGpuSigVerify".into())
+        .name("trzGpuSigVerify".into())
         .spawn(move || {
             let mut verify_time = Measure::start("sigverify");
             sigverify::ed25519_verify(
@@ -825,7 +825,7 @@ impl EntrySlice for [Entry] {
         let hashes_clone = hashes.clone();
 
         let gpu_verify_thread = thread::Builder::new()
-            .name("solGpuPohVerify".into())
+            .name("trzGpuPohVerify".into())
             .spawn(move || {
                 let mut hashes = hashes_clone.lock().unwrap();
                 let gpu_wait = Instant::now();
@@ -951,7 +951,7 @@ pub fn thread_pool_for_tests() -> ThreadPool {
     // will do more harm than good
     rayon::ThreadPoolBuilder::new()
         .num_threads(4)
-        .thread_name(|i| format!("solEntryTest{i:02}"))
+        .thread_name(|i| format!("trzEntryTest{i:02}"))
         .build()
         .expect("new rayon threadpool")
 }
@@ -960,7 +960,7 @@ pub fn thread_pool_for_tests() -> ThreadPool {
 pub fn thread_pool_for_benches() -> ThreadPool {
     rayon::ThreadPoolBuilder::new()
         .num_threads(num_cpus::get())
-        .thread_name(|i| format!("solEntryBnch{i:02}"))
+        .thread_name(|i| format!("trzEntryBnch{i:02}"))
         .build()
         .expect("new rayon threadpool")
 }

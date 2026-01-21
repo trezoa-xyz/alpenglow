@@ -12,7 +12,7 @@ use {
     trezoa_genesis_config::GenesisConfig,
     trezoa_hash::Hash,
     trezoa_keypair::Keypair,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_pubkey::Pubkey,
     trezoa_rent::Rent,
     trezoa_seed_derivable::SeedDerivable,
@@ -441,14 +441,14 @@ pub fn create_genesis_config_with_leader_ex_no_features(
     initial_accounts.push((*validator_stake_account_pubkey, validator_stake_account));
 
     let native_mint_account = trezoa_account::AccountSharedData::from(Account {
-        owner: spl_generic_token::token::id(),
-        data: spl_generic_token::token::native_mint::ACCOUNT_DATA.to_vec(),
-        lamports: LAMPORTS_PER_SOL,
+        owner: trz_generic_token::token::id(),
+        data: trz_generic_token::token::native_mint::ACCOUNT_DATA.to_vec(),
+        lamports: LAMPORTS_PER_TRZ,
         executable: false,
         rent_epoch: 1,
     });
     initial_accounts.push((
-        spl_generic_token::token::native_mint::id(),
+        trz_generic_token::token::native_mint::id(),
         native_mint_account,
     ));
 

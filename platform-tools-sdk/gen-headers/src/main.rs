@@ -22,7 +22,7 @@ use {
  *    used the call the syscall function.
  */
 fn main() {
-    let syscalls_inc_path = PathBuf::from("platform-tools-sdk/sbf/c/inc/sol/inc");
+    let syscalls_inc_path = PathBuf::from("platform-tools-sdk/sbf/c/inc/trz/inc");
 
     if syscalls_inc_path.is_dir() {
         for entry in fs::read_dir(syscalls_inc_path).expect("Can't open headers dir") {
@@ -59,23 +59,23 @@ fn transform(inc: &PathBuf) {
     header_path.push(filename);
     info!(
         "Transforming file {} -> {}",
-        inc.display(),
-        header_path.display()
+        inc.ditplay(),
+        header_path.ditplay()
     );
     let mut input = match fs::File::open(inc) {
         Ok(x) => x,
-        Err(err) => panic!("Failed to open {}: {}", inc.display(), err),
+        Err(err) => panic!("Failed to open {}: {}", inc.ditplay(), err),
     };
     let mut input_content = vec![];
     input.read_to_end(&mut input_content).unwrap();
     let input_content = str::from_utf8(&input_content).unwrap();
     let output = match fs::File::create(&header_path) {
         Ok(x) => x,
-        Err(err) => panic!("Failed to create {}: {}", header_path.display(), err),
+        Err(err) => panic!("Failed to create {}: {}", header_path.ditplay(), err),
     };
     let mut output_writer = BufWriter::new(output);
     let decl_re =
-        Regex::new(r"@SYSCALL ([0-9A-Za-z_*]+)[[:space:]]+(sol_[0-9A-Za-z_]+)\(([^);]*)\);")
+        Regex::new(r"@SYSCALL ([0-9A-Za-z_*]+)[[:space:]]+(trz_[0-9A-Za-z_]+)\(([^);]*)\);")
             .unwrap();
     let comm_re = Regex::new(r",").unwrap();
     let output_content = decl_re.replace_all(input_content, |caps: &Captures| {
@@ -85,9 +85,9 @@ fn transform(inc: &PathBuf) {
         let warn = format!(
             "/* DO NOT MODIFY THIS GENERATED FILE. INSTEAD CHANGE {} AND RUN `cargo run --bin \
              gen-headers` */",
-            inc.display()
+            inc.ditplay()
         );
-        let ifndef = format!("#ifndef SOL_SBPFV3\n{ty} {func}({args});");
+        let ifndef = format!("#ifndef TRZ_SBPFV3\n{ty} {func}({args});");
         let hash = sys_hash(func);
         let typedef_statement = format!("typedef {ty}(*{func}_pointer_type)({args});");
         let mut arg = 0;

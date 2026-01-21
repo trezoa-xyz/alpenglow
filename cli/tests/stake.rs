@@ -16,7 +16,7 @@ use {
     trezoa_fee_calculator::FeeRateGovernor,
     trezoa_fee_structure::FeeStructure,
     trezoa_keypair::{keypair_from_seed, Keypair},
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_nonce::state::State as NonceState,
     trezoa_pubkey::Pubkey,
     trezoa_rent::Rent,
@@ -318,7 +318,7 @@ fn test_stake_delegation_and_withdraw_available() {
         &rpc_client,
         &config_validator,
         &config_validator.signers[0].pubkey(),
-        100 * LAMPORTS_PER_SOL,
+        100 * LAMPORTS_PER_TRZ,
     )
     .unwrap();
     check_balance!(
@@ -336,7 +336,7 @@ fn test_stake_delegation_and_withdraw_available() {
         withdrawer: None,
         withdrawer_signer: None,
         lockup: Lockup::default(),
-        amount: SpendAmount::Some(50 * LAMPORTS_PER_SOL),
+        amount: SpendAmount::Some(50 * LAMPORTS_PER_TRZ),
         sign_only: false,
         dump_transaction_message: false,
         blockhash_query: BlockhashQuery::All(blockhash_query::Source::Cluster),
@@ -390,15 +390,15 @@ fn test_stake_delegation_and_withdraw_available() {
     // is activating
     check_balance!(0, &rpc_client, &recipient_pubkey);
 
-    // Add extra SOL to the stake account
+    // Add extra TRZ to the stake account
     request_and_confirm_airdrop(
         &rpc_client,
         &config_validator,
         &stake_keypair.pubkey(),
-        5 * LAMPORTS_PER_SOL,
+        5 * LAMPORTS_PER_TRZ,
     )
     .unwrap();
-    check_balance!(55 * LAMPORTS_PER_SOL, &rpc_client, &stake_keypair.pubkey());
+    check_balance!(55 * LAMPORTS_PER_TRZ, &rpc_client, &stake_keypair.pubkey());
 
     // Withdraw available stake
     config_validator.signers = vec![&validator_keypair];
@@ -419,8 +419,8 @@ fn test_stake_delegation_and_withdraw_available() {
         compute_unit_price: None,
     };
     process_command(&config_validator).unwrap();
-    // Extra (inactive) SOL is withdrawn
-    check_balance!(5 * LAMPORTS_PER_SOL, &rpc_client, &recipient_pubkey);
+    // Extra (inactive) TRZ is withdrawn
+    check_balance!(5 * LAMPORTS_PER_TRZ, &rpc_client, &recipient_pubkey);
 
     // Deactivate stake
     config_validator.command = CliCommand::DeactivateStake {
@@ -459,7 +459,7 @@ fn test_stake_delegation_and_withdraw_available() {
     };
     process_command(&config_validator).unwrap();
     // Complete balance is withdrawn because all stake is inactive
-    check_balance!(55 * LAMPORTS_PER_SOL, &rpc_client, &recipient_pubkey);
+    check_balance!(55 * LAMPORTS_PER_TRZ, &rpc_client, &recipient_pubkey);
 }
 
 #[test]
@@ -487,7 +487,7 @@ fn test_stake_delegation_and_withdraw_all() {
         &rpc_client,
         &config_validator,
         &config_validator.signers[0].pubkey(),
-        100 * LAMPORTS_PER_SOL,
+        100 * LAMPORTS_PER_TRZ,
     )
     .unwrap();
     check_balance!(
@@ -505,7 +505,7 @@ fn test_stake_delegation_and_withdraw_all() {
         withdrawer: None,
         withdrawer_signer: None,
         lockup: Lockup::default(),
-        amount: SpendAmount::Some(50 * LAMPORTS_PER_SOL),
+        amount: SpendAmount::Some(50 * LAMPORTS_PER_TRZ),
         sign_only: false,
         dump_transaction_message: false,
         blockhash_query: BlockhashQuery::All(blockhash_query::Source::Cluster),
@@ -556,15 +556,15 @@ fn test_stake_delegation_and_withdraw_all() {
     };
     process_command(&config_validator).unwrap_err();
 
-    // Add extra SOL to the stake account
+    // Add extra TRZ to the stake account
     request_and_confirm_airdrop(
         &rpc_client,
         &config_validator,
         &stake_keypair.pubkey(),
-        5 * LAMPORTS_PER_SOL,
+        5 * LAMPORTS_PER_TRZ,
     )
     .unwrap();
-    check_balance!(55 * LAMPORTS_PER_SOL, &rpc_client, &stake_keypair.pubkey());
+    check_balance!(55 * LAMPORTS_PER_TRZ, &rpc_client, &stake_keypair.pubkey());
 
     // Withdraw all stake still fails, because it attempts to withdraw both
     // activating and inactive stake
@@ -623,7 +623,7 @@ fn test_stake_delegation_and_withdraw_all() {
         compute_unit_price: None,
     };
     process_command(&config_validator).unwrap();
-    check_balance!(55 * LAMPORTS_PER_SOL, &rpc_client, &recipient_pubkey);
+    check_balance!(55 * LAMPORTS_PER_TRZ, &rpc_client, &recipient_pubkey);
 }
 
 #[test_case(None; "base")]
@@ -1519,7 +1519,7 @@ fn test_stake_authorize_with_fee_payer() {
 
 #[test_case(None; "base")]
 #[test_case(Some(1_000_000); "with_compute_unit_price")]
-fn test_stake_split(compute_unit_price: Option<u64>) {
+fn test_stake_tplit(compute_unit_price: Option<u64>) {
     trezoa_logger::setup();
 
     let mint_keypair = Keypair::new();
@@ -1624,10 +1624,10 @@ fn test_stake_split(compute_unit_price: Option<u64>) {
     .unwrap()
     .blockhash();
 
-    // Nonced offline split
-    let split_account = keypair_from_seed(&[2u8; 32]).unwrap();
-    check_balance!(0, &rpc_client, &split_account.pubkey());
-    config_offline.signers.push(&split_account);
+    // Nonced offline tplit
+    let tplit_account = keypair_from_seed(&[2u8; 32]).unwrap();
+    check_balance!(0, &rpc_client, &tplit_account.pubkey());
+    config_offline.signers.push(&tplit_account);
     config_offline.command = CliCommand::SplitStake {
         stake_account_pubkey,
         stake_authority: 0,
@@ -1637,7 +1637,7 @@ fn test_stake_split(compute_unit_price: Option<u64>) {
         nonce_account: Some(nonce_account.pubkey()),
         nonce_authority: 0,
         memo: None,
-        split_stake_account: 1,
+        tplit_stake_account: 1,
         seed: None,
         lamports: 2 * stake_balance,
         fee_payer: 0,
@@ -1649,7 +1649,7 @@ fn test_stake_split(compute_unit_price: Option<u64>) {
     let sign_only = parse_sign_only_reply_string(&sig_response);
     assert!(sign_only.has_all_signers());
     let offline_presigner = sign_only.presigner_of(&offline_pubkey).unwrap();
-    config.signers = vec![&offline_presigner, &split_account];
+    config.signers = vec![&offline_presigner, &tplit_account];
     config.command = CliCommand::SplitStake {
         stake_account_pubkey,
         stake_authority: 0,
@@ -1662,7 +1662,7 @@ fn test_stake_split(compute_unit_price: Option<u64>) {
         nonce_account: Some(nonce_account.pubkey()),
         nonce_authority: 0,
         memo: None,
-        split_stake_account: 1,
+        tplit_stake_account: 1,
         seed: None,
         lamports: 2 * stake_balance,
         fee_payer: 0,
@@ -1674,7 +1674,7 @@ fn test_stake_split(compute_unit_price: Option<u64>) {
     check_balance!(
         2 * stake_balance + minimum_balance,
         &rpc_client,
-        &split_account.pubkey()
+        &tplit_account.pubkey()
     );
 }
 

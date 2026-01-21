@@ -83,7 +83,7 @@ The cluster should be able to recover from the loss of all the ephemeral keys us
 
 ## Appending Entries
 
-The lifetime of a leader schedule is called an _epoch_. The epoch is split into _slots_, where each slot has a duration of `T` PoH ticks.
+The lifetime of a leader schedule is called an _epoch_. The epoch is tplit into _slots_, where each slot has a duration of `T` PoH ticks.
 
 A leader transmits entries during its slot. After `T` ticks, all the validators switch to the next scheduled leader. Validators must ignore entries sent outside a leader's assigned slot.
 

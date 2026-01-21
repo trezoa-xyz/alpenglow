@@ -310,8 +310,8 @@ impl RepairWeight {
 
     /// Split `slot` and descendants into an orphan tree in repair weighting.
     ///
-    /// If repair holds a subtree `ST` which contains `slot`, we split `ST` into `(T, T')` where `T'` is
-    /// a subtree rooted at `slot` and `T` is what remains (if anything) of `ST` after the split.
+    /// If repair holds a subtree `ST` which contains `slot`, we tplit `ST` into `(T, T')` where `T'` is
+    /// a subtree rooted at `slot` and `T` is what remains (if anything) of `ST` after the tplit.
     /// If `T` is non-empty, it is inserted back into the set which held the original `ST`
     /// (self.trees for potentially rootable trees, or self.pruned_trees for pruned trees).
     /// `T'` is always inserted into the potentially rootable set `self.trees`.
@@ -319,7 +319,7 @@ impl RepairWeight {
     ///
     /// Assumes that `slot` is greater than `self.root`.
     /// Returns slots that were orphaned
-    pub fn split_off(&mut self, slot: Slot) -> HashSet<Slot> {
+    pub fn tplit_off(&mut self, slot: Slot) -> HashSet<Slot> {
         assert!(slot >= self.root);
         if slot == self.root {
             error!("Trying to orphan root of repair tree {slot}");
@@ -335,7 +335,7 @@ impl RepairWeight {
                     .trees
                     .get_mut(&subtree_root)
                     .expect("`self.slot_to_tree` and `self.trees` must be in sync");
-                let orphaned_tree = subtree.split_off(&(slot, Hash::default()));
+                let orphaned_tree = subtree.tplit_off(&(slot, Hash::default()));
                 self.rename_tree_root(&orphaned_tree, TreeRoot::Root(slot));
                 self.trees.insert(slot, orphaned_tree);
                 self.trees.get(&slot).unwrap().slots_iter().collect()
@@ -367,7 +367,7 @@ impl RepairWeight {
                         .slots_iter()
                         .collect()
                 } else {
-                    let orphaned_tree = subtree.split_off(&(slot, Hash::default()));
+                    let orphaned_tree = subtree.tplit_off(&(slot, Hash::default()));
                     self.pruned_trees.insert(subtree_root, subtree);
                     self.rename_tree_root(&orphaned_tree, TreeRoot::Root(slot));
                     self.trees.insert(slot, orphaned_tree);
@@ -375,7 +375,7 @@ impl RepairWeight {
                 }
             }
             None => {
-                warn!("Trying to split off slot {slot} which doesn't currently exist in repair");
+                warn!("Trying to tplit off slot {slot} which doesn't currently exist in repair");
                 HashSet::new()
             }
         }
@@ -1216,7 +1216,7 @@ mod test {
         );
         let votes = vec![(11, vote_pubkeys)];
 
-        // Should not resolve orphans because `update_orphan_ancestors` has
+        // Should not retrzve orphans because `update_orphan_ancestors` has
         // not been called, but should add to the orphan branch
         repair_weight.add_votes(
             &blockstore,
@@ -1249,7 +1249,7 @@ mod test {
             );
         }
 
-        // Call `update_orphan_ancestors` to resolve orphan
+        // Call `update_orphan_ancestors` to retrzve orphan
         repair_weight.update_orphan_ancestors(
             &blockstore,
             8,
@@ -1447,7 +1447,7 @@ mod test {
         assert!(repair_weight.trees.contains_key(&8));
         assert!(repair_weight.trees.contains_key(&20));
 
-        // Call `update_orphan_ancestors` to resolve orphan
+        // Call `update_orphan_ancestors` to retrzve orphan
         repair_weight.update_orphan_ancestors(
             &blockstore,
             8,
@@ -1456,17 +1456,17 @@ mod test {
         );
 
         // Nothing has changed because no orphans were
-        // resolved
+        // retrzved
         assert_eq!(repair_weight.trees.len(), 3);
         // Roots of the orphan branches should exist
         assert!(repair_weight.trees.contains_key(&0));
         assert!(repair_weight.trees.contains_key(&8));
         assert!(repair_weight.trees.contains_key(&20));
 
-        // Resolve orphans in blockstore
+        // Retrzve orphans in blockstore
         blockstore.add_tree(tr(6) / (tr(8)), true, true, 2, Hash::default());
         blockstore.add_tree(tr(11) / (tr(20)), true, true, 2, Hash::default());
-        // Call `update_orphan_ancestors` to resolve orphan
+        // Call `update_orphan_ancestors` to retrzve orphan
         repair_weight.update_orphan_ancestors(
             &blockstore,
             20,
@@ -1526,7 +1526,7 @@ mod test {
         assert_eq!(repairs[0].slot(), 8);
 
         // New vote on same orphan branch, without any new slot chaining
-        // information blockstore should not resolve the orphan
+        // information blockstore should not retrzve the orphan
         repairs = vec![];
         outstanding_repairs = HashMap::new();
         processed_slots = vec![repair_weight.root].into_iter().collect();
@@ -1605,7 +1605,7 @@ mod test {
         assert_eq!(outstanding_repairs.len(), repairs.len());
         assert_eq!(repairs[0].slot(), 20);
 
-        // Resolve the orphans, should now return no
+        // Retrzve the orphans, should now return no
         // orphans
         repairs = vec![];
         outstanding_repairs = HashMap::new();
@@ -1784,7 +1784,7 @@ mod test {
         // touch orphan 20
         blockstore.add_tree(tr(4) / (tr(8)), true, true, 2, Hash::default());
 
-        // Call `update_orphan_ancestors` to resolve orphan
+        // Call `update_orphan_ancestors` to retrzve orphan
         repair_weight.update_orphan_ancestors(
             &blockstore,
             8,
@@ -1942,7 +1942,7 @@ mod test {
     }
 
     #[test]
-    fn test_set_root_pruned_tree_split() {
+    fn test_set_root_pruned_tree_tplit() {
         let blockstore = setup_big_forks();
         let stake = 100;
         let (bank, vote_pubkeys) = bank_utils::setup_bank_and_vote_pubkeys_for_tests(3, stake);
@@ -1999,7 +1999,7 @@ mod test {
 
         // Now update root to 4
         //  Subtree at 8 will now be pruned
-        //  Pruned subtree at 3 will now be *split* into 2 pruned subtrees 5, and 9
+        //  Pruned subtree at 3 will now be *tplit* into 2 pruned subtrees 5, and 9
         repair_weight.set_root(4);
         assert_eq!(repair_weight.trees.len(), 1);
         assert_eq!(repair_weight.pruned_trees.len(), 3);
@@ -2082,7 +2082,7 @@ mod test {
             // Chain orphan 20 back to orphan 8
             blockstore.add_tree(tr(8) / (tr(20)), true, true, 2, Hash::default());
 
-            // Call `update_orphan_ancestors` to resolve orphan
+            // Call `update_orphan_ancestors` to retrzve orphan
             repair_weight.update_orphan_ancestors(
                 &blockstore,
                 20,
@@ -2309,7 +2309,7 @@ mod test {
     }
 
     #[test]
-    fn test_split_off_copy_weight() {
+    fn test_tplit_off_copy_weight() {
         let (blockstore, _, mut repair_weight) = setup_orphan_repair_weight();
         let stake = 100;
         let (bank, vote_pubkeys) = bank_utils::setup_bank_and_vote_pubkeys_for_tests(1, stake);
@@ -2322,9 +2322,9 @@ mod test {
 
         // Simulate dump from replay
         blockstore.clear_unconfirmed_slot(3);
-        repair_weight.split_off(3);
+        repair_weight.tplit_off(3);
         blockstore.clear_unconfirmed_slot(10);
-        repair_weight.split_off(10);
+        repair_weight.tplit_off(10);
 
         // Verify orphans
         let mut orphans = repair_weight.trees.keys().copied().collect_vec();
@@ -2382,7 +2382,7 @@ mod test {
     }
 
     #[test]
-    fn test_split_off_multi_dump_repair() {
+    fn test_tplit_off_multi_dump_repair() {
         let blockstore = setup_forks();
         let stake = 100;
         let (bank, vote_pubkeys) = bank_utils::setup_bank_and_vote_pubkeys_for_tests(1, stake);
@@ -2396,11 +2396,11 @@ mod test {
 
         // Simulate multiple dumps (whole branch is duplicate) from replay
         blockstore.clear_unconfirmed_slot(3);
-        repair_weight.split_off(3);
+        repair_weight.tplit_off(3);
         blockstore.clear_unconfirmed_slot(5);
-        repair_weight.split_off(5);
+        repair_weight.tplit_off(5);
         blockstore.clear_unconfirmed_slot(6);
-        repair_weight.split_off(6);
+        repair_weight.tplit_off(6);
 
         // Verify orphans
         let mut orphans = repair_weight.trees.keys().copied().collect_vec();

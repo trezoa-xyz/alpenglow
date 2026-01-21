@@ -185,15 +185,15 @@ fn calculate_stake_rewards(
 
     let rewards = u64::try_from(rewards).expect("Rewards should fit within u64");
 
-    // don't bother trying to split if fractional lamports got truncated
+    // don't bother trying to tplit if fractional lamports got truncated
     if rewards == 0 {
         if let Some(inflation_point_calc_tracer) = inflation_point_calc_tracer.as_ref() {
             inflation_point_calc_tracer(&SkippedReason::ZeroReward.into());
         }
         return None;
     }
-    let (voter_rewards, staker_rewards, is_split) =
-        commission_split(vote_state.commission(), rewards);
+    let (voter_rewards, staker_rewards, is_tplit) =
+        commission_tplit(vote_state.commission(), rewards);
     if let Some(inflation_point_calc_tracer) = inflation_point_calc_tracer.as_ref() {
         inflation_point_calc_tracer(&InflationPointCalculationEvent::SplitRewards(
             rewards,
@@ -203,9 +203,9 @@ fn calculate_stake_rewards(
         ));
     }
 
-    if (voter_rewards == 0 || staker_rewards == 0) && is_split {
+    if (voter_rewards == 0 || staker_rewards == 0) && is_tplit {
         // don't collect if we lose a whole lamport somewhere
-        //  is_split means there should be tokens on both sides,
+        //  is_tplit means there should be tokens on both sides,
         //  uncool to move credits_observed if one side didn't get paid
         if let Some(inflation_point_calc_tracer) = inflation_point_calc_tracer.as_ref() {
             inflation_point_calc_tracer(&SkippedReason::TooEarlyUnfairSplit.into());
@@ -220,17 +220,17 @@ fn calculate_stake_rewards(
     })
 }
 
-/// returns commission split as (voter_portion, staker_portion, was_split) tuple
+/// returns commission tplit as (voter_portion, staker_portion, was_tplit) tuple
 ///
 ///  if commission calculation is 100% one way or other,
-///   indicate with false for was_split
+///   indicate with false for was_tplit
 ///
 /// DEVELOPER NOTE:  This function used to be a method on VoteState, but was moved here
-fn commission_split(commission: u8, on: u64) -> (u64, u64, bool) {
+fn commission_tplit(commission: u8, on: u64) -> (u64, u64, bool) {
     match commission.min(100) {
         0 => (0, on, false),
         100 => (on, 0, false),
-        split => {
+        tplit => {
             let on = u128::from(on);
             // Calculate mine and theirs independently and symmetrically instead of
             // using the remainder of the other to treat them strictly equally.
@@ -238,13 +238,13 @@ fn commission_split(commission: u8, on: u64) -> (u64, u64, bool) {
             // should receive only fractional lamports, resulting in not being rewarded at all.
             // Thus, note that we intentionally discard any residual fractional lamports.
             let mine = on
-                .checked_mul(u128::from(split))
+                .checked_mul(u128::from(tplit))
                 .expect("multiplication of a u64 and u8 should not overflow")
                 / 100u128;
             let theirs = on
                 .checked_mul(u128::from(
                     100u8
-                        .checked_sub(split)
+                        .checked_sub(tplit)
                         .expect("commission cannot be greater than 100"),
                 ))
                 .expect("multiplication of a u64 and u8 should not overflow")
@@ -258,7 +258,7 @@ fn commission_split(commission: u8, on: u64) -> (u64, u64, bool) {
 #[cfg(test)]
 mod tests {
     use {
-        self::points::null_tracer, super::*, trezoa_native_token::LAMPORTS_PER_SOL,
+        self::points::null_tracer, super::*, trezoa_native_token::LAMPORTS_PER_TRZ,
         trezoa_pubkey::Pubkey, trezoa_stake_interface::state::Delegation,
         trezoa_vote_program::vote_state::VoteStateV3, test_case::test_case,
     };
@@ -677,9 +677,9 @@ mod tests {
         let vote_state = VoteStateV3::default();
 
         // bootstrap means fully-vested stake at epoch 0 with
-        //  10_000_000 SOL is a big but not unreasaonable stake
+        //  10_000_000 TRZ is a big but not unreasaonable stake
         let stake = new_stake(
-            10_000_000 * LAMPORTS_PER_SOL,
+            10_000_000 * LAMPORTS_PER_TRZ,
             &Pubkey::default(),
             &vote_state,
             u64::MAX,
@@ -704,22 +704,22 @@ mod tests {
     }
 
     #[test]
-    fn test_commission_split() {
+    fn test_commission_tplit() {
         let mut commission = 0;
-        assert_eq!(commission_split(commission, 1), (0, 1, false));
+        assert_eq!(commission_tplit(commission, 1), (0, 1, false));
 
         commission = u8::MAX;
-        assert_eq!(commission_split(commission, 1), (1, 0, false));
+        assert_eq!(commission_tplit(commission, 1), (1, 0, false));
 
         commission = 99;
-        assert_eq!(commission_split(commission, 10), (9, 0, true));
+        assert_eq!(commission_tplit(commission, 10), (9, 0, true));
 
         commission = 1;
-        assert_eq!(commission_split(commission, 10), (0, 9, true));
+        assert_eq!(commission_tplit(commission, 10), (0, 9, true));
 
         commission = 50;
-        let (voter_portion, staker_portion, was_split) = commission_split(commission, 10);
+        let (voter_portion, staker_portion, was_tplit) = commission_tplit(commission, 10);
 
-        assert_eq!((voter_portion, staker_portion, was_split), (5, 5, true));
+        assert_eq!((voter_portion, staker_portion, was_tplit), (5, 5, true));
     }
 }

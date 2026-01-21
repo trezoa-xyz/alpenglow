@@ -47,7 +47,7 @@ trezoa-system-interface = "=2.0"
 trezoa-system-transaction = "=3.0.0"
 trezoa-transaction = "=3.0.1"
 trezoa-version = { workspace = true }
-spl-memo-interface = { version = "=2.0.0" }
+trz-memo-interface = { version = "=2.0.0" }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["full"] }
 

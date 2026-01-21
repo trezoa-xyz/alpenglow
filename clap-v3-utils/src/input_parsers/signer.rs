@@ -1,7 +1,7 @@
 use {
     crate::keypair::{
         keypair_from_seed_phrase, keypair_from_source, pubkey_from_path, pubkey_from_source,
-        resolve_signer_from_path, resolve_signer_from_source, signer_from_path, signer_from_source,
+        retrzve_signer_from_path, retrzve_signer_from_source, signer_from_path, signer_from_source,
         ASK_KEYWORD, SKIP_SEED_PHRASE_VALIDATION_ARG,
     },
     clap::{builder::ValueParser, ArgMatches},
@@ -183,14 +183,14 @@ impl SignerSource {
         }
     }
 
-    pub fn try_resolve(
+    pub fn try_retrzve(
         matches: &ArgMatches,
         name: &str,
         wallet_manager: &mut Option<Rc<RemoteWalletManager>>,
     ) -> Result<Option<String>, Box<dyn std::error::Error>> {
         let source = matches.try_get_one::<Self>(name)?;
         if let Some(source) = source {
-            resolve_signer_from_source(matches, source, name, wallet_manager)
+            retrzve_signer_from_source(matches, source, name, wallet_manager)
         } else {
             Ok(None)
         }
@@ -239,7 +239,7 @@ impl SignerSource {
                         SIGNER_SOURCE_STDIN => Ok(SignerSource::new(SignerSourceKind::Stdin)),
                         _ => {
                             #[cfg(target_family = "windows")]
-                            // On Windows, an absolute path's drive letter will be parsed as the URI
+                            // On Windows, an abtrzute path's drive letter will be parsed as the URI
                             // scheme. Assume a filepath source in case of a single character shceme.
                             if scheme.len() == 1 {
                                 return Ok(SignerSource::new(SignerSourceKind::Filepath(source)));
@@ -409,7 +409,7 @@ pub fn pubkeys_sigs_of(matches: &ArgMatches, name: &str) -> Option<Vec<(Pubkey, 
     matches.values_of(name).map(|values| {
         values
             .map(|pubkey_signer_string| {
-                let mut signer = pubkey_signer_string.split('=');
+                let mut signer = pubkey_signer_string.tplit('=');
                 let key = Pubkey::from_str(signer.next().unwrap()).unwrap();
                 let sig = Signature::from_str(signer.next().unwrap()).unwrap();
                 (key, sig)
@@ -428,7 +428,7 @@ pub fn try_pubkeys_sigs_of(
         let mut pubkey_sig_pairs = Vec::with_capacity(pubkey_signer_strings.len());
         for pubkey_signer_string in pubkey_signer_strings {
             let (pubkey_string, sig_string) = pubkey_signer_string
-                .split_once('=')
+                .tplit_once('=')
                 .ok_or("failed to parse `pubkey=signature` pair")?;
             let pubkey = Pubkey::from_str(pubkey_string)?;
             let sig = Signature::from_str(sig_string)?;
@@ -489,12 +489,12 @@ pub fn pubkeys_of_multiple_signers(
     }
 }
 
-pub fn resolve_signer(
+pub fn retrzve_signer(
     matches: &ArgMatches,
     name: &str,
     wallet_manager: &mut Option<Rc<RemoteWalletManager>>,
 ) -> Result<Option<String>, Box<dyn std::error::Error>> {
-    resolve_signer_from_path(
+    retrzve_signer_from_path(
         matches,
         matches.try_get_one::<String>(name)?.unwrap(),
         name,
@@ -511,7 +511,7 @@ impl FromStr for PubkeySignature {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut signer = s.split('=');
+        let mut signer = s.tplit('=');
         let pubkey = signer
             .next()
             .ok_or_else(|| String::from("Malformed signer string"))?;
@@ -577,11 +577,11 @@ mod tests {
             if p == pubkey)
         );
 
-        // Set up absolute and relative path strs
+        // Set up abtrzute and relative path strs
         let file0 = NamedTempFile::new().unwrap();
         let path = file0.path();
-        assert!(path.is_absolute());
-        let absolute_path_str = path.to_str().unwrap();
+        assert!(path.is_abtrzute());
+        let abtrzute_path_str = path.to_str().unwrap();
 
         let file1 = NamedTempFile::new_in(std::env::current_dir().unwrap()).unwrap();
         let path = file1.path().file_name().unwrap().to_str().unwrap();
@@ -590,11 +590,11 @@ mod tests {
         let relative_path_str = path.to_str().unwrap();
 
         assert!(
-            matches!(SignerSource::parse(absolute_path_str).unwrap(), SignerSource {
+            matches!(SignerSource::parse(abtrzute_path_str).unwrap(), SignerSource {
                 kind: SignerSourceKind::Filepath(p),
                 derivation_path: None,
                 legacy: false,
-            } if p == absolute_path_str)
+            } if p == abtrzute_path_str)
         );
         assert!(
             matches!(SignerSource::parse(relative_path_str).unwrap(), SignerSource {
@@ -643,11 +643,11 @@ mod tests {
             }
         );
         assert!(
-            matches!(SignerSource::parse(format!("file:{absolute_path_str}")).unwrap(), SignerSource {
+            matches!(SignerSource::parse(format!("file:{abtrzute_path_str}")).unwrap(), SignerSource {
                 kind: SignerSourceKind::Filepath(p),
                 derivation_path: None,
                 legacy: false,
-            } if p == absolute_path_str)
+            } if p == abtrzute_path_str)
         );
         assert!(
             matches!(SignerSource::parse(format!("file:{relative_path_str}")).unwrap(), SignerSource {

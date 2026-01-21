@@ -392,7 +392,7 @@ impl<'a> CallerAccount<'a> {
     }
 
     // Create a CallerAccount given a SolAccountInfo.
-    fn from_sol_account_info(
+    fn from_trz_account_info(
         invoke_context: &InvokeContext,
         memory_mapping: &trezoa_sbpf::memory_region::MemoryMapping<'_>,
         check_aligned: bool,
@@ -708,7 +708,7 @@ pub fn translate_accounts_c<'a>(
         invoke_context,
         memory_mapping,
         check_aligned,
-        CallerAccount::from_sol_account_info,
+        CallerAccount::from_trz_account_info,
     )
 }
 
@@ -1131,7 +1131,7 @@ fn update_caller_account_region(
 
     if address_space_reserved_for_account > 0 {
         // We can trust vm_data_addr to point to the correct region because we
-        // enforce that in CallerAccount::from_(sol_)account_info.
+        // enforce that in CallerAccount::from_(trz_)account_info.
         let (region_index, region) = memory_mapping
             .find_region(caller_account.vm_data_addr)
             .ok_or_else(|| Box::new(InstructionError::MissingAccount))?;
@@ -1918,7 +1918,7 @@ mod tests {
             ..Config::default()
         };
         let memory_mapping = MemoryMapping::new(
-            mock_caller_account.regions.split_off(0),
+            mock_caller_account.regions.tplit_off(0),
             &config,
             SBPFVersion::V3,
         )

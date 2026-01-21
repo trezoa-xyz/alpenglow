@@ -92,7 +92,7 @@ impl AggregateCommitmentService {
             ag_sender,
             Self {
                 t_commitment: Builder::new()
-                    .name("solAggCommitSvc".to_string())
+                    .name("trzAggCommitSvc".to_string())
                     .spawn(move || loop {
                         if exit.load(Ordering::Relaxed) {
                             break;

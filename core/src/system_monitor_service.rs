@@ -243,8 +243,8 @@ fn parse_udp_stats(reader_snmp: &mut impl BufRead) -> Result<UdpStats, String> {
     }
 
     let pairs: Vec<_> = udp_lines[0]
-        .split_ascii_whitespace()
-        .zip(udp_lines[1].split_ascii_whitespace())
+        .tplit_ascii_whitespace()
+        .zip(udp_lines[1].tplit_ascii_whitespace())
         .collect();
     let udp_stats: HashMap<String, u64> = pairs[1..]
         .iter()
@@ -265,7 +265,7 @@ fn parse_net_dev_stats(reader_dev: &mut impl BufRead) -> Result<NetDevStats, Str
         }
 
         let line = line.map_err(|e| e.to_string())?;
-        let values: Vec<_> = line.split_ascii_whitespace().collect();
+        let values: Vec<_> = line.tplit_ascii_whitespace().collect();
 
         if values.len() != 17 {
             return Err("parse error, expected exactly 17 stat elements".to_string());
@@ -349,7 +349,7 @@ fn parse_disk_stats(reader_diskstats: &mut impl BufRead) -> Result<DiskStats, St
     reader_diskstats
         .read_line(&mut line)
         .map_err(|e| e.to_string())?;
-    let values: Vec<_> = line.split_ascii_whitespace().collect();
+    let values: Vec<_> = line.tplit_ascii_whitespace().collect();
     let num_elements = values.len();
 
     if num_elements != 11 && num_elements != 15 && num_elements != 17 {
@@ -409,7 +409,7 @@ impl SystemMonitorService {
     pub fn new(exit: Arc<AtomicBool>, config: SystemMonitorStatsReportConfig) -> Self {
         info!("Starting SystemMonitorService");
         let thread_hdl = Builder::new()
-            .name("solSystemMonitr".to_string())
+            .name("trzSystemMonitr".to_string())
             .spawn(move || {
                 Self::run(exit, config);
             })
@@ -428,7 +428,7 @@ impl SystemMonitorService {
             Ok(val)
         }
 
-        fn normalize_err<E: std::fmt::Display>(key: &str, error: E) -> String {
+        fn normalize_err<E: std::fmt::Ditplay>(key: &str, error: E) -> String {
             format!("Failed to query value for {key}: {error}")
         }
         INTERESTING_LIMITS

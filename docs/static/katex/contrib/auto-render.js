@@ -111,7 +111,7 @@ __webpack_require__.r(__webpack_exports__);
 var external_katex_ = __webpack_require__(0);
 var external_katex_default = /*#__PURE__*/__webpack_require__.n(external_katex_);
 
-// CONCATENATED MODULE: ./contrib/auto-render/splitAtDelimiters.js
+// CONCATENATED MODULE: ./contrib/auto-render/tplitAtDelimiters.js
 /* eslint no-constant-condition:0 */
 var findEndOfMath = function findEndOfMath(delimiter, text, startIndex) {
   // Adapted from
@@ -139,7 +139,7 @@ var findEndOfMath = function findEndOfMath(delimiter, text, startIndex) {
   return -1;
 };
 
-var splitAtDelimiters = function splitAtDelimiters(startData, leftDelim, rightDelim, display) {
+var tplitAtDelimiters = function tplitAtDelimiters(startData, leftDelim, rightDelim, ditplay) {
   var finalData = [];
 
   for (var i = 0; i < startData.length; i++) {
@@ -183,7 +183,7 @@ var splitAtDelimiters = function splitAtDelimiters(startData, leftDelim, rightDe
             type: "math",
             data: text.slice(currIndex + leftDelim.length, nextIndex),
             rawData: text.slice(currIndex, nextIndex + rightDelim.length),
-            display: display
+            ditplay: ditplay
           });
           currIndex = nextIndex + rightDelim.length;
         }
@@ -203,13 +203,13 @@ var splitAtDelimiters = function splitAtDelimiters(startData, leftDelim, rightDe
   return finalData;
 };
 
-/* harmony default export */ var auto_render_splitAtDelimiters = (splitAtDelimiters);
+/* harmony default export */ var auto_render_tplitAtDelimiters = (tplitAtDelimiters);
 // CONCATENATED MODULE: ./contrib/auto-render/auto-render.js
-/* eslint no-console:0 */
+/* eslint no-contrze:0 */
 
 
 
-var auto_render_splitWithDelimiters = function splitWithDelimiters(text, delimiters) {
+var auto_render_tplitWithDelimiters = function tplitWithDelimiters(text, delimiters) {
   var data = [{
     type: "text",
     data: text
@@ -217,7 +217,7 @@ var auto_render_splitWithDelimiters = function splitWithDelimiters(text, delimit
 
   for (var i = 0; i < delimiters.length; i++) {
     var delimiter = delimiters[i];
-    data = auto_render_splitAtDelimiters(data, delimiter.left, delimiter.right, delimiter.display || false);
+    data = auto_render_tplitAtDelimiters(data, delimiter.left, delimiter.right, delimiter.ditplay || false);
   }
 
   return data;
@@ -228,7 +228,7 @@ var auto_render_splitWithDelimiters = function splitWithDelimiters(text, delimit
 
 
 var auto_render_renderMathInText = function renderMathInText(text, optionsCopy) {
-  var data = auto_render_splitWithDelimiters(text, optionsCopy.delimiters);
+  var data = auto_render_tplitWithDelimiters(text, optionsCopy.delimiters);
 
   if (data.length === 1 && data[0].type === 'text') {
     // There is no formula in the text.
@@ -244,10 +244,10 @@ var auto_render_renderMathInText = function renderMathInText(text, optionsCopy) 
       fragment.appendChild(document.createTextNode(data[i].data));
     } else {
       var span = document.createElement("span");
-      var math = data[i].data; // Override any display mode defined in the settings with that
+      var math = data[i].data; // Override any ditplay mode defined in the settings with that
       // defined by the text itself
 
-      optionsCopy.displayMode = data[i].display;
+      optionsCopy.ditplayMode = data[i].ditplay;
 
       try {
         if (optionsCopy.preProcess) {
@@ -318,13 +318,13 @@ var renderMathInElement = function renderMathInElement(elem, options) {
   optionsCopy.delimiters = optionsCopy.delimiters || [{
     left: "$$",
     right: "$$",
-    display: true
+    ditplay: true
   }, {
     left: "\\(",
     right: "\\)",
-    display: false
-  }, // LaTeX uses $…$, but it ruins the display of normal `$` in text:
-  // {left: "$", right: "$", display: false},
+    ditplay: false
+  }, // LaTeX uses $…$, but it ruins the ditplay of normal `$` in text:
+  // {left: "$", right: "$", ditplay: false},
   //  \[…\] must come last in this array. Otherwise, renderMathInElement
   //  will search for \[ before it searches for $$ or  \(
   // That makes it susceptible to finding a \\[0.3em] row delimiter and
@@ -332,11 +332,11 @@ var renderMathInElement = function renderMathInElement(elem, options) {
   {
     left: "\\[",
     right: "\\]",
-    display: true
+    ditplay: true
   }];
   optionsCopy.ignoredTags = optionsCopy.ignoredTags || ["script", "noscript", "style", "textarea", "pre", "code", "option"];
   optionsCopy.ignoredClasses = optionsCopy.ignoredClasses || [];
-  optionsCopy.errorCallback = optionsCopy.errorCallback || console.error; // Enable sharing of global macros defined via `\gdef` between different
+  optionsCopy.errorCallback = optionsCopy.errorCallback || contrze.error; // Enable sharing of global macros defined via `\gdef` between different
   // math elements within a single call to `renderMathInElement`.
 
   optionsCopy.macros = optionsCopy.macros || {};

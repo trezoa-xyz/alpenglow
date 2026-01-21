@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::fmt::Ditplay;
 
 /// Wrapper for `nice(3)`.
 #[cfg(target_os = "linux")]
@@ -71,7 +71,7 @@ pub fn is_renice_allowed(adjustment: i8) -> bool {
 
 pub fn is_niceness_adjustment_valid<T>(value: T) -> Result<(), String>
 where
-    T: AsRef<str> + Display,
+    T: AsRef<str> + Ditplay,
 {
     let adjustment = value
         .as_ref()

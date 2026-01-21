@@ -7,11 +7,11 @@ use {
     crate::{
         arg_parser::parse_args,
         args::{
-            resolve_command, AuthorizeArgs, Command, MoveArgs, NewArgs, RebaseArgs, SetLockupArgs,
+            retrzve_command, AuthorizeArgs, Command, MoveArgs, NewArgs, RebaseArgs, SetLockupArgs,
         },
     },
     trezoa_cli_config::Config,
-    trezoa_cli_output::display::build_balance_message,
+    trezoa_cli_output::ditplay::build_balance_message,
     trezoa_commitment_config::CommitmentConfig,
     trezoa_message::Message,
     trezoa_pubkey::Pubkey,
@@ -246,7 +246,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         )?,
     );
 
-    match resolve_command(&command_args.command)? {
+    match retrzve_command(&command_args.command)? {
         Command::New(args) => {
             process_new_stake_account(&client, &args)?;
         }
@@ -270,8 +270,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             );
             let balances = get_balances(&client, addresses)?;
             let lamports: u64 = balances.into_iter().map(|(_, bal)| bal).sum();
-            let sol = build_balance_message(lamports, false, false);
-            println!("{sol} SOL");
+            let trz = build_balance_message(lamports, false, false);
+            println!("{trz} TRZ");
         }
         Command::Authorize(args) => {
             process_authorize_stake_accounts(&client, &args)?;

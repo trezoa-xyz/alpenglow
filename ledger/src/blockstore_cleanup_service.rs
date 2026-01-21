@@ -58,7 +58,7 @@ impl BlockstoreCleanupService {
         let mut last_check_time = Instant::now();
 
         let t_cleanup = Builder::new()
-            .name("solBstoreClean".to_string())
+            .name("trzBstoreClean".to_string())
             .spawn(move || {
                 info!(
                     "BlockstoreCleanupService has started with max ledger \

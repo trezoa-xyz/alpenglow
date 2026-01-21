@@ -2,19 +2,19 @@
 title: Ledger Replication
 ---
 
-Note: this ledger replication solution was partially implemented, but not
+Note: this ledger replication trzution was partially implemented, but not
 completed. The partial implementation was removed by
 https://github.com/trezoa-labs/trezoa/pull/9992 in order to prevent the security
 risk of unused code. The first part of this design document reflects the
 once-implemented parts of ledger replication. The
 [second part of this document](#ledger-replication-not-implemented) describes the
-parts of the solution never implemented.
+parts of the trzution never implemented.
 
 ## Proof of Replication
 
 At full capacity on a 1gbps network trezoa will generate 4 petabytes of data per year. To prevent the network from centralizing around validators that have to store the full data set this protocol proposes a way for mining nodes to provide storage capacity for pieces of the data.
 
-The basic idea to Proof of Replication is encrypting a dataset with a public symmetric key using CBC encryption, then hash the encrypted dataset. The main problem with the naive approach is that a dishonest storage node can stream the encryption and delete the data as it's hashed. The simple solution is to periodically regenerate the hash based on a signed PoH value. This ensures that all the data is present during the generation of the proof and it also requires validators to have the entirety of the encrypted data present for verification of every proof of every identity. So the space required to validate is `number_of_proofs * data_size`
+The basic idea to Proof of Replication is encrypting a dataset with a public symmetric key using CBC encryption, then hash the encrypted dataset. The main problem with the naive approach is that a dishonest storage node can stream the encryption and delete the data as it's hashed. The simple trzution is to periodically regenerate the hash based on a signed PoH value. This ensures that all the data is present during the generation of the proof and it also requires validators to have the entirety of the encrypted data present for verification of every proof of every identity. So the space required to validate is `number_of_proofs * data_size`
 
 ## Optimization with PoH
 
@@ -24,7 +24,7 @@ Our improvement on this approach is to randomly sample the encrypted segments fa
 
 Validators for PoRep are the same validators that are verifying transactions. If an archiver can prove that a validator verified a fake PoRep, then the validator will not receive a reward for that storage epoch.
 
-Archivers are specialized _light clients_. They download a part of the ledger \(a.k.a Segment\) and store it, and provide PoReps of storing the ledger. For each verified PoRep archivers earn a reward of sol from the mining pool.
+Archivers are specialized _light clients_. They download a part of the ledger \(a.k.a Segment\) and store it, and provide PoReps of storing the ledger. For each verified PoRep archivers earn a reward of trz from the mining pool.
 
 ## Constraints
 
@@ -219,9 +219,9 @@ For each turn of the PoRep game, both Validators and Archivers evaluate each sta
 
 For any random seed, we force everyone to use a signature that is derived from a PoH hash at the turn boundary. Everyone uses the same count, so the same PoH hash is signed by every participant. The signatures are then each cryptographically tied to the keypair, which prevents a leader from grinding on the resulting value for more than 1 identity.
 
-Since there are many more client identities than encryption identities, we need to split the reward for multiple clients, and prevent Sybil attacks from generating many clients to acquire the same block of data. To remain BFT we want to avoid a single human entity from storing all the replications of a single chunk of the ledger.
+Since there are many more client identities than encryption identities, we need to tplit the reward for multiple clients, and prevent Sybil attacks from generating many clients to acquire the same block of data. To remain BFT we want to avoid a single human entity from storing all the replications of a single chunk of the ledger.
 
-Our solution to this is to force the clients to continue using the same identity. If the first round is used to acquire the same block for many client identities, the second round for the same client identities will force a redistribution of the signatures, and therefore PoRep identities and blocks. Thus to get a reward for archivers need to store the first block for free and the network can reward long lived client identities more than new ones.
+Our trzution to this is to force the clients to continue using the same identity. If the first round is used to acquire the same block for many client identities, the second round for the same client identities will force a redistribution of the signatures, and therefore PoRep identities and blocks. Thus to get a reward for archivers need to store the first block for free and the network can reward long lived client identities more than new ones.
 
 ## Validator attacks
 

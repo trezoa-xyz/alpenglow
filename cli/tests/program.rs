@@ -263,7 +263,7 @@ fn test_cli_program_deploy_non_upgradeable() {
     });
     expect_command_failure(
         &config,
-        "The CLI blocks deployments into accounts that hold more than the necessary amount of SOL",
+        "The CLI blocks deployments into accounts that hold more than the necessary amount of TRZ",
         &format!(
             "Account {} is not an upgradeable program or already in use",
             custom_address_keypair.pubkey()
@@ -478,7 +478,7 @@ fn test_cli_program_deploy_feature(enable_feature: bool, skip_preflight: bool) {
         expect_command_failure(
             &config,
             "Program contains a syscall from a deactivated feature",
-            "ELF error: ELF error: Unresolved symbol (sol_alt_bn128_group_op) at instruction #49 \
+            "ELF error: ELF error: Unretrzved symbol (trz_alt_bn128_group_op) at instruction #49 \
              (ELF file offset 0x188)",
         );
 
@@ -656,8 +656,8 @@ fn test_cli_program_upgrade_with_feature(enable_feature: bool) {
             &config,
             "Program contains a syscall to a disabled feature",
             format!(
-                "Buffer account {} has invalid program data: \"ELF error: ELF error: Unresolved \
-                 symbol (sol_alt_bn128_group_op) at instruction #49 (ELF file offset 0x188)\"",
+                "Buffer account {} has invalid program data: \"ELF error: ELF error: Unretrzved \
+                 symbol (trz_alt_bn128_group_op) at instruction #49 (ELF file offset 0x188)\"",
                 buffer_signer.pubkey()
             )
             .as_str(),
@@ -2080,7 +2080,7 @@ fn test_cli_program_write_buffer_feature(enable_feature: bool) {
         expect_command_failure(
             &config,
             "Program contains a syscall from a deactivated feature",
-            "ELF error: ELF error: Unresolved symbol (sol_alt_bn128_group_op) at instruction #49 \
+            "ELF error: ELF error: Unretrzved symbol (trz_alt_bn128_group_op) at instruction #49 \
              (ELF file offset 0x188)",
         );
 

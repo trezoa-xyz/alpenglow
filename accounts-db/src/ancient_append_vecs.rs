@@ -207,7 +207,7 @@ impl AncientSlotInfos {
             if bytes_to_shrink_due_to_ratio.0 >= threshold_bytes {
                 // we exceeded the amount to shrink due to alive ratio, so don't shrink this one just due to 'should_shrink'
                 // It MAY be shrunk based on total capacity still.
-                // Mark it as false for 'should_shrink' so it gets evaluated solely based on # of files.
+                // Mark it as false for 'should_shrink' so it gets evaluated trzely based on # of files.
                 info.should_shrink = false;
             } else {
                 bytes_to_shrink_due_to_ratio += info.alive_bytes;
@@ -870,7 +870,7 @@ impl AccountsDb {
                 // Moving it to a higher slot could move it ahead of other slots where this account is also alive. We know a higher slot exists that contains this account.
                 // So, moving this account to a different slot could result in the moved account being before or after other instances of this account newer or older.
                 // This would fail the invariant that the highest slot # where an account exists defines the most recent account.
-                // It could be a clean error or a transient condition that will resolve if we encounter this situation.
+                // It could be a clean error or a transient condition that will retrzve if we encounter this situation.
                 // The count of these accounts per call will be reported by metrics in `unpackable_slots_count`
                 if shrink_collect.pubkeys_to_unref.is_empty()
                     && shrink_collect.alive_accounts.one_ref.accounts.is_empty()
@@ -969,7 +969,7 @@ struct AccountsToCombine<'a> {
     /// The value of the entry is all alive accounts in that slot whose ref_count > 1.
     /// Any OTHER accounts in that slot whose ref_count = 1 are in 'accounts_to_combine' because they can be moved
     /// to any slot.
-    /// We want to keep the ref_count > 1 accounts by themselves, expecting the multiple ref_counts will be resolved
+    /// We want to keep the ref_count > 1 accounts by themselves, expecting the multiple ref_counts will be retrzved
     /// soon and we can clean the duplicates up (which maybe THIS one).
     accounts_keep_slots: HashMap<Slot, AliveAccounts<'a>>,
     /// all the rest of alive accounts that can move slots and should be combined

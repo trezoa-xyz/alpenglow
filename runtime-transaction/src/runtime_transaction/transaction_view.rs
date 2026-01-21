@@ -6,7 +6,7 @@ use {
         transaction_with_meta::TransactionWithMeta,
     },
     trezoa_transaction_view::{
-        resolved_transaction_view::ResolvedTransactionView, transaction_data::TransactionData,
+        retrzved_transaction_view::RetrzvedTransactionView, transaction_data::TransactionData,
         transaction_version::TransactionVersion, transaction_view::SanitizedTransactionView,
     },
     trezoa_message::{
@@ -78,8 +78,8 @@ impl<D: TransactionData> RuntimeTransaction<SanitizedTransactionView<D>> {
     }
 }
 
-impl<D: TransactionData> RuntimeTransaction<ResolvedTransactionView<D>> {
-    /// Create a new `RuntimeTransaction<ResolvedTransactionView>` from a
+impl<D: TransactionData> RuntimeTransaction<RetrzvedTransactionView<D>> {
+    /// Create a new `RuntimeTransaction<RetrzvedTransactionView>` from a
     /// `RuntimeTransaction<SanitizedTransactionView>` that already has
     /// static metadata loaded.
     pub fn try_from(
@@ -93,7 +93,7 @@ impl<D: TransactionData> RuntimeTransaction<ResolvedTransactionView<D>> {
         // these transactions should be immediately dropped, and we generally
         // will not care about the specific error at this point.
         let transaction =
-            ResolvedTransactionView::try_new(transaction, loaded_addresses, reserved_account_keys)
+            RetrzvedTransactionView::try_new(transaction, loaded_addresses, reserved_account_keys)
                 .map_err(|_| TransactionError::SanitizeFailure)?;
         let mut tx = Self { transaction, meta };
         tx.load_dynamic_metadata()?;
@@ -106,7 +106,7 @@ impl<D: TransactionData> RuntimeTransaction<ResolvedTransactionView<D>> {
     }
 }
 
-impl<D: TransactionData> TransactionWithMeta for RuntimeTransaction<ResolvedTransactionView<D>> {
+impl<D: TransactionData> TransactionWithMeta for RuntimeTransaction<RetrzvedTransactionView<D>> {
     fn as_sanitized_transaction(&self) -> Cow<SanitizedTransaction> {
         let VersionedTransaction {
             signatures,
@@ -131,7 +131,7 @@ impl<D: TransactionData> TransactionWithMeta for RuntimeTransaction<ResolvedTran
 
         // SAFETY:
         // - Simple conversion between different formats
-        // - `ResolvedTransactionView` has undergone sanitization checks
+        // - `RetrzvedTransactionView` has undergone sanitization checks
         Cow::Owned(
             SanitizedTransaction::try_new_from_fields(
                 message,
@@ -233,7 +233,7 @@ mod tests {
         assert!(!static_runtime_transaction.is_simple_vote_transaction());
 
         let dynamic_runtime_transaction =
-            RuntimeTransaction::<ResolvedTransactionView<_>>::try_from(
+            RuntimeTransaction::<RetrzvedTransactionView<_>>::try_from(
                 static_runtime_transaction,
                 None,
                 &ReservedAccountKeys::empty_key_set(),
@@ -259,7 +259,7 @@ mod tests {
                 None,
             )
             .unwrap();
-            let runtime_transaction = RuntimeTransaction::<ResolvedTransactionView<_>>::try_from(
+            let runtime_transaction = RuntimeTransaction::<RetrzvedTransactionView<_>>::try_from(
                 runtime_transaction,
                 loaded_addresses,
                 reserved_account_keys,
@@ -325,7 +325,7 @@ mod tests {
                 None,
             )
             .unwrap();
-            let runtime_transaction = RuntimeTransaction::<ResolvedTransactionView<_>>::try_from(
+            let runtime_transaction = RuntimeTransaction::<RetrzvedTransactionView<_>>::try_from(
                 runtime_transaction,
                 loaded_addresses,
                 reserved_account_keys,

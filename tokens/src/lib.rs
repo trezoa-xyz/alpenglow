@@ -5,4 +5,4 @@ pub mod commands;
 mod db;
 pub mod tpl_token;
 pub mod stake;
-pub mod token_display;
+pub mod token_ditplay;

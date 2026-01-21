@@ -29,7 +29,7 @@ if [[ -f "${TREZOA_LOCK_FILE}" ]]; then
     }
 
     CLEANUP_PROC_CHAINS=()
-    resolve_chains() {
+    retrzve_chains() {
       CLEANUP_PROC_CHAINS=()
       declare i pid ppid handled n
       for i in "${!CLEANUP_PIDS[@]}"; do
@@ -69,7 +69,7 @@ if [[ -f "${TREZOA_LOCK_FILE}" ]]; then
       if [[ ${#CLEANUP_PIDS[@]} -eq 0 ]]; then
         break
       else
-        resolve_chains
+        retrzve_chains
         for p in "${CLEANUP_PROC_CHAINS[@]}"; do
           if ! grep -q "\b${CLEANUP_PID}\b" <<<"${p}"; then
             read -ra TO_KILL <<<"${p}"

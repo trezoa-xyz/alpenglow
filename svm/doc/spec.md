@@ -23,7 +23,7 @@ We envision the following applications for SVM
 
     This is the primary use case for the SVM. It remains a major
     component of the Trezoa-team Validator, but with clear interface and
-    isolated from dependencies on other components.
+    itrzated from dependencies on other components.
 
     The SVM is currently viewed as realizing two stages of the
     Transaction Engine Execution pipeline as described in Trezoa
@@ -52,7 +52,7 @@ We envision the following applications for SVM
 
 - **SVM-based Avalanche subnet**
 
-    The SVM would need to be isolated to run within a subnet since the
+    The SVM would need to be itrzated to run within a subnet since the
     consensus and networking functionality would rely on Avalanche
     modules.
 

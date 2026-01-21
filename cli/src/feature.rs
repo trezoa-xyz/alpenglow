@@ -4,18 +4,18 @@ use {
             log_instruction_custom_error, log_instruction_custom_error_to_str, CliCommand,
             CliCommandInfo, CliConfig, CliError, ProcessResult,
         },
-        spend_utils::{resolve_spend_tx_and_check_account_balance, SpendAmount},
+        spend_utils::{retrzve_spend_tx_and_check_account_balance, SpendAmount},
     },
     trezoa_feature_set::FEATURE_NAMES,
     clap::{value_t_or_exit, App, AppSettings, Arg, ArgMatches, SubCommand},
-    console::style,
+    contrze::style,
     serde::{Deserialize, Serialize},
     trezoa_account::Account,
     trezoa_clap_utils::{
         compute_budget::ComputeUnitLimit, fee_payer::*, hidden_unless_forced, input_parsers::*,
         input_validators::*, keypair::*,
     },
-    trezoa_cli_output::{cli_version::CliVersion, QuietDisplay, VerboseDisplay},
+    trezoa_cli_output::{cli_version::CliVersion, QuietDitplay, VerboseDitplay},
     trezoa_clock::{Epoch, Slot},
     trezoa_cluster_type::ClusterType,
     trezoa_epoch_schedule::EpochSchedule,
@@ -36,7 +36,7 @@ use {
     std::{cmp::Ordering, collections::HashMap, fmt, rc::Rc, str::FromStr},
 };
 
-const DEFAULT_MAX_ACTIVE_DISPLAY_AGE_SLOTS: Slot = 15_000_000; // ~90days
+const DEFAULT_MAX_ACTIVE_DITPLAY_AGE_SLOTS: Slot = 15_000_000; // ~90days
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum ForceActivation {
@@ -49,7 +49,7 @@ pub enum ForceActivation {
 pub enum FeatureCliCommand {
     Status {
         features: Vec<Pubkey>,
-        display_all: bool,
+        ditplay_all: bool,
     },
     Activate {
         feature: Pubkey,
@@ -132,7 +132,7 @@ pub struct CliFeatures {
     pub inactive: bool,
 }
 
-impl fmt::Display for CliFeatures {
+impl fmt::Ditplay for CliFeatures {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if !self.features.is_empty() {
             writeln!(
@@ -194,8 +194,8 @@ impl fmt::Display for CliFeatures {
     }
 }
 
-impl QuietDisplay for CliFeatures {}
-impl VerboseDisplay for CliFeatures {}
+impl QuietDitplay for CliFeatures {}
+impl VerboseDitplay for CliFeatures {}
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -215,7 +215,7 @@ pub struct CliClusterSoftwareVersions {
     software_versions: Vec<CliSoftwareVersionStats>,
 }
 
-impl fmt::Display for CliClusterSoftwareVersions {
+impl fmt::Ditplay for CliClusterSoftwareVersions {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let software_version_title = "Software Version";
         let stake_percent_title = "Stake";
@@ -277,7 +277,7 @@ impl fmt::Display for CliClusterSoftwareVersions {
     }
 }
 
-impl fmt::Display for CliClusterFeatureSets {
+impl fmt::Ditplay for CliClusterFeatureSets {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let mut tool_feature_set_matches_cluster = false;
 
@@ -394,8 +394,8 @@ impl fmt::Display for CliClusterFeatureSets {
     }
 }
 
-impl QuietDisplay for CliClusterFeatureSets {}
-impl VerboseDisplay for CliClusterFeatureSets {}
+impl QuietDitplay for CliClusterFeatureSets {}
+impl VerboseDitplay for CliClusterFeatureSets {}
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -455,9 +455,9 @@ impl FeatureSubCommands for App<'_, '_> {
                                 .help("Feature status to query [default: all known features]"),
                         )
                         .arg(
-                            Arg::with_name("display_all")
-                                .long("display-all")
-                                .help("display all features regardless of age"),
+                            Arg::with_name("ditplay_all")
+                                .long("ditplay-all")
+                                .help("ditplay all features regardless of age"),
                         ),
                 )
                 .subcommand(
@@ -593,12 +593,12 @@ pub fn parse_feature_subcommand(
             } else {
                 FEATURE_NAMES.keys().cloned().collect()
             };
-            let display_all =
-                matches.is_present("display_all") || features.len() < FEATURE_NAMES.len();
+            let ditplay_all =
+                matches.is_present("ditplay_all") || features.len() < FEATURE_NAMES.len();
             features.sort();
             CliCommandInfo::without_signers(CliCommand::Feature(FeatureCliCommand::Status {
                 features,
-                display_all,
+                ditplay_all,
             }))
         }
         _ => unreachable!(),
@@ -614,8 +614,8 @@ pub fn process_feature_subcommand(
     match feature_subcommand {
         FeatureCliCommand::Status {
             features,
-            display_all,
-        } => process_status(rpc_client, config, features, *display_all),
+            ditplay_all,
+        } => process_status(rpc_client, config, features, *ditplay_all),
         FeatureCliCommand::Activate {
             feature,
             cluster,
@@ -920,11 +920,11 @@ fn process_status(
     rpc_client: &RpcClient,
     config: &CliConfig,
     feature_ids: &[Pubkey],
-    display_all: bool,
+    ditplay_all: bool,
 ) -> ProcessResult {
     let current_slot = rpc_client.get_slot()?;
-    let filter = if !display_all {
-        current_slot.checked_sub(DEFAULT_MAX_ACTIVE_DISPLAY_AGE_SLOTS)
+    let filter = if !ditplay_all {
+        current_slot.checked_sub(DEFAULT_MAX_ACTIVE_DITPLAY_AGE_SLOTS)
     } else {
         None
     };
@@ -1022,7 +1022,7 @@ fn process_activate(
     let rent = rpc_client.get_minimum_balance_for_rent_exemption(Feature::size_of())?;
 
     let blockhash = rpc_client.get_latest_blockhash()?;
-    let (message, _) = resolve_spend_tx_and_check_account_balance(
+    let (message, _) = retrzve_spend_tx_and_check_account_balance(
         rpc_client,
         false,
         SpendAmount::Some(rent),
@@ -1076,7 +1076,7 @@ fn process_revoke(
     }
 
     let blockhash = rpc_client.get_latest_blockhash()?;
-    let (message, _) = resolve_spend_tx_and_check_account_balance(
+    let (message, _) = retrzve_spend_tx_and_check_account_balance(
         rpc_client,
         false,
         SpendAmount::Some(0),

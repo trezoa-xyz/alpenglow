@@ -3,7 +3,7 @@
 set -e
 
 if [[ (-n $CI || -n $FORCE_INTERCEPT) && -z $NO_INTERCEPT ]]; then
-  : "${INTERCEPT_OUTPUT:="./intercepted-console-$(date '+%Yy%mm%dd%Hh%Mm%Ss%Nns').log"}"
+  : "${INTERCEPT_OUTPUT:="./intercepted-contrze-$(date '+%Yy%mm%dd%Hh%Mm%Ss%Nns').log"}"
   echo "$0: Intercepting stderr into $INTERCEPT_OUTPUT, along side tee-d stdout."
 
   # we don't care about being racy here as was before; so disable shellcheck

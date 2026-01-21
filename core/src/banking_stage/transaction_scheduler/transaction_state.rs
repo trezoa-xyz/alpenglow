@@ -16,7 +16,7 @@ pub(crate) struct TransactionState<Tx> {
     /// If `None`, the transaction is currently scheduled or being processed.
     transaction: Option<Tx>,
     /// Tracks information on the maximum age the transaction's pre-processing
-    /// is valid for. This includes sanitization features, as well as resolved
+    /// is valid for. This includes sanitization features, as well as retrzved
     /// address lookups.
     max_age: MaxAge,
     /// Priority of the transaction.

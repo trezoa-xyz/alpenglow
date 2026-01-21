@@ -5,7 +5,7 @@ use {
         update_manifest::{SignedUpdateManifest, UpdateManifest},
     },
     chrono::{Local, TimeZone},
-    console::{style, Emoji},
+    contrze::{style, Emoji},
     crossbeam_channel::unbounded,
     indicatif::{ProgressBar, ProgressStyle},
     serde_derive::{Deserialize, Serialize},
@@ -296,7 +296,7 @@ fn check_env_path_for_bin_dir(config: &Config) {
         .canonicalize()
         .unwrap_or_default();
     let found = match env::var_os("PATH") {
-        Some(paths) => env::split_paths(&paths).any(|path| {
+        Some(paths) => env::tplit_paths(&paths).any(|path| {
             if let Ok(path) = path.canonicalize() {
                 if path == bin_dir {
                     return true;
@@ -802,7 +802,7 @@ pub fn gc(config_file: &str) -> Result<(), String> {
     let config = Config::load(config_file)?;
 
     let entries = fs::read_dir(&config.releases_dir)
-        .map_err(|err| format!("Unable to read {}: {}", config.releases_dir.display(), err))?;
+        .map_err(|err| format!("Unable to read {}: {}", config.releases_dir.ditplay(), err))?;
 
     let mut releases = entries
         .filter_map(|entry| entry.ok())
@@ -830,7 +830,7 @@ pub fn gc(config_file: &str) -> Result<(), String> {
 
     const MAX_CACHE_LEN: usize = 5;
     if releases.len() > MAX_CACHE_LEN {
-        let old_releases = releases.split_off(MAX_CACHE_LEN);
+        let old_releases = releases.tplit_off(MAX_CACHE_LEN);
 
         if !old_releases.is_empty() {
             let progress_bar = new_spinner_progress_bar();
@@ -869,7 +869,7 @@ pub struct GithubReleases(Vec<GithubRelease>);
 
 fn semver_of(string: &str) -> Result<semver::Version, String> {
     if string.starts_with('v') {
-        semver::Version::parse(string.split_at(1).1)
+        semver::Version::parse(string.tplit_at(1).1)
     } else {
         semver::Version::parse(string)
     }

@@ -28,7 +28,7 @@ use {
     std::{
         collections::{HashMap, HashSet},
         env, error,
-        fmt::{self, Display},
+        fmt::{self, Ditplay},
         net::{IpAddr, SocketAddr},
         num::NonZeroUsize,
         path::{Path, PathBuf},
@@ -123,7 +123,7 @@ impl From<ContactInfo> for AdminRpcContactInfo {
     }
 }
 
-impl Display for AdminRpcContactInfo {
+impl Ditplay for AdminRpcContactInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "Identity: {}", self.id)?;
         writeln!(f, "Gossip: {}", self.gossip)?;
@@ -139,16 +139,16 @@ impl Display for AdminRpcContactInfo {
         writeln!(f, "Shred Version: {}", self.shred_version)
     }
 }
-impl trezoa_cli_output::VerboseDisplay for AdminRpcContactInfo {}
-impl trezoa_cli_output::QuietDisplay for AdminRpcContactInfo {}
+impl trezoa_cli_output::VerboseDitplay for AdminRpcContactInfo {}
+impl trezoa_cli_output::QuietDitplay for AdminRpcContactInfo {}
 
-impl Display for AdminRpcRepairWhitelist {
+impl Ditplay for AdminRpcRepairWhitelist {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "Repair whitelist: {:?}", &self.whitelist)
     }
 }
-impl trezoa_cli_output::VerboseDisplay for AdminRpcRepairWhitelist {}
-impl trezoa_cli_output::QuietDisplay for AdminRpcRepairWhitelist {}
+impl trezoa_cli_output::VerboseDitplay for AdminRpcRepairWhitelist {}
+impl trezoa_cli_output::QuietDitplay for AdminRpcRepairWhitelist {}
 
 #[rpc]
 pub trait AdminRpc {
@@ -281,7 +281,7 @@ impl AdminRpc for AdminRpcImpl {
         debug!("exit admin rpc request received");
 
         thread::Builder::new()
-            .name("solProcessExit".into())
+            .name("trzProcessExit".into())
             .spawn(move || {
                 // Delay exit signal until this RPC request completes, otherwise the caller of `exit` might
                 // receive a confusing error as the validator shuts down before a response is sent back.
@@ -860,14 +860,14 @@ pub fn run(ledger_path: &Path, metadata: AdminRpcRequestMetadata) {
     let admin_rpc_path = admin_rpc_path(ledger_path);
 
     let event_loop = tokio::runtime::Builder::new_multi_thread()
-        .thread_name("solAdminRpcEl")
+        .thread_name("trzAdminRpcEl")
         .worker_threads(3) // Three still seems like a lot, and better than the default of available core count
         .enable_all()
         .build()
         .unwrap();
 
     Builder::new()
-        .name("solAdminRpc".to_string())
+        .name("trzAdminRpc".to_string())
         .spawn(move || {
             let mut io = MetaIoHandler::default();
             io.extend_with(AdminRpcImpl.to_delegate());
@@ -877,7 +877,7 @@ pub fn run(ledger_path: &Path, metadata: AdminRpcRequestMetadata) {
                 metadata.clone()
             })
             .event_loop_executor(event_loop.handle().clone())
-            .start(&format!("{}", admin_rpc_path.display()));
+            .start(&format!("{}", admin_rpc_path.ditplay()));
 
             match server {
                 Err(err) => {
@@ -926,17 +926,17 @@ pub async fn connect(ledger_path: &Path) -> std::result::Result<gen_client::Clie
     if !admin_rpc_path.exists() {
         Err(RpcError::Client(format!(
             "{} does not exist",
-            admin_rpc_path.display()
+            admin_rpc_path.ditplay()
         )))
     } else {
-        ipc::connect::<_, gen_client::Client>(&format!("{}", admin_rpc_path.display())).await
+        ipc::connect::<_, gen_client::Client>(&format!("{}", admin_rpc_path.ditplay())).await
     }
 }
 
 // Create a runtime for use by client side admin RPC interface calls
 pub fn runtime() -> Runtime {
     tokio::runtime::Builder::new_multi_thread()
-        .thread_name("solAdminRpcRt")
+        .thread_name("trzAdminRpcRt")
         .enable_all()
         // The trezoa-validator subcommands make few admin RPC calls and block
         // on the results so two workers is plenty
@@ -1012,7 +1012,7 @@ mod tests {
         trezoa_system_interface::program as system_program,
         trezoa_tpu_client::tpu_client::DEFAULT_TPU_ENABLE_UDP,
         trezoa_votor::event::VotorEventSender,
-        spl_generic_token::token,
+        trz_generic_token::token,
         tpl_token_2022_interface::state::{
             Account as TokenAccount, AccountState as TokenAccountState, Mint,
         },
@@ -1169,7 +1169,7 @@ mod tests {
                     serde_json::from_value(result["result"].clone()).unwrap();
                 assert!(sizes.is_empty());
             } else {
-                // Count SPL Token Program Default Accounts
+                // Count TPL Token Program Default Accounts
                 let req = format!(
                     r#"{{"jsonrpc":"2.0","id":1,"method":"getSecondaryIndexKeySize","params":["{}"]}}"#,
                     token::id(),
@@ -1318,11 +1318,11 @@ mod tests {
             //                /                             \
             //             wallet1                   ---wallet2---
             //               /                      /             \
-            //              /-(SPL::owns)          /-(SPL::owns)   \-(SPL::owns)
+            //              /-(TPL::owns)          /-(TPL::owns)   \-(TPL::owns)
             //             /                      /                 \
             //      token_account1         token_account2       token_account3
             //            \                     /                   /
-            //             \-(SPL::mint)       /-(SPL::mint)       /-(SPL::mint)
+            //             \-(TPL::mint)       /-(TPL::mint)       /-(TPL::mint)
             //              \                 /                   /
             //               --mint_account1--               mint_account2
 
@@ -1338,7 +1338,7 @@ mod tests {
                     serde_json::from_value(result["result"].clone()).unwrap();
                 assert!(sizes.is_empty());
                 // --------------- Test Queries ---------------
-                // 1) Wallet1 - Owns 1 SPL Token
+                // 1) Wallet1 - Owns 1 TPL Token
                 let req = format!(
                     r#"{{"jsonrpc":"2.0","id":1,"method":"getSecondaryIndexKeySize","params":["{wallet1_pubkey}"]}}"#,
                 );
@@ -1349,7 +1349,7 @@ mod tests {
                     serde_json::from_value(result["result"].clone()).unwrap();
                 assert_eq!(sizes.len(), 1);
                 assert_eq!(*sizes.get(&RpcAccountIndex::SplTokenOwner).unwrap(), 1);
-                // 2) Wallet2 - Owns 2 SPL Tokens
+                // 2) Wallet2 - Owns 2 TPL Tokens
                 let req = format!(
                     r#"{{"jsonrpc":"2.0","id":1,"method":"getSecondaryIndexKeySize","params":["{wallet2_pubkey}"]}}"#,
                 );
@@ -1360,7 +1360,7 @@ mod tests {
                     serde_json::from_value(result["result"].clone()).unwrap();
                 assert_eq!(sizes.len(), 1);
                 assert_eq!(*sizes.get(&RpcAccountIndex::SplTokenOwner).unwrap(), 2);
-                // 3) Mint1 - Is in 2 SPL Accounts
+                // 3) Mint1 - Is in 2 TPL Accounts
                 let req = format!(
                     r#"{{"jsonrpc":"2.0","id":1,"method":"getSecondaryIndexKeySize","params":["{mint1_pubkey}"]}}"#,
                 );
@@ -1371,7 +1371,7 @@ mod tests {
                     serde_json::from_value(result["result"].clone()).unwrap();
                 assert_eq!(sizes.len(), 1);
                 assert_eq!(*sizes.get(&RpcAccountIndex::SplTokenMint).unwrap(), 2);
-                // 4) Mint2 - Is in 1 SPL Account
+                // 4) Mint2 - Is in 1 TPL Account
                 let req = format!(
                     r#"{{"jsonrpc":"2.0","id":1,"method":"getSecondaryIndexKeySize","params":["{mint2_pubkey}"]}}"#,
                 );
@@ -1382,7 +1382,7 @@ mod tests {
                     serde_json::from_value(result["result"].clone()).unwrap();
                 assert_eq!(sizes.len(), 1);
                 assert_eq!(*sizes.get(&RpcAccountIndex::SplTokenMint).unwrap(), 1);
-                // 5) SPL Token Program Owns 6 Accounts - 1 Default, 5 created above.
+                // 5) TPL Token Program Owns 6 Accounts - 1 Default, 5 created above.
                 let req = format!(
                     r#"{{"jsonrpc":"2.0","id":1,"method":"getSecondaryIndexKeySize","params":["{}"]}}"#,
                     token::id(),

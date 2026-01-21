@@ -1,7 +1,7 @@
 use {
     trezoa_account::{AccountSharedData, ReadableAccount},
     trezoa_rpc_client_api::filter::RpcFilterType,
-    spl_generic_token::{token::GenericTokenAccount, token_2022::Account},
+    trz_generic_token::{token::GenericTokenAccount, token_2022::Account},
 };
 
 pub fn filter_allows(filter: &RpcFilterType, account: &AccountSharedData) -> bool {

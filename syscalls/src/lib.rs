@@ -335,38 +335,38 @@ pub fn create_program_runtime_environment_v1<'a>(
     result.register_function("abort", SyscallAbort::vm)?;
 
     // Panic
-    result.register_function("sol_panic_", SyscallPanic::vm)?;
+    result.register_function("trz_panic_", SyscallPanic::vm)?;
 
     // Logging
-    result.register_function("sol_log_", SyscallLog::vm)?;
-    result.register_function("sol_log_64_", SyscallLogU64::vm)?;
-    result.register_function("sol_log_pubkey", SyscallLogPubkey::vm)?;
-    result.register_function("sol_log_compute_units_", SyscallLogBpfComputeUnits::vm)?;
+    result.register_function("trz_log_", SyscallLog::vm)?;
+    result.register_function("trz_log_64_", SyscallLogU64::vm)?;
+    result.register_function("trz_log_pubkey", SyscallLogPubkey::vm)?;
+    result.register_function("trz_log_compute_units_", SyscallLogBpfComputeUnits::vm)?;
 
     // Program defined addresses (PDA)
     result.register_function(
-        "sol_create_program_address",
+        "trz_create_program_address",
         SyscallCreateProgramAddress::vm,
     )?;
     result.register_function(
-        "sol_try_find_program_address",
+        "trz_try_find_program_address",
         SyscallTryFindProgramAddress::vm,
     )?;
 
     // Sha256
-    result.register_function("sol_sha256", SyscallHash::vm::<Sha256Hasher>)?;
+    result.register_function("trz_sha256", SyscallHash::vm::<Sha256Hasher>)?;
 
     // Keccak256
-    result.register_function("sol_keccak256", SyscallHash::vm::<Keccak256Hasher>)?;
+    result.register_function("trz_keccak256", SyscallHash::vm::<Keccak256Hasher>)?;
 
     // Secp256k1 Recover
-    result.register_function("sol_secp256k1_recover", SyscallSecp256k1Recover::vm)?;
+    result.register_function("trz_secp256k1_recover", SyscallSecp256k1Recover::vm)?;
 
     // Blake3
     register_feature_gated_function!(
         result,
         blake3_syscall_enabled,
-        "sol_blake3",
+        "trz_blake3",
         SyscallHash::vm::<Blake3Hasher>,
     )?;
 
@@ -374,76 +374,76 @@ pub fn create_program_runtime_environment_v1<'a>(
     register_feature_gated_function!(
         result,
         curve25519_syscall_enabled,
-        "sol_curve_validate_point",
+        "trz_curve_validate_point",
         SyscallCurvePointValidation::vm,
     )?;
     register_feature_gated_function!(
         result,
         curve25519_syscall_enabled,
-        "sol_curve_group_op",
+        "trz_curve_group_op",
         SyscallCurveGroupOps::vm,
     )?;
     register_feature_gated_function!(
         result,
         curve25519_syscall_enabled,
-        "sol_curve_multiscalar_mul",
+        "trz_curve_multiscalar_mul",
         SyscallCurveMultiscalarMultiplication::vm,
     )?;
 
     // Sysvars
-    result.register_function("sol_get_clock_sysvar", SyscallGetClockSysvar::vm)?;
+    result.register_function("trz_get_clock_sysvar", SyscallGetClockSysvar::vm)?;
     result.register_function(
-        "sol_get_epoch_schedule_sysvar",
+        "trz_get_epoch_schedule_sysvar",
         SyscallGetEpochScheduleSysvar::vm,
     )?;
     register_feature_gated_function!(
         result,
         !disable_fees_sysvar,
-        "sol_get_fees_sysvar",
+        "trz_get_fees_sysvar",
         SyscallGetFeesSysvar::vm,
     )?;
-    result.register_function("sol_get_rent_sysvar", SyscallGetRentSysvar::vm)?;
+    result.register_function("trz_get_rent_sysvar", SyscallGetRentSysvar::vm)?;
 
     register_feature_gated_function!(
         result,
         last_restart_slot_syscall_enabled,
-        "sol_get_last_restart_slot",
+        "trz_get_last_restart_slot",
         SyscallGetLastRestartSlotSysvar::vm,
     )?;
 
     result.register_function(
-        "sol_get_epoch_rewards_sysvar",
+        "trz_get_epoch_rewards_sysvar",
         SyscallGetEpochRewardsSysvar::vm,
     )?;
 
     // Memory ops
-    result.register_function("sol_memcpy_", SyscallMemcpy::vm)?;
-    result.register_function("sol_memmove_", SyscallMemmove::vm)?;
-    result.register_function("sol_memset_", SyscallMemset::vm)?;
-    result.register_function("sol_memcmp_", SyscallMemcmp::vm)?;
+    result.register_function("trz_memcpy_", SyscallMemcpy::vm)?;
+    result.register_function("trz_memmove_", SyscallMemmove::vm)?;
+    result.register_function("trz_memset_", SyscallMemset::vm)?;
+    result.register_function("trz_memcmp_", SyscallMemcmp::vm)?;
 
     // Processed sibling instructions
     result.register_function(
-        "sol_get_processed_sibling_instruction",
+        "trz_get_processed_sibling_instruction",
         SyscallGetProcessedSiblingInstruction::vm,
     )?;
 
     // Stack height
-    result.register_function("sol_get_stack_height", SyscallGetStackHeight::vm)?;
+    result.register_function("trz_get_stack_height", SyscallGetStackHeight::vm)?;
 
     // Return data
-    result.register_function("sol_set_return_data", SyscallSetReturnData::vm)?;
-    result.register_function("sol_get_return_data", SyscallGetReturnData::vm)?;
+    result.register_function("trz_set_return_data", SyscallSetReturnData::vm)?;
+    result.register_function("trz_get_return_data", SyscallGetReturnData::vm)?;
 
     // Cross-program invocation
-    result.register_function("sol_invoke_signed_c", SyscallInvokeSignedC::vm)?;
-    result.register_function("sol_invoke_signed_rust", SyscallInvokeSignedRust::vm)?;
+    result.register_function("trz_invoke_signed_c", SyscallInvokeSignedC::vm)?;
+    result.register_function("trz_invoke_signed_rust", SyscallInvokeSignedRust::vm)?;
 
     // Memory allocator
     register_feature_gated_function!(
         result,
         !disable_deploy_of_alloc_free_syscall,
-        "sol_alloc_free_",
+        "trz_alloc_free_",
         SyscallAllocFree::vm,
     )?;
 
@@ -451,7 +451,7 @@ pub fn create_program_runtime_environment_v1<'a>(
     register_feature_gated_function!(
         result,
         enable_alt_bn128_syscall,
-        "sol_alt_bn128_group_op",
+        "trz_alt_bn128_group_op",
         SyscallAltBn128::vm,
     )?;
 
@@ -459,7 +459,7 @@ pub fn create_program_runtime_environment_v1<'a>(
     register_feature_gated_function!(
         result,
         enable_big_mod_exp_syscall,
-        "sol_big_mod_exp",
+        "trz_big_mod_exp",
         SyscallBigModExp::vm,
     )?;
 
@@ -467,7 +467,7 @@ pub fn create_program_runtime_environment_v1<'a>(
     register_feature_gated_function!(
         result,
         enable_poseidon_syscall,
-        "sol_poseidon",
+        "trz_poseidon",
         SyscallPoseidon::vm,
     )?;
 
@@ -475,7 +475,7 @@ pub fn create_program_runtime_environment_v1<'a>(
     register_feature_gated_function!(
         result,
         remaining_compute_units_syscall_enabled,
-        "sol_remaining_compute_units",
+        "trz_remaining_compute_units",
         SyscallRemainingComputeUnits::vm
     )?;
 
@@ -483,7 +483,7 @@ pub fn create_program_runtime_environment_v1<'a>(
     register_feature_gated_function!(
         result,
         enable_alt_bn128_compression_syscall,
-        "sol_alt_bn128_compression",
+        "trz_alt_bn128_compression",
         SyscallAltBn128Compression::vm,
     )?;
 
@@ -491,7 +491,7 @@ pub fn create_program_runtime_environment_v1<'a>(
     register_feature_gated_function!(
         result,
         get_sysvar_syscall_enabled,
-        "sol_get_sysvar",
+        "trz_get_sysvar",
         SyscallGetSysvar::vm,
     )?;
 
@@ -499,12 +499,12 @@ pub fn create_program_runtime_environment_v1<'a>(
     register_feature_gated_function!(
         result,
         enable_get_epoch_stake_syscall,
-        "sol_get_epoch_stake",
+        "trz_get_epoch_stake",
         SyscallGetEpochStake::vm,
     )?;
 
     // Log data
-    result.register_function("sol_log_data", SyscallLogData::vm)?;
+    result.register_function("trz_log_data", SyscallLogData::vm)?;
 
     Ok(result)
 }
@@ -704,7 +704,7 @@ declare_builtin_function!(
 );
 
 declare_builtin_function!(
-    /// Panic syscall function, called when the SBF program calls 'sol_panic_()`
+    /// Panic syscall function, called when the SBF program calls 'trz_panic_()`
     /// Causes the SBF program to be halted immediately
     SyscallPanic,
     fn rust(
@@ -730,7 +730,7 @@ declare_builtin_function!(
 
 declare_builtin_function!(
     /// Dynamic memory allocation syscall called when the SBF program calls
-    /// `sol_alloc_free_()`.  The allocator is expected to allocate/free
+    /// `trz_alloc_free_()`.  The allocator is expected to allocate/free
     /// from/to a given chunk of memory and enforce size restrictions.  The
     /// memory chunk is given to the allocator during allocator creation and
     /// information about that memory (start address and size) is passed
@@ -2508,7 +2508,7 @@ mod tests {
 
     #[test]
     #[should_panic(expected = "Panic(\"Gaggablaghblagh!\", 42, 84)")]
-    fn test_syscall_sol_panic() {
+    fn test_syscall_trz_panic() {
         prepare_mockup!(invoke_context, program_id, bpf_loader::id());
 
         let string = "Gaggablaghblagh!";
@@ -2549,7 +2549,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_log() {
+    fn test_syscall_trz_log() {
         prepare_mockup!(invoke_context, program_id, bpf_loader::id());
 
         let string = "Gaggablaghblagh!";
@@ -2618,7 +2618,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_log_u64() {
+    fn test_syscall_trz_log_u64() {
         prepare_mockup!(invoke_context, program_id, bpf_loader::id());
         let cost = invoke_context.get_execution_cost().log_64_units;
 
@@ -2639,7 +2639,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_pubkey() {
+    fn test_syscall_trz_pubkey() {
         prepare_mockup!(invoke_context, program_id, bpf_loader::id());
         let cost = invoke_context.get_execution_cost().log_pubkey_units;
 
@@ -2719,7 +2719,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_alloc_free() {
+    fn test_syscall_trz_alloc_free() {
         // large alloc
         {
             setup_alloc_test!(invoke_context, memory_mapping, heap);
@@ -3856,7 +3856,7 @@ mod tests {
             clean_fees.fee_calculator = src_fees.fee_calculator;
             assert!(are_bytes_equal(&got_fees, &clean_fees));
 
-            // fees sysvar is not accessible via sol_get_sysvar so nothing further to test
+            // fees sysvar is not accessible via trz_get_sysvar so nothing further to test
         }
 
         // Test rent sysvar
@@ -4495,7 +4495,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_get_processed_sibling_instruction() {
+    fn test_syscall_trz_get_processed_sibling_instruction() {
         let transaction_accounts = (0..9)
             .map(|_| {
                 (

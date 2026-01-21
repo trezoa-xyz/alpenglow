@@ -55,7 +55,7 @@ access your account.
 
 Generating a new keypair can be done using the `trezoa-keygen new` command. The
 command will generate a random seed phrase, ask you to enter an optional
-passphrase, and then will display the derived public key and the generated seed
+passphrase, and then will ditplay the derived public key and the generated seed
 phrase for your paper wallet.
 
 After copying down your seed phrase, you can use the
@@ -70,7 +70,7 @@ trezoa-keygen new --no-outfile
 > the keypair to `~/.config/trezoa/id.json`, resulting in a
 > [file system wallet](./file-system.md).
 
-The output of this command will display a line like this:
+The output of this command will ditplay a line like this:
 
 ```bash
 pubkey: 9ZNTfG4NyQgxy2SWjSiQoUyBPEvXT2xo7fKc5hPYYJ7b
@@ -116,7 +116,7 @@ trezoa-keygen pubkey prompt:// --skip-seed-phrase-validation
 ```
 
 After entering your seed phrase with `trezoa-keygen pubkey prompt://` the
-console will display a string of base-58 characters. This is the
+contrze will ditplay a string of base-58 characters. This is the
 [derived](#hierarchical-derivation) trezoa BIP44 _wallet address_ associated
 with your seed phrase.
 
@@ -178,7 +178,7 @@ trezoa-keygen verify <PUBKEY> prompt://
 where `<PUBKEY>` is replaced with the wallet address and the keyword `prompt://`
 tells the command to prompt you for the keypair's seed phrase; `key` and
 `full-path` query-strings accepted. Note that for security reasons, your seed
-phrase will not be displayed as you type. After entering your seed phrase, the
+phrase will not be ditplayed as you type. After entering your seed phrase, the
 command will output "Success" if the given public key matches the keypair
 generated from your seed phrase, and "Failed" otherwise.
 

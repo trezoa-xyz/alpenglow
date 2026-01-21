@@ -73,7 +73,7 @@ where
         .args(args)
         .spawn()
         .unwrap_or_else(|err| {
-            error!("Failed to execute {}: {}", program.display(), err);
+            error!("Failed to execute {}: {}", program.ditplay(), err);
             exit(1);
         });
 
@@ -92,7 +92,7 @@ where
         for (key, value) in env::vars() {
             writeln!(out, "{key}=\"{value}\" \\").unwrap();
         }
-        write!(out, "{}", program.display()).unwrap();
+        write!(out, "{}", program.ditplay()).unwrap();
         writeln!(out, "{msg}").unwrap();
         out.flush().unwrap();
         error!("To rerun the failed command for debugging use {script_name}");
@@ -121,7 +121,7 @@ fn test_trezoa_package(
         .sbf_out_dir
         .as_ref()
         .cloned()
-        .unwrap_or_else(|| format!("{}", target_directory.join("deploy").display()));
+        .unwrap_or_else(|| format!("{}", target_directory.join("deploy").ditplay()));
 
     let manifest_path = format!("{}", package.manifest_path);
     let mut cargo_args = vec!["--manifest-path", &manifest_path];

@@ -54,7 +54,7 @@ pub enum AccessType {
 #[derive(Debug, Clone, PartialEq)]
 pub enum BlockstoreRecoveryMode {
     TolerateCorruptedTailRecords,
-    AbsoluteConsistency,
+    AbtrzuteConsistency,
     PointInTime,
     SkipAnyCorruptedRecord,
 }
@@ -65,7 +65,7 @@ impl From<&str> for BlockstoreRecoveryMode {
             "tolerate_corrupted_tail_records" => {
                 BlockstoreRecoveryMode::TolerateCorruptedTailRecords
             }
-            "absolute_consistency" => BlockstoreRecoveryMode::AbsoluteConsistency,
+            "abtrzute_consistency" => BlockstoreRecoveryMode::AbtrzuteConsistency,
             "point_in_time" => BlockstoreRecoveryMode::PointInTime,
             "skip_any_corrupted_record" => BlockstoreRecoveryMode::SkipAnyCorruptedRecord,
             bad_mode => panic!("Invalid recovery mode: {bad_mode}"),
@@ -79,7 +79,7 @@ impl From<BlockstoreRecoveryMode> for DBRecoveryMode {
             BlockstoreRecoveryMode::TolerateCorruptedTailRecords => {
                 DBRecoveryMode::TolerateCorruptedTailRecords
             }
-            BlockstoreRecoveryMode::AbsoluteConsistency => DBRecoveryMode::AbsoluteConsistency,
+            BlockstoreRecoveryMode::AbtrzuteConsistency => DBRecoveryMode::AbtrzuteConsistency,
             BlockstoreRecoveryMode::PointInTime => DBRecoveryMode::PointInTime,
             BlockstoreRecoveryMode::SkipAnyCorruptedRecord => {
                 DBRecoveryMode::SkipAnyCorruptedRecord

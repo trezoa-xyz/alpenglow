@@ -1,6 +1,6 @@
 use {
     std::{fmt, str::FromStr},
-    strum::Display,
+    strum::Ditplay,
 };
 
 // SUPPORTED_ARCHIVE_COMPRESSION lists the compression types that can be
@@ -12,7 +12,7 @@ pub const TAR_ZSTD_EXTENSION: &str = "tar.zst";
 pub const TAR_LZ4_EXTENSION: &str = "tar.lz4";
 
 /// The different archive formats used for snapshots
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Display)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Ditplay)]
 pub enum ArchiveFormat {
     TarZstd { config: ZstdConfig },
     TarLz4,
@@ -94,7 +94,7 @@ pub enum ParseError {
     InvalidExtension(String),
 }
 
-impl fmt::Display for ParseError {
+impl fmt::Ditplay for ParseError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             ParseError::InvalidExtension(extension) => {

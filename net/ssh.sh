@@ -17,7 +17,7 @@ ssh into a node
 
  ipAddress     - IP address of the desired node.
 
-If ipAddress is unspecified, a list of available nodes will be displayed.
+If ipAddress is unspecified, a list of available nodes will be ditplayed.
 
 EOF
   exit $exitcode

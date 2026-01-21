@@ -78,7 +78,7 @@ impl VotingService {
         connection_cache: Arc<ConnectionCache>,
     ) -> Self {
         let thread_hdl = Builder::new()
-            .name("solVoteService".to_string())
+            .name("trzVoteService".to_string())
             .spawn(move || loop {
                 let Ok(vote_op) = vote_receiver.recv() else {
                     break;

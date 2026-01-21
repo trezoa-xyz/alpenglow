@@ -30,7 +30,7 @@ use {
     trezoa_system_interface::{instruction as system_instruction, program as system_program},
     trezoa_transaction::Transaction,
     trezoa_transaction_status::UiTransactionEncoding,
-    spl_generic_token::token,
+    trz_generic_token::token,
     tpl_token_interface::state::Account,
     std::{
         cmp::min,
@@ -1405,7 +1405,7 @@ pub mod test {
             validator_configs::make_identical_validator_configs,
         },
         trezoa_measure::measure::Measure,
-        trezoa_native_token::LAMPORTS_PER_SOL,
+        trezoa_native_token::LAMPORTS_PER_TRZ,
         trezoa_poh_config::PohConfig,
         trezoa_program_pack::Pack,
         trezoa_test_validator::TestValidator,
@@ -1553,7 +1553,7 @@ pub mod test {
         let funder = Keypair::new();
         let latest_blockhash = rpc_client.get_latest_blockhash().unwrap();
         let signature = rpc_client
-            .request_airdrop_with_blockhash(&funder.pubkey(), LAMPORTS_PER_SOL, &latest_blockhash)
+            .request_airdrop_with_blockhash(&funder.pubkey(), LAMPORTS_PER_TRZ, &latest_blockhash)
             .unwrap();
         rpc_client
             .confirm_transaction_with_spinner(
@@ -1564,31 +1564,31 @@ pub mod test {
             .unwrap();
 
         // Create Mint
-        let spl_mint_keypair = Keypair::new();
-        let spl_mint_len = Mint::get_packed_len();
-        let spl_mint_rent = rpc_client
-            .get_minimum_balance_for_rent_exemption(spl_mint_len)
+        let trz_mint_keypair = Keypair::new();
+        let trz_mint_len = Mint::get_packed_len();
+        let trz_mint_rent = rpc_client
+            .get_minimum_balance_for_rent_exemption(trz_mint_len)
             .unwrap();
         let transaction = Transaction::new_signed_with_payer(
             &[
                 system_instruction::create_account(
                     &funder.pubkey(),
-                    &spl_mint_keypair.pubkey(),
-                    spl_mint_rent,
-                    spl_mint_len as u64,
+                    &trz_mint_keypair.pubkey(),
+                    trz_mint_rent,
+                    trz_mint_len as u64,
                     &token::id(),
                 ),
                 tpl_token_interface::instruction::initialize_mint(
                     &tpl_token_interface::id(),
-                    &spl_mint_keypair.pubkey(),
-                    &spl_mint_keypair.pubkey(),
+                    &trz_mint_keypair.pubkey(),
+                    &trz_mint_keypair.pubkey(),
                     None,
                     2,
                 )
                 .unwrap(),
             ],
             Some(&funder.pubkey()),
-            &[&funder, &spl_mint_keypair],
+            &[&funder, &trz_mint_keypair],
             latest_blockhash,
         );
         let _sig = rpc_client
@@ -1618,7 +1618,7 @@ pub mod test {
             Some(minimum_balance),
             num_instructions,
             None,
-            Some(spl_mint_keypair.pubkey()),
+            Some(trz_mint_keypair.pubkey()),
             true,
             None,
             0,

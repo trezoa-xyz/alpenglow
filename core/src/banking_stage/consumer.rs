@@ -158,7 +158,7 @@ impl Consumer {
                 // The address table lookup **may** have expired, but the
                 // expiration is not guaranteed since there may have been
                 // skipped slot.
-                // If the addresses still resolve here, then the transaction is still
+                // If the addresses still retrzve here, then the transaction is still
                 // valid, and we can continue with processing.
                 // If they do not, then the ATL has expired and the transaction
                 // can be dropped.
@@ -1319,7 +1319,7 @@ mod tests {
             mut genesis_config,
             mint_keypair,
             ..
-        } = create_slow_genesis_config(trezoa_native_token::LAMPORTS_PER_SOL * 1000);
+        } = create_slow_genesis_config(trezoa_native_token::LAMPORTS_PER_TRZ * 1000);
         genesis_config.rent.lamports_per_byte_year = 50;
         genesis_config.rent.exemption_threshold = 2.0;
         let (bank, _bank_forks) = Bank::new_no_wallclock_throttle_for_tests(&genesis_config);

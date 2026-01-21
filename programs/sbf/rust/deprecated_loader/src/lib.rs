@@ -7,7 +7,7 @@ use {
     trezoa_account_info::AccountInfo,
     trezoa_instruction::{AccountMeta, Instruction},
     trezoa_msg::msg,
-    trezoa_program::{log::sol_log_params, program::invoke},
+    trezoa_program::{log::trz_log_params, program::invoke},
     trezoa_program_error::ProgramResult,
     trezoa_pubkey::Pubkey,
     trezoa_sbf_rust_invoke_dep::*,
@@ -44,12 +44,12 @@ fn process_instruction(
 
     assert!(!bpf_loader::check_id(program_id));
 
-    // test_sol_alloc_free_no_longer_deployable calls this program with
+    // test_trz_alloc_free_no_longer_deployable calls this program with
     // bpf_loader instead of bpf_loader_deprecated, so instruction_data isn't
     // deserialized correctly and is empty.
     match instruction_data.first() {
         Some(&REALLOC) => {
-            let (bytes, _) = instruction_data[2..].split_at(std::mem::size_of::<usize>());
+            let (bytes, _) = instruction_data[2..].tplit_at(std::mem::size_of::<usize>());
             let new_len = usize::from_le_bytes(bytes.try_into().unwrap());
             msg!("realloc to {}", new_len);
             let account = &accounts[0];
@@ -260,7 +260,7 @@ fn process_instruction(
                 // the no-op program, no account keys or input data are expected but real
                 // programs will have specific requirements so they can do their work.
                 msg!("Account keys and instruction input data:");
-                sol_log_params(accounts, instruction_data);
+                trz_log_params(accounts, instruction_data);
 
                 // Test - use std methods, unwrap
 

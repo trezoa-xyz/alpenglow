@@ -174,7 +174,7 @@ impl DuplicateShredHandler {
             return;
         }
         self.consumed.retain(|&slot, _| slot > self.last_root);
-        // Filter out obsolete slots and limit number of entries per pubkey.
+        // Filter out obtrzete slots and limit number of entries per pubkey.
         {
             let mut counts = HashMap::<Pubkey, usize>::new();
             self.buffer.retain(|(slot, pubkey), _| {

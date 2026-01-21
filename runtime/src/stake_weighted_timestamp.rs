@@ -10,7 +10,7 @@ use {
     },
 };
 
-// Obsolete limits
+// Obtrzete limits
 const _MAX_ALLOWABLE_DRIFT_PERCENTAGE: u32 = 50;
 const _MAX_ALLOWABLE_DRIFT_PERCENTAGE_SLOW: u32 = 80;
 
@@ -102,7 +102,7 @@ where
 
 #[cfg(test)]
 pub mod tests {
-    use {super::*, trezoa_account::Account, trezoa_native_token::LAMPORTS_PER_SOL};
+    use {super::*, trezoa_account::Account, trezoa_native_token::LAMPORTS_PER_TRZ};
 
     #[test]
     fn test_calculate_stake_weighted_timestamp_uses_median() {
@@ -120,30 +120,30 @@ pub mod tests {
         let stakes: HashMap<Pubkey, (u64, Account)> = [
             (
                 pubkey0,
-                (LAMPORTS_PER_SOL, Account::new(1, 0, &Pubkey::default())),
+                (LAMPORTS_PER_TRZ, Account::new(1, 0, &Pubkey::default())),
             ),
             (
                 pubkey1,
-                (LAMPORTS_PER_SOL, Account::new(1, 0, &Pubkey::default())),
+                (LAMPORTS_PER_TRZ, Account::new(1, 0, &Pubkey::default())),
             ),
             (
                 pubkey2,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey3,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey4,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
@@ -228,21 +228,21 @@ pub mod tests {
             (
                 pubkey0,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL, // 1/3 stake
+                    1_000_000 * LAMPORTS_PER_TRZ, // 1/3 stake
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey1,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey2,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
@@ -276,14 +276,14 @@ pub mod tests {
             (
                 pubkey0,
                 (
-                    1_000_001 * LAMPORTS_PER_SOL, // 1/3 stake
+                    1_000_001 * LAMPORTS_PER_TRZ, // 1/3 stake
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey1,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
@@ -332,21 +332,21 @@ pub mod tests {
             (
                 pubkey0,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey1,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey2,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
@@ -473,21 +473,21 @@ pub mod tests {
             (
                 pubkey0,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey1,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey2,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
@@ -609,21 +609,21 @@ pub mod tests {
             (
                 pubkey0,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey1,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey2,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
@@ -747,21 +747,21 @@ pub mod tests {
             (
                 pubkey0,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey1,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),
             (
                 pubkey2,
                 (
-                    1_000_000 * LAMPORTS_PER_SOL,
+                    1_000_000 * LAMPORTS_PER_TRZ,
                     Account::new(1, 0, &Pubkey::default()),
                 ),
             ),

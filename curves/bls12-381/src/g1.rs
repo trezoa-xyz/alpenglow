@@ -156,7 +156,7 @@ mod target_arch {
     ) -> Option<PodG1Projective> {
         let mut result_point = PodG1Projective::zeroed();
         let result = unsafe {
-            trezoa_define_syscall::definitions::sol_curve_group_op(
+            trezoa_define_syscall::definitions::trz_curve_group_op(
                 BLS12_381_G1_PROJECTIVE,
                 ADD,
                 &left_point.0 as *const u8,
@@ -178,7 +178,7 @@ mod target_arch {
     ) -> Option<PodG1Projective> {
         let mut result_point = PodG1Projective::zeroed();
         let result = unsafe {
-            trezoa_define_syscall::definitions::sol_curve_group_op(
+            trezoa_define_syscall::definitions::trz_curve_group_op(
                 BLS12_381_G1_PROJECTIVE,
                 SUB,
                 &left_point.0 as *const u8,
@@ -197,7 +197,7 @@ mod target_arch {
     pub fn multiply(scalar: &PodScalar, point: &PodG1Projective) -> Option<PodG1Projective> {
         let mut result_point = PodG1Projective::zeroed();
         let result = unsafe {
-            trezoa_define_syscall::definitions::sol_curve_group_op(
+            trezoa_define_syscall::definitions::trz_curve_group_op(
                 BLS12_381_G1_PROJECTIVE,
                 MUL,
                 &scalar.0 as *const u8,

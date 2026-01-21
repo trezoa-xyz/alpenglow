@@ -66,7 +66,7 @@ pub(crate) struct ConsensusPoolService {
 impl ConsensusPoolService {
     pub(crate) fn new(ctx: ConsensusPoolContext) -> Self {
         let t_ingest = Builder::new()
-            .name("solCertPoolIngest".to_string())
+            .name("trzCertPoolIngest".to_string())
             .spawn(move || {
                 if let Err(e) = Self::consensus_pool_ingest_loop(ctx) {
                     info!("Certificate pool service exited: {e:?}. Shutting down");

@@ -20,7 +20,7 @@ linux-static-hidraw = ["hidapi/linux-static-hidraw"]
 linux-static-libusb = ["hidapi/linux-static-libusb"]
 
 [dependencies]
-console = { workspace = true }
+contrze = { workspace = true }
 dialoguer = { workspace = true }
 hidapi = { workspace = true, optional = true }
 log = { workspace = true }

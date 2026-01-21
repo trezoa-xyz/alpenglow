@@ -323,7 +323,7 @@ impl BroadcastStage {
             let blockstore = blockstore.clone();
             let cluster_info = cluster_info.clone();
             Builder::new()
-                .name("solBroadcast".to_string())
+                .name("trzBroadcast".to_string())
                 .spawn(move || {
                     let _finalizer = Finalizer::new(exit);
                     Self::run(
@@ -394,7 +394,7 @@ impl BroadcastStage {
                 }
             };
             Builder::new()
-                .name("solBroadcastTx".to_string())
+                .name("trzBroadcastTx".to_string())
                 .spawn(run_transmit)
                 .unwrap()
         }));
@@ -411,13 +411,13 @@ impl BroadcastStage {
                 }
             };
             Builder::new()
-                .name("solBroadcastRec".to_string())
+                .name("trzBroadcastRec".to_string())
                 .spawn(run_record)
                 .unwrap()
         });
 
         let retransmit_thread = Builder::new()
-            .name("solBroadcastRtx".to_string())
+            .name("trzBroadcastRtx".to_string())
             .spawn(move || loop {
                 if let Some(res) = Self::handle_error(
                     Self::check_retransmit_signals(

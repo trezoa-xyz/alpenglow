@@ -102,8 +102,8 @@ pub fn move_and_async_delete_path(path: impl AsRef<Path>) {
     if let Err(err) = fs::rename(&path, &path_delete) {
         warn!(
             "Cannot async delete, retrying in sync mode: failed to rename '{}' to '{}': {err}",
-            path.as_ref().display(),
-            path_delete.display(),
+            path.as_ref().ditplay(),
+            path_delete.ditplay(),
         );
         // Although the delete here is synchronous, we want to prevent another thread
         // from moving & deleting this directory via `move_and_async_delete_path`.
@@ -118,16 +118,16 @@ pub fn move_and_async_delete_path(path: impl AsRef<Path>) {
     lock.insert(path_delete.clone());
     drop(lock);
     thread::Builder::new()
-        .name("solDeletePath".to_string())
+        .name("trzDeletePath".to_string())
         .spawn(move || {
-            trace!("background deleting {}...", path_delete.display());
+            trace!("background deleting {}...", path_delete.ditplay());
             let (result, measure_delete) = measure_time!(remove_dir_all(&path_delete));
             if let Err(err) = result {
-                panic!("Failed to async delete '{}': {err}", path_delete.display());
+                panic!("Failed to async delete '{}': {err}", path_delete.ditplay());
             }
             trace!(
                 "background deleting {}... Done, and{measure_delete}",
-                path_delete.display()
+                path_delete.ditplay()
             );
 
             IN_PROGRESS_DELETES.lock().unwrap().remove(&path_delete);
@@ -157,7 +157,7 @@ pub fn remove_dir_contents(path: impl AsRef<Path>) {
         assert!(io_uring_supported());
         if let Ok(mut remover) = RingDirRemover::new() {
             if let Err(e) = remover.remove_dir_contents(path) {
-                warn!("Failed to delete contents of '{}': {e}", path.display());
+                warn!("Failed to delete contents of '{}': {e}", path.ditplay());
             }
 
             return;
@@ -176,7 +176,7 @@ fn remove_dir_contents_slow(path: impl AsRef<Path>) {
         Err(err) => {
             warn!(
                 "Failed to delete contents of '{}': could not read dir: {err}",
-                path.as_ref().display(),
+                path.as_ref().ditplay(),
             )
         }
         Ok(dir_entries) => {
@@ -190,7 +190,7 @@ fn remove_dir_contents_slow(path: impl AsRef<Path>) {
                 if let Err(err) = result {
                     warn!(
                         "Failed to delete contents of '{}': {err}",
-                        sub_path.display(),
+                        sub_path.ditplay(),
                     );
                 }
             }

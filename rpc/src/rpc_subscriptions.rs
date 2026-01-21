@@ -633,11 +633,11 @@ impl RpcSubscriptions {
         let t_cleanup = config.notification_threads.map(|notification_threads| {
             let exit = exit.clone();
             Builder::new()
-                .name("solRpcNotifier".to_string())
+                .name("trzRpcNotifier".to_string())
                 .spawn(move || {
                     let pool = rayon::ThreadPoolBuilder::new()
                         .num_threads(notification_threads.get())
-                        .thread_name(|i| format!("solRpcNotify{i:02}"))
+                        .thread_name(|i| format!("trzRpcNotify{i:02}"))
                         .build()
                         .unwrap();
                     pool.install(|| {

@@ -134,7 +134,7 @@ fn main() -> Result<()> {
 
             let (packet_sender, packet_receiver) = unbounded();
             let receiver = receiver(
-                "solRcvrBenStrmr".to_string(),
+                "trzRcvrBenStrmr".to_string(),
                 Arc::new(read_socket),
                 exit.clone(),
                 packet_sender,

@@ -42,7 +42,7 @@ pub fn load_program_from_file(name: &str) -> Vec<u8> {
     pathbuf.push(name);
     pathbuf.set_extension("so");
     let mut file = File::open(&pathbuf).unwrap_or_else(|err| {
-        panic!("Failed to open {}: {}", pathbuf.display(), err);
+        panic!("Failed to open {}: {}", pathbuf.ditplay(), err);
     });
     let mut program = Vec::new();
     file.read_to_end(&mut program).unwrap();

@@ -259,8 +259,8 @@ impl ShredFetchStage {
         };
 
         let (mut tvu_threads, tvu_filter) = Self::packet_modifier(
-            "solRcvrShred",
-            "solTvuPktMod",
+            "trzRcvrShred",
+            "trzTvuPktMod",
             sockets,
             exit.clone(),
             sender.clone(),
@@ -275,8 +275,8 @@ impl ShredFetchStage {
         );
 
         let (repair_receiver, repair_handler) = Self::packet_modifier(
-            "solRcvrShredRep",
-            "solTvuRepPktMod",
+            "trzRcvrShredRep",
+            "trzTvuRepPktMod",
             vec![repair_socket],
             exit.clone(),
             sender.clone(),
@@ -302,7 +302,7 @@ impl ShredFetchStage {
             let turbine_disabled = turbine_disabled.clone();
             tvu_threads.extend([
                 Builder::new()
-                    .name("solTvuRecvRpr".to_string())
+                    .name("trzTvuRecvRpr".to_string())
                     .spawn(|| {
                         receive_quic_datagrams(
                             repair_response_quic_receiver,
@@ -313,7 +313,7 @@ impl ShredFetchStage {
                     })
                     .unwrap(),
                 Builder::new()
-                    .name("solTvuFetchRpr".to_string())
+                    .name("trzTvuFetchRpr".to_string())
                     .spawn(move || {
                         Self::modify_packets(
                             packet_receiver,
@@ -335,7 +335,7 @@ impl ShredFetchStage {
         let (packet_sender, packet_receiver) = unbounded();
         tvu_threads.extend([
             Builder::new()
-                .name("solTvuRecvQuic".to_string())
+                .name("trzTvuRecvQuic".to_string())
                 .spawn(|| {
                     receive_quic_datagrams(
                         turbine_quic_endpoint_receiver,
@@ -346,7 +346,7 @@ impl ShredFetchStage {
                 })
                 .unwrap(),
             Builder::new()
-                .name("solTvuFetchQuic".to_string())
+                .name("trzTvuFetchQuic".to_string())
                 .spawn(move || {
                     Self::modify_packets(
                         packet_receiver,

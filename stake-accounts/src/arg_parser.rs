@@ -11,7 +11,7 @@ use {
         input_validators::{is_amount, is_rfc3339_datetime, is_valid_pubkey, is_valid_signer},
     },
     trezoa_cli_config::CONFIG_FILE,
-    trezoa_native_token::sol_str_to_lamports,
+    trezoa_native_token::trz_str_to_lamports,
     std::{ffi::OsString, process::exit},
 };
 
@@ -195,7 +195,7 @@ where
                         .takes_value(true)
                         .value_name("AMOUNT")
                         .validator(is_amount)
-                        .help("Amount to move into the new stake accounts, in SOL"),
+                        .help("Amount to move into the new stake accounts, in TRZ"),
                 )
                 .arg(
                     Arg::with_name("stake_authority")
@@ -300,7 +300,7 @@ fn parse_new_args(matches: &ArgMatches<'_>) -> NewArgs<String, String> {
         funding_keypair: value_t_or_exit!(matches, "funding_keypair", String),
         lamports: matches
             .value_of("amount")
-            .and_then(sol_str_to_lamports)
+            .and_then(trz_str_to_lamports)
             .unwrap(),
         base_keypair: value_t_or_exit!(matches, "base_keypair", String),
         stake_authority: value_t_or_exit!(matches, "stake_authority", String),

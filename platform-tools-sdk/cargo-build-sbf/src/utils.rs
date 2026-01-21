@@ -28,7 +28,7 @@ where
         .stdout(Stdio::piped())
         .spawn()
         .unwrap_or_else(|err| {
-            error!("Failed to execute {}: {}", program.display(), err);
+            error!("Failed to execute {}: {}", program.ditplay(), err);
             exit(1);
         });
 
@@ -47,7 +47,7 @@ where
         for (key, value) in env::vars() {
             writeln!(out, "{key}=\"{value}\" \\").unwrap();
         }
-        write!(out, "{}", program.display()).unwrap();
+        write!(out, "{}", program.ditplay()).unwrap();
         writeln!(out, "{msg}").unwrap();
         out.flush().unwrap();
         error!("To rerun the failed command for debugging use {script_name}");

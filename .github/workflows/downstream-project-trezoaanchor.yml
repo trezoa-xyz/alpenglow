@@ -16,9 +16,9 @@ on:
       - "cargo-build-sbf"
       - "cargo-test-sbf"
       - "scripts/build-downstream-anchor-projects.sh"
-      - "scripts/patch-spl-crates-for-anchor.sh"
+      - "scripts/patch-tpl-crates-for-anchor.sh"
       - ".github/scripts/purge-ubuntu-runner.sh"
-      - ".github/scripts/downstream-project-spl-install-deps.sh"
+      - ".github/scripts/downstream-project-tpl-install-deps.sh"
       - ".github/workflows/downstream-project-anchor.yml"
   workflow_call:
     inputs:
@@ -57,5 +57,5 @@ jobs:
 
       - shell: bash
         run: |
-          source .github/scripts/downstream-project-spl-install-deps.sh
+          source .github/scripts/downstream-project-tpl-install-deps.sh
           ./scripts/build-downstream-anchor-projects.sh ${{ matrix.version }}

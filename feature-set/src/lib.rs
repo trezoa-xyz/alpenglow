@@ -138,8 +138,8 @@ impl FeatureSet {
                 .is_active(&remove_bpf_loader_incorrect_program_id::id()),
             move_stake_and_move_lamports_ixs: self
                 .is_active(&move_stake_and_move_lamports_ixs::id()),
-            stake_raise_minimum_delegation_to_1_sol: self
-                .is_active(&stake_raise_minimum_delegation_to_1_sol::id()),
+            stake_raise_minimum_delegation_to_1_trz: self
+                .is_active(&stake_raise_minimum_delegation_to_1_trz::id()),
             deprecate_legacy_vote_ixs: self.is_active(&deprecate_legacy_vote_ixs::id()),
             mask_out_rent_epoch_in_vm_serialization: self
                 .is_active(&mask_out_rent_epoch_in_vm_serialization::id()),
@@ -321,7 +321,7 @@ pub mod reduce_required_deploy_balance {
     trezoa_pubkey::declare_id!("EBeznQDjcPG8491sFsKZYBi5S5jTVXMpAKNDJMQPS2kq");
 }
 
-pub mod sol_log_data_syscall_enabled {
+pub mod trz_log_data_syscall_enabled {
     trezoa_pubkey::declare_id!("6uaHcKPGUy4J7emLBgUTeufhJdiwhngW6a1R9B7c2ob9");
 }
 
@@ -417,7 +417,7 @@ pub mod vote_withdraw_authority_may_change_authorized_voter {
     trezoa_pubkey::declare_id!("AVZS3ZsN4gi6Rkx2QUibYuSJG3S6QHib7xCYhG6vGJxU");
 }
 
-pub mod spl_associated_token_account_v1_0_4 {
+pub mod trz_associated_token_account_v1_0_4 {
     trezoa_pubkey::declare_id!("FaTa4SpiaSNH44PGC4z8bnGVTkSRYaWvrBs3KTu8XQQq");
 }
 
@@ -437,7 +437,7 @@ pub mod disable_bpf_deprecated_load_instructions {
     trezoa_pubkey::declare_id!("3XgNukcZWf9o3HdA3fpJbm94XFc4qpvTXc8h1wxYwiPi");
 }
 
-pub mod disable_bpf_unresolved_symbols_at_runtime {
+pub mod disable_bpf_unretrzved_symbols_at_runtime {
     trezoa_pubkey::declare_id!("4yuaYAj2jGMGTh1sSmi4G2eFscsDq8qjugJXZoBN6YEa");
 }
 
@@ -465,7 +465,7 @@ pub mod check_slice_translation_size {
     trezoa_pubkey::declare_id!("GmC19j9qLn2RFk5NduX6QXaDhVpGncVVBzyM8e9WMz2F");
 }
 
-pub mod stake_split_uses_rent_sysvar {
+pub mod stake_tplit_uses_rent_sysvar {
     trezoa_pubkey::declare_id!("FQnc7U4koHqWgRvFaBJjZnV8VPg6L6wWK33yJeDp4yvV");
 }
 
@@ -505,7 +505,7 @@ pub mod tpl_token_v3_4_0 {
     trezoa_pubkey::declare_id!("Ftok4njE8b7tDffYkC5bAbCaQv5sL6jispYrprzatUwN");
 }
 
-pub mod spl_associated_token_account_v1_1_0 {
+pub mod trz_associated_token_account_v1_1_0 {
     trezoa_pubkey::declare_id!("FaTa17gVKoqbh38HcfiQonPsAaQViyDCCSg71AubYZw8");
 }
 
@@ -521,7 +521,7 @@ pub mod require_static_program_ids_in_transaction {
     trezoa_pubkey::declare_id!("8FdwgyHFEjhAdjWfV2vfqk7wA1g9X3fQpKH7SBpEv3kC");
 }
 
-pub mod stake_raise_minimum_delegation_to_1_sol {
+pub mod stake_raise_minimum_delegation_to_1_trz {
     // This is a feature-proposal *feature id*.  The feature keypair address is `GQXzC7YiSNkje6FFUk6sc2p53XRvKoaZ9VMktYzUMnpL`.
     trezoa_pubkey::declare_id!("9onWzzvCzNC2jfhxxeqRgs5q7nFAAKpCUvkj6T6GJK9i");
 }
@@ -826,7 +826,7 @@ pub mod enable_loader_v4 {
     trezoa_pubkey::declare_id!("2aQJYqER2aKyb3cZw22v4SL2xMX7vwXBRWfvS4pTrtED");
 }
 
-pub mod require_rent_exempt_split_destination {
+pub mod require_rent_exempt_tplit_destination {
     trezoa_pubkey::declare_id!("D2aip4BBr8NPWtU9vLrwrBvbuaQ8w1zV38zFLxx4pfBV");
 }
 
@@ -1269,15 +1269,15 @@ pub static FEATURE_NAMES: LazyLock<AHashMap<Pubkey, &'static str>> = LazyLock::n
         ),
         (
             return_data_syscall_enabled::id(),
-            "enable sol_{set,get}_return_data syscall",
+            "enable trz_{set,get}_return_data syscall",
         ),
         (
             reduce_required_deploy_balance::id(),
             "reduce required payer balance for program deploys",
         ),
         (
-            sol_log_data_syscall_enabled::id(),
-            "enable sol_log_data syscall",
+            trz_log_data_syscall_enabled::id(),
+            "enable trz_log_data syscall",
         ),
         (
             stakes_remove_delegation_if_inactive::id(),
@@ -1354,8 +1354,8 @@ pub static FEATURE_NAMES: LazyLock<AHashMap<Pubkey, &'static str>> = LazyLock::n
             "vote account withdraw authority may change the authorized voter #22521",
         ),
         (
-            spl_associated_token_account_v1_0_4::id(),
-            "SPL Associated Token Account Program release version 1.0.4, tied to token 3.3.0 \
+            trz_associated_token_account_v1_0_4::id(),
+            "TPL Associated Token Account Program release version 1.0.4, tied to token 3.3.0 \
              #22648",
         ),
         (
@@ -1377,8 +1377,8 @@ pub static FEATURE_NAMES: LazyLock<AHashMap<Pubkey, &'static str>> = LazyLock::n
             "disable ldabs* and ldind* SBF instructions",
         ),
         (
-            disable_bpf_unresolved_symbols_at_runtime::id(),
-            "disable reporting of unresolved SBF symbols at runtime",
+            disable_bpf_unretrzved_symbols_at_runtime::id(),
+            "disable reporting of unretrzved SBF symbols at runtime",
         ),
         (
             record_instruction_in_transaction_context_push::id(),
@@ -1402,8 +1402,8 @@ pub static FEATURE_NAMES: LazyLock<AHashMap<Pubkey, &'static str>> = LazyLock::n
             "check size when translating slices",
         ),
         (
-            stake_split_uses_rent_sysvar::id(),
-            "stake split instruction uses rent sysvar",
+            stake_tplit_uses_rent_sysvar::id(),
+            "stake tplit instruction uses rent sysvar",
         ),
         (
             add_get_minimum_delegation_instruction_to_stake_program::id(),
@@ -1432,11 +1432,11 @@ pub static FEATURE_NAMES: LazyLock<AHashMap<Pubkey, &'static str>> = LazyLock::n
         ),
         (
             tpl_token_v3_4_0::id(),
-            "SPL Token Program version 3.4.0 release #24740",
+            "TPL Token Program version 3.4.0 release #24740",
         ),
         (
-            spl_associated_token_account_v1_1_0::id(),
-            "SPL Associated Token Account Program version 1.1.0 release #24741",
+            trz_associated_token_account_v1_1_0::id(),
+            "TPL Associated Token Account Program version 1.1.0 release #24741",
         ),
         (
             default_units_per_instruction::id(),
@@ -1451,8 +1451,8 @@ pub static FEATURE_NAMES: LazyLock<AHashMap<Pubkey, &'static str>> = LazyLock::n
             "require static program ids in versioned transactions",
         ),
         (
-            stake_raise_minimum_delegation_to_1_sol::id(),
-            "Raise minimum stake delegation to 1.0 SOL #24357",
+            stake_raise_minimum_delegation_to_1_trz::id(),
+            "Raise minimum stake delegation to 1.0 TRZ #24357",
         ),
         (
             stake_minimum_delegation_for_rewards::id(),
@@ -1464,7 +1464,7 @@ pub static FEATURE_NAMES: LazyLock<AHashMap<Pubkey, &'static str>> = LazyLock::n
         ),
         (
             disable_deploy_of_alloc_free_syscall::id(),
-            "disable new deployments of deprecated sol_alloc_free_ syscall",
+            "disable new deployments of deprecated trz_alloc_free_ syscall",
         ),
         (
             include_account_index_in_rent_error::id(),
@@ -1737,8 +1737,8 @@ pub static FEATURE_NAMES: LazyLock<AHashMap<Pubkey, &'static str>> = LazyLock::n
         ),
         (enable_loader_v4::id(), "SIMD-0167: Enable Loader-v4"),
         (
-            require_rent_exempt_split_destination::id(),
-            "Require stake split destination account to be rent exempt",
+            require_rent_exempt_tplit_destination::id(),
+            "Require stake tplit destination account to be rent exempt",
         ),
         (
             better_error_codes_for_tx_lamport_check::id(),
@@ -1865,7 +1865,7 @@ pub static FEATURE_NAMES: LazyLock<AHashMap<Pubkey, &'static str>> = LazyLock::n
         ),
         (
             enable_get_epoch_stake_syscall::id(),
-            "Enable syscall: sol_get_epoch_stake #884",
+            "Enable syscall: trz_get_epoch_stake #884",
         ),
         (
             migrate_address_lookup_table_program_to_core_bpf::id(),

@@ -303,7 +303,7 @@ impl ProgramV4SubCommands for App<'_, '_> {
                 )
                 .subcommand(
                     SubCommand::with_name("show")
-                        .about("Display information about a buffer or program")
+                        .about("Ditplay information about a buffer or program")
                         .arg(
                             Arg::with_name("program-id")
                                 .long("program-id")

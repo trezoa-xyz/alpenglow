@@ -47,7 +47,7 @@ use {
     log::*,
     trezoa_clock::{Epoch, Slot},
     trezoa_epoch_schedule::EpochSchedule,
-    spl_pod::trezoa_pubkey::Pubkey,
+    trz_pod::trezoa_pubkey::Pubkey,
     std::{
         sync::{
             atomic::{AtomicBool, Ordering},

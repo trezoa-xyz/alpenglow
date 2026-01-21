@@ -19,7 +19,7 @@ mod serde_snapshot_tests {
             accounts::Accounts,
             accounts_db::{
                 get_temp_accounts_paths, AccountStorageEntry, AccountsDb, AccountsDbConfig,
-                AtomicAccountsFileId, MarkObsoleteAccounts, ACCOUNTS_DB_CONFIG_FOR_TESTING,
+                AtomicAccountsFileId, MarkObtrzeteAccounts, ACCOUNTS_DB_CONFIG_FOR_TESTING,
             },
             accounts_file::{AccountsFile, AccountsFileError, StorageAccess},
             ancestors::Ancestors,
@@ -309,20 +309,20 @@ mod serde_snapshot_tests {
 
     #[test_matrix(
         [StorageAccess::File, StorageAccess::Mmap],
-        [MarkObsoleteAccounts::Enabled, MarkObsoleteAccounts::Disabled],
-        [MarkObsoleteAccounts::Enabled, MarkObsoleteAccounts::Disabled]
+        [MarkObtrzeteAccounts::Enabled, MarkObtrzeteAccounts::Disabled],
+        [MarkObtrzeteAccounts::Enabled, MarkObtrzeteAccounts::Disabled]
     )]
     fn test_accounts_db_serialize1(
         storage_access: StorageAccess,
-        mark_obsolete_accounts_initial: MarkObsoleteAccounts,
-        mark_obsolete_accounts_restore: MarkObsoleteAccounts,
+        mark_obtrzete_accounts_initial: MarkObtrzeteAccounts,
+        mark_obtrzete_accounts_restore: MarkObtrzeteAccounts,
     ) {
         for pass in 0..2 {
             trezoa_logger::setup();
             let accounts = AccountsDb::new_with_config(
                 Vec::new(),
                 AccountsDbConfig {
-                    mark_obsolete_accounts: mark_obsolete_accounts_initial,
+                    mark_obtrzete_accounts: mark_obtrzete_accounts_initial,
                     ..ACCOUNTS_DB_CONFIG_FOR_TESTING
                 },
                 None,
@@ -398,7 +398,7 @@ mod serde_snapshot_tests {
             accounts.check_storage(2, 31, 31);
 
             let accounts_db_config = AccountsDbConfig {
-                mark_obsolete_accounts: mark_obsolete_accounts_restore,
+                mark_obtrzete_accounts: mark_obtrzete_accounts_restore,
                 ..ACCOUNTS_DB_CONFIG_FOR_TESTING
             };
             let daccounts = reconstruct_accounts_db_via_serialization(
@@ -419,15 +419,15 @@ mod serde_snapshot_tests {
             daccounts.check_accounts(&pubkeys[35..], 0, 65, 37);
             daccounts.check_accounts(&pubkeys1, 1, 10, 1);
 
-            // If accounts are marked obsolete at initial save time, then the accounts will be
+            // If accounts are marked obtrzete at initial save time, then the accounts will be
             // shrunk during snapshot archive
-            if mark_obsolete_accounts_initial == MarkObsoleteAccounts::Enabled {
+            if mark_obtrzete_accounts_initial == MarkObtrzeteAccounts::Enabled {
                 daccounts.check_storage(0, 78, 78);
                 daccounts.check_storage(1, 11, 11);
-            // If accounts are marked obsolete at restore time, then the accounts will be marked
-            // obsolete and cleaned during snapshot restore but not removed from the storages until
+            // If accounts are marked obtrzete at restore time, then the accounts will be marked
+            // obtrzete and cleaned during snapshot restore but not removed from the storages until
             // the next shrink
-            } else if mark_obsolete_accounts_restore == MarkObsoleteAccounts::Enabled {
+            } else if mark_obtrzete_accounts_restore == MarkObtrzeteAccounts::Enabled {
                 daccounts.check_storage(0, 78, 100);
                 daccounts.check_storage(1, 11, 21);
             } else {

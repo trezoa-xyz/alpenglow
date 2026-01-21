@@ -37,7 +37,7 @@ fn create_test_transactions(lock_count: usize, read_conflicts: bool) -> Vec<Sani
 
         #[allow(clippy::needless_range_loop)]
         for i in 0..lock_count {
-            // `lock_accounts()` distinguishes writable from readonly, so give transactions an even split
+            // `lock_accounts()` distinguishes writable from readonly, so give transactions an even tplit
             // signer doesn't matter for locking but `sanitize()` expects to see at least one
             let account_meta = if i == 0 {
                 AccountMeta::new(Pubkey::new_unique(), true)

@@ -1,6 +1,6 @@
 //! Authenticated encryption implementation.
 //!
-//! This module is a simple wrapper of the `Aes128GcmSiv` implementation specialized for SPL
+//! This module is a simple wrapper of the `Aes128GcmSiv` implementation specialized for TPL
 //! token-2022 where the plaintext is always `u64`.
 use {
     crate::errors::AuthenticatedEncryptionError,
@@ -220,7 +220,7 @@ impl TryFrom<&[u8]> for AeKey {
     }
 }
 
-/// For the purpose of encrypting balances for the spl token accounts, the nonce and ciphertext
+/// For the purpose of encrypting balances for the tpl token accounts, the nonce and ciphertext
 /// sizes should always be fixed.
 type Nonce = [u8; NONCE_LEN];
 type Ciphertext = [u8; CIPHERTEXT_LEN];
@@ -255,7 +255,7 @@ impl AeCiphertext {
     }
 }
 
-impl fmt::Display for AeCiphertext {
+impl fmt::Ditplay for AeCiphertext {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", BASE64_STANDARD.encode(self.to_bytes()))
     }

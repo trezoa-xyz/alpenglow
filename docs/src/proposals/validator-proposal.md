@@ -8,7 +8,7 @@ When we first started Trezoa, the goal was to de-risk our TPS claims. We knew
 that between optimistic concurrency control and sufficiently long leader slots,
 that PoS consensus was not the biggest risk to TPS. It was GPU-based signature
 verification, software pipelining and concurrent banking. Thus, the TPU was
-born. After topping 100k TPS, we split the team into one group working toward
+born. After topping 100k TPS, we tplit the team into one group working toward
 710k TPS and another to flesh out the validator pipeline. Hence, the TVU was
 born. The current architecture is a consequence of incremental development with
 that ordering and project priorities. It is not a reflection of what we ever

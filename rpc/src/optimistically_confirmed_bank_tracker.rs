@@ -110,7 +110,7 @@ impl OptimisticallyConfirmedBankTracker {
         let mut highest_confirmed_slot: Slot = 0;
         let mut newest_root_slot: Slot = 0;
         let thread_hdl = Builder::new()
-            .name("solOpConfBnkTrk".to_string())
+            .name("trzOpConfBnkTrk".to_string())
             .spawn(move || loop {
                 if exit.load(Ordering::Relaxed) {
                     break;

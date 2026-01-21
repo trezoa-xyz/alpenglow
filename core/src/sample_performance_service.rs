@@ -27,7 +27,7 @@ impl SamplePerformanceService {
         let bank_forks = bank_forks.clone();
 
         let thread_hdl = Builder::new()
-            .name("solSamplePerf".to_string())
+            .name("trzSamplePerf".to_string())
             .spawn(move || {
                 info!("SamplePerformanceService has started");
                 Self::run(bank_forks, blockstore, exit);

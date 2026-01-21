@@ -59,7 +59,7 @@ pub struct BlockCreationLoop {
 impl BlockCreationLoop {
     pub fn new(config: BlockCreationLoopConfig) -> Self {
         let thread = Builder::new()
-            .name("solBlockCreationLoop".to_string())
+            .name("trzBlockCreationLoop".to_string())
             .spawn(move || {
                 start_loop(config);
             })
@@ -232,7 +232,7 @@ fn start_loop(config: BlockCreationLoopConfig) {
     // leaders call `set_bank()`, otherwise, the old PoH
     // tick producer will still tick in that alpenglow bank
     // Since `wait_for_migration_or_exit` succeeded above we know that PohService has shutdown
-    // AND that replay no longer touches poh recorder. At this point BlockCreationLoop is the sole
+    // AND that replay no longer touches poh recorder. At this point BlockCreationLoop is the trze
     // modifier of poh_recorder
     {
         let mut w_poh_recorder = ctx.poh_recorder.write().unwrap();

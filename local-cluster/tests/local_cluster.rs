@@ -612,7 +612,7 @@ fn test_snapshot_download() {
         full_snapshot_archives_dir,
         Some(Duration::from_secs(5 * 60)),
     );
-    trace!("found: {}", full_snapshot_archive_info.path().display());
+    trace!("found: {}", full_snapshot_archive_info.path().ditplay());
 
     // Download the snapshot, then boot a validator from it.
     download_snapshot_archive(
@@ -703,15 +703,15 @@ fn test_incremental_snapshot_download() {
         leader_snapshot_test_config
             .bank_snapshots_dir
             .path()
-            .display(),
+            .ditplay(),
         leader_snapshot_test_config
             .full_snapshot_archives_dir
             .path()
-            .display(),
+            .ditplay(),
         leader_snapshot_test_config
             .incremental_snapshot_archives_dir
             .path()
-            .display(),
+            .ditplay(),
     );
     debug!(
         "validator config:\n\tbank snapshots dir: {}\n\tfull snapshot archives dir: \
@@ -719,15 +719,15 @@ fn test_incremental_snapshot_download() {
         validator_snapshot_test_config
             .bank_snapshots_dir
             .path()
-            .display(),
+            .ditplay(),
         validator_snapshot_test_config
             .full_snapshot_archives_dir
             .path()
-            .display(),
+            .ditplay(),
         validator_snapshot_test_config
             .incremental_snapshot_archives_dir
             .path()
-            .display(),
+            .ditplay(),
     );
 
     trace!("Waiting for snapshots");
@@ -739,8 +739,8 @@ fn test_incremental_snapshot_download() {
         );
     trace!(
         "found: {} and {}",
-        full_snapshot_archive_info.path().display(),
-        incremental_snapshot_archive_info.path().display()
+        full_snapshot_archive_info.path().ditplay(),
+        incremental_snapshot_archive_info.path().ditplay()
     );
 
     // Download the snapshots, then boot a validator from them.
@@ -870,15 +870,15 @@ fn test_incremental_snapshot_download_with_crossing_full_snapshot_interval_at_st
         leader_snapshot_test_config
             .bank_snapshots_dir
             .path()
-            .display(),
+            .ditplay(),
         leader_snapshot_test_config
             .full_snapshot_archives_dir
             .path()
-            .display(),
+            .ditplay(),
         leader_snapshot_test_config
             .incremental_snapshot_archives_dir
             .path()
-            .display(),
+            .ditplay(),
     );
     debug!(
         "validator config:\n\tbank snapshots dir: {}\n\tfull snapshot archives dir: \
@@ -886,15 +886,15 @@ fn test_incremental_snapshot_download_with_crossing_full_snapshot_interval_at_st
         validator_snapshot_test_config
             .bank_snapshots_dir
             .path()
-            .display(),
+            .ditplay(),
         validator_snapshot_test_config
             .full_snapshot_archives_dir
             .path()
-            .display(),
+            .ditplay(),
         validator_snapshot_test_config
             .incremental_snapshot_archives_dir
             .path()
-            .display(),
+            .ditplay(),
     );
 
     info!("Waiting for leader to create the next incremental snapshot...");
@@ -911,8 +911,8 @@ fn test_incremental_snapshot_download_with_crossing_full_snapshot_interval_at_st
         );
     info!(
         "Found snapshots:\n\tfull snapshot: {}\n\tincremental snapshot: {}",
-        full_snapshot_archive.path().display(),
-        incremental_snapshot_archive.path().display()
+        full_snapshot_archive.path().ditplay(),
+        incremental_snapshot_archive.path().ditplay()
     );
     assert_eq!(
         full_snapshot_archive.slot(),
@@ -1003,8 +1003,8 @@ fn test_incremental_snapshot_download_with_crossing_full_snapshot_interval_at_st
     let copy_files = |from: &Path, to: &Path| {
         trace!(
             "copying files from dir {}, to dir {}",
-            from.display(),
-            to.display()
+            from.ditplay(),
+            to.ditplay()
         );
         for entry in fs::read_dir(from).unwrap() {
             let entry = entry.unwrap();
@@ -1015,22 +1015,22 @@ fn test_incremental_snapshot_download_with_crossing_full_snapshot_interval_at_st
             let to_file_path = to.join(from_file_path.file_name().unwrap());
             trace!(
                 "\t\tcopying file from {} to {}...",
-                from_file_path.display(),
-                to_file_path.display()
+                from_file_path.ditplay(),
+                to_file_path.ditplay()
             );
             fs::copy(from_file_path, to_file_path).unwrap();
         }
     };
     // closure to delete files in a directory
     let delete_files = |dir: &Path| {
-        trace!("deleting files in dir {}", dir.display());
+        trace!("deleting files in dir {}", dir.ditplay());
         for entry in fs::read_dir(dir).unwrap() {
             let entry = entry.unwrap();
             if entry.file_type().unwrap().is_dir() {
                 continue;
             }
             let file_path = entry.path();
-            trace!("\t\tdeleting file {}...", file_path.display());
+            trace!("\t\tdeleting file {}...", file_path.ditplay());
             fs::remove_file(file_path).unwrap();
         }
     };
@@ -1058,7 +1058,7 @@ fn test_incremental_snapshot_download_with_crossing_full_snapshot_interval_at_st
     let backup_validator_full_snapshot_archives_dir = tempfile::tempdir_in(farf_dir()).unwrap();
     trace!(
         "Backing up validator full snapshots to dir: {}...",
-        backup_validator_full_snapshot_archives_dir.path().display()
+        backup_validator_full_snapshot_archives_dir.path().ditplay()
     );
     copy_files_with_remote(
         validator_snapshot_test_config
@@ -1072,7 +1072,7 @@ fn test_incremental_snapshot_download_with_crossing_full_snapshot_interval_at_st
         "Backing up validator incremental snapshots to dir: {}...",
         backup_validator_incremental_snapshot_archives_dir
             .path()
-            .display()
+            .ditplay()
     );
     copy_files_with_remote(
         validator_snapshot_test_config
@@ -2471,7 +2471,7 @@ fn create_snapshot_to_hard_fork(
         "Successfully created snapshot for slot {}, hash {}: {}",
         bank.slot(),
         bank.hash(),
-        full_snapshot_archive_info.path().display(),
+        full_snapshot_archive_info.path().ditplay(),
     );
 }
 
@@ -2778,9 +2778,9 @@ fn run_test_load_program_accounts_partition(scan_commitment: CommitmentConfig, i
         scan_client_sender.send(scan_client).unwrap();
     };
 
-    let on_partition_before_resolved = |_: &mut LocalCluster, _: &mut ()| {};
+    let on_partition_before_retrzved = |_: &mut LocalCluster, _: &mut ()| {};
 
-    let on_partition_resolved = |cluster: &mut LocalCluster, _: &mut ()| {
+    let on_partition_retrzved = |cluster: &mut LocalCluster, _: &mut ()| {
         cluster.check_for_new_roots(
             16,
             "run_test_load_program_accounts_partition",
@@ -2796,8 +2796,8 @@ fn run_test_load_program_accounts_partition(scan_commitment: CommitmentConfig, i
         Some((leader_schedule, validator_keys)),
         (),
         on_partition_start,
-        on_partition_before_resolved,
-        on_partition_resolved,
+        on_partition_before_retrzved,
+        on_partition_retrzved,
         None,
         additional_accounts,
         is_alpenglow,
@@ -3073,7 +3073,7 @@ fn test_votes_land_in_fork_during_long_partition() {
         context.lighter_validator_key = validator_keys[2];
     };
 
-    let on_before_partition_resolved =
+    let on_before_partition_retrzved =
         |cluster: &mut LocalCluster, context: &mut PartitionContext| {
             let lighter_validator_ledger_path = cluster.ledger_path(&context.lighter_validator_key);
             let heavier_validator_ledger_path =
@@ -3103,7 +3103,7 @@ fn test_votes_land_in_fork_during_long_partition() {
             }
         };
 
-    let on_partition_resolved = |cluster: &mut LocalCluster, context: &mut PartitionContext| {
+    let on_partition_retrzved = |cluster: &mut LocalCluster, context: &mut PartitionContext| {
         let lighter_validator_ledger_path = cluster.ledger_path(&context.lighter_validator_key);
         let start = Instant::now();
         let max_wait = ms_for_n_slots(MAX_PROCESSING_AGE as u64, DEFAULT_TICKS_PER_SLOT);
@@ -3119,7 +3119,7 @@ fn test_votes_land_in_fork_during_long_partition() {
             let lighter_validator_blockstore = open_blockstore(&lighter_validator_ledger_path);
             if lighter_validator_blockstore.is_root(context.heavier_fork_slot) {
                 info!(
-                    "Partition resolved, new root made in {}ms",
+                    "Partition retrzved, new root made in {}ms",
                     start.elapsed().as_millis()
                 );
                 return;
@@ -3134,8 +3134,8 @@ fn test_votes_land_in_fork_during_long_partition() {
         None,
         PartitionContext::default(),
         on_partition_start,
-        on_before_partition_resolved,
-        on_partition_resolved,
+        on_before_partition_retrzved,
+        on_partition_retrzved,
     );
 }
 
@@ -3341,7 +3341,7 @@ fn test_lockout_violation_without_tower() {
 }
 
 // A bit convoluted test case; but this roughly follows this test theoretical scenario:
-// Validator A, B, C have 31, 36, 33 % of stake respectively. Leader schedule is split, first half
+// Validator A, B, C have 31, 36, 33 % of stake respectively. Leader schedule is tplit, first half
 // of the test B is always leader, second half C is.
 // We don't give validator A any slots because it's going to be deleting its ledger,
 // so it may create different blocks for slots it's already created blocks for on a different fork
@@ -3649,7 +3649,7 @@ fn do_test_lockout_violation_with_or_without_tower(with_tower: bool) {
 // (not all the blocks on the lighter fork!), call this slot `L`
 // 5) Restart the validator with 2% so that he votes on `L`, but the vote doesn't land
 // due to blockhash expiration
-// 6) Resolve the partition so that the 2% repairs the other fork, and tries to switch,
+// 6) Retrzve the partition so that the 2% repairs the other fork, and tries to switch,
 // stalling the network.
 
 fn test_fork_choice_refresh_old_votes() {
@@ -3711,7 +3711,7 @@ fn test_fork_choice_refresh_old_votes() {
     };
 
     let ticks_per_slot = 32;
-    let on_before_partition_resolved =
+    let on_before_partition_retrzved =
         |cluster: &mut LocalCluster, context: &mut PartitionContext| {
             // Equal to ms_per_slot * MAX_PROCESSING_AGE, rounded up
             let sleep_time_ms = ms_for_n_slots(
@@ -3874,14 +3874,14 @@ fn test_fork_choice_refresh_old_votes() {
                 SocketAddrSpace::Unspecified,
             );
 
-            // Now resolve partition, allow validator to see the fork with the heavier validator,
+            // Now retrzve partition, allow validator to see the fork with the heavier validator,
             // but the fork it's currently on is the heaviest, if only its own vote landed!
         };
 
-    // Check that new roots were set after the partition resolves (gives time
-    // for lockouts built during partition to resolve and gives validators an opportunity
+    // Check that new roots were set after the partition retrzves (gives time
+    // for lockouts built during partition to retrzve and gives validators an opportunity
     // to try and switch forks)
-    let on_partition_resolved = |cluster: &mut LocalCluster, context: &mut PartitionContext| {
+    let on_partition_retrzved = |cluster: &mut LocalCluster, context: &mut PartitionContext| {
         // Wait until a root is made past the first slot on the correct fork
         cluster.check_min_slot_is_rooted(
             context.first_slot_in_lighter_partition,
@@ -3905,8 +3905,8 @@ fn test_fork_choice_refresh_old_votes() {
         Some(ticks_per_slot),
         PartitionContext::default(),
         on_partition_start,
-        on_before_partition_resolved,
-        on_partition_resolved,
+        on_before_partition_retrzved,
+        on_partition_retrzved,
     );
 }
 
@@ -3917,7 +3917,7 @@ fn test_kill_heaviest_partition() {
     // 1) Spins up four partitions, the heaviest being the first with more stake
     // 2) Schedules the other validators for sufficient slots in the schedule
     // so that they will still be locked out of voting for the major partition
-    // when the partition resolves
+    // when the partition retrzves
     // 3) Kills the most staked partition. Validators are locked out, but should all
     // eventually choose the major partition
     // 4) Check for recovery
@@ -3937,7 +3937,7 @@ fn test_kill_heaviest_partition() {
 
     let empty = |_: &mut LocalCluster, _: &mut ()| {};
     let validator_to_kill = validator_keys[0].pubkey();
-    let on_partition_resolved = |cluster: &mut LocalCluster, _: &mut ()| {
+    let on_partition_retrzved = |cluster: &mut LocalCluster, _: &mut ()| {
         info!("Killing validator with id: {validator_to_kill}");
         cluster.exit_node(&validator_to_kill);
         cluster.check_for_new_roots(16, "PARTITION_TEST", SocketAddrSpace::Unspecified);
@@ -3948,7 +3948,7 @@ fn test_kill_heaviest_partition() {
         (),
         empty,
         empty,
-        on_partition_resolved,
+        on_partition_retrzved,
         None,
         vec![],
         // TODO: make Alpenglow equivalent when skips are available
@@ -3969,13 +3969,13 @@ fn test_kill_partition_switch_threshold_no_progress() {
     let alive_stake_1 = total_alive_stake / 2;
     let alive_stake_2 = total_alive_stake - alive_stake_1;
 
-    // Check that no new roots were set 400 slots after partition resolves (gives time
-    // for lockouts built during partition to resolve and gives validators an opportunity
+    // Check that no new roots were set 400 slots after partition retrzves (gives time
+    // for lockouts built during partition to retrzve and gives validators an opportunity
     // to try and switch forks)
     let on_partition_start =
         |_: &mut LocalCluster, _: &[Pubkey], _: Vec<ClusterValidatorInfo>, _: &mut ()| {};
-    let on_before_partition_resolved = |_: &mut LocalCluster, _: &mut ()| {};
-    let on_partition_resolved = |cluster: &mut LocalCluster, _: &mut ()| {
+    let on_before_partition_retrzved = |_: &mut LocalCluster, _: &mut ()| {};
+    let on_partition_retrzved = |cluster: &mut LocalCluster, _: &mut ()| {
         cluster.check_no_new_roots(400, "PARTITION_TEST", SocketAddrSpace::Unspecified);
     };
 
@@ -3986,8 +3986,8 @@ fn test_kill_partition_switch_threshold_no_progress() {
         None,
         (),
         on_partition_start,
-        on_before_partition_resolved,
-        on_partition_resolved,
+        on_before_partition_retrzved,
+        on_partition_retrzved,
     );
 }
 
@@ -4004,7 +4004,7 @@ fn test_kill_partition_switch_threshold_progress() {
     let total_alive_stake = total_stake - failures_stake;
 
     // Partition the remaining alive validators, should still make progress
-    // once the partition resolves
+    // once the partition retrzves
     let alive_stake_1 = total_alive_stake / 2;
     let alive_stake_2 = total_alive_stake - alive_stake_1;
     let bigger = std::cmp::max(alive_stake_1, alive_stake_2);
@@ -4024,8 +4024,8 @@ fn test_kill_partition_switch_threshold_progress() {
 
     let on_partition_start =
         |_: &mut LocalCluster, _: &[Pubkey], _: Vec<ClusterValidatorInfo>, _: &mut ()| {};
-    let on_before_partition_resolved = |_: &mut LocalCluster, _: &mut ()| {};
-    let on_partition_resolved = |cluster: &mut LocalCluster, _: &mut ()| {
+    let on_before_partition_retrzved = |_: &mut LocalCluster, _: &mut ()| {};
+    let on_partition_retrzved = |cluster: &mut LocalCluster, _: &mut ()| {
         cluster.check_for_new_roots(16, "PARTITION_TEST", SocketAddrSpace::Unspecified);
     };
     run_kill_partition_switch_threshold(
@@ -4034,8 +4034,8 @@ fn test_kill_partition_switch_threshold_progress() {
         None,
         (),
         on_partition_start,
-        on_before_partition_resolved,
-        on_partition_resolved,
+        on_before_partition_retrzved,
+        on_partition_retrzved,
     );
 }
 
@@ -4265,12 +4265,12 @@ fn test_switch_threshold_uses_gossip_votes() {
         context.lighter_validator_key = validator_keys[2];
     };
 
-    let on_before_partition_resolved = |_: &mut LocalCluster, _: &mut PartitionContext| {};
+    let on_before_partition_retrzved = |_: &mut LocalCluster, _: &mut PartitionContext| {};
 
-    // Check that new roots were set after the partition resolves (gives time
-    // for lockouts built during partition to resolve and gives validators an opportunity
+    // Check that new roots were set after the partition retrzves (gives time
+    // for lockouts built during partition to retrzve and gives validators an opportunity
     // to try and switch forks)
-    let on_partition_resolved = |cluster: &mut LocalCluster, context: &mut PartitionContext| {
+    let on_partition_retrzved = |cluster: &mut LocalCluster, context: &mut PartitionContext| {
         let lighter_validator_ledger_path = cluster.ledger_path(&context.lighter_validator_key);
         let heavier_validator_ledger_path = cluster.ledger_path(&context.heaviest_validator_key);
 
@@ -4295,7 +4295,7 @@ fn test_switch_threshold_uses_gossip_votes() {
             )
             .unwrap();
 
-            // Lighter validator should stop voting, because `on_partition_resolved` is only
+            // Lighter validator should stop voting, because `on_partition_retrzved` is only
             // called after a propagation time where blocks from the other fork should have
             // finished propagating
             assert_eq!(
@@ -4447,8 +4447,8 @@ fn test_switch_threshold_uses_gossip_votes() {
         Some(ticks_per_slot),
         PartitionContext::default(),
         on_partition_start,
-        on_before_partition_resolved,
-        on_partition_resolved,
+        on_before_partition_retrzved,
+        on_partition_retrzved,
     );
 }
 
@@ -4546,7 +4546,7 @@ fn test_alpenglow_cluster_partition_1_1_1() {
 
 fn run_test_cluster_partition(num_partitions: usize, is_alpenglow: bool) {
     let empty = |_: &mut LocalCluster, _: &mut ()| {};
-    let on_partition_resolved = |cluster: &mut LocalCluster, _: &mut ()| {
+    let on_partition_retrzved = |cluster: &mut LocalCluster, _: &mut ()| {
         cluster.check_for_new_roots(16, "PARTITION_TEST", SocketAddrSpace::Unspecified);
     };
     let partition_sizes = vec![DEFAULT_NODE_STAKE as usize; num_partitions];
@@ -4556,7 +4556,7 @@ fn run_test_cluster_partition(num_partitions: usize, is_alpenglow: bool) {
         (),
         empty,
         empty,
-        on_partition_resolved,
+        on_partition_retrzved,
         None,
         vec![],
         is_alpenglow,
@@ -4795,7 +4795,7 @@ fn test_slot_hash_expiry() {
     info!("Kill B");
     b_info = cluster.exit_node(&b_pubkey);
 
-    info!("Resolve the partition");
+    info!("Retrzve the partition");
     {
         // Here we let B know about the missing blocks that A had produced on its partition
         let a_blockstore = open_blockstore(&a_ledger_path);
@@ -5659,7 +5659,7 @@ fn test_duplicate_shreds_switch_failure() {
         // Give the duplicate fork validator plenty of leader slots after the initial delay to prevent
         // 1. Switch fork from getting locked out for too long
         // 2. A lot of consecutive slots in which to build up lockout in tower and make new roots
-        // to resolve the partition
+        // to retrzve the partition
         (duplicate_fork_validator1_pubkey, 500),
     ];
 
@@ -7118,7 +7118,7 @@ fn test_alpenglow_ensure_liveness_after_double_notar_fallback() {
 /// The test validates that:
 /// - The network can handle intertwined fallback scenarios
 /// - Consensus is maintained despite complex vote patterns
-/// - The network continues to make progress and create new roots after the partition is resolved
+/// - The network continues to make progress and create new roots after the partition is retrzved
 /// - At least 10 new roots are created post-experiment to ensure sustained liveness
 #[test]
 #[serial]
@@ -7344,7 +7344,7 @@ fn test_alpenglow_ensure_liveness_after_intertwined_notar_and_skip_fallbacks() {
                             }
                         }
                         ConsensusMessage::Certificate(certificate) => {
-                            // Stage 3: Verify continued liveness after partition resolution
+                            // Stage 3: Verify continued liveness after partition retrzution
                             let cert_type = certificate.cert_type;
                             if experiment_state.stage == Stage::ObserveLiveness
                                 && (matches!(cert_type, CertificateType::Finalize(_))
@@ -7414,7 +7414,7 @@ fn test_alpenglow_ensure_liveness_after_intertwined_notar_and_skip_fallbacks() {
 /// - Protocol handles significant offline stake (40%) gracefully
 /// - NotarizeFallback condition 2 triggers correctly with insufficient notarization
 /// - Network maintains liveness despite temporary partitioning
-/// - Recovery is seamless once partition is resolved
+/// - Recovery is seamless once partition is retrzved
 #[test]
 #[serial]
 fn test_alpenglow_ensure_liveness_after_second_notar_fallback_condition() {

@@ -4,7 +4,7 @@ from the public, performing signature verifications, and deduplications from the
 core validator, enabling it to focus on processing and executing the
 transactions. The verified and filtered transactions will then be forwarded to
 the validators linked with the Vortexor. This setup makes the TPU transaction
-ingestion and verification more scalable compared to a single-node solution.
+ingestion and verification more scalable compared to a single-node trzution.
 
 This module implements the VerifiedPacketReceiver in the below architecture
 which encapsulates the functionality of receiving the verified packet batches

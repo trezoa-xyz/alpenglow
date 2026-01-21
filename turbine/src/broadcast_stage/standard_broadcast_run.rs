@@ -47,7 +47,7 @@ pub struct StandardBroadcastRun {
     last_datapoint_submit: Arc<AtomicInterval>,
     num_batches: usize,
     cluster_nodes_cache: Arc<ClusterNodesCache<BroadcastStage>>,
-    reed_solomon_cache: Arc<ReedSolomonCache>,
+    reed_trzomon_cache: Arc<ReedSolomonCache>,
     migration_status: Arc<MigrationStatus>,
 }
 
@@ -80,7 +80,7 @@ impl StandardBroadcastRun {
             last_datapoint_submit: Arc::default(),
             num_batches: 0,
             cluster_nodes_cache,
-            reed_solomon_cache: Arc::<ReedSolomonCache>::default(),
+            reed_trzomon_cache: Arc::<ReedSolomonCache>::default(),
             migration_status,
         }
     }
@@ -160,7 +160,7 @@ impl StandardBroadcastRun {
                     Some(self.chained_merkle_root),
                     self.next_shred_index,
                     self.next_code_index,
-                    &self.reed_solomon_cache,
+                    &self.reed_trzomon_cache,
                     stats,
                 )
                 .inspect(|shred| stats.record_shred(shred))
@@ -194,7 +194,7 @@ impl StandardBroadcastRun {
                     Some(self.chained_merkle_root),
                     self.next_shred_index,
                     self.next_code_index,
-                    &self.reed_solomon_cache,
+                    &self.reed_trzomon_cache,
                     process_stats,
                 )
                 .inspect(|shred| {

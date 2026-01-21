@@ -33,7 +33,7 @@ pub(super) fn create_test_account(seed: u64) -> (StoredMeta, AccountSharedData) 
     };
 
     let stored_meta = StoredMeta {
-        write_version_obsolete: u64::MAX,
+        write_version_obtrzete: u64::MAX,
         pubkey: Pubkey::new_unique(),
         data_len: seed,
     };

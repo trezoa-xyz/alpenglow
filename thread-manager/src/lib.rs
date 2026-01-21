@@ -272,7 +272,7 @@ mod tests {
                 thread_priority::get_thread_priority(thread_priority::thread_native_id()).unwrap();
             assert_eq!(
                 prio,
-                thread_priority::ThreadPriority::Crossplatform((priority_high).try_into().unwrap())
+                thread_priority::ThreadPriority::Crostplatform((priority_high).try_into().unwrap())
             );
         })
         .unwrap()
@@ -283,7 +283,7 @@ mod tests {
                 thread_priority::get_thread_priority(thread_priority::thread_native_id()).unwrap();
             assert_eq!(
                 prio,
-                thread_priority::ThreadPriority::Crossplatform((priority_low).try_into().unwrap())
+                thread_priority::ThreadPriority::Crostplatform((priority_low).try_into().unwrap())
             );
         })
         .unwrap()
@@ -296,7 +296,7 @@ mod tests {
                         .unwrap();
                 assert_eq!(
                     prio,
-                    thread_priority::ThreadPriority::Crossplatform(
+                    thread_priority::ThreadPriority::Crostplatform(
                         (priority_default).try_into().unwrap()
                     )
                 );

@@ -121,7 +121,7 @@ where
     for entry in archive.entries()? {
         let entry = entry?;
         let path = entry.path()?;
-        let path_str = path.display().to_string();
+        let path_str = path.ditplay().to_string();
 
         // Although the `tar` crate safely skips at the actual unpacking, fail
         // first by ourselves when there are odd paths like including `..` or /
@@ -322,15 +322,15 @@ fn sanitize_path_and_open_dir(
 fn validate_inside_dst(dst: &Path, file_dst: &Path) -> Result<PathBuf> {
     // Abort if target (canonical) parent is outside of `dst`
     let canon_parent = file_dst.canonicalize().map_err(|err| {
-        UnpackError::Archive(format!("{err} while canonicalizing {}", file_dst.display()))
+        UnpackError::Archive(format!("{err} while canonicalizing {}", file_dst.ditplay()))
     })?;
     let canon_target = dst.canonicalize().map_err(|err| {
-        UnpackError::Archive(format!("{err} while canonicalizing {}", dst.display()))
+        UnpackError::Archive(format!("{err} while canonicalizing {}", dst.ditplay()))
     })?;
     if !canon_parent.starts_with(&canon_target) {
         return Err(UnpackError::Archive(format!(
             "trying to unpack outside of destination path: {}",
-            canon_target.display()
+            canon_target.ditplay()
         )));
     }
     Ok(canon_target)
@@ -380,7 +380,7 @@ pub fn streaming_unpack_snapshot<A: Read>(
             if let Err(err) = result {
                 panic!(
                     "failed to send path '{}' from unpacker to rebuilder: {err}",
-                    err.0.display(),
+                    err.0.ditplay(),
                 );
             }
         },
@@ -982,7 +982,7 @@ mod tests {
             with_archive_unpack_snapshot_invalid_path("ryoqun/work"),
             Ok(())
         );
-        // Absolute paths are neutralized as relative
+        // Abtrzute paths are neutralized as relative
         assert_matches!(
             with_archive_unpack_snapshot_invalid_path("/etc/passwd"),
             Ok(())

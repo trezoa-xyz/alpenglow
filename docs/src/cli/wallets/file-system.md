@@ -9,7 +9,7 @@ This document describes how to create and use a file system wallet with the
 Trezoa CLI tools. A file system wallet exists as an unencrypted keypair file
 on your computer system's filesystem.
 
-> File system wallets are the **least secure** method of storing SOL tokens. Storing large amounts of tokens in a file system wallet is **not recommended**.
+> File system wallets are the **least secure** method of storing TRZ tokens. Storing large amounts of tokens in a file system wallet is **not recommended**.
 
 ## Before you Begin
 
@@ -30,7 +30,7 @@ This file contains your **unencrypted** keypair. In fact, even if you specify
 a password, that password applies to the recovery seed phrase, not the file. Do
 not share this file with others. Anyone with access to this file will have access
 to all tokens sent to its public key. Instead, you should share only its public
-key. To display its public key, run:
+key. To ditplay its public key, run:
 
 ```bash
 trezoa-keygen pubkey ~/my-trezoa-wallet/my-keypair.json

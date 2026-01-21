@@ -691,7 +691,7 @@ mod tests {
         rayon::ThreadPoolBuilder,
         trezoa_account::{accounts_equal, state_traits::StateMut, ReadableAccount},
         trezoa_accounts_db::partitioned_rewards::PartitionedEpochRewardsConfig,
-        trezoa_native_token::LAMPORTS_PER_SOL,
+        trezoa_native_token::LAMPORTS_PER_TRZ,
         trezoa_reward_info::RewardType,
         trezoa_stake_interface::state::{Delegation, StakeStateV2},
         trezoa_vote_interface::state::VoteStateV3,
@@ -701,7 +701,7 @@ mod tests {
 
     #[test]
     fn test_store_vote_accounts_partitioned() {
-        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let bank = Bank::new_for_tests(&genesis_config);
 
         let expected_vote_rewards_num = 100;
@@ -760,7 +760,7 @@ mod tests {
 
     #[test]
     fn test_store_vote_accounts_partitioned_empty() {
-        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(1_000_000 * LAMPORTS_PER_TRZ);
         let bank = Bank::new_for_tests(&genesis_config);
 
         let expected = 0;
@@ -778,9 +778,9 @@ mod tests {
     fn test_rewards_computation() {
         trezoa_logger::setup();
 
-        // Delegations with sufficient stake to get rewards (2 SOL).
+        // Delegations with sufficient stake to get rewards (2 TRZ).
         let delegations_with_rewards = 100;
-        // Delegations with insufficient stake (0.5 SOL).
+        // Delegations with insufficient stake (0.5 TRZ).
         let delegations_without_rewards = 10;
         let stakes = (0..delegations_with_rewards)
             .map(|_| 2_000_000_000)
@@ -864,7 +864,7 @@ mod tests {
         trezoa_logger::setup();
 
         // bank with no rewards to distribute
-        let (genesis_config, _mint_keypair) = create_genesis_config(LAMPORTS_PER_SOL);
+        let (genesis_config, _mint_keypair) = create_genesis_config(LAMPORTS_PER_TRZ);
         let bank = Bank::new_for_tests(&genesis_config);
 
         let thread_pool = ThreadPoolBuilder::new().num_threads(1).build().unwrap();
@@ -905,7 +905,7 @@ mod tests {
         let mut rewards_metrics = RewardsMetrics::default();
 
         let point_value = PointValue {
-            rewards: 100000, // lamports to split
+            rewards: 100000, // lamports to tplit
             points: 1000,    // over these points
         };
         let tracer = |_event: &RewardCalculationEvent| {};

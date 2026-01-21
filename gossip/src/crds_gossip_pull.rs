@@ -30,7 +30,7 @@ use {
     trezoa_bloom::bloom::{Bloom, ConcurrentBloom},
     trezoa_hash::Hash,
     trezoa_keypair::Keypair,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_packet::PACKET_DATA_SIZE,
     trezoa_pubkey::Pubkey,
     trezoa_signer::Signer,
@@ -276,7 +276,7 @@ impl CrdsGossipPull {
             crds_gossip::dedup_gossip_addresses(nodes, stakes)
                 .into_values()
                 .map(|(stake, node)| {
-                    let stake = stake.min(stake_cap) / LAMPORTS_PER_SOL;
+                    let stake = stake.min(stake_cap) / LAMPORTS_PER_TRZ;
                     let weight = u64::BITS - stake.leading_zeros();
                     let weight = u64::from(weight).saturating_add(1).saturating_pow(2);
                     (weight, node)

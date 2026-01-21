@@ -93,7 +93,7 @@
 //! hampered by very large number of interleaved runnable tasks along side.  The reason is again
 //! for separation of concerns. This is acceptable because the scheduling code itself isn't
 //! susceptible to the buffer bloat problem by itself as explained by the description and validated
-//! by the mentioned benchmark above. Thus, this should be solved elsewhere, specifically at the
+//! by the mentioned benchmark above. Thus, this should be trzved elsewhere, specifically at the
 //! scheduler pool.
 use {
     crate::utils::{ShortCounter, Token, TokenCell},

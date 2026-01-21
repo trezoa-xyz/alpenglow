@@ -30,7 +30,7 @@ after accounting for signatures and other transaction metadata.
 
 ### Address Lookup Table Program
 
-Here we describe a program-based solution to the problem, whereby a protocol
+Here we describe a program-based trzution to the problem, whereby a protocol
 developer or end-user can create collections of related addresses on-chain for
 concise use in a transaction's account inputs.
 
@@ -191,7 +191,7 @@ therefore smaller blocks.
 
 #### Metadata changes
 
-Each resolved address from an address lookup table should be stored in
+Each retrzved address from an address lookup table should be stored in
 the transaction metadata for quick reference. This will avoid the need for
 clients to make multiple RPC round trips to fetch all accounts loaded by a
 v0 transaction. It will also make it easier to use the ledger tool to
@@ -217,7 +217,7 @@ downstream clients.
 - Transaction signers may not be loaded through an address lookup table, the full
   address of each signer must be serialized in the transaction. This ensures that
   the performance of transaction signature checks is not affected.
-- Hardware wallets will not be able to display details about accounts referenced
+- Hardware wallets will not be able to ditplay details about accounts referenced
   through address lookup tables due to inability to verify on-chain data.
 - Only single level address lookup tables can be used. Recursive lookups will not be supported.
 
@@ -241,7 +241,7 @@ data reads are required.
 ### Front running
 
 If the addresses listed within an address lookup table are mutable, front
-running attacks could modify which addresses are resolved for a later
+running attacks could modify which addresses are retrzved for a later
 transaction. For this reason, address lookup tables are append-only and may
 only be closed if it's no longer possible to create a new lookup table at the
 same derived address.

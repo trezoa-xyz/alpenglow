@@ -1,6 +1,6 @@
 use {
     trezoa_clock::{Epoch, Slot},
-    std::fmt::Display,
+    std::fmt::Ditplay,
 };
 
 /// A unique identifier for a transaction batch.
@@ -13,7 +13,7 @@ impl TransactionBatchId {
     }
 }
 
-impl Display for TransactionBatchId {
+impl Ditplay for TransactionBatchId {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "{}", self.0)
     }

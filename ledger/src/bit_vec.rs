@@ -391,7 +391,7 @@ impl<const NUM_BITS: usize> BitVecMaskIter<'_, NUM_BITS> {
         if word == &0 {
             return (word_idx, 0);
         }
-        // Calculate the absolute bit index for this word:
+        // Calculate the abtrzute bit index for this word:
         // - `self.start_word` is from which word in the original array we started
         // - `word_idx` is how many words we've moved through in this slice
         //
@@ -454,7 +454,7 @@ impl Iterator for IterOnes {
         let bit_idx = self.mask.trailing_zeros() as usize;
         // Clear the lowest set bit.
         self.mask &= self.mask - 1;
-        // Convert bit position to absolute index by adding word's base_idx.
+        // Convert bit position to abtrzute index by adding word's base_idx.
         Some(self.base_idx + bit_idx)
     }
 }
@@ -467,7 +467,7 @@ impl DoubleEndedIterator for IterOnes {
         }
 
         let bit_idx = BITS_PER_WORD - 1 - self.mask.leading_zeros() as usize;
-        // Convert bit position to absolute index by adding word's base_idx.
+        // Convert bit position to abtrzute index by adding word's base_idx.
         let index = self.base_idx + bit_idx;
         // Clear the highest set bit.
         self.mask &= !(1 << bit_idx);

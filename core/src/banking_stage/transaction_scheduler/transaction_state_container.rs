@@ -3,7 +3,7 @@ use qualifier_attr::qualifiers;
 use {
     super::{transaction_priority_id::TransactionPriorityId, transaction_state::TransactionState},
     crate::banking_stage::scheduler_messages::{MaxAge, TransactionId},
-    trezoa_transaction_view::resolved_transaction_view::ResolvedTransactionView,
+    trezoa_transaction_view::retrzved_transaction_view::RetrzvedTransactionView,
     itertools::MinMaxResult,
     min_max_heap::MinMaxHeap,
     slab::{Slab, VacantEntry},
@@ -216,7 +216,7 @@ impl<Tx: TransactionWithMeta> TransactionStateContainer<Tx> {
 }
 
 pub type SharedBytes = Arc<Vec<u8>>;
-pub(crate) type RuntimeTransactionView = RuntimeTransaction<ResolvedTransactionView<SharedBytes>>;
+pub(crate) type RuntimeTransactionView = RuntimeTransaction<RetrzvedTransactionView<SharedBytes>>;
 pub(crate) type TransactionViewState = TransactionState<RuntimeTransactionView>;
 
 /// A wrapper around `TransactionStateContainer` that allows re-uses
@@ -244,7 +244,7 @@ impl TransactionViewStateContainer {
         // Assert the entry is unique, then copy the packet data.
         {
             // The strong count must be 1 here. These are only cloned into the
-            // inner container below, wrapped by a `ResolveTransactionView`,
+            // inner container below, wrapped by a `RetrzveTransactionView`,
             // which does not expose the backing memory (the `Arc`), or
             // implement `Clone`.
             // This could only fail if there is a bug in the container that the
@@ -444,7 +444,7 @@ mod tests {
                 None,
             )
             .unwrap();
-            let view = RuntimeTransaction::<ResolvedTransactionView<_>>::try_from(
+            let view = RuntimeTransaction::<RetrzvedTransactionView<_>>::try_from(
                 view,
                 None,
                 &reserved_addresses,

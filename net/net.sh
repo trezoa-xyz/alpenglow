@@ -284,7 +284,7 @@ syncScripts() {
   local remoteTrezoaHome="${remoteHome}/trezoa"
   rsync -vPrc -e "ssh ${sshOptions[*]}" \
     --exclude 'net/log*' \
-    "$TREZOA_ROOT"/{fetch-perf-libs.sh,fetch-programs.sh,fetch-core-bpf.sh,fetch-spl.sh,scripts,net,multinode-demo} \
+    "$TREZOA_ROOT"/{fetch-perf-libs.sh,fetch-programs.sh,fetch-core-bpf.sh,fetch-tpl.sh,scripts,net,multinode-demo} \
     "$ipAddress":"$remoteTrezoaHome"/ > /dev/null
 }
 

@@ -95,7 +95,7 @@ impl Vortexor {
         SigVerifyStage::new(
             tpu_receiver,
             verifier,
-            "solSigVtxTpu",
+            "trzSigVtxTpu",
             "tpu-vortexor-verifier",
         )
     }
@@ -132,7 +132,7 @@ impl Vortexor {
         } = tpu_sockets;
 
         let tpu_result = spawn_server_with_cancel(
-            "solVtxTpu",
+            "trzVtxTpu",
             "quic_vortexor_tpu",
             tpu_quic,
             identity_keypair,
@@ -148,7 +148,7 @@ impl Vortexor {
         quic_server_params.max_staked_connections = max_fwd_staked_connections;
         quic_server_params.max_unstaked_connections = max_fwd_unstaked_connections;
         let tpu_fwd_result = spawn_server_with_cancel(
-            "solVtxTpuFwd",
+            "trzVtxTpuFwd",
             "quic_vortexor_tpu_forwards",
             tpu_quic_fwd,
             identity_keypair,

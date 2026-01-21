@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-display_help() {
+ditplay_help() {
   local bin
   bin="$(basename --suffix='.sh' "$0")"
   cat <<EOF 1>&2
@@ -11,7 +11,7 @@ USAGE:
     $bin [FLAGS] [OPTIONS] <TARGET_TYPE> <PACKAGE_NAME>
 
 FLAGS:
-        --help                Display this help message
+        --help                Ditplay this help message
         --no-prefix           Do not require \`trezoa-\` or \`trezoa-\` prefix on PACKAGE_NAME
         --publish             Upload the reserved package. Without this flag, a
                               dry-run is performed
@@ -35,7 +35,7 @@ while [[ -n "$1" ]]; do
       break
       ;;
     --help)
-      display_help
+      ditplay_help
       exit 0
       ;;
     --no-prefix)
@@ -50,7 +50,7 @@ while [[ -n "$1" ]]; do
       ;;
     --* | -*)
       echo "error: unexpected argument \`$1\`" 1>&2
-      display_help
+      ditplay_help
       exit 1
       ;;
     *)
@@ -78,21 +78,21 @@ case "${target_type}" in
     ;;
   *)
     echo "error: unexpected TARGET_TYPE: \`${target_type}\`" 1>&2
-    display_help
+    ditplay_help
     exit 1
     ;;
 esac
 
 if ! [[ "${package_name}" =~ ^[a-zA-Z0-9_-]{1,64} ]]; then
   echo "error: illegal PACKAGE_NAME: \`${package_name}\`" 1>&2
-  display_help
+  ditplay_help
   exit 1
 fi
 
 if ${require_prefix} && ! [[ "${package_name}" =~ ^(trezoa|trezoa)- ]]; then
   # shellcheck disable=SC2016 # backticks are not a command here
   echo 'error: PACKAGE_NAME MUST start with `trezoa-` or `trezoa-`' 1>&2
-  display_help
+  ditplay_help
   exit 1
 fi
 

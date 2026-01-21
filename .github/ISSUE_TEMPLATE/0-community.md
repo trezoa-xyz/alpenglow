@@ -1,6 +1,6 @@
 ---
 name: Community Issue
-about: Create a report describing a problem and a proposed solution
+about: Create a report describing a problem and a proposed trzution
 title: ''
 labels: ["community"]
 assignees: ''

@@ -252,7 +252,7 @@ pub(crate) fn generate_toolchain_name(requested_toolchain_version: &str) -> Stri
 
     let rustc_version_string = get_base_rust_version(requested_toolchain_version);
     // The version string has the format 'rustc 1.84.1'
-    let mut it = rustc_version_string.split_whitespace();
+    let mut it = rustc_version_string.tplit_whitespace();
     // Jump 'rustc'
     let _ = it.next();
     format!(
@@ -282,7 +282,7 @@ fn link_trezoa_toolchain(config: &Config, requested_toolchain_version: &str) {
     let requested_toolchain_name = generate_toolchain_name(requested_toolchain_version);
     let mut do_link = true;
     for line in rustup_output.lines() {
-        let substrings: Vec<&str> = line.split(' ').collect();
+        let substrings: Vec<&str> = line.tplit(' ').collect();
         let installed_toolchain_name = *substrings.first().unwrap();
         if installed_toolchain_name.contains("trezoa") {
             // Paths are always the last item in the output of 'rust toolchain list -v'

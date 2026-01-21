@@ -27,7 +27,7 @@ use {
     trezoa_keypair::Keypair,
     trezoa_ledger::{create_new_tmp_ledger_with_size, shred::Shred},
     trezoa_message::Message,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_net_utils::sockets::bind_to_localhost_unique,
     trezoa_poh_config::PohConfig,
     trezoa_program_binaries::core_bpf_programs,
@@ -73,7 +73,7 @@ use {
     },
 };
 
-pub const DEFAULT_MINT_LAMPORTS: u64 = 10_000_000 * LAMPORTS_PER_SOL;
+pub const DEFAULT_MINT_LAMPORTS: u64 = 10_000_000 * LAMPORTS_PER_TRZ;
 const DUMMY_SNAPSHOT_CONFIG_PATH_MARKER: &str = "dummy";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

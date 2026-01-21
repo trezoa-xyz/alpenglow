@@ -286,7 +286,7 @@ mod test {
         trezoa_pubkey::Pubkey,
         tpl_token_2022_interface::{
             extension::confidential_mint_burn::instruction::{
-                confidential_burn_with_split_proofs, confidential_mint_with_split_proofs,
+                confidential_burn_with_tplit_proofs, confidential_mint_with_tplit_proofs,
                 initialize_mint,
             },
             trezoa_zk_sdk::{
@@ -387,7 +387,7 @@ mod test {
                 ProofLocation::ContextStateAccount(&Pubkey::new_unique()),
             ),
         ] {
-            let instructions = confidential_mint_with_split_proofs(
+            let instructions = confidential_mint_with_tplit_proofs(
                 &tpl_token_2022_interface::id(),
                 &Pubkey::new_unique(),
                 &Pubkey::new_unique(),
@@ -428,7 +428,7 @@ mod test {
                 ProofLocation::ContextStateAccount(&Pubkey::new_unique()),
             ),
         ] {
-            let instructions = confidential_burn_with_split_proofs(
+            let instructions = confidential_burn_with_tplit_proofs(
                 &tpl_token_2022_interface::id(),
                 &Pubkey::new_unique(),
                 &Pubkey::new_unique(),

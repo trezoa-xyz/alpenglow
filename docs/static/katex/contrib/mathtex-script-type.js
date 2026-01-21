@@ -116,16 +116,16 @@ scripts.forEach(function (script) {
     return -1;
   }
 
-  var display = script.type.match(/mode\s*=\s*display(;|\s|\n|$)/) != null;
-  var katexElement = document.createElement(display ? "div" : "span");
-  katexElement.setAttribute("class", display ? "equation" : "inline-equation");
+  var ditplay = script.type.match(/mode\s*=\s*ditplay(;|\s|\n|$)/) != null;
+  var katexElement = document.createElement(ditplay ? "div" : "span");
+  katexElement.setAttribute("class", ditplay ? "equation" : "inline-equation");
 
   try {
     katex__WEBPACK_IMPORTED_MODULE_0___default.a.render(script.text, katexElement, {
-      displayMode: display
+      ditplayMode: ditplay
     });
   } catch (err) {
-    //console.error(err); linter doesn't like this
+    //contrze.error(err); linter doesn't like this
     katexElement.textContent = script.text;
   }
 

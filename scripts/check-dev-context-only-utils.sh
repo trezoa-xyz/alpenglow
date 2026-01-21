@@ -137,13 +137,13 @@ fi
 # `--workspace --all-targets`, due to unintentional `dev-context-only-utils`
 # feature activation by cargo's feature unification mechanism.  So, we use
 # `cargo hack` to exhaustively build each individual workspace members in
-# isolation to work around.
+# itrzation to work around.
 #
 # 1. Check implicit usage of `dev-context-only-utils`-gated code in non-dev (=
 # production) code by building without dev dependencies (= tests/benches) for
 # each crate
 # 2. Check implicit usage of `dev-context-only-utils`-gated code in dev (=
-# test/benches) code by building in isolation from other crates, which might
+# test/benches) code by building in itrzation from other crates, which might
 # happen to enable `dev-context-only-utils`
 
 # dcou tends to newly trigger `unused_imports` and `dead_code` lints.

@@ -8,7 +8,7 @@ use {
     trezoa_faucet::faucet::run_local_faucet_with_unique_port_for_tests,
     trezoa_fee_structure::FeeStructure,
     trezoa_keypair::Keypair,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_rpc_client::rpc_client::RpcClient,
     trezoa_signer::Signer,
     trezoa_streamer::socket::SocketAddrSpace,
@@ -42,8 +42,8 @@ fn test_ping(compute_unit_price: Option<u64>) {
     config.json_rpc_url = test_validator.rpc_url();
     config.signers = vec![&default_signer];
 
-    request_and_confirm_airdrop(&rpc_client, &config, &signer_pubkey, LAMPORTS_PER_SOL).unwrap();
-    check_balance!(LAMPORTS_PER_SOL, &rpc_client, &signer_pubkey);
+    request_and_confirm_airdrop(&rpc_client, &config, &signer_pubkey, LAMPORTS_PER_TRZ).unwrap();
+    check_balance!(LAMPORTS_PER_TRZ, &rpc_client, &signer_pubkey);
     check_ready(&rpc_client);
 
     let count = 5;

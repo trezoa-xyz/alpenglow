@@ -63,7 +63,7 @@ trezoa-transaction = { workspace = true }
 trezoa-transaction-context = { workspace = true }
 trezoa-transaction-error = { workspace = true }
 trezoa-vote-program = { workspace = true }
-spl-generic-token = { workspace = true }
+trz-generic-token = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["full"] }
 

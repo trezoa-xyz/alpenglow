@@ -25,7 +25,7 @@ pub struct BlockstoreMetricReportService {
 impl BlockstoreMetricReportService {
     pub fn new(blockstore: Arc<Blockstore>, exit: Arc<AtomicBool>) -> Self {
         let t_cf_metric = Builder::new()
-            .name("solRocksCfMtrcs".to_string())
+            .name("trzRocksCfMtrcs".to_string())
             .spawn(move || {
                 info!("BlockstoreMetricReportService has started");
                 let mut last_report_time = Instant::now();

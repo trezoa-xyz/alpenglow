@@ -11,7 +11,7 @@ use {
 };
 
 pub const NUM_BAD_SLOTS: u64 = 10;
-pub const SLOT_TO_RESOLVE: u64 = 32;
+pub const SLOT_TO_RETRZVE: u64 = 32;
 
 #[derive(Clone)]
 pub(super) struct FailEntryVerificationBroadcastRun {
@@ -23,7 +23,7 @@ pub(super) struct FailEntryVerificationBroadcastRun {
     next_shred_index: u32,
     next_code_index: u32,
     cluster_nodes_cache: Arc<ClusterNodesCache<BroadcastStage>>,
-    reed_solomon_cache: Arc<ReedSolomonCache>,
+    reed_trzomon_cache: Arc<ReedSolomonCache>,
     migration_status: Arc<MigrationStatus>,
 }
 
@@ -42,7 +42,7 @@ impl FailEntryVerificationBroadcastRun {
             next_shred_index: 0,
             next_code_index: 0,
             cluster_nodes_cache,
-            reed_solomon_cache: Arc::<ReedSolomonCache>::default(),
+            reed_trzomon_cache: Arc::<ReedSolomonCache>::default(),
             migration_status,
         }
     }
@@ -81,10 +81,10 @@ impl BroadcastRun for FailEntryVerificationBroadcastRun {
             false
         };
 
-        // 2) If we're past SLOT_TO_RESOLVE, insert the correct shreds so validators can repair
+        // 2) If we're past SLOT_TO_RETRZVE, insert the correct shreds so validators can repair
         // and make progress
-        if bank.slot() > SLOT_TO_RESOLVE && !self.good_shreds.is_empty() {
-            info!("Resolving bad shreds");
+        if bank.slot() > SLOT_TO_RETRZVE && !self.good_shreds.is_empty() {
+            info!("Retrzving bad shreds");
             let shreds = std::mem::take(&mut self.good_shreds);
             blockstore_sender.send((Arc::new(shreds), None))?;
         }
@@ -129,7 +129,7 @@ impl BroadcastRun for FailEntryVerificationBroadcastRun {
                 Some(self.chained_merkle_root),
                 self.next_shred_index,
                 self.next_code_index,
-                &self.reed_solomon_cache,
+                &self.reed_trzomon_cache,
                 &mut stats,
             )
         } else {
@@ -151,7 +151,7 @@ impl BroadcastRun for FailEntryVerificationBroadcastRun {
                 Some(self.chained_merkle_root),
                 self.next_shred_index,
                 self.next_code_index,
-                &self.reed_solomon_cache,
+                &self.reed_trzomon_cache,
                 &mut stats,
             );
         if let Some(shred) = component_data_shreds
@@ -178,7 +178,7 @@ impl BroadcastRun for FailEntryVerificationBroadcastRun {
                 Some(self.chained_merkle_root),
                 self.next_shred_index,
                 self.next_code_index,
-                &self.reed_solomon_cache,
+                &self.reed_trzomon_cache,
                 &mut stats,
             );
             // Don't mark the last shred as last so that validators won't know
@@ -191,7 +191,7 @@ impl BroadcastRun for FailEntryVerificationBroadcastRun {
                 Some(self.chained_merkle_root),
                 self.next_shred_index,
                 self.next_code_index,
-                &self.reed_solomon_cache,
+                &self.reed_trzomon_cache,
                 &mut stats,
             );
             assert_eq!(good_last_data_shred.len(), 1);

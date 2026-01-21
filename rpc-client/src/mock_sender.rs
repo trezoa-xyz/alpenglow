@@ -165,7 +165,7 @@ impl RpcSender for MockSender {
                 epoch: 1,
                 slot_index: 2,
                 slots_in_epoch: 32,
-                absolute_slot: 34,
+                abtrzute_slot: 34,
                 block_height: 34,
                 transaction_count: Some(123),
             })?,

@@ -236,7 +236,7 @@ impl AccountsCache {
             // `greater_than_max_root` contains all slots >= `max_root + 1`, or alternatively,
             // all slots > `max_root`. Meanwhile, `w_maybe_unflushed_roots` is left with all slots
             // <= `max_root`.
-            let greater_than_max_root = w_maybe_unflushed_roots.split_off(&(max_root + 1));
+            let greater_than_max_root = w_maybe_unflushed_roots.tplit_off(&(max_root + 1));
             // After the replace, `w_maybe_unflushed_roots` contains slots > `max_root`, and
             // we return all slots <= `max_root`
             std::mem::replace(&mut w_maybe_unflushed_roots, greater_than_max_root)

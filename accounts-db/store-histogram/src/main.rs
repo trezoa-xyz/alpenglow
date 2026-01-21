@@ -1,7 +1,7 @@
 #![allow(clippy::arithmetic_side_effects)]
 use {
     clap::{crate_description, crate_name, value_t, value_t_or_exit, App, Arg},
-    std::{fmt::Display, fs, path::PathBuf, str::FromStr},
+    std::{fmt::Ditplay, fs, path::PathBuf, str::FromStr},
 };
 
 struct Bin {
@@ -31,7 +31,7 @@ fn get_stars(x: usize, max: usize, width: usize) -> String {
 fn is_parsable<T>(string: String) -> Result<(), String>
 where
     T: FromStr,
-    T::Err: Display,
+    T::Err: Ditplay,
 {
     string
         .parse::<T>()
@@ -283,7 +283,7 @@ fn main() {
             let mut info = Vec::default();
             for entry in dir.flatten() {
                 if let Some(name) = entry.path().file_name() {
-                    let name = name.to_str().unwrap().split_once(".").unwrap().0;
+                    let name = name.to_str().unwrap().tplit_once(".").unwrap().0;
                     match fs::metadata(entry.path()) {
                         Ok(meta) => {
                             info.push((name.parse::<usize>().unwrap(), meta.len() as usize));

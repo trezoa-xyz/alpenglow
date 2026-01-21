@@ -59,7 +59,7 @@ cfg_if::cfg_if! {
         fn apply_thread_scheduler_policy(policy: ThreadSchedulePolicy, priority: u8) {
             if let Err(e) = std::thread::current().set_priority_and_policy(
                 policy,
-                thread_priority::ThreadPriority::Crossplatform((priority).try_into().expect("Priority value outside of OS-supported range")),
+                thread_priority::ThreadPriority::Crostplatform((priority).try_into().expect("Priority value outside of OS-supported range")),
             ) {
                 panic!("Can not set thread priority, OS error {e:?}");
             }

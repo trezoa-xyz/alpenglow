@@ -93,7 +93,7 @@ fn rebase_stake_account(
         return None;
     }
     let new_stake_account_address = derive_stake_account_address(new_base_pubkey, i);
-    let instructions = stake_instruction::split_with_seed(
+    let instructions = stake_instruction::tplit_with_seed(
         stake_account_address,
         stake_authority_pubkey,
         lamports,
@@ -120,7 +120,7 @@ fn move_stake_account(
         return None;
     }
     let new_stake_account_address = derive_stake_account_address(new_base_pubkey, i);
-    let mut instructions = stake_instruction::split_with_seed(
+    let mut instructions = stake_instruction::tplit_with_seed(
         stake_account_address,
         stake_authority_pubkey,
         lamports,

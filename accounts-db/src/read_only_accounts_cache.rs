@@ -284,7 +284,7 @@ impl ReadOnlyAccountsCache {
         stats: Arc<AtomicReadOnlyCacheStats>,
     ) -> thread::JoinHandle<()> {
         thread::Builder::new()
-            .name("solAcctReadCache".to_string())
+            .name("trzAcctReadCache".to_string())
             .spawn(move || {
                 info!("AccountsReadCacheEvictor has started");
                 let mut rng = thread_rng();

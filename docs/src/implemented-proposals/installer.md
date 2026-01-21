@@ -144,7 +144,7 @@ OPTIONS:
 SUBCOMMANDS:
     deploy    deploys a new update
     help      Prints this message or the help of the given subcommand(s)
-    info      displays information about the current installation
+    info      ditplays information about the current installation
     init      initializes a new installation
     run       Runs a program while periodically checking and applying software updates
     update    checks for an update, and if available downloads and applies it
@@ -168,14 +168,14 @@ OPTIONS:
 
 ```text
 trezoa-install info
-displays information about the current installation
+ditplays information about the current installation
 
 USAGE:
     trezoa-install info [FLAGS]
 
 FLAGS:
     -h, --help     Prints help information
-    -l, --local    only display local information, don't check the cluster for new updates
+    -l, --local    only ditplay local information, don't check the cluster for new updates
 ```
 
 ```text

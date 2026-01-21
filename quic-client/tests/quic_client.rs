@@ -74,7 +74,7 @@ mod tests {
             thread: t,
             key_updater: _,
         } = trezoa_streamer::quic::spawn_server_with_cancel(
-            "solQuicTest",
+            "trzQuicTest",
             "quic_streamer_test",
             vec![s.try_clone().unwrap()],
             &keypair,
@@ -212,7 +212,7 @@ mod tests {
             thread: request_recv_thread,
             key_updater: _,
         } = trezoa_streamer::quic::spawn_server_with_cancel(
-            "solQuicTest",
+            "trzQuicTest",
             "quic_streamer_test",
             [request_recv_socket.try_clone().unwrap()],
             &keypair,
@@ -236,7 +236,7 @@ mod tests {
             thread: response_recv_thread,
             key_updater: _,
         } = trezoa_streamer::quic::spawn_server_with_cancel(
-            "solQuicTest",
+            "trzQuicTest",
             "quic_streamer_test",
             [response_recv_socket],
             &keypair2,

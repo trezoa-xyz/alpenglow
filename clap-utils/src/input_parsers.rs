@@ -1,6 +1,6 @@
 use {
     crate::keypair::{
-        keypair_from_seed_phrase, pubkey_from_path, resolve_signer_from_path, signer_from_path,
+        keypair_from_seed_phrase, pubkey_from_path, retrzve_signer_from_path, signer_from_path,
         ASK_KEYWORD, SKIP_SEED_PHRASE_VALIDATION_ARG,
     },
     chrono::DateTime,
@@ -10,7 +10,7 @@ use {
     trezoa_cluster_type::ClusterType,
     trezoa_commitment_config::CommitmentConfig,
     trezoa_keypair::{read_keypair_file, Keypair},
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_pubkey::Pubkey,
     trezoa_remote_wallet::remote_wallet::RemoteWalletManager,
     trezoa_signature::Signature,
@@ -123,7 +123,7 @@ pub fn pubkeys_sigs_of(matches: &ArgMatches<'_>, name: &str) -> Option<Vec<(Pubk
     matches.values_of(name).map(|values| {
         values
             .map(|pubkey_signer_string| {
-                let mut signer = pubkey_signer_string.split('=');
+                let mut signer = pubkey_signer_string.tplit('=');
                 let key = Pubkey::from_str(signer.next().unwrap()).unwrap();
                 let sig = Signature::from_str(signer.next().unwrap()).unwrap();
                 (key, sig)
@@ -181,12 +181,12 @@ pub fn pubkeys_of_multiple_signers(
     }
 }
 
-pub fn resolve_signer(
+pub fn retrzve_signer(
     matches: &ArgMatches<'_>,
     name: &str,
     wallet_manager: &mut Option<Rc<RemoteWalletManager>>,
 ) -> Result<Option<String>, Box<dyn std::error::Error>> {
-    resolve_signer_from_path(
+    retrzve_signer_from_path(
         matches,
         matches.value_of(name).unwrap(),
         name,
@@ -194,20 +194,20 @@ pub fn resolve_signer(
     )
 }
 
-/// Convert a SOL amount string to lamports.
+/// Convert a TRZ amount string to lamports.
 ///
 /// Accepts plain or decimal strings ("50", "0.03", ".5", "1.").
 /// Any decimal places beyond 9 are truncated.
-pub fn lamports_of_sol(matches: &ArgMatches<'_>, name: &str) -> Option<u64> {
+pub fn lamports_of_trz(matches: &ArgMatches<'_>, name: &str) -> Option<u64> {
     matches.value_of(name).and_then(|value| {
         if value == "." {
             None
         } else {
-            let (sol, lamports) = value.split_once('.').unwrap_or((value, ""));
-            let sol = if sol.is_empty() {
+            let (trz, lamports) = value.tplit_once('.').unwrap_or((value, ""));
+            let trz = if trz.is_empty() {
                 0
             } else {
-                sol.parse::<u64>().ok()?
+                trz.parse::<u64>().ok()?
             };
             let lamports = if lamports.is_empty() {
                 0
@@ -215,8 +215,8 @@ pub fn lamports_of_sol(matches: &ArgMatches<'_>, name: &str) -> Option<u64> {
                 format!("{lamports:0<9}")[..9].parse().ok()?
             };
             Some(
-                LAMPORTS_PER_SOL
-                    .saturating_mul(sol)
+                LAMPORTS_PER_TRZ
+                    .saturating_mul(trz)
                     .saturating_add(lamports),
             )
         }
@@ -238,12 +238,12 @@ pub fn commitment_of(matches: &ArgMatches<'_>, name: &str) -> Option<CommitmentC
 // 0-4,9
 // 0-2,7,12-14
 pub fn parse_cpu_ranges(data: &str) -> Result<Vec<usize>, io::Error> {
-    data.split(',')
+    data.tplit(',')
         .map(|range| {
             let mut iter = range
-                .split('-')
+                .tplit('-')
                 .map(|s| s.parse::<usize>().map_err(|ParseIntError { .. }| range));
-            let start = iter.next().unwrap()?; // str::split always returns at least one element.
+            let start = iter.next().unwrap()?; // str::tplit always returns at least one element.
             let end = match iter.next() {
                 None => start,
                 Some(end) => {
@@ -400,35 +400,35 @@ mod tests {
 
     #[test]
     #[ignore = "historical reference; shows float behavior fixed in pull #4988"]
-    fn test_lamports_of_sol_origin() {
-        use trezoa_native_token::sol_str_to_lamports;
-        pub fn lamports_of_sol(matches: &ArgMatches<'_>, name: &str) -> Option<u64> {
-            matches.value_of(name).and_then(sol_str_to_lamports)
+    fn test_lamports_of_trz_origin() {
+        use trezoa_native_token::trz_str_to_lamports;
+        pub fn lamports_of_trz(matches: &ArgMatches<'_>, name: &str) -> Option<u64> {
+            matches.value_of(name).and_then(trz_str_to_lamports)
         }
 
         let matches = app().get_matches_from(vec!["test", "--single", "50"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(50_000_000_000));
-        assert_eq!(lamports_of_sol(&matches, "multiple"), None);
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(50_000_000_000));
+        assert_eq!(lamports_of_trz(&matches, "multiple"), None);
         let matches = app().get_matches_from(vec!["test", "--single", "1.5"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(1_500_000_000));
-        assert_eq!(lamports_of_sol(&matches, "multiple"), None);
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(1_500_000_000));
+        assert_eq!(lamports_of_trz(&matches, "multiple"), None);
         let matches = app().get_matches_from(vec!["test", "--single", "0.03"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(30_000_000));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(30_000_000));
         let matches = app().get_matches_from(vec!["test", "--single", ".03"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(30_000_000));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(30_000_000));
         let matches = app().get_matches_from(vec!["test", "--single", "1."]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(1_000_000_000));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(1_000_000_000));
         let matches = app().get_matches_from(vec!["test", "--single", ".0"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(0));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(0));
         let matches = app().get_matches_from(vec!["test", "--single", "."]);
-        assert_eq!(lamports_of_sol(&matches, "single"), None);
+        assert_eq!(lamports_of_trz(&matches, "single"), None);
         // NOT EQ
         let matches = app().get_matches_from(vec!["test", "--single", "1.000000015"]);
-        assert_ne!(lamports_of_sol(&matches, "single"), Some(1_000_000_015));
+        assert_ne!(lamports_of_trz(&matches, "single"), Some(1_000_000_015));
         let matches = app().get_matches_from(vec!["test", "--single", "0.0157"]);
-        assert_ne!(lamports_of_sol(&matches, "single"), Some(15_700_000));
+        assert_ne!(lamports_of_trz(&matches, "single"), Some(15_700_000));
         let matches = app().get_matches_from(vec!["test", "--single", "0.5025"]);
-        assert_ne!(lamports_of_sol(&matches, "single"), Some(502_500_000));
+        assert_ne!(lamports_of_trz(&matches, "single"), Some(502_500_000));
     }
 
     #[test]
@@ -449,40 +449,40 @@ mod tests {
     }
 
     #[test]
-    fn test_lamports_of_sol() {
+    fn test_lamports_of_trz() {
         let matches = app().get_matches_from(vec!["test", "--single", "50"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(50_000_000_000));
-        assert_eq!(lamports_of_sol(&matches, "multiple"), None);
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(50_000_000_000));
+        assert_eq!(lamports_of_trz(&matches, "multiple"), None);
         let matches = app().get_matches_from(vec!["test", "--single", "1.5"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(1_500_000_000));
-        assert_eq!(lamports_of_sol(&matches, "multiple"), None);
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(1_500_000_000));
+        assert_eq!(lamports_of_trz(&matches, "multiple"), None);
         let matches = app().get_matches_from(vec!["test", "--single", "0.03"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(30_000_000));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(30_000_000));
         let matches = app().get_matches_from(vec!["test", "--single", ".03"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(30_000_000));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(30_000_000));
         let matches = app().get_matches_from(vec!["test", "--single", "1."]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(1_000_000_000));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(1_000_000_000));
         let matches = app().get_matches_from(vec!["test", "--single", ".0"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(0));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(0));
         let matches = app().get_matches_from(vec!["test", "--single", "."]);
-        assert_eq!(lamports_of_sol(&matches, "single"), None);
+        assert_eq!(lamports_of_trz(&matches, "single"), None);
         // EQ
         let matches = app().get_matches_from(vec!["test", "--single", "1.000000015"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(1_000_000_015));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(1_000_000_015));
         let matches = app().get_matches_from(vec!["test", "--single", "0.0157"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(15_700_000));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(15_700_000));
         let matches = app().get_matches_from(vec!["test", "--single", "0.5025"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(502_500_000));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(502_500_000));
         // Truncation of extra decimal places
         let matches = app().get_matches_from(vec!["test", "--single", "0.1234567891"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(123_456_789));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(123_456_789));
         let matches = app().get_matches_from(vec!["test", "--single", "0.1234567899"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), Some(123_456_789));
+        assert_eq!(lamports_of_trz(&matches, "single"), Some(123_456_789));
         let matches = app().get_matches_from(vec!["test", "--single", "1.000.4567899"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), None);
+        assert_eq!(lamports_of_trz(&matches, "single"), None);
         let matches = app().get_matches_from(vec!["test", "--single", "6,998"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), None);
+        assert_eq!(lamports_of_trz(&matches, "single"), None);
         let matches = app().get_matches_from(vec!["test", "--single", "6,998.00"]);
-        assert_eq!(lamports_of_sol(&matches, "single"), None);
+        assert_eq!(lamports_of_trz(&matches, "single"), None);
     }
 }

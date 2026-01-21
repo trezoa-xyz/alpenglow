@@ -9,7 +9,7 @@ use {
     trezoa_commitment_config::CommitmentConfig,
     trezoa_keypair::Keypair,
     trezoa_message::Message,
-    trezoa_native_token::LAMPORTS_PER_SOL,
+    trezoa_native_token::LAMPORTS_PER_TRZ,
     trezoa_pubkey::Pubkey,
     trezoa_rpc_client::rpc_client::RpcClient,
     trezoa_signer::Signer,
@@ -25,7 +25,7 @@ fn create_messages(from: Pubkey, to: Pubkey) -> (Vec<Message>, u64) {
     let mut messages = vec![];
     let mut sum = 0u64;
     for i in 1..NUM_TRANSACTIONS {
-        let amount_to_transfer = (i as u64).checked_mul(LAMPORTS_PER_SOL).unwrap();
+        let amount_to_transfer = (i as u64).checked_mul(LAMPORTS_PER_TRZ).unwrap();
         let ix = system_instruction::transfer(&from, &to, amount_to_transfer);
         let message = Message::new(&[ix], Some(&from));
         messages.push(message);

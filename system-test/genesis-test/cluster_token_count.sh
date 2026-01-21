@@ -32,10 +32,10 @@ function get_cluster_version {
 
 function get_token_capitalization {
   totalSupplyLamports="$(curl -s -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","id":1, "method":"getTotalSupply"}' "$url" | cut -d , -f 2 | cut -d : -f 2)"
-  totalSupplySol=$((totalSupplyLamports / LAMPORTS_PER_SOL))
+  totalSupplyTrz=$((totalSupplyLamports / LAMPORTS_PER_TRZ))
 
   printf "\n--- Token Capitalization ---\n"
-  printf "Total token capitalization %'d SOL\n" "$totalSupplySol"
+  printf "Total token capitalization %'d TRZ\n" "$totalSupplyTrz"
   printf "Total token capitalization %'d Lamports\n" "$totalSupplyLamports"
 
 }
@@ -55,28 +55,28 @@ function get_program_account_balance_totals {
     totalAccountBalancesLamports=$((totalAccountBalancesLamports + account))
     numberOfAccounts=$((numberOfAccounts + 1))
   done
-  totalAccountBalancesSol=$((totalAccountBalancesLamports / LAMPORTS_PER_SOL))
+  totalAccountBalancesTrz=$((totalAccountBalancesLamports / LAMPORTS_PER_TRZ))
 
   printf "\n--- %s Account Balance Totals ---\n" "$PROGRAM_NAME"
   printf "Number of %s Program accounts: %'.f\n" "$PROGRAM_NAME" "$numberOfAccounts"
-  printf "Total token balance in all %s accounts: %'d SOL\n" "$PROGRAM_NAME" "$totalAccountBalancesSol"
+  printf "Total token balance in all %s accounts: %'d TRZ\n" "$PROGRAM_NAME" "$totalAccountBalancesTrz"
   printf "Total token balance in all %s accounts: %'d Lamports\n" "$PROGRAM_NAME" "$totalAccountBalancesLamports"
 
   case $PROGRAM_NAME in
     SYSTEM)
-      systemAccountBalanceTotalSol=$totalAccountBalancesSol
+      systemAccountBalanceTotalSol=$totalAccountBalancesTrz
       systemAccountBalanceTotalLamports=$totalAccountBalancesLamports
       ;;
     STAKE)
-      stakeAccountBalanceTotalSol=$totalAccountBalancesSol
+      stakeAccountBalanceTotalSol=$totalAccountBalancesTrz
       stakeAccountBalanceTotalLamports=$totalAccountBalancesLamports
       ;;
     VOTE)
-      voteAccountBalanceTotalSol=$totalAccountBalancesSol
+      voteAccountBalanceTotalSol=$totalAccountBalancesTrz
       voteAccountBalanceTotalLamports=$totalAccountBalancesLamports
       ;;
     CONFIG)
-      configAccountBalanceTotalSol=$totalAccountBalancesSol
+      configAccountBalanceTotalSol=$totalAccountBalancesTrz
       configAccountBalanceTotalLamports=$totalAccountBalancesLamports
       ;;
     *)
@@ -87,11 +87,11 @@ function get_program_account_balance_totals {
 }
 
 function sum_account_balances_totals {
-  grandTotalAccountBalancesSol=$((systemAccountBalanceTotalSol + stakeAccountBalanceTotalSol + voteAccountBalanceTotalSol + configAccountBalanceTotalSol))
+  grandTotalAccountBalancesTrz=$((systemAccountBalanceTotalSol + stakeAccountBalanceTotalSol + voteAccountBalanceTotalSol + configAccountBalanceTotalSol))
   grandTotalAccountBalancesLamports=$((systemAccountBalanceTotalLamports + stakeAccountBalanceTotalLamports + voteAccountBalanceTotalLamports + configAccountBalanceTotalLamports))
 
   printf "\n--- Total Token Distribution in all Account Balances ---\n"
-  printf "Total SOL in all Account Balances: %'d\n" "$grandTotalAccountBalancesSol"
+  printf "Total TRZ in all Account Balances: %'d\n" "$grandTotalAccountBalancesTrz"
   printf "Total Lamports in all Account Balances: %'d\n" "$grandTotalAccountBalancesLamports"
 }
 
@@ -99,7 +99,7 @@ url=$1
 [[ -n $url ]] || usage "Missing required RPC URL"
 shift
 
-LAMPORTS_PER_SOL=1000000000 # 1 billion
+LAMPORTS_PER_TRZ=1000000000 # 1 billion
 
 stakeAccountBalanceTotalSol=
 systemAccountBalanceTotalSol=

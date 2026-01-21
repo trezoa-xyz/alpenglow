@@ -121,37 +121,37 @@ execution_step VIEW OFFLINE SYSTEM ACCOUNT BALANCE AFTER CREATING FIRST STAKE AC
 )
 
 #####################
-execution_step SPLIT STAKE OFFLINE
+execution_step TRZIT STAKE OFFLINE
 #####################
 
 # Split the original stake account before delegating
 
-split_stake_account_keypair=split_stake_account_keypair.json
-trezoa-keygen new -o $split_stake_account_keypair --no-passphrase --force --silent
-split_stake_account_address=$(trezoa-keygen pubkey $split_stake_account_keypair)
+tplit_stake_account_keypair=tplit_stake_account_keypair.json
+trezoa-keygen new -o $tplit_stake_account_keypair --no-passphrase --force --silent
+tplit_stake_account_address=$(trezoa-keygen pubkey $tplit_stake_account_keypair)
 
 nonce="$(trezoa nonce $nonce_account_pubkey)"
 
-sign_only="$(trezoa split-stake --blockhash $nonce --nonce $nonce_account_pubkey --nonce-authority $offline_system_account_keypair \
-  --stake-authority $offline_staker_keypair $stake_account_address $split_stake_account_keypair 10 \
+sign_only="$(trezoa tplit-stake --blockhash $nonce --nonce $nonce_account_pubkey --nonce-authority $offline_system_account_keypair \
+  --stake-authority $offline_staker_keypair $stake_account_address $tplit_stake_account_keypair 10 \
   --keypair $offline_system_account_keypair --sign-only --url http://0.0.0.0)"
 
 signers="$(get_signers_string "${sign_only[@]}")"
 
-trezoa split-stake --blockhash $nonce --nonce $nonce_account_pubkey --nonce-authority $offline_system_account_pubkey \
-  --stake-authority $offline_staker_pubkey $stake_account_address $split_stake_account_keypair 10 \
+trezoa tplit-stake --blockhash $nonce --nonce $nonce_account_pubkey --nonce-authority $offline_system_account_pubkey \
+  --stake-authority $offline_staker_pubkey $stake_account_address $tplit_stake_account_keypair 10 \
   --fee-payer $offline_system_account_pubkey ${signers[@]}
 
-execution_step VIEW ORIGINAL STAKE ACCOUNT AFTER SPLITTING
+execution_step VIEW ORIGINAL STAKE ACCOUNT AFTER TRZITTING
 (
   set -x
   trezoa stake-account $stake_account_address
 )
 
-execution_step VIEW NEW STAKE ACCOUNT CREATED FROM SPLITTING ORIGINAL
+execution_step VIEW NEW STAKE ACCOUNT CREATED FROM TRZITTING ORIGINAL
 (
   set -x
-  trezoa stake-account $split_stake_account_address
+  trezoa stake-account $tplit_stake_account_address
 )
 
 #####################
@@ -163,42 +163,42 @@ execution_step CHANGE CUSTODIAN LOCKUP
 nonce="$(trezoa nonce $nonce_account_pubkey)"
 
 sign_only="$(trezoa stake-set-lockup --blockhash $nonce --nonce $nonce_account_pubkey --nonce-authority $offline_system_account_keypair \
-  $split_stake_account_address --custodian $offline_custodian_keypair --lockup-epoch 0 \
+  $tplit_stake_account_address --custodian $offline_custodian_keypair --lockup-epoch 0 \
   --keypair $offline_system_account_keypair --sign-only --url http://0.0.0.0)"
 
 signers="$(get_signers_string "${sign_only[@]}")"
 
 trezoa stake-set-lockup --blockhash $nonce --nonce $nonce_account_pubkey --nonce-authority $offline_system_account_keypair \
-  $split_stake_account_address --custodian $offline_custodian_pubkey --lockup-epoch 0 \
+  $tplit_stake_account_address --custodian $offline_custodian_pubkey --lockup-epoch 0 \
   --fee-payer $offline_system_account_pubkey ${signers[@]}
 
-execution_step VIEW SPLIT STAKE ACCOUNT AFTER CHANGING LOCKUP
+execution_step VIEW TRZIT STAKE ACCOUNT AFTER CHANGING LOCKUP
 (
   set -x
-  trezoa stake-account $split_stake_account_address
+  trezoa stake-account $tplit_stake_account_address
 )
 
 ##########################
 execution_step OFFLINE STAKE WITHDRAWAL
 ##########################
 
-# Withdraw the lamports from the stake account that was split off and return them to the offline system account
+# Withdraw the lamports from the stake account that was tplit off and return them to the offline system account
 
 nonce="$(trezoa nonce $nonce_account_pubkey)"
 
 sign_only="$(trezoa withdraw-stake --blockhash $nonce --nonce $nonce_account_pubkey --nonce-authority $offline_system_account_keypair \
-   $split_stake_account_address $offline_system_account_pubkey 10 \
+   $tplit_stake_account_address $offline_system_account_pubkey 10 \
   --withdraw-authority $offline_withdrawer_keypair \
   --keypair $offline_system_account_keypair --sign-only --url http://0.0.0.0)"
 
 signers="$(get_signers_string "${sign_only[@]}")"
 
 trezoa withdraw-stake --blockhash $nonce --nonce $nonce_account_pubkey --nonce-authority $offline_system_account_pubkey \
-  $split_stake_account_address $offline_system_account_pubkey 10 \
+  $tplit_stake_account_address $offline_system_account_pubkey 10 \
   --withdraw-authority $offline_withdrawer_pubkey \
   --fee-payer $offline_system_account_pubkey ${signers[@]}
 
-execution_step VIEW OFFLINE SYSTEM ACCOUNT BALANCE AFTER WITHDRAWING SPLIT STAKE
+execution_step VIEW OFFLINE SYSTEM ACCOUNT BALANCE AFTER WITHDRAWING TRZIT STAKE
 (
   set -x
   trezoa balance $offline_system_account_pubkey

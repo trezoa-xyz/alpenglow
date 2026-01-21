@@ -5,7 +5,7 @@
     note = "Please use `trezoa_sdk_ids::sysvar::stake::id` instead"
 )]
 pub use trezoa_sdk_ids::stake::{check_id, id};
-use {trezoa_genesis_config::GenesisConfig, trezoa_native_token::LAMPORTS_PER_SOL};
+use {trezoa_genesis_config::GenesisConfig, trezoa_native_token::LAMPORTS_PER_TRZ};
 
 pub mod config;
 pub mod epoch_rewards;
@@ -23,10 +23,10 @@ pub fn add_genesis_accounts(genesis_config: &mut GenesisConfig) -> u64 {
 /// NOTE: This is also used to calculate the minimum balance of a delegated stake account,
 /// which is the rent exempt reserve _plus_ the minimum stake delegation.
 #[inline(always)]
-pub fn get_minimum_delegation(is_stake_raise_minimum_delegation_to_1_sol_active: bool) -> u64 {
-    if is_stake_raise_minimum_delegation_to_1_sol_active {
-        const MINIMUM_DELEGATION_SOL: u64 = 1;
-        MINIMUM_DELEGATION_SOL * LAMPORTS_PER_SOL
+pub fn get_minimum_delegation(is_stake_raise_minimum_delegation_to_1_trz_active: bool) -> u64 {
+    if is_stake_raise_minimum_delegation_to_1_trz_active {
+        const MINIMUM_DELEGATION_TRZ: u64 = 1;
+        MINIMUM_DELEGATION_TRZ * LAMPORTS_PER_TRZ
     } else {
         1
     }

@@ -35,7 +35,7 @@ use {
         },
         accounts_cache::{AccountsCache, CachedAccount, SlotCache},
         accounts_db::stats::{
-            AccountsStats, CleanAccountsStats, FlushStats, ObsoleteAccountsStats, PurgeStats,
+            AccountsStats, CleanAccountsStats, FlushStats, ObtrzeteAccountsStats, PurgeStats,
             ShrinkAncientStats, ShrinkStats, ShrinkStatsSub, StoreAccountsTiming,
         },
         accounts_file::{AccountsFile, AccountsFileError, AccountsFileProvider, StorageAccess},
@@ -112,7 +112,7 @@ pub const DEFAULT_MEMLOCK_BUDGET_SIZE: usize = 2_000_000_000;
 const MEMLOCK_BUDGET_SIZE_FOR_TESTS: usize = 4_000_000;
 
 // When getting accounts for shrinking from the index, this is the # of accounts to lookup per thread.
-// This allows us to split up accounts index accesses across multiple threads.
+// This allows us to tplit up accounts index accesses across multiple threads.
 const SHRINK_COLLECT_CHUNK_SIZE: usize = 50;
 
 /// The number of shrink candidate slots that is small enough so that
@@ -303,7 +303,7 @@ pub const ACCOUNTS_DB_CONFIG_FOR_TESTING: AccountsDbConfig = AccountsDbConfig {
     partitioned_epoch_rewards_config: DEFAULT_PARTITIONED_EPOCH_REWARDS_CONFIG,
     storage_access: StorageAccess::File,
     scan_filter_for_shrinking: ScanFilter::OnlyAbnormalTest,
-    mark_obsolete_accounts: MarkObsoleteAccounts::Disabled,
+    mark_obtrzete_accounts: MarkObtrzeteAccounts::Disabled,
     num_background_threads: None,
     num_foreground_threads: None,
     memlock_budget_size: MEMLOCK_BUDGET_SIZE_FOR_TESTS,
@@ -325,7 +325,7 @@ pub const ACCOUNTS_DB_CONFIG_FOR_BENCHMARKS: AccountsDbConfig = AccountsDbConfig
     partitioned_epoch_rewards_config: DEFAULT_PARTITIONED_EPOCH_REWARDS_CONFIG,
     storage_access: StorageAccess::File,
     scan_filter_for_shrinking: ScanFilter::OnlyAbnormal,
-    mark_obsolete_accounts: MarkObsoleteAccounts::Disabled,
+    mark_obtrzete_accounts: MarkObtrzeteAccounts::Disabled,
     num_background_threads: None,
     num_foreground_threads: None,
     memlock_budget_size: MEMLOCK_BUDGET_SIZE_FOR_TESTS,
@@ -447,7 +447,7 @@ pub struct AccountsDbConfig {
     pub partitioned_epoch_rewards_config: PartitionedEpochRewardsConfig,
     pub storage_access: StorageAccess,
     pub scan_filter_for_shrinking: ScanFilter,
-    pub mark_obsolete_accounts: MarkObsoleteAccounts,
+    pub mark_obtrzete_accounts: MarkObtrzeteAccounts,
     /// Number of threads for background operations (`thread_pool_background')
     pub num_background_threads: Option<NonZeroUsize>,
     /// Number of threads for foreground operations (`thread_pool_foreground`)
@@ -559,9 +559,9 @@ struct GenerateIndexTimings {
     pub visit_zero_lamports_us: u64,
     pub num_zero_lamport_single_refs: u64,
     pub all_accounts_are_zero_lamports_slots: u64,
-    pub mark_obsolete_accounts_us: u64,
-    pub num_obsolete_accounts_marked: u64,
-    pub num_slots_removed_as_obsolete: u64,
+    pub mark_obtrzete_accounts_us: u64,
+    pub num_obtrzete_accounts_marked: u64,
+    pub num_slots_removed_as_obtrzete: u64,
 }
 
 #[derive(Default, Debug, PartialEq, Eq)]
@@ -633,18 +633,18 @@ impl GenerateIndexTimings {
                 i64
             ),
             (
-                "mark_obsolete_accounts_us",
-                self.mark_obsolete_accounts_us,
+                "mark_obtrzete_accounts_us",
+                self.mark_obtrzete_accounts_us,
                 i64
             ),
             (
-                "num_obsolete_accounts_marked",
-                self.num_obsolete_accounts_marked,
+                "num_obtrzete_accounts_marked",
+                self.num_obtrzete_accounts_marked,
                 i64
             ),
             (
-                "num_slots_removed_as_obsolete",
-                self.num_slots_removed_as_obsolete,
+                "num_slots_removed_as_obtrzete",
+                self.num_slots_removed_as_obtrzete,
                 i64
             ),
         );
@@ -901,15 +901,15 @@ pub struct AccountStorageEntry {
     /// shrink more likely to visit this storage.
     zero_lamport_single_ref_offsets: RwLock<IntSet<Offset>>,
 
-    /// Obsolete Accounts. These are accounts that are still present in the storage
+    /// Obtrzete Accounts. These are accounts that are still present in the storage
     /// but should be ignored during rebuild. They have been removed
     /// from the accounts index, so they will not be picked up by scan.
     /// Slot is the slot at which the account is no longer needed.
-    /// Two scenarios cause an account entry to be marked obsolete
+    /// Two scenarios cause an account entry to be marked obtrzete
     /// 1. The account was rewritten to a newer slot
     /// 2. The account was set to zero lamports and is older than the last
     ///    full snapshot. In this case, slot is set to the snapshot slot
-    obsolete_accounts: RwLock<Vec<(Offset, usize, Slot)>>,
+    obtrzete_accounts: RwLock<Vec<(Offset, usize, Slot)>>,
 }
 
 impl AccountStorageEntry {
@@ -932,7 +932,7 @@ impl AccountStorageEntry {
             count: AtomicUsize::new(0),
             alive_bytes: AtomicUsize::new(0),
             zero_lamport_single_ref_offsets: RwLock::default(),
-            obsolete_accounts: RwLock::default(),
+            obtrzete_accounts: RwLock::default(),
         }
     }
 
@@ -953,7 +953,7 @@ impl AccountStorageEntry {
             zero_lamport_single_ref_offsets: RwLock::new(
                 self.zero_lamport_single_ref_offsets.read().unwrap().clone(),
             ),
-            obsolete_accounts: RwLock::new(self.obsolete_accounts.read().unwrap().clone()),
+            obtrzete_accounts: RwLock::new(self.obtrzete_accounts.read().unwrap().clone()),
         })
     }
 
@@ -965,7 +965,7 @@ impl AccountStorageEntry {
             count: AtomicUsize::new(0),
             alive_bytes: AtomicUsize::new(0),
             zero_lamport_single_ref_offsets: RwLock::default(),
-            obsolete_accounts: RwLock::default(),
+            obtrzete_accounts: RwLock::default(),
         }
     }
 
@@ -978,48 +978,48 @@ impl AccountStorageEntry {
         self.alive_bytes.load(Ordering::Acquire)
     }
 
-    /// Marks the accounts at the given offsets as obsolete
-    pub fn mark_accounts_obsolete(
+    /// Marks the accounts at the given offsets as obtrzete
+    pub fn mark_accounts_obtrzete(
         &self,
-        newly_obsolete_accounts: impl ExactSizeIterator<Item = (Offset, usize)>,
+        newly_obtrzete_accounts: impl ExactSizeIterator<Item = (Offset, usize)>,
         slot: Slot,
     ) {
-        let mut obsolete_accounts_list = self.obsolete_accounts.write().unwrap();
-        obsolete_accounts_list.reserve(newly_obsolete_accounts.len());
+        let mut obtrzete_accounts_list = self.obtrzete_accounts.write().unwrap();
+        obtrzete_accounts_list.reserve(newly_obtrzete_accounts.len());
 
-        for (offset, data_len) in newly_obsolete_accounts {
-            obsolete_accounts_list.push((offset, data_len, slot));
+        for (offset, data_len) in newly_obtrzete_accounts {
+            obtrzete_accounts_list.push((offset, data_len, slot));
         }
     }
 
-    /// Returns the accounts that were marked obsolete as of the passed in slot
+    /// Returns the accounts that were marked obtrzete as of the passed in slot
     /// or earlier. If slot is None, then slot will be assumed to be the max root
-    /// and all obsolete accounts will be returned.
-    pub fn get_obsolete_accounts(&self, slot: Option<Slot>) -> Vec<(Offset, usize)> {
-        self.obsolete_accounts
+    /// and all obtrzete accounts will be returned.
+    pub fn get_obtrzete_accounts(&self, slot: Option<Slot>) -> Vec<(Offset, usize)> {
+        self.obtrzete_accounts
             .read()
             .unwrap()
             .iter()
-            .filter(|(_, _, obsolete_slot)| slot.is_none_or(|s| *obsolete_slot <= s))
+            .filter(|(_, _, obtrzete_slot)| slot.is_none_or(|s| *obtrzete_slot <= s))
             .map(|(offset, data_len, _)| (*offset, *data_len))
             .collect()
     }
 
-    /// Returns the number of bytes that were marked obsolete as of the passed
+    /// Returns the number of bytes that were marked obtrzete as of the passed
     /// in slot or earlier. If slot is None, then slot will be assumed to be the
-    /// max root, and all obsolete bytes will be returned.
-    pub fn get_obsolete_bytes(&self, slot: Option<Slot>) -> usize {
-        let obsolete_accounts = self.obsolete_accounts.read().unwrap();
-        let obsolete_bytes = obsolete_accounts
+    /// max root, and all obtrzete bytes will be returned.
+    pub fn get_obtrzete_bytes(&self, slot: Option<Slot>) -> usize {
+        let obtrzete_accounts = self.obtrzete_accounts.read().unwrap();
+        let obtrzete_bytes = obtrzete_accounts
             .iter()
-            .filter(|(_, _, obsolete_slot)| slot.is_none_or(|s| *obsolete_slot <= s))
+            .filter(|(_, _, obtrzete_slot)| slot.is_none_or(|s| *obtrzete_slot <= s))
             .map(|(offset, data_len, _)| {
                 self.accounts
                     .calculate_stored_size(*data_len)
                     .min(self.accounts.len() - offset)
             })
             .sum();
-        obsolete_bytes
+        obtrzete_bytes
     }
 
     /// Return true if offset is "new" and inserted successfully. Otherwise,
@@ -1139,11 +1139,11 @@ struct CleaningInfo {
     might_contain_zero_lamport_entry: bool,
 }
 
-/// Indicates when to mark accounts obsolete
-/// * Disabled - do not mark accounts obsolete
-/// * Enabled - mark accounts obsolete during write cache flush
+/// Indicates when to mark accounts obtrzete
+/// * Disabled - do not mark accounts obtrzete
+/// * Enabled - mark accounts obtrzete during write cache flush
 #[derive(Default, Debug, Clone, Copy, PartialEq, Eq)]
-pub enum MarkObsoleteAccounts {
+pub enum MarkObtrzeteAccounts {
     #[default]
     Disabled,
     Enabled,
@@ -1300,10 +1300,10 @@ pub struct AccountsDb {
     /// that means the storage was already shrunk.
     pub(crate) best_ancient_slots_to_shrink: RwLock<VecDeque<(Slot, u64)>>,
 
-    /// Flag to indicate if the experimental obsolete account tracking feature is enabled.
-    /// This feature tracks obsolete accounts in the account storage entry allowing
-    /// for earlier cleaning of obsolete accounts in the storages and index.
-    pub mark_obsolete_accounts: MarkObsoleteAccounts,
+    /// Flag to indicate if the experimental obtrzete account tracking feature is enabled.
+    /// This feature tracks obtrzete accounts in the account storage entry allowing
+    /// for earlier cleaning of obtrzete accounts in the storages and index.
+    pub mark_obtrzete_accounts: MarkObtrzeteAccounts,
 }
 
 pub fn quarter_thread_count() -> usize {
@@ -1394,7 +1394,7 @@ impl AccountsDb {
             .unwrap_or_else(default_num_foreground_threads);
         let thread_pool_foreground = rayon::ThreadPoolBuilder::new()
             .num_threads(num_foreground_threads)
-            .thread_name(|i| format!("solAcctsDbFg{i:02}"))
+            .thread_name(|i| format!("trzAcctsDbFg{i:02}"))
             .stack_size(ACCOUNTS_STACK_SIZE)
             .build()
             .expect("new rayon threadpool");
@@ -1404,7 +1404,7 @@ impl AccountsDb {
             .map(Into::into)
             .unwrap_or_else(quarter_thread_count);
         let thread_pool_background = rayon::ThreadPoolBuilder::new()
-            .thread_name(|i| format!("solAcctsDbBg{i:02}"))
+            .thread_name(|i| format!("trzAcctsDbBg{i:02}"))
             .num_threads(num_background_threads)
             .build()
             .expect("new rayon threadpool");
@@ -1466,7 +1466,7 @@ impl AccountsDb {
             accounts_file_provider: AccountsFileProvider::default(),
             latest_full_snapshot_slot: SeqLock::new(None),
             best_ancient_slots_to_shrink: RwLock::default(),
-            mark_obsolete_accounts: accounts_db_config.mark_obsolete_accounts,
+            mark_obtrzete_accounts: accounts_db_config.mark_obtrzete_accounts,
         };
 
         {
@@ -1566,7 +1566,7 @@ impl AccountsDb {
             None,
             pubkeys_removed_from_accounts_index,
             HandleReclaims::ProcessDeadSlots(&self.clean_accounts_stats.purge_stats),
-            MarkAccountsObsolete::No,
+            MarkAccountsObtrzete::No,
         );
         measure.stop();
         debug!("{measure}");
@@ -2374,7 +2374,7 @@ impl AccountsDb {
             None,
             &pubkeys_removed_from_accounts_index,
             HandleReclaims::ProcessDeadSlots(&self.clean_accounts_stats.purge_stats),
-            MarkAccountsObsolete::No,
+            MarkAccountsObtrzete::No,
         );
 
         reclaims_time.stop();
@@ -2549,8 +2549,8 @@ impl AccountsDb {
     ///   cleaned up/removed via `process_dead_slots`. For instance, on store, no slots should
     ///   be cleaned up, but during the background clean accounts purges accounts from old rooted
     ///   slots, so outdated slots may be removed.
-    /// * 'mark_accounts_obsolete' - Whether to mark accounts as obsolete or not. If `Yes`, then
-    ///   obsolete account entry will be marked in the storage so snapshots/accounts hash can
+    /// * 'mark_accounts_obtrzete' - Whether to mark accounts as obtrzete or not. If `Yes`, then
+    ///   obtrzete account entry will be marked in the storage so snapshots/accounts hash can
     ///   determine the state of the account at a specified slot. This should only be done if the
     ///   account is already unrefed and removed from the accounts index
     ///   It must be unrefed and removed to avoid double counting or missed counting in shrink
@@ -2560,7 +2560,7 @@ impl AccountsDb {
         expected_single_dead_slot: Option<Slot>,
         pubkeys_removed_from_accounts_index: &PubkeysRemovedFromAccountsIndex,
         handle_reclaims: HandleReclaims<'a>,
-        mark_accounts_obsolete: MarkAccountsObsolete,
+        mark_accounts_obtrzete: MarkAccountsObtrzete,
     ) -> ReclaimResult
     where
         I: Iterator<Item = &'a (Slot, AccountInfo)>,
@@ -2570,7 +2570,7 @@ impl AccountsDb {
             let (dead_slots, reclaimed_offsets) = self.remove_dead_accounts(
                 reclaims,
                 expected_single_dead_slot,
-                mark_accounts_obsolete,
+                mark_accounts_obtrzete,
             );
             reclaim_result.1 = reclaimed_offsets;
             let HandleReclaims::ProcessDeadSlots(purge_stats) = handle_reclaims;
@@ -2580,9 +2580,9 @@ impl AccountsDb {
                     assert!(dead_slots.contains(&expected_single_dead_slot));
                 }
             }
-            // if we are marking accounts obsolete, then any dead slots have already been cleaned
+            // if we are marking accounts obtrzete, then any dead slots have already been cleaned
             let clean_stored_dead_slots =
-                !matches!(mark_accounts_obsolete, MarkAccountsObsolete::Yes(_));
+                !matches!(mark_accounts_obtrzete, MarkAccountsObtrzete::Yes(_));
 
             self.process_dead_slots(
                 &dead_slots,
@@ -2933,18 +2933,18 @@ impl AccountsDb {
 
         let mut index_read_elapsed = Measure::start("index_read_elapsed");
 
-        // Get a set of all obsolete offsets
-        // Slot is not needed, as all obsolete accounts can be considered
-        // dead for shrink. Zero lamport accounts are not marked obsolete
-        let obsolete_offsets: IntSet<_> = store
-            .get_obsolete_accounts(None)
+        // Get a set of all obtrzete offsets
+        // Slot is not needed, as all obtrzete accounts can be considered
+        // dead for shrink. Zero lamport accounts are not marked obtrzete
+        let obtrzete_offsets: IntSet<_> = store
+            .get_obtrzete_accounts(None)
             .into_iter()
             .map(|(offset, _)| offset)
             .collect();
 
-        // Filter all the accounts that are marked obsolete
+        // Filter all the accounts that are marked obtrzete
         let total_starting_accounts = stored_accounts.len();
-        stored_accounts.retain(|account| !obsolete_offsets.contains(&account.index_info.offset()));
+        stored_accounts.retain(|account| !obtrzete_offsets.contains(&account.index_info.offset()));
 
         let len = stored_accounts.len();
         let shrink_collect = Mutex::new(ShrinkCollect {
@@ -2962,7 +2962,7 @@ impl AccountsDb {
             .accounts_loaded
             .fetch_add(len as u64, Ordering::Relaxed);
         stats
-            .obsolete_accounts_filtered
+            .obtrzete_accounts_filtered
             .fetch_add((total_starting_accounts - len) as u64, Ordering::Relaxed);
         stats
             .num_duplicated_accounts
@@ -4466,7 +4466,7 @@ impl AccountsDb {
             store.accounts.len(),
             store.accounts.capacity(),
             from,
-            store.accounts.path().display(),
+            store.accounts.path().ditplay(),
         );
 
         store
@@ -4709,14 +4709,14 @@ impl AccountsDb {
         // storage entries
         let mut handle_reclaims_elapsed = Measure::start("handle_reclaims_elapsed");
         // Slot should be dead after removing all its account entries
-        // There is no reason to mark accounts obsolete as the slot storage is being purged
+        // There is no reason to mark accounts obtrzete as the slot storage is being purged
         let expected_dead_slot = Some(remove_slot);
         self.handle_reclaims(
             (!reclaims.is_empty()).then(|| reclaims.iter()),
             expected_dead_slot,
             &pubkeys_removed_from_accounts_index,
             HandleReclaims::ProcessDeadSlots(purge_stats),
-            MarkAccountsObsolete::No,
+            MarkAccountsObtrzete::No,
         );
         handle_reclaims_elapsed.stop();
         purge_stats
@@ -5153,12 +5153,12 @@ impl AccountsDb {
                 "flush_slot_cache",
             );
 
-            // Use ReclaimOldSlots to reclaim old slots if marking obsolete accounts and cleaning
+            // Use ReclaimOldSlots to reclaim old slots if marking obtrzete accounts and cleaning
             // Cleaning is enabled if `should_flush_f` is Some.
             // should_flush_f is set to None when
             // 1) There's an ongoing scan to avoid reclaiming accounts being scanned.
             // 2) The slot is > max_clean_root to prevent unrooted slots from reclaiming rooted versions.
-            let reclaim_method = if self.mark_obsolete_accounts == MarkObsoleteAccounts::Enabled
+            let reclaim_method = if self.mark_obtrzete_accounts == MarkObtrzeteAccounts::Enabled
                 && should_flush_f.is_some()
             {
                 UpsertReclaim::ReclaimOldSlots
@@ -5567,7 +5567,7 @@ impl AccountsDb {
         &'a self,
         reclaims: I,
         expected_slot: Option<Slot>,
-        mark_accounts_obsolete: MarkAccountsObsolete,
+        mark_accounts_obtrzete: MarkAccountsObtrzete,
     ) -> (IntSet<Slot>, SlotOffsets)
     where
         I: Iterator<Item = &'a (Slot, AccountInfo)>,
@@ -5623,12 +5623,12 @@ impl AccountsDb {
                             .sum();
                         let remaining_accounts = store.remove_accounts(dead_bytes, offsets.len());
 
-                        if let MarkAccountsObsolete::Yes(slot_marked_obsolete) =
-                            mark_accounts_obsolete
+                        if let MarkAccountsObtrzete::Yes(slot_marked_obtrzete) =
+                            mark_accounts_obtrzete
                         {
-                            store.mark_accounts_obsolete(
+                            store.mark_accounts_obtrzete(
                                 offsets.into_iter().zip(data_lens),
-                                slot_marked_obsolete,
+                                slot_marked_obtrzete,
                             );
                         }
                         remaining_accounts
@@ -5822,13 +5822,13 @@ impl AccountsDb {
                     .map(|store| {
                         let slot = store.slot();
                         let mut pubkeys = Vec::with_capacity(store.count());
-                        // Obsolete accounts are already unreffed before this point, so do not add
+                        // Obtrzete accounts are already unreffed before this point, so do not add
                         // them to the pubkeys list.
-                        let obsolete_accounts = store.get_obsolete_accounts(None);
+                        let obtrzete_accounts = store.get_obtrzete_accounts(None);
                         store
                             .accounts
                             .scan_accounts_without_data(|offset, account| {
-                                if !obsolete_accounts.contains(&(offset, account.data_len)) {
+                                if !obtrzete_accounts.contains(&(offset, account.data_len)) {
                                     pubkeys.push((slot, *account.pubkey));
                                 }
                             })
@@ -6000,15 +6000,15 @@ impl AccountsDb {
                 None,
                 &HashSet::default(),
                 HandleReclaims::ProcessDeadSlots(&purge_stats),
-                MarkAccountsObsolete::Yes(slot),
+                MarkAccountsObtrzete::Yes(slot),
             );
             handle_reclaims_time.stop();
             handle_reclaims_elapsed = handle_reclaims_time.as_us();
-            self.stats.num_obsolete_slots_removed.fetch_add(
+            self.stats.num_obtrzete_slots_removed.fetch_add(
                 purge_stats.num_stored_slots_removed.load(Ordering::Relaxed),
                 Ordering::Relaxed,
             );
-            self.stats.num_obsolete_bytes_removed.fetch_add(
+            self.stats.num_obtrzete_bytes_removed.fetch_add(
                 purge_stats
                     .total_removed_stored_bytes
                     .load(Ordering::Relaxed),
@@ -6266,16 +6266,16 @@ impl AccountsDb {
                     i64
                 ),
                 (
-                    "num_obsolete_slots_removed",
+                    "num_obtrzete_slots_removed",
                     self.stats
-                        .num_obsolete_slots_removed
+                        .num_obtrzete_slots_removed
                         .swap(0, Ordering::Relaxed),
                     i64
                 ),
                 (
-                    "num_obsolete_bytes_removed",
+                    "num_obtrzete_bytes_removed",
                     self.stats
-                        .num_obsolete_bytes_removed
+                        .num_obtrzete_bytes_removed
                         .swap(0, Ordering::Relaxed),
                     i64
                 ),
@@ -6398,10 +6398,10 @@ impl AccountsDb {
                     accounts_data_len += data_len as u64;
                     all_accounts_are_zero_lamports = false;
                 } else {
-                    // With obsolete accounts enabled, all zero lamport accounts
-                    // are obsolete or single ref by the end of index generation
+                    // With obtrzete accounts enabled, all zero lamport accounts
+                    // are obtrzete or single ref by the end of index generation
                     // Store the offsets here
-                    if self.mark_obsolete_accounts == MarkObsoleteAccounts::Enabled {
+                    if self.mark_obtrzete_accounts == MarkObtrzeteAccounts::Enabled {
                         zero_lamport_offsets.push(offset);
                     }
                     zero_lamport_pubkeys.push(*account.pubkey);
@@ -6476,11 +6476,11 @@ impl AccountsDb {
             assert!(old.is_none());
         }
 
-        // If obsolete accounts are enabled, add them as single ref accounts here
+        // If obtrzete accounts are enabled, add them as single ref accounts here
         // to avoid having to revisit them later
-        // This is safe with obsolete accounts as all zero lamport accounts will be single ref
-        // or obsolete by the end of index generation
-        if self.mark_obsolete_accounts == MarkObsoleteAccounts::Enabled {
+        // This is safe with obtrzete accounts as all zero lamport accounts will be single ref
+        // or obtrzete by the end of index generation
+        if self.mark_obtrzete_accounts == MarkObtrzeteAccounts::Enabled {
             storage.batch_insert_zero_lamport_single_ref_account_offsets(&zero_lamport_offsets);
             zero_lamport_pubkeys = Vec::new();
         }
@@ -6570,7 +6570,7 @@ impl AccountsDb {
             let thread_handles = (0..num_threads)
                 .map(|i| {
                     thread::Builder::new()
-                        .name(format!("solGenIndex{i:02}"))
+                        .name(format!("trzGenIndex{i:02}"))
                         .spawn_scoped(s, || {
                             let mut thread_accum = IndexGenerationAccumulator::new();
                             let mut reader = append_vec::new_scan_accounts_reader();
@@ -6611,7 +6611,7 @@ impl AccountsDb {
                 .collect::<Result<Vec<_>, _>>()
                 .expect("spawn threads");
             let logger_thread_handle = thread::Builder::new()
-                .name("solGenIndexLog".to_string())
+                .name("trzGenIndexLog".to_string())
                 .spawn_scoped(s, || {
                     let mut last_update = Instant::now();
                     loop {
@@ -6847,21 +6847,21 @@ impl AccountsDb {
 
         self.set_storage_count_and_alive_bytes(storage_info, &mut timings);
 
-        if self.mark_obsolete_accounts == MarkObsoleteAccounts::Enabled {
-            let mut mark_obsolete_accounts_time = Measure::start("mark_obsolete_accounts_time");
+        if self.mark_obtrzete_accounts == MarkObtrzeteAccounts::Enabled {
+            let mut mark_obtrzete_accounts_time = Measure::start("mark_obtrzete_accounts_time");
             // Mark all reclaims at max_slot. This is safe because only the snapshot paths care about
             // this information. Since this account was just restored from the previous snapshot and
-            // it is known that it was already obsolete at that time, it must hold true that it will
-            // still be obsolete if a newer snapshot is created, since a newer snapshot will always
+            // it is known that it was already obtrzete at that time, it must hold true that it will
+            // still be obtrzete if a newer snapshot is created, since a newer snapshot will always
             // be performed on a slot greater than the current slot
-            let slot_marked_obsolete = storages.last().unwrap().slot();
-            let obsolete_account_stats =
-                self.mark_obsolete_accounts_at_startup(slot_marked_obsolete, unique_pubkeys_by_bin);
+            let slot_marked_obtrzete = storages.last().unwrap().slot();
+            let obtrzete_account_stats =
+                self.mark_obtrzete_accounts_at_startup(slot_marked_obtrzete, unique_pubkeys_by_bin);
 
-            mark_obsolete_accounts_time.stop();
-            timings.mark_obsolete_accounts_us = mark_obsolete_accounts_time.as_us();
-            timings.num_obsolete_accounts_marked = obsolete_account_stats.accounts_marked_obsolete;
-            timings.num_slots_removed_as_obsolete = obsolete_account_stats.slots_removed;
+            mark_obtrzete_accounts_time.stop();
+            timings.mark_obtrzete_accounts_us = mark_obtrzete_accounts_time.as_us();
+            timings.num_obtrzete_accounts_marked = obtrzete_account_stats.accounts_marked_obtrzete;
+            timings.num_slots_removed_as_obtrzete = obtrzete_account_stats.slots_removed;
         }
         total_time.stop();
         timings.total_time_us = total_time.as_us();
@@ -6875,14 +6875,14 @@ impl AccountsDb {
         }
     }
 
-    /// Use the duplicated pubkeys to mark all older version of the pubkeys as obsolete
+    /// Use the duplicated pubkeys to mark all older version of the pubkeys as obtrzete
     /// This will unref the accounts and then reclaim the accounts
-    fn mark_obsolete_accounts_at_startup(
+    fn mark_obtrzete_accounts_at_startup(
         &self,
-        slot_marked_obsolete: Slot,
+        slot_marked_obtrzete: Slot,
         pubkeys_with_duplicates_by_bin: Vec<Vec<Pubkey>>,
-    ) -> ObsoleteAccountsStats {
-        let stats: ObsoleteAccountsStats = pubkeys_with_duplicates_by_bin
+    ) -> ObtrzeteAccountsStats {
+        let stats: ObtrzeteAccountsStats = pubkeys_with_duplicates_by_bin
             .par_iter()
             .map(|pubkeys_by_bin| {
                 let reclaims = self
@@ -6890,16 +6890,16 @@ impl AccountsDb {
                     .clean_and_unref_rooted_entries_by_bin(pubkeys_by_bin);
                 let stats = PurgeStats::default();
 
-                // Mark all the entries as obsolete, and remove any empty storages
+                // Mark all the entries as obtrzete, and remove any empty storages
                 self.handle_reclaims(
                     (!reclaims.is_empty()).then(|| reclaims.iter()),
                     None,
                     &HashSet::new(),
                     HandleReclaims::ProcessDeadSlots(&stats),
-                    MarkAccountsObsolete::Yes(slot_marked_obsolete),
+                    MarkAccountsObtrzete::Yes(slot_marked_obtrzete),
                 );
-                ObsoleteAccountsStats {
-                    accounts_marked_obsolete: reclaims.len() as u64,
+                ObtrzeteAccountsStats {
+                    accounts_marked_obtrzete: reclaims.len() as u64,
                     slots_removed: stats.total_removed_storage_entries.load(Ordering::Relaxed)
                         as u64,
                 }
@@ -7163,11 +7163,11 @@ enum HandleReclaims<'a> {
     ProcessDeadSlots(&'a PurgeStats),
 }
 
-/// Specify whether obsolete accounts should be marked or not during reclaims
+/// Specify whether obtrzete accounts should be marked or not during reclaims
 /// They should only be marked if they are also getting unreffed in the index
 /// Temporarily allow dead code until the feature is implemented
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-enum MarkAccountsObsolete {
+enum MarkAccountsObtrzete {
     Yes(Slot),
     No,
 }
@@ -7390,14 +7390,14 @@ impl AccountsDb {
         sizes
     }
 
-    // With obsolete accounts marked, obsolete references are marked in the storage
+    // With obtrzete accounts marked, obtrzete references are marked in the storage
     // and no longer need to be referenced. This leads to a static reference count
     // of 1. As referencing checking is common in tests, this test wrapper abstracts the behavior
     pub fn assert_ref_count(&self, pubkey: &Pubkey, expected_ref_count: RefCount) {
-        let expected_ref_count = match self.mark_obsolete_accounts {
-            MarkObsoleteAccounts::Disabled => expected_ref_count,
-            // When obsolete accounts are marked, the ref count is always 1 or 0
-            MarkObsoleteAccounts::Enabled => expected_ref_count.min(1),
+        let expected_ref_count = match self.mark_obtrzete_accounts {
+            MarkObtrzeteAccounts::Disabled => expected_ref_count,
+            // When obtrzete accounts are marked, the ref count is always 1 or 0
+            MarkObtrzeteAccounts::Enabled => expected_ref_count.min(1),
         };
 
         assert_eq!(

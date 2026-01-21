@@ -44,7 +44,7 @@ trezoa-slot-history = { workspace = true }
 trezoa-stake-interface = { workspace = true, features = ["bincode", "sysvar"] }
 trezoa-sysvar = { workspace = true }
 trezoa-vote-interface = { workspace = true, features = ["bincode"] }
-spl-generic-token = { workspace = true }
+trz-generic-token = { workspace = true }
 tpl-token-2022-interface = { workspace = true }
 tpl-token-group-interface = { workspace = true }
 tpl-token-interface = { workspace = true }
@@ -57,7 +57,7 @@ assert_matches = { workspace = true }
 trezoa-account = { workspace = true, features = ["bincode"] }
 trezoa-hash = { workspace = true }
 trezoa-pubkey = { workspace = true, features = ["rand"] }
-spl-pod = { workspace = true }
+trz-pod = { workspace = true }
 
 [lints]
 workspace = true

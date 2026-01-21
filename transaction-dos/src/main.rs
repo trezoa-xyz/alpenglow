@@ -483,7 +483,7 @@ fn main() {
                 .long("account_groups")
                 .takes_value(true)
                 .value_name("NUM")
-                .help("Number of groups of accounts to split the accounts into"),
+                .help("Number of groups of accounts to tplit the accounts into"),
         )
         .arg(
             Arg::with_name("batch_size")

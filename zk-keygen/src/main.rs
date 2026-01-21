@@ -14,7 +14,7 @@ use {
             ae_key_from_path, ae_key_from_seed_phrase, elgamal_keypair_from_path,
             elgamal_keypair_from_seed_phrase, SKIP_SEED_PHRASE_VALIDATION_ARG,
         },
-        DisplayError,
+        DitplayError,
     },
     trezoa_seed_derivable::SeedDerivable,
     trezoa_signer::EncodableKey,
@@ -90,14 +90,14 @@ fn app(crate_version: &str) -> Command {
                 .arg(
                     Arg::new("silent")
                         .long("silent")
-                        .help("Do not display seed phrase. Useful when piping output to other programs that prompt for user input, like gpg"),
+                        .help("Do not ditplay seed phrase. Useful when piping output to other programs that prompt for user input, like gpg"),
                 )
                 .key_generation_common_args()
                 .arg(no_outfile_arg().conflicts_with_all(&["outfile", "silent"]))
         )
         .subcommand(
             Command::new("pubkey")
-                .about("Display the pubkey from a keypair file")
+                .about("Ditplay the pubkey from a keypair file")
                 .disable_version_flag(true)
                 .arg(
                     Arg::new("type")
@@ -170,7 +170,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     let matches = app(trezoa_version::version!())
         .try_get_matches()
         .unwrap_or_else(|e| e.exit());
-    do_main(&matches).map_err(|err| DisplayError::new_as_boxed(err).into())
+    do_main(&matches).map_err(|err| DitplayError::new_as_boxed(err).into())
 }
 
 fn do_main(matches: &ArgMatches) -> Result<(), Box<dyn error::Error>> {

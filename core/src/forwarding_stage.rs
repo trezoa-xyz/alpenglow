@@ -153,7 +153,7 @@ pub(crate) fn spawn_forwarding_stage(
             );
             SpawnForwardingStageResult {
                 join_handle: Builder::new()
-                    .name("solFwdStage".to_string())
+                    .name("trzFwdStage".to_string())
                     .spawn(move || forwarding_stage.run())
                     .unwrap(),
                 client_updater: connection_cache as Arc<dyn NotifyKeyUpdate + Send + Sync>,
@@ -191,7 +191,7 @@ pub(crate) fn spawn_forwarding_stage(
             );
             SpawnForwardingStageResult {
                 join_handle: Builder::new()
-                    .name("solFwdStage".to_string())
+                    .name("trzFwdStage".to_string())
                     .spawn(move || forwarding_stage.run())
                     .unwrap(),
                 client_updater: Arc::new(UpdateHandles(non_vote_clients))

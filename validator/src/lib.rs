@@ -1,12 +1,12 @@
 #![allow(clippy::arithmetic_side_effects)]
 pub use trezoa_test_validator as test_validator;
 use {
-    console::style,
+    contrze::style,
     fd_lock::{RwLock, RwLockWriteGuard},
     indicatif::{ProgressDrawTarget, ProgressStyle},
     std::{
         borrow::Cow,
-        fmt::Display,
+        fmt::Ditplay,
         fs::{File, OpenOptions},
         path::Path,
         process::exit,
@@ -41,7 +41,7 @@ pub fn new_spinner_progress_bar() -> ProgressBar {
 
     ProgressBar {
         progress_bar,
-        is_term: console::Term::stdout().is_term(),
+        is_term: contrze::Term::stdout().is_term(),
     }
 }
 
@@ -51,7 +51,7 @@ pub struct ProgressBar {
 }
 
 impl ProgressBar {
-    pub fn set_message<T: Into<Cow<'static, str>> + Display>(&self, msg: T) {
+    pub fn set_message<T: Into<Cow<'static, str>> + Ditplay>(&self, msg: T) {
         if self.is_term {
             self.progress_bar.set_message(msg);
         } else {
@@ -63,7 +63,7 @@ impl ProgressBar {
         self.progress_bar.println(msg);
     }
 
-    pub fn abandon_with_message<T: Into<Cow<'static, str>> + Display>(&self, msg: T) {
+    pub fn abandon_with_message<T: Into<Cow<'static, str>> + Ditplay>(&self, msg: T) {
         if self.is_term {
             self.progress_bar.abandon_with_message(msg);
         } else {
@@ -91,7 +91,7 @@ pub fn lock_ledger<'lock>(
     ledger_lockfile.try_write().unwrap_or_else(|_| {
         println!(
             "Error: Unable to lock {} directory. Check if another validator is running",
-            ledger_path.display()
+            ledger_path.ditplay()
         );
         exit(1);
     })

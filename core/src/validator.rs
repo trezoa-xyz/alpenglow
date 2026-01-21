@@ -162,7 +162,7 @@ use {
         time::{Duration, Instant},
     },
     strum::VariantNames,
-    strum_macros::{Display, EnumCount, EnumIter, EnumString, EnumVariantNames, IntoStaticStr},
+    strum_macros::{Ditplay, EnumCount, EnumIter, EnumString, EnumVariantNames, IntoStaticStr},
     thiserror::Error,
     tokio::runtime::Runtime as TokioRuntime,
     tokio_util::sync::CancellationToken,
@@ -177,7 +177,7 @@ const WAIT_FOR_WEN_RESTART_SUPERMAJORITY_THRESHOLD_PERCENT: u64 =
     WAIT_FOR_SUPERMAJORITY_THRESHOLD_PERCENT;
 
 #[derive(
-    Clone, EnumCount, EnumIter, EnumString, EnumVariantNames, Default, IntoStaticStr, Display,
+    Clone, EnumCount, EnumIter, EnumString, EnumVariantNames, Default, IntoStaticStr, Ditplay,
 )]
 #[strum(serialize_all = "kebab-case")]
 pub enum BlockVerificationMethod {
@@ -203,7 +203,7 @@ impl BlockVerificationMethod {
     EnumVariantNames,
     Default,
     IntoStaticStr,
-    Display,
+    Ditplay,
     Serialize,
     Deserialize,
     PartialEq,
@@ -234,7 +234,7 @@ impl BlockProductionMethod {
     EnumVariantNames,
     Default,
     IntoStaticStr,
-    Display,
+    Ditplay,
     Serialize,
     Deserialize,
     PartialEq,
@@ -492,7 +492,7 @@ impl BlockstoreRootScan {
         {
             Some(
                 Builder::new()
-                    .name("solBStoreRtScan".to_string())
+                    .name("trzBStoreRtScan".to_string())
                     .spawn(move || blockstore.scan_and_fix_roots(None, None, &exit))
                     .unwrap(),
             )
@@ -648,7 +648,7 @@ impl Validator {
         // is honored. Otherwise, some code accessing the global pool could
         // cause it to get initialized with Rayon's default (not ours)
         if rayon::ThreadPoolBuilder::new()
-            .thread_name(|i| format!("solRayonGlob{i:02}"))
+            .thread_name(|i| format!("trzRayonGlob{i:02}"))
             .num_threads(config.rayon_global_threads.get())
             .build_global()
             .is_err()
@@ -1182,7 +1182,7 @@ impl Validator {
                 tokio::runtime::Builder::new_multi_thread()
                     .enable_all()
                     .worker_threads(2)
-                    .thread_name("solTpuClientRt")
+                    .thread_name("trzTpuClientRt")
                     .build()
                     .unwrap()
             });
@@ -1481,7 +1481,7 @@ impl Validator {
             .then(|| {
                 tokio::runtime::Builder::new_multi_thread()
                     .enable_all()
-                    .thread_name("solTurbineQuic")
+                    .thread_name("trzTurbineQuic")
                     .build()
                     .unwrap()
             });
@@ -1514,7 +1514,7 @@ impl Validator {
             .then(|| {
                 tokio::runtime::Builder::new_multi_thread()
                     .enable_all()
-                    .thread_name("solRepairQuic")
+                    .thread_name("trzRepairQuic")
                     .build()
                     .unwrap()
             });
@@ -2467,7 +2467,7 @@ impl<'a> ProcessBlockStore<'a> {
             let start_progress = self.start_progress.clone();
 
             let _ = Builder::new()
-                .name("solRptLdgrStat".to_string())
+                .name("trzRptLdgrStat".to_string())
                 .spawn(move || {
                     while !exit.load(Ordering::Relaxed) {
                         let slot = bank_forks.read().unwrap().working_bank().slot();
@@ -2627,7 +2627,7 @@ fn maybe_warp_slot(
         };
         info!(
             "created snapshot: {}",
-            full_snapshot_archive_info.path().display()
+            full_snapshot_archive_info.path().ditplay()
         );
 
         drop(bank_forks);

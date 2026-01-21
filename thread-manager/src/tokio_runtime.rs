@@ -148,7 +148,7 @@ impl TokioRuntime {
             worker_threads: 2,
             ..Default::default()
         };
-        TokioRuntime::new("solNetTest".to_owned(), cfg.clone())
+        TokioRuntime::new("trzNetTest".to_owned(), cfg.clone())
             .expect("Failed to create Tokio runtime for tests")
     }
 }

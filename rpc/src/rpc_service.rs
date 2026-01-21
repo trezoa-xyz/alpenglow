@@ -17,7 +17,7 @@ use {
         RequestMiddlewareAction, ServerBuilder,
     },
     regex::Regex,
-    trezoa_cli_output::display::build_balance_message,
+    trezoa_cli_output::ditplay::build_balance_message,
     trezoa_client::{
         client_option::ClientOption,
         connection_cache::{ConnectionCache, Protocol},
@@ -814,7 +814,7 @@ impl JsonRpcService {
 
         let (close_handle_sender, close_handle_receiver) = unbounded();
         let thread_hdl = Builder::new()
-            .name("solJsonRpcSvc".to_string())
+            .name("trzJsonRpcSvc".to_string())
             .spawn(move || {
                 renice_this_thread(rpc_niceness_adj).unwrap();
 
@@ -933,7 +933,7 @@ pub fn service_runtime(
             .worker_threads(rpc_threads)
             .max_blocking_threads(rpc_blocking_threads)
             .on_thread_start(move || renice_this_thread(rpc_niceness_adj).unwrap())
-            .thread_name("solRpcEl")
+            .thread_name("trzRpcEl")
             .enable_all()
             .build()
             .expect("Runtime"),
@@ -1014,7 +1014,7 @@ mod tests {
         )
         .expect("assume successful JsonRpcService start");
         let thread = rpc_service.thread_hdl.thread();
-        assert_eq!(thread.name().unwrap(), "solJsonRpcSvc");
+        assert_eq!(thread.name().unwrap(), "trzJsonRpcSvc");
 
         assert_eq!(
             10_000,

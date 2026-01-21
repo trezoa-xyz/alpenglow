@@ -17,7 +17,7 @@ use {
     },
     trezoa_banking_stage_ingress_types::{BankingPacketBatch, BankingPacketReceiver},
     trezoa_transaction_view::{
-        resolved_transaction_view::ResolvedTransactionView,
+        retrzved_transaction_view::RetrzvedTransactionView,
         transaction_version::TransactionVersion, transaction_view::SanitizedTransactionView,
     },
     arrayvec::ArrayVec,
@@ -236,7 +236,7 @@ impl SanitizedTransactionReceiveAndBuffer {
             let working_bank = bank_forks.working_bank();
             (root_bank, working_bank)
         };
-        let alt_resolved_slot = root_bank.slot();
+        let alt_retrzved_slot = root_bank.slot();
         let sanitized_epoch = root_bank.epoch();
         let transaction_account_lock_limit = working_bank.get_transaction_account_lock_limit();
         let vote_only = working_bank.vote_only_bank();
@@ -292,7 +292,7 @@ impl SanitizedTransactionReceiveAndBuffer {
                 max_ages.push(calculate_max_age(
                     sanitized_epoch,
                     deactivation_slot,
-                    alt_resolved_slot,
+                    alt_retrzved_slot,
                 ));
                 fee_budget_limits_vec.push(fee_budget_limits);
             }
@@ -366,7 +366,7 @@ pub(crate) struct TransactionViewReceiveAndBuffer {
 }
 
 impl ReceiveAndBuffer for TransactionViewReceiveAndBuffer {
-    type Transaction = RuntimeTransaction<ResolvedTransactionView<SharedBytes>>;
+    type Transaction = RuntimeTransaction<RetrzvedTransactionView<SharedBytes>>;
     type Container = TransactionViewStateContainer;
 
     fn receive_and_buffer_packets(
@@ -501,7 +501,7 @@ impl TransactionViewReceiveAndBuffer {
         let should_parse = !matches!(decision, BufferedPacketsDecision::Forward);
 
         // Sanitize packets, generate IDs, and insert into the container.
-        let alt_resolved_slot = root_bank.slot();
+        let alt_retrzved_slot = root_bank.slot();
         let sanitized_epoch = root_bank.epoch();
         let transaction_account_lock_limit = working_bank.get_transaction_account_lock_limit();
 
@@ -604,7 +604,7 @@ impl TransactionViewReceiveAndBuffer {
                             bytes,
                             root_bank,
                             working_bank,
-                            alt_resolved_slot,
+                            alt_retrzved_slot,
                             sanitized_epoch,
                             transaction_account_lock_limit,
                         ) {
@@ -662,7 +662,7 @@ impl TransactionViewReceiveAndBuffer {
         bytes: SharedBytes,
         root_bank: &Bank,
         working_bank: &Bank,
-        alt_resolved_slot: Slot,
+        alt_retrzved_slot: Slot,
         sanitized_epoch: Epoch,
         transaction_account_lock_limit: usize,
     ) -> Result<TransactionViewState, PacketHandlingError> {
@@ -697,7 +697,7 @@ impl TransactionViewReceiveAndBuffer {
             return Err(PacketHandlingError::Sanitization);
         };
 
-        let Ok(view) = RuntimeTransaction::<ResolvedTransactionView<_>>::try_from(
+        let Ok(view) = RuntimeTransaction::<RetrzvedTransactionView<_>>::try_from(
             view,
             loaded_addresses,
             root_bank.get_reserved_account_keys(),
@@ -716,7 +716,7 @@ impl TransactionViewReceiveAndBuffer {
             return Err(PacketHandlingError::ComputeBudget);
         };
 
-        let max_age = calculate_max_age(sanitized_epoch, deactivation_slot, alt_resolved_slot);
+        let max_age = calculate_max_age(sanitized_epoch, deactivation_slot, alt_retrzved_slot);
         let fee_budget_limits = FeeBudgetLimits::from(compute_budget_limits);
         let (priority, cost) = calculate_priority_and_cost(&view, &fee_budget_limits, working_bank);
 
@@ -767,7 +767,7 @@ fn calculate_priority_and_cost(
 /// Given the epoch, the minimum deactivation slot, and the current slot,
 /// return the `MaxAge` that should be used for the transaction. This is used
 /// to determine the maximum slot that a transaction will be considered valid
-/// for, without re-resolving addresses or resanitizing.
+/// for, without re-retrzving addresses or resanitizing.
 ///
 /// This function considers the deactivation period of Address Table
 /// accounts. If the deactivation period runs past the end of the epoch,
@@ -1183,7 +1183,7 @@ mod tests {
 
     #[test_case(setup_sanitized_transaction_receive_and_buffer; "testcase-sdk")]
     #[test_case(setup_transaction_view_receive_and_buffer; "testcase-view")]
-    fn test_receive_and_buffer_failed_alt_resolve<R: ReceiveAndBuffer>(
+    fn test_receive_and_buffer_failed_alt_retrzve<R: ReceiveAndBuffer>(
         setup_receive_and_buffer: impl FnOnce(
             Receiver<BankingPacketBatch>,
             Arc<RwLock<BankForks>>,

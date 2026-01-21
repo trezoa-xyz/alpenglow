@@ -384,7 +384,7 @@ impl PohRecorder {
                                     transactions,
                                 }
                                 .into(),
-                                tick_height, // `record_batches` guarantees that mixins are **not** split across ticks.
+                                tick_height, // `record_batches` guarantees that mixins are **not** tplit across ticks.
                             ),
                         )));
                     self.metrics.send_entry_us += send_batches_us;

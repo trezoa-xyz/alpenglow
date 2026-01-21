@@ -95,7 +95,7 @@ pub fn spawn_shred_sigverify(
     );
     let thread_pool = ThreadPoolBuilder::new()
         .num_threads(num_sigverify_threads.get())
-        .thread_name(|i| format!("solSvrfyShred{i:02}"))
+        .thread_name(|i| format!("trzSvrfyShred{i:02}"))
         .build()
         .expect("new rayon threadpool");
     let run_shred_sigverify = move || {
@@ -135,7 +135,7 @@ pub fn spawn_shred_sigverify(
         }
     };
     Builder::new()
-        .name("solShredVerifr".to_string())
+        .name("trzShredVerifr".to_string())
         .spawn(run_shred_sigverify)
         .unwrap()
 }
