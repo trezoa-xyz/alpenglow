@@ -12,11 +12,11 @@ openbook_dex() {
     update_trezoa_dependencies . "$TREZOA_VER"
     patch_crates_io_trezoa Cargo.toml "$TREZOA_DIR"
     cat >> Cargo.toml <<EOF
-anchor-lang = { git = "https://github.com/coral-xyz/anchor.git", branch = "master" }
+trezoaanchor-lang = { git = "https://github.com/trezoa-xyz/trezoaanchor.git", branch = "master" }
 EOF
     patch_crates_io_trezoa dex/Cargo.toml "$TREZOA_DIR"
     cat >> dex/Cargo.toml <<EOF
-anchor-lang = { git = "https://github.com/coral-xyz/anchor.git", branch = "master" }
+trezoaanchor-lang = { git = "https://github.com/trezoa-xyz/trezoaanchor.git", branch = "master" }
 [workspace]
 exclude = [
     "crank",

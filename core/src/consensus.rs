@@ -859,13 +859,13 @@ impl Tower {
 
         if last_vote_ancestors.is_empty() {
             // If `last_vote_ancestors` is empty, this means we must have a last vote that is stray. If the `last_voted_slot`
-            // is stray, it must be descended from some earlier root than the latest root (the anchor at startup).
+            // is stray, it must be descended from some earlier root than the latest root (the trezoaanchor at startup).
             // The above check also guarentees that the candidate slot is not a descendant of this stray last vote.
             //
             // This gives us a fork graph:
             //     / ------------- stray `last_voted_slot`
             // old root
-            //     \- latest root (anchor) - ... - candidate slot
+            //     \- latest root (trezoaanchor) - ... - candidate slot
             //                                \- switch slot
             //
             // Thus the common acnestor of `last_voted_slot` and `candidate_slot` is `old_root`, which the `switch_slot`
@@ -1466,7 +1466,7 @@ impl Tower {
                 // Normally, we goes into this clause with possible help of
                 // reconcile_blockstore_roots_with_external_source()
                 if slot_history.check(last_voted_slot) == Check::TooOld {
-                    // We could try hard to anchor with other older votes, but opt to simplify the
+                    // We could try hard to trezoaanchor with other older votes, but opt to simplify the
                     // following logic
                     return Err(TowerError::TooOldTower(
                         last_voted_slot,
@@ -1494,7 +1494,7 @@ impl Tower {
                 // Blockstore doesn't have the tower_root slot because of
                 // (replayed_root < tower_root) in this else clause, meaning the tower is from
                 // the future from the view of blockstore.
-                // Pretend the blockstore has the future tower_root to anchor exactly with that
+                // Pretend the blockstore has the future tower_root to trezoaanchor exactly with that
                 // slot by adding tower_root to a slot history. The added slot will be newer
                 // than all slots in the slot history (remember tower_root > replayed_root),
                 // satisfying the slot history invariant.

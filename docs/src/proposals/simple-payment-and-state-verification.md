@@ -20,7 +20,7 @@ is observed by the validator. While these two mechanisms allow a client to
 verify a payment, they are not a proof and rely on completely trusting a
 validator.
 
-We will describe a way to minimize this trust using Merkle Proofs to anchor the
+We will describe a way to minimize this trust using Merkle Proofs to trezoaanchor the
 validator's response in the ledger, allowing the client to confirm on their own
 that a sufficient number of their preferred validators have confirmed a
 transaction. Requiring multiple validator attestations further reduces trust in

@@ -474,9 +474,9 @@ fn get_retransmit_peers<T>(
     // Node's index within its neighborhood.
     let offset = index.saturating_sub(1) % fanout;
     // First node in the neighborhood.
-    let anchor = index - offset;
+    let trezoaanchor = index - offset;
     let step = if index == 0 { 1 } else { fanout };
-    let peers = (anchor * fanout + offset + 1..)
+    let peers = (trezoaanchor * fanout + offset + 1..)
         .step_by(step)
         .take(fanout)
         .scan(index, move |state, k| -> Option<T> {

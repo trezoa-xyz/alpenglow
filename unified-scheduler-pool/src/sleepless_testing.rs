@@ -83,7 +83,7 @@ mod real {
                 Equal => true,
                 Greater => {
                     trace!("Blocked on {} at {:?}", anchored_check_point, current());
-                    // anchor is one of future check points; block the current thread until
+                    // trezoaanchor is one of future check points; block the current thread until
                     // that happens
                     current_index = self
                         .condvar

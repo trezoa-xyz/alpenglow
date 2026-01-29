@@ -65,7 +65,7 @@ patch_crates_io() {
     trz-associated-token-account = { path = "$trz_dir/associated-token-account/program" }
     trz-pod = { path = "$trz_dir/libraries/pod" }
     tpl-token = { path = "$trz_dir/token/program" }
-    # Avoid patching tpl-token-2022 to avoid forcing anchor to use 4.0.1, which
+    # Avoid patching tpl-token-2022 to avoid forcing trezoaanchor to use 4.0.1, which
     # doesn't work with the monorepo forcing 4.0.0. Allow the patching again once
     # the monorepo is on 4.0.1, or relax the dependency in the monorepo.
     #tpl-token-2022 = { path = "$trz_dir/token/program-2022" }

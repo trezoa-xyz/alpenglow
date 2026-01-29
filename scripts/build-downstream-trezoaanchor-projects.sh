@@ -8,7 +8,7 @@ cd "$(dirname "$0")"/..
 source ci/_
 source scripts/patch-crates.sh
 source scripts/read-cargo-variable.sh
-source scripts/patch-trz-crates-for-anchor.sh
+source scripts/patch-trz-crates-for-trezoaanchor.sh
 
 anchor_version=$1
 trezoa_ver=$(readCargoVariable version Cargo.toml)
@@ -17,8 +17,8 @@ cargo="$trezoa_dir"/cargo
 cargo_build_sbf="$trezoa_dir"/cargo-build-sbf
 cargo_test_sbf="$trezoa_dir"/cargo-test-sbf
 
-mkdir -p target/downstream-projects-anchor
-cd target/downstream-projects-anchor
+mkdir -p target/downstream-projects-trezoaanchor
+cd target/downstream-projects-trezoaanchor
 
 update_anchor_dependencies() {
   declare project_root="$1"
@@ -26,23 +26,23 @@ update_anchor_dependencies() {
   declare tomls=()
   while IFS='' read -r line; do tomls+=("$line"); done < <(find "$project_root" -name Cargo.toml)
 
-  sed -i -e "s#\(anchor-lang = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
-  sed -i -e "s#\(anchor-tpl = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
-  sed -i -e "s#\(anchor-lang = { version = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
-  sed -i -e "s#\(anchor-tpl = { version = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
+  sed -i -e "s#\(trezoaanchor-lang = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
+  sed -i -e "s#\(trezoaanchor-tpl = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
+  sed -i -e "s#\(trezoaanchor-lang = { version = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
+  sed -i -e "s#\(trezoaanchor-tpl = { version = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
 }
 
 patch_crates_io_anchor() {
   declare Cargo_toml="$1"
   declare anchor_dir="$2"
   cat >> "$Cargo_toml" <<EOF
-anchor-lang = { path = "$anchor_dir/lang" }
-anchor-tpl = { path = "$anchor_dir/tpl" }
+trezoaanchor-lang = { path = "$anchor_dir/lang" }
+trezoaanchor-tpl = { path = "$anchor_dir/tpl" }
 EOF
 }
 
 # NOTE This isn't run in a subshell to get $anchor_dir and $anchor_ver
-anchor() {
+trezoaanchor() {
   set -x
 
   rm -rf tpl
@@ -53,9 +53,9 @@ anchor() {
   get_trz_versions "$trz_dir"
   cd ..
 
-  rm -rf anchor
-  git clone https://github.com/coral-xyz/anchor.git
-  cd anchor || exit 1
+  rm -rf trezoaanchor
+  git clone https://github.com/trezoa-xyz/trezoaanchor.git
+  cd trezoaanchor || exit 1
 
   # checkout tag
   if [[ -n "$anchor_version" ]]; then
@@ -80,7 +80,7 @@ anchor() {
   anchor_dir=$PWD
   anchor_ver=$(readCargoVariable version "$anchor_dir"/lang/Cargo.toml)
 
-  cd "$trezoa_dir"/target/downstream-projects-anchor
+  cd "$trezoa_dir"/target/downstream-projects-trezoaanchor
 }
 
 openbook() {
@@ -128,7 +128,7 @@ trezoaplex() {
   )
 }
 
-_ anchor
+_ trezoaanchor
 #_ trezoaplex
 #_ mango
 #_ openbook
