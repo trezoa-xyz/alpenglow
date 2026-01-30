@@ -60,7 +60,7 @@ A fee could be calculated based on:
      the compute budget and will not be used in transaction scheduling
      decisions. The methods used to determine the fixed cost of the components
      above are described in
-     [#19627](https://github.com/trezoa-labs/trezoa/issues/19627)
+     [#19627](https://github.com/trezoa-team/trezoa/issues/19627)
 
 ### Cost model
 
@@ -75,19 +75,19 @@ takes within a slot to process.
 
 ### Cache account sizes and use them instead of the max
 
-https://github.com/trezoa-labs/trezoa/issues/20511
+https://github.com/trezoa-team/trezoa/issues/20511
 
 ### Requestable compute budget caps and heap sizes
 
 The precompiled
-[ComputeBudget](https://github.com/trezoa-labs/trezoa/blob/00929f836348d76cb3503d0ba5f76f0d275bcc66/sdk/src/compute_budget.rs#L34)
+[ComputeBudget](https://github.com/trezoa-team/trezoa/blob/00929f836348d76cb3503d0ba5f76f0d275bcc66/sdk/src/compute_budget.rs#L34)
 program can be used to request higher transaction-wide compute budget caps and
 program heap sizes.  The requested increases will be reflected in the
 transaction's fee.
 
 ### Fees for precompiled program failures
 
-https://github.com/trezoa-labs/trezoa/issues/20481
+https://github.com/trezoa-team/trezoa/issues/20481
 
 ### Rate governing
 

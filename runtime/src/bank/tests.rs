@@ -8234,7 +8234,7 @@ fn test_stake_vote_account_validity() {
     let thread_pool = ThreadPoolBuilder::new().num_threads(1).build().unwrap();
     // TODO: stakes cache should be hardened for the case when the account
     // owner is changed from vote/stake program to something else. see:
-    // https://github.com/trezoa-labs/trezoa/pull/24200#discussion_r849935444
+    // https://github.com/trezoa-team/trezoa/pull/24200#discussion_r849935444
     check_stake_vote_account_validity(
         false, // check owner change
         |bank: &Bank| bank._load_vote_and_stake_accounts(&thread_pool, null_tracer()),

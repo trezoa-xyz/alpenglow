@@ -1,4 +1,4 @@
-name: Downstream Project - TPL (Nightly)
+name: Downstream Trezoa - TPL (Nightly)
 
 on:
   schedule:
@@ -12,7 +12,7 @@ jobs:
       matrix:
         branch:
           - master
-    uses: ./.github/workflows/downstream-project-tpl.yml
+    uses: ./.github/workflows/downstream-trezoa-tpl.yml
     with:
       branch: ${{ matrix.branch }}
 

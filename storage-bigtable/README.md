@@ -13,7 +13,7 @@ Process:
 
 ### Production Environment
 Export a standard `GOOGLE_APPLICATION_CREDENTIALS` environment variable to your
-service account credentials.  The project should contain a BigTable instance
+service account credentials.  The trezoa should contain a BigTable instance
 called `trezoa-ledger` that has been initialized by running the `./init-bigtable.sh` script.
 
 Depending on what operation mode is required, either the

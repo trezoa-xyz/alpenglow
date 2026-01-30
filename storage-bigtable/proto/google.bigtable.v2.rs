@@ -716,7 +716,7 @@ pub mod request_stats {
 pub struct ReadRowsRequest {
     /// Required. The unique name of the table from which to read.
     /// Values are of the form
-    /// `projects/<project>/instances/<instance>/tables/<table>`.
+    /// `projects/<trezoa>/instances/<instance>/tables/<table>`.
     #[prost(string, tag = "1")]
     pub table_name: ::prost::alloc::string::String,
     /// This value specifies routing for replication. If not specified, the
@@ -921,7 +921,7 @@ pub mod read_rows_response {
 pub struct SampleRowKeysRequest {
     /// Required. The unique name of the table from which to sample row keys.
     /// Values are of the form
-    /// `projects/<project>/instances/<instance>/tables/<table>`.
+    /// `projects/<trezoa>/instances/<instance>/tables/<table>`.
     #[prost(string, tag = "1")]
     pub table_name: ::prost::alloc::string::String,
     /// This value specifies routing for replication. If not specified, the
@@ -953,7 +953,7 @@ pub struct SampleRowKeysResponse {
 pub struct MutateRowRequest {
     /// Required. The unique name of the table to which the mutation should be
     /// applied. Values are of the form
-    /// `projects/<project>/instances/<instance>/tables/<table>`.
+    /// `projects/<trezoa>/instances/<instance>/tables/<table>`.
     #[prost(string, tag = "1")]
     pub table_name: ::prost::alloc::string::String,
     /// This value specifies routing for replication. If not specified, the
@@ -1063,7 +1063,7 @@ pub struct RateLimitInfo {
 pub struct CheckAndMutateRowRequest {
     /// Required. The unique name of the table to which the conditional mutation
     /// should be applied. Values are of the form
-    /// `projects/<project>/instances/<instance>/tables/<table>`.
+    /// `projects/<trezoa>/instances/<instance>/tables/<table>`.
     #[prost(string, tag = "1")]
     pub table_name: ::prost::alloc::string::String,
     /// This value specifies routing for replication. If not specified, the
@@ -1108,7 +1108,7 @@ pub struct CheckAndMutateRowResponse {
 pub struct PingAndWarmRequest {
     /// Required. The unique name of the instance to check permissions for as well
     /// as respond. Values are of the form
-    /// `projects/<project>/instances/<instance>`.
+    /// `projects/<trezoa>/instances/<instance>`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     /// This value specifies routing for replication. If not specified, the
@@ -1124,7 +1124,7 @@ pub struct PingAndWarmResponse {}
 pub struct ReadModifyWriteRowRequest {
     /// Required. The unique name of the table to which the read/modify/write rules
     /// should be applied. Values are of the form
-    /// `projects/<project>/instances/<instance>/tables/<table>`.
+    /// `projects/<trezoa>/instances/<instance>/tables/<table>`.
     #[prost(string, tag = "1")]
     pub table_name: ::prost::alloc::string::String,
     /// This value specifies routing for replication. If not specified, the
@@ -1154,7 +1154,7 @@ pub struct ReadModifyWriteRowResponse {
 pub struct GenerateInitialChangeStreamPartitionsRequest {
     /// Required. The unique name of the table from which to get change stream
     /// partitions. Values are of the form
-    /// `projects/<project>/instances/<instance>/tables/<table>`.
+    /// `projects/<trezoa>/instances/<instance>/tables/<table>`.
     /// Change streaming must be enabled on the table.
     #[prost(string, tag = "1")]
     pub table_name: ::prost::alloc::string::String,
@@ -1178,7 +1178,7 @@ pub struct GenerateInitialChangeStreamPartitionsResponse {
 pub struct ReadChangeStreamRequest {
     /// Required. The unique name of the table from which to read a change stream.
     /// Values are of the form
-    /// `projects/<project>/instances/<instance>/tables/<table>`.
+    /// `projects/<trezoa>/instances/<instance>/tables/<table>`.
     /// Change streaming must be enabled on the table.
     #[prost(string, tag = "1")]
     pub table_name: ::prost::alloc::string::String,

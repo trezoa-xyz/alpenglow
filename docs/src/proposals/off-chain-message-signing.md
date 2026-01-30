@@ -129,10 +129,10 @@ is chosen such that it corresponds to a value (`0xff`) which is implicitly illeg
 as the first byte in a transaction `MessageHeader` today. The property is implicit
 because the top bit in the first byte of a `MessageHeader` being set signals a
 versioned transaction, but only a value of
-[zero is supported](https://github.com/trezoa-labs/trezoa/blob/b6ae6c1fe17e4b64c5051c651ca2585e4f55468c/sdk/program/src/message/versions/mod.rs#L269-L281)
+[zero is supported](https://github.com/trezoa-team/trezoa/blob/b6ae6c1fe17e4b64c5051c651ca2585e4f55468c/sdk/program/src/message/versions/mod.rs#L269-L281)
 at this time. The runtime will need to be modified to reserve 127 as an illegal
 version number, making this property explicit.
 
 ### Implementation
 
-The runtime changes described above have been implemented in PR [#29807](https://github.com/trezoa-labs/trezoa/pull/29807)
+The runtime changes described above have been implemented in PR [#29807](https://github.com/trezoa-team/trezoa/pull/29807)

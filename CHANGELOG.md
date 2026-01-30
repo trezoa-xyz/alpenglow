@@ -1,10 +1,10 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this trezoa will be documented in this file.
 
 Please follow the [guidance](#adding-to-this-changelog) at the bottom of this file when making changes
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
-This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
+This trezoa adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 and follows a [Backwards Compatibility Policy](https://docs.trezoa.xyz/backwards-compatibility)
 
 Release channels have their own copy of this changelog:
@@ -181,7 +181,7 @@ trezoa_pubkey::declare_id!("MyProgram1111111111111111111111111111111111");
 * Breaking
   * SDK:
     * Support for Borsh v0.9 removed, please use v1 or v0.10 (#1440)
-    * `Copy` is no longer derived on `Rent` and `EpochSchedule`, please switch to using `clone()` (trezoa-labs#32767)
+    * `Copy` is no longer derived on `Rent` and `EpochSchedule`, please switch to using `clone()` (trezoa-team#32767)
     * `trezoa-sdk`: deprecated symbols removed
     * `trezoa-program`: deprecated symbols removed
   * RPC: obtrzete and deprecated v1 endpoints are removed. These endpoints are:

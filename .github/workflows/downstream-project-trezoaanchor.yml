@@ -1,4 +1,4 @@
-name: Downstream Project - Anchor
+name: Downstream Trezoa - Anchor
 
 on:
   push:
@@ -18,8 +18,8 @@ on:
       - "scripts/build-downstream-trezoaanchor-projects.sh"
       - "scripts/patch-tpl-crates-for-trezoaanchor.sh"
       - ".github/scripts/purge-ubuntu-runner.sh"
-      - ".github/scripts/downstream-project-tpl-install-deps.sh"
-      - ".github/workflows/downstream-project-trezoaanchor.yml"
+      - ".github/scripts/downstream-trezoa-tpl-install-deps.sh"
+      - ".github/workflows/downstream-trezoa-trezoaanchor.yml"
   workflow_call:
     inputs:
       branch:
@@ -57,5 +57,5 @@ jobs:
 
       - shell: bash
         run: |
-          source .github/scripts/downstream-project-tpl-install-deps.sh
+          source .github/scripts/downstream-trezoa-tpl-install-deps.sh
           ./scripts/build-downstream-trezoaanchor-projects.sh ${{ matrix.version }}

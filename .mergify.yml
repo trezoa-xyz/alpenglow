@@ -64,7 +64,7 @@ pull_request_rules:
             - check-success=clippy-nightly (macos-latest)
             - check-success=clippy-nightly (macos-latest-large)
         - or:
-          - -files~=(\.rs|Cargo\.toml|Cargo\.lock|cargo-build-sbf|cargo-test-sbf|ci/downstream-projects/run-tpl\.sh|\.github/workflows/downstream-project-tpl\.yml)$
+          - -files~=(\.rs|Cargo\.toml|Cargo\.lock|cargo-build-sbf|cargo-test-sbf|ci/downstream-projects/run-tpl\.sh|\.github/workflows/downstream-trezoa-tpl\.yml)$
           - and:
             - status-success=check (associated-token-account)
             - status-success=check (feature-proposal)
@@ -192,8 +192,8 @@ pull_request_rules:
         message: |
           If this PR represents a change to the public RPC API:
 
-          1. Make sure it includes a complementary update to `rpc-client/` ([example](https://github.com/trezoa-labs/trezoa/pull/29558/files))
-          2. Open a follow-up PR to update the JavaScript client `@trezoa/kit` ([example](https://github.com/trezoa-labs/trezoa-web3.js/pull/2868/files))
+          1. Make sure it includes a complementary update to `rpc-client/` ([example](https://github.com/trezoa-team/trezoa/pull/29558/files))
+          2. Open a follow-up PR to update the JavaScript client `@trezoa/kit` ([example](https://github.com/trezoa-team/trezoa-web3.js/pull/2868/files))
 
           Thank you for keeping the RPC clients in sync with the server API @{{author}}.
   - name: Reminder to add Firedancer team to changes in `programs/`

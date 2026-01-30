@@ -152,4 +152,4 @@ appearing.  To check for progress:
 If this happens and the error is non-fatal, click "Retry" on the "publish crate" job
 
 ### Update software on testnet.trezoa.com
-See the documentation at https://github.com/trezoa-labs/cluster-ops/. devnet.trezoa.com and mainnet-beta.trezoa.com run stable releases that have been tested on testnet. Do not update devnet or mainnet-beta with a beta release.
+See the documentation at https://github.com/trezoa-team/cluster-ops/. devnet.trezoa.com and mainnet-beta.trezoa.com run stable releases that have been tested on testnet. Do not update devnet or mainnet-beta with a beta release.

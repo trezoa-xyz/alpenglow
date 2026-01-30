@@ -929,7 +929,7 @@ impl FieldBehavior {
 ///        // For Kubernetes resources, the format is {api group}/{kind}.
 ///        option (google.api.resource) = {
 ///          type: "pubsub.googleapis.com/Topic"
-///          pattern: "projects/{project}/topics/{topic}"
+///          pattern: "projects/{trezoa}/topics/{topic}"
 ///        };
 ///      }
 ///
@@ -937,7 +937,7 @@ impl FieldBehavior {
 ///
 ///      resources:
 ///      - type: "pubsub.googleapis.com/Topic"
-///        pattern: "projects/{project}/topics/{topic}"
+///        pattern: "projects/{trezoa}/topics/{topic}"
 ///
 /// Sometimes, resources have multiple patterns, typically because they can
 /// live under multiple parents.
@@ -947,7 +947,7 @@ impl FieldBehavior {
 ///      message LogEntry {
 ///        option (google.api.resource) = {
 ///          type: "logging.googleapis.com/LogEntry"
-///          pattern: "projects/{project}/logs/{log}"
+///          pattern: "projects/{trezoa}/logs/{log}"
 ///          pattern: "folders/{folder}/logs/{log}"
 ///          pattern: "organizations/{organization}/logs/{log}"
 ///          pattern: "billingAccounts/{billing_account}/logs/{log}"
@@ -958,7 +958,7 @@ impl FieldBehavior {
 ///
 ///      resources:
 ///      - type: 'logging.googleapis.com/LogEntry'
-///        pattern: "projects/{project}/logs/{log}"
+///        pattern: "projects/{trezoa}/logs/{log}"
 ///        pattern: "folders/{folder}/logs/{log}"
 ///        pattern: "organizations/{organization}/logs/{log}"
 ///        pattern: "billingAccounts/{billing_account}/logs/{log}"
@@ -988,12 +988,12 @@ pub struct ResourceDescriptor {
     ///
     /// Examples:
     ///
-    ///      - "projects/{project}/topics/{topic}"
-    ///      - "projects/{project}/knowledgeBases/{knowledge_base}"
+    ///      - "projects/{trezoa}/topics/{topic}"
+    ///      - "projects/{trezoa}/knowledgeBases/{knowledge_base}"
     ///
     /// The components in braces correspond to the IDs for each resource in the
     /// hierarchy. It is expected that, if multiple patterns are provided,
-    /// the same component name (e.g. "project") refers to IDs of the same
+    /// the same component name (e.g. "trezoa") refers to IDs of the same
     /// type of resource.
     #[prost(string, repeated, tag = "2")]
     pub pattern: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1006,20 +1006,20 @@ pub struct ResourceDescriptor {
     /// Example:
     ///
     ///      // The InspectTemplate message originally only supported resource
-    ///      // names with organization, and project was added later.
+    ///      // names with organization, and trezoa was added later.
     ///      message InspectTemplate {
     ///        option (google.api.resource) = {
     ///          type: "dlp.googleapis.com/InspectTemplate"
     ///          pattern:
     ///          "organizations/{organization}/inspectTemplates/{inspect_template}"
-    ///          pattern: "projects/{project}/inspectTemplates/{inspect_template}"
+    ///          pattern: "projects/{trezoa}/inspectTemplates/{inspect_template}"
     ///          history: ORIGINALLY_SINGLE_PATTERN
     ///        };
     ///      }
     #[prost(enumeration = "resource_descriptor::History", tag = "4")]
     pub history: i32,
     /// The plural name used in the resource name and permission names, such as
-    /// 'projects' for the resource name of 'projects/{project}' and the permission
+    /// 'projects' for the resource name of 'projects/{trezoa}' and the permission
     /// name of 'cloudresourcemanager.googleapis.com/projects.get'. It is the same
     /// concept of the `plural` field in k8s CRD spec
     /// <https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/>
@@ -1030,7 +1030,7 @@ pub struct ResourceDescriptor {
     pub plural: ::prost::alloc::string::String,
     /// The same concept of the `singular` field in k8s CRD spec
     /// <https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/>
-    /// Such as "project" for the `resourcemanager.googleapis.com/Project` type.
+    /// Such as "trezoa" for the `resourcemanager.googleapis.com/Trezoa` type.
     #[prost(string, tag = "6")]
     pub singular: ::prost::alloc::string::String,
     /// Style flag(s) for this resource.
@@ -1186,8 +1186,8 @@ pub struct ResourceReference {
 ///      message Request {
 ///        // The name of the Table
 ///        // Values can be of the following formats:
-///        // - `projects/<project>/tables/<table>`
-///        // - `projects/<project>/instances/<instance>/tables/<table>`
+///        // - `projects/<trezoa>/tables/<table>`
+///        // - `projects/<trezoa>/instances/<instance>/tables/<table>`
 ///        // - `region/<region>/zones/<zone>/tables/<table>`
 ///        string table_name = 1;
 ///
@@ -1262,7 +1262,7 @@ pub struct ResourceReference {
 /// annotation:
 ///
 ///      option (google.api.routing) = {
-///        // Take the `table_name`, if it's well-formed (with project-based
+///        // Take the `table_name`, if it's well-formed (with trezoa-based
 ///        // syntax).
 ///        routing_parameters {
 ///          field: "table_name"
@@ -1328,7 +1328,7 @@ pub struct ResourceReference {
 /// annotation:
 ///
 ///      option (google.api.routing) = {
-///        // Take just the project id from the `table_name` field.
+///        // Take just the trezoa id from the `table_name` field.
 ///        routing_parameters {
 ///          field: "table_name"
 ///          path_template: "{routing_id=projects/*}/**"
@@ -1349,8 +1349,8 @@ pub struct ResourceReference {
 ///
 ///      option (google.api.routing) = {
 ///        // If the `table_name` does not have instances information,
-///        // take just the project id for routing.
-///        // Otherwise take project + instance.
+///        // take just the trezoa id for routing.
+///        // Otherwise take trezoa + instance.
 ///
 ///        routing_parameters {
 ///          field: "table_name"
@@ -1381,12 +1381,12 @@ pub struct ResourceReference {
 ///
 ///      option (google.api.routing) = {
 ///        // The routing code needs two keys instead of one composite
-///        // but works only for the tables with the "project-instance" name
+///        // but works only for the tables with the "trezoa-instance" name
 ///        // syntax.
 ///
 ///        routing_parameters {
 ///          field: "table_name"
-///          path_template: "{project_id=projects/*}/instances/*/**"
+///          path_template: "{trezoa_id=projects/*}/instances/*/**"
 ///        }
 ///        routing_parameters {
 ///          field: "table_name"
@@ -1397,23 +1397,23 @@ pub struct ResourceReference {
 /// result:
 ///
 ///      x-goog-request-params:
-///      project_id=projects/proj_foo&instance_id=instances/instance_bar
+///      trezoa_id=projects/proj_foo&instance_id=instances/instance_bar
 ///
 /// Sub-example 6b
 ///
 /// Make the templates loose, so that if the `table_name` does not
-/// have an instance information, just the project id part is sent.
+/// have an instance information, just the trezoa id part is sent.
 ///
 /// annotation:
 ///
 ///      option (google.api.routing) = {
 ///        // The routing code wants two keys instead of one composite
-///        // but will work with just the `project_id` for tables without
+///        // but will work with just the `trezoa_id` for tables without
 ///        // an instance in the `table_name`.
 ///
 ///        routing_parameters {
 ///          field: "table_name"
-///          path_template: "{project_id=projects/*}/**"
+///          path_template: "{trezoa_id=projects/*}/**"
 ///        }
 ///        routing_parameters {
 ///          field: "table_name"
@@ -1425,7 +1425,7 @@ pub struct ResourceReference {
 /// information):
 ///
 ///      x-goog-request-params:
-///      project_id=projects/proj_foo&instance_id=instances/instance_bar
+///      trezoa_id=projects/proj_foo&instance_id=instances/instance_bar
 ///
 /// Example 7
 ///
@@ -1434,19 +1434,19 @@ pub struct ResourceReference {
 ///
 /// NB: note that here there is no way to specify sending nothing if one of the
 /// fields does not match its template. E.g. if the `table_name` is in the wrong
-/// format, the `project_id` will not be sent, but the `routing_id` will be.
+/// format, the `trezoa_id` will not be sent, but the `routing_id` will be.
 /// The backend routing code has to be aware of that and be prepared to not
 /// receive a full complement of keys if it expects multiple.
 ///
 /// annotation:
 ///
 ///      option (google.api.routing) = {
-///        // The routing needs both `project_id` and `routing_id`
+///        // The routing needs both `trezoa_id` and `routing_id`
 ///        // (from the `app_profile_id` field) for routing.
 ///
 ///        routing_parameters {
 ///          field: "table_name"
-///          path_template: "{project_id=projects/*}/**"
+///          path_template: "{trezoa_id=projects/*}/**"
 ///        }
 ///        routing_parameters {
 ///          field: "app_profile_id"
@@ -1457,7 +1457,7 @@ pub struct ResourceReference {
 /// result:
 ///
 ///      x-goog-request-params:
-///      project_id=projects/proj_foo&routing_id=profiles/prof_qux
+///      trezoa_id=projects/proj_foo&routing_id=profiles/prof_qux
 ///
 /// Example 8
 ///
@@ -1468,7 +1468,7 @@ pub struct ResourceReference {
 /// annotation:
 ///
 ///      option (google.api.routing) = {
-///        // The `routing_id` can be a project id or a region id depending on
+///        // The `routing_id` can be a trezoa id or a region id depending on
 ///        // the table name format, but only if the `app_profile_id` is not set.
 ///        // If `app_profile_id` is set it should be used instead.
 ///
@@ -1506,7 +1506,7 @@ pub struct ResourceReference {
 ///        // just the `<profile_id>` part.
 ///        // - If it's any other literal, send it as is.
 ///        // If the `app_profile_id` is empty, and the `table_name` starts with
-///        // the project_id, send that instead.
+///        // the trezoa_id, send that instead.
 ///
 ///        routing_parameters {
 ///          field: "table_name"

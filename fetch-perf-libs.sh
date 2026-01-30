@@ -27,7 +27,7 @@ if [[ $VERSION != "$(cat target/perf-libs/.version 2> /dev/null)" ]]; then
       cp ~/.cache/trezoa-perf-$PERF_LIBS_VERSION.tgz trezoa-perf.tgz
     else
       curl -L --retry 5 --retry-delay 2 --retry-connrefused -o trezoa-perf.tgz \
-        https://github.com/trezoa-labs/trezoa-perf-libs/releases/download/$PERF_LIBS_VERSION/trezoa-perf.tgz
+        https://github.com/trezoa-team/trezoa-perf-libs/releases/download/$PERF_LIBS_VERSION/trezoa-perf.tgz
     fi
     tar zxvf trezoa-perf.tgz
 

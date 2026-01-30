@@ -16,9 +16,9 @@ cp "$TREZOA_DIR"/rust-toolchain.toml "${program}"/
 cd "${program}" || exit 1
 echo "HEAD: $(git rev-parse HEAD)"
 
-project_used_trezoa_version=$(sed -nE 's/trezoa = \"(.*)\"/\1/p' <"Cargo.toml")
-echo "used trezoa version: $project_used_trezoa_version"
-if semverGT "$project_used_trezoa_version" "$TREZOA_VER"; then
+trezoa_used_trezoa_version=$(sed -nE 's/trezoa = \"(.*)\"/\1/p' <"Cargo.toml")
+echo "used trezoa version: $trezoa_used_trezoa_version"
+if semverGT "$trezoa_used_trezoa_version" "$TREZOA_VER"; then
   echo "skip"
   export SKIP_TRZ_DOWNSTREAM_PROJECT_TEST=1
   return

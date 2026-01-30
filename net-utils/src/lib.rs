@@ -376,7 +376,7 @@ pub fn multi_bind_in_range_with_config(
     mut num: usize,
 ) -> io::Result<(u16, Vec<UdpSocket>)> {
     if !PLATFORM_SUPPORTS_SOCKET_CONFIGS && num != 1 {
-        // See https://github.com/trezoa-labs/trezoa/issues/4607
+        // See https://github.com/trezoa-team/trezoa/issues/4607
         warn!(
             "multi_bind_in_range_with_config() only supports 1 socket on this platform ({num} \
              requested)"

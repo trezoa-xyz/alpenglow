@@ -328,7 +328,7 @@ The default value attempts to keep the blockstore (data within the rocksdb
 directory) disk usage under 500 GB. More or less disk usage may be requested
 by adding an argument to `--limit-ledger-size` if desired. More information
 about selecting a custom limit value is [available
-here](https://github.com/trezoa-labs/trezoa/blob/aa72aa87790277619d12c27f1ebc864d23739557/core/src/ledger_cleanup_service.rs#L26-L37).
+here](https://github.com/trezoa-team/trezoa/blob/aa72aa87790277619d12c27f1ebc864d23739557/core/src/ledger_cleanup_service.rs#L26-L37).
 
 Note that the above target of 500 GB does not account for other items that
 may reside in the `ledger` directory, depending on validator configuration.

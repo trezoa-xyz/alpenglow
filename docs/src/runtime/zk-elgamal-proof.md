@@ -38,7 +38,7 @@ cannot change the original value that is contained in a commitment.
 Interested readers can refer to the following resources for a more in-depth
 treatment of Pedersen commitment and the (twisted) ElGamal encryption schemes.
 
-- [Notes](https://github.com/trezoa-labs/trezoa/blob/master/docs/src/runtime/zk-docs/twisted_elgamal.pdf)
+- [Notes](https://github.com/trezoa-team/trezoa/blob/master/docs/src/runtime/zk-docs/twisted_elgamal.pdf)
   on the twisted ElGamal encryption
 - A technical
   [overview](https://github.com/trezoa-program/token-2022/blob/main/zk-token-protocol-paper/part1.pdf)

@@ -77,9 +77,9 @@ impl AccessToken {
         }
     }
 
-    /// The project that this token grants access to
-    pub fn project(&self) -> String {
-        self.credentials.project()
+    /// The trezoa that this token grants access to
+    pub fn trezoa(&self) -> String {
+        self.credentials.trezoa()
     }
 
     async fn get_token(

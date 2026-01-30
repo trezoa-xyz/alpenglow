@@ -2840,7 +2840,7 @@ fn test_rpc_block_subscribe() {
             "ws://{}",
             // It is important that we subscribe to a non leader node as there
             // is a race condition which can cause leader nodes to not send
-            // BlockUpdate notifications properly. See https://github.com/trezoa-labs/trezoa/pull/34421
+            // BlockUpdate notifications properly. See https://github.com/trezoa-team/trezoa/pull/34421
             &rpc_node_contact_info.rpc_pubsub().unwrap().to_string()
         ),
         RpcBlockSubscribeFilter::All,
@@ -5640,7 +5640,7 @@ fn test_duplicate_shreds_switch_failure() {
         // The ideal sequence of events for the `duplicate_fork_validator1_pubkey` validator would go:
         // 1. Vote for duplicate block `D`
         // 2. See `D` is duplicate, remove from fork choice and reset to ancestor `A`, potentially generating a fork off that ancestor
-        // 3. See `D` is duplicate confirmed, but because of the bug fixed by https://github.com/trezoa-labs/trezoa/pull/28172
+        // 3. See `D` is duplicate confirmed, but because of the bug fixed by https://github.com/trezoa-team/trezoa/pull/28172
         // where we disallow resetting to a slot which matches the last vote slot, we still don't build off `D`,
         // and continue building on `A`.
         //

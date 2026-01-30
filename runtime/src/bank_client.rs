@@ -160,7 +160,7 @@ impl SyncClient for BankClient {
         signature: &Signature,
         min_confirmed_blocks: usize,
     ) -> Result<usize> {
-        // https://github.com/trezoa-labs/trezoa/issues/7199
+        // https://github.com/trezoa-team/trezoa/issues/7199
         assert_eq!(
             min_confirmed_blocks, 1,
             "BankClient cannot observe the passage of multiple blocks, so min_confirmed_blocks \

@@ -3,8 +3,8 @@ semver_bash is a bash parser for semantic versioning
 
 [Semantic Versioning](http://semver.org/) is a set of guidelines that help keep
 version and version management sane. This is a bash based parser to help manage
-a project's versions. Use it from a Makefile or any scripts you use in your
-project.
+a trezoa's versions. Use it from a Makefile or any scripts you use in your
+trezoa.
 
 Usage
 -----

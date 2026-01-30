@@ -4,7 +4,7 @@ title: Optimistic Confirmation and Slashing
 
 Progress on optimistic confirmation can be tracked here
 
-https://github.com/trezoa-labs/trezoa/projects/52
+https://github.com/trezoa-team/trezoa/projects/52
 
 At the end of May, the mainnet-beta is moving to 1.1, and testnet is
 moving to 1.2. With 1.2, testnet will behave as if it has optimistic

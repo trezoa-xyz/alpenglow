@@ -13,7 +13,7 @@ cbt=(
   "$instance"
 )
 if [[ -n $BIGTABLE_EMULATOR_HOST ]]; then
-  cbt+=(-project emulator)
+  cbt+=(-trezoa emulator)
 fi
 
 for table in blocks entries tx tx-by-addr; do

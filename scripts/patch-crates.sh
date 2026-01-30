@@ -1,10 +1,10 @@
 # source this file
 
 update_trezoa_dependencies() {
-  declare project_root="$1"
+  declare trezoa_root="$1"
   declare trezoa_ver="$2"
   declare tomls=()
-  while IFS='' read -r line; do tomls+=("$line"); done < <(find "$project_root" -name Cargo.toml)
+  while IFS='' read -r line; do tomls+=("$line"); done < <(find "$trezoa_root" -name Cargo.toml)
 
   crates=(
     trezoa-account-decoder

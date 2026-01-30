@@ -21,10 +21,10 @@ mkdir -p target/downstream-projects-trezoaanchor
 cd target/downstream-projects-trezoaanchor
 
 update_anchor_dependencies() {
-  declare project_root="$1"
+  declare trezoa_root="$1"
   declare anchor_ver="$2"
   declare tomls=()
-  while IFS='' read -r line; do tomls+=("$line"); done < <(find "$project_root" -name Cargo.toml)
+  while IFS='' read -r line; do tomls+=("$line"); done < <(find "$trezoa_root" -name Cargo.toml)
 
   sed -i -e "s#\(trezoaanchor-lang = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
   sed -i -e "s#\(trezoaanchor-tpl = \"\)[^\"]*\(\"\)#\1=$anchor_ver\2#g" "${tomls[@]}" || return $?
@@ -46,7 +46,7 @@ trezoaanchor() {
   set -x
 
   rm -rf tpl
-  git clone https://github.com/trezoa-labs/trezoa-program-library.git tpl
+  git clone https://github.com/trezoa-team/trezoa-program-library.git tpl
   cd tpl || exit 1
   ./patch.crates-io.sh "$trezoa_dir"
   trz_dir=$PWD

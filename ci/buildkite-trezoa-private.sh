@@ -219,7 +219,7 @@ pull_or_push_steps() {
 #   start_pipeline "Tag pipeline for $BUILDKITE_TAG"
 
 #   annotate --style info --context release-tag \
-#     "https://github.com/trezoa-labs/trezoa/releases/$BUILDKITE_TAG"
+#     "https://github.com/trezoa-team/trezoa/releases/$BUILDKITE_TAG"
 
 #   # Jump directly to the secondary build to publish release artifacts quickly
 #   trigger_secondary_step

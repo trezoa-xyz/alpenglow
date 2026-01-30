@@ -22,17 +22,17 @@ get_trz_versions() {
 }
 
 patch_trz_crates() {
-    declare project_root="$1"
+    declare trezoa_root="$1"
     declare Cargo_toml="$2"
     declare trz_dir="$3"
-    update_trz_dependencies "$project_root"
+    update_trz_dependencies "$trezoa_root"
     patch_crates_io "$Cargo_toml" "$trz_dir"
 }
 
 update_trz_dependencies() {
-    declare project_root="$1"
+    declare trezoa_root="$1"
     declare tomls=()
-    while IFS='' read -r line; do tomls+=("$line"); done < <(find "$project_root" -name Cargo.toml)
+    while IFS='' read -r line; do tomls+=("$line"); done < <(find "$trezoa_root" -name Cargo.toml)
 
     sed -i -e "s#\(trz-associated-token-account = \"\)[^\"]*\(\"\)#\1$trz_associated_token_account_version\2#g" "${tomls[@]}" || return $?
     sed -i -e "s#\(trz-associated-token-account = { version = \"\)[^\"]*\(\"\)#\1$trz_associated_token_account_version\2#g" "${tomls[@]}" || return $?

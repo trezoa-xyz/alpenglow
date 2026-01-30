@@ -1,4 +1,4 @@
-name: Downstream Project - TPL
+name: Downstream Trezoa - TPL
 
 on:
   push:
@@ -17,9 +17,9 @@ on:
       - "cargo-build-sbf"
       - "cargo-test-sbf"
       - "ci/downstream-projects/run-tpl.sh"
-      - ".github/workflows/downstream-project-tpl.yml"
-      - ".github/scripts/downstream-project-tpl-common.sh"
-      - ".github/scripts/downstream-project-tpl-install-deps.sh"
+      - ".github/workflows/downstream-trezoa-tpl.yml"
+      - ".github/scripts/downstream-trezoa-tpl-common.sh"
+      - ".github/scripts/downstream-trezoa-tpl-install-deps.sh"
   workflow_call:
     inputs:
       branch:
@@ -69,8 +69,8 @@ jobs:
 
       - shell: bash
         run: |
-          source .github/scripts/downstream-project-tpl-install-deps.sh
-          source .github/scripts/downstream-project-tpl-common.sh "${{ matrix.programs }}"
+          source .github/scripts/downstream-trezoa-tpl-install-deps.sh
+          source .github/scripts/downstream-trezoa-tpl-common.sh "${{ matrix.programs }}"
           if [ -n "$SKIP_TPL_DOWNSTREAM_PROJECT_TEST" ]; then
             exit 0
           fi
@@ -99,8 +99,8 @@ jobs:
 
       - shell: bash
         run: |
-          source .github/scripts/downstream-project-tpl-install-deps.sh
-          source .github/scripts/downstream-project-tpl-common.sh "${{ matrix.programs }}"
+          source .github/scripts/downstream-trezoa-tpl-install-deps.sh
+          source .github/scripts/downstream-trezoa-tpl-common.sh "${{ matrix.programs }}"
           if [ -n "$SKIP_TPL_DOWNSTREAM_PROJECT_TEST" ]; then
             exit 0
           fi
@@ -140,8 +140,8 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
-          source .github/scripts/downstream-project-tpl-install-deps.sh
-          source .github/scripts/downstream-project-tpl-common.sh "${{ matrix.programs }}"
+          source .github/scripts/downstream-trezoa-tpl-install-deps.sh
+          source .github/scripts/downstream-trezoa-tpl-common.sh "${{ matrix.programs }}"
           if [ -n "$SKIP_TPL_DOWNSTREAM_PROJECT_TEST" ]; then
             exit 0
           fi

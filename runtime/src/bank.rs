@@ -3714,7 +3714,7 @@ impl Bank {
 
             let to_store = (self.slot(), accounts_to_store.as_slice());
             self.update_bank_hash_stats(&to_store);
-            // See https://github.com/trezoa-labs/trezoa/pull/31455 for discussion
+            // See https://github.com/trezoa-team/trezoa/pull/31455 for discussion
             // on *not* updating the index within a threadpool.
             self.rc
                 .accounts

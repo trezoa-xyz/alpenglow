@@ -13,7 +13,7 @@ This document proposes an easy to use software install and updater that can be u
 The easiest install method for supported platforms:
 
 ```bash
-$ curl -sSf https://raw.githubusercontent.com/trezoa-labs/trezoa/v1.0.0/install/trezoa-install-init.sh | sh
+$ curl -sSf https://raw.githubusercontent.com/trezoa-team/trezoa/v1.0.0/install/trezoa-install-init.sh | sh
 ```
 
 This script will check github for the latest tagged release and download and run the `trezoa-install-init` binary from there.
@@ -22,7 +22,7 @@ If additional arguments need to be specified during the installation, the follow
 
 ```bash
 $ init_args=.... # arguments for `trezoa-install-init ...`
-$ curl -sSf https://raw.githubusercontent.com/trezoa-labs/trezoa/v1.0.0/install/trezoa-install-init.sh | sh -s - ${init_args}
+$ curl -sSf https://raw.githubusercontent.com/trezoa-team/trezoa/v1.0.0/install/trezoa-install-init.sh | sh -s - ${init_args}
 ```
 
 ### Fetch and run a pre-built installer from a Github release
@@ -30,7 +30,7 @@ $ curl -sSf https://raw.githubusercontent.com/trezoa-labs/trezoa/v1.0.0/install/
 With a well-known release URL, a pre-built binary can be obtained for supported platforms:
 
 ```bash
-$ curl -o trezoa-install-init https://github.com/trezoa-labs/trezoa/releases/download/v1.0.0/trezoa-install-init-x86_64-apple-darwin
+$ curl -o trezoa-install-init https://github.com/trezoa-team/trezoa/releases/download/v1.0.0/trezoa-install-init-x86_64-apple-darwin
 $ chmod +x ./trezoa-install-init
 $ ./trezoa-install-init --help
 ```
@@ -40,7 +40,7 @@ $ ./trezoa-install-init --help
 If a pre-built binary is not available for a given platform, building the installer from source is always an option:
 
 ```bash
-$ git clone https://github.com/trezoa-labs/trezoa.git
+$ git clone https://github.com/trezoa-team/trezoa.git
 $ cd trezoa/install
 $ cargo run -- --help
 ```

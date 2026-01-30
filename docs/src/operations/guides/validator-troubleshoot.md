@@ -15,7 +15,7 @@ testnet participants, [https://trezoa.com/discord](https://trezoa.com/discord)
 - Validator [Discord](https://trezoa.com/discord) channels
   - `#validator-support` --  General support channel for any Validator related queries.
   - `#testnet-announcements` -- The single source of truth for critical information relating Testnet
-- [Core software repo](https://github.com/trezoa-labs/trezoa)
+- [Core software repo](https://github.com/trezoa-team/trezoa)
 
 ## Blockstore
 

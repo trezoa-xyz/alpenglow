@@ -55,7 +55,7 @@ exec trezoa-validator \
 
 The Trezoa blockchain is able to create many transactions per second. Because of the volume of transactions on the chain, it is not practical for an RPC node to store the entire blockchain on the machine. Instead, RPC operators use the `--limit-ledger-size` flag to specify how many blocks to store on the RPC node. If the user of the RPC node needs historical blockchain data, then the RPC server will have to access older blocks through a Trezoa bigtable instance.
 
-If you are interested in setting up your own bigtable instance, see these docs in the Trezoa GitHub repository: [trezoa-labs/trezoa-bigtable](https://github.com/trezoa-labs/trezoa-bigtable)
+If you are interested in setting up your own bigtable instance, see these docs in the Trezoa GitHub repository: [trezoa-team/trezoa-bigtable](https://github.com/trezoa-team/trezoa-bigtable)
 
 ### Example Known Validators
 

@@ -319,7 +319,7 @@ impl<'de> DeserializeTrait<'de> for UiTransactionError {
 #[serde(rename_all = "camelCase")]
 pub struct UiTransactionStatusMeta {
     pub err: Option<UiTransactionError>,
-    pub status: Result<(), UiTransactionError>, // This field is deprecated.  See https://github.com/trezoa-labs/trezoa/issues/9302
+    pub status: Result<(), UiTransactionError>, // This field is deprecated.  See https://github.com/trezoa-team/trezoa/issues/9302
     pub fee: u64,
     pub pre_balances: Vec<u64>,
     pub post_balances: Vec<u64>,

@@ -97,4 +97,4 @@ with a fixed prefix: `\xfftrezoa offchain`, where first byte is chosen such
 that it is implicitly illegal as the first byte in a transaction
 `MessageHeader` today. More details about the payload format and other
 considerations are available in the
-[proposal](https://github.com/trezoa-labs/trezoa/blob/master/docs/src/proposals/off-chain-message-signing.md).
+[proposal](https://github.com/trezoa-team/trezoa/blob/master/docs/src/proposals/off-chain-message-signing.md).

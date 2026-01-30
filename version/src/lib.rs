@@ -17,7 +17,7 @@ mod legacy;
 
 #[derive(Debug, Eq, PartialEq)]
 enum ClientId {
-    TrezoaLabs,
+    TrezoaTeam,
     JitoLabs,
     Firedancer,
     Trezoa-team,
@@ -98,7 +98,7 @@ impl Sanitize for Version {}
 impl From<u16> for ClientId {
     fn from(client: u16) -> Self {
         match client {
-            0u16 => Self::TrezoaLabs,
+            0u16 => Self::TrezoaTeam,
             1u16 => Self::JitoLabs,
             2u16 => Self::Firedancer,
             3u16 => Self::Trezoa-team,
@@ -112,7 +112,7 @@ impl TryFrom<ClientId> for u16 {
 
     fn try_from(client: ClientId) -> Result<Self, Self::Error> {
         match client {
-            ClientId::TrezoaLabs => Ok(0u16),
+            ClientId::TrezoaTeam => Ok(0u16),
             ClientId::JitoLabs => Ok(1u16),
             ClientId::Firedancer => Ok(2u16),
             ClientId::Trezoa-team => Ok(3u16),
@@ -150,14 +150,14 @@ mod test {
 
     #[test]
     fn test_client_id() {
-        assert_eq!(ClientId::from(0u16), ClientId::TrezoaLabs);
+        assert_eq!(ClientId::from(0u16), ClientId::TrezoaTeam);
         assert_eq!(ClientId::from(1u16), ClientId::JitoLabs);
         assert_eq!(ClientId::from(2u16), ClientId::Firedancer);
         assert_eq!(ClientId::from(3u16), ClientId::Trezoa-team);
         for client in 4u16..=u16::MAX {
             assert_eq!(ClientId::from(client), ClientId::Unknown(client));
         }
-        assert_eq!(u16::try_from(ClientId::TrezoaLabs), Ok(0u16));
+        assert_eq!(u16::try_from(ClientId::TrezoaTeam), Ok(0u16));
         assert_eq!(u16::try_from(ClientId::JitoLabs), Ok(1u16));
         assert_eq!(u16::try_from(ClientId::Firedancer), Ok(2u16));
         assert_eq!(u16::try_from(ClientId::Trezoa-team), Ok(3u16));

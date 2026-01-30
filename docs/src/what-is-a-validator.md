@@ -30,7 +30,7 @@ Trezoa, in contrast, does not incentivize validators to use many computers to tr
 
 Proof of history, PoH, is one of the key innovations in Trezoa that allows transactions to be finalized very quickly. At a high level, PoH allows validators in the cluster to agree on a cryptographically repeatable clock. Both proof of stake and proof of work architectures mentioned above are architectures that bring the cluster to consensus. In other words, these algorithms decide which blocks should be added to the blockchain. Proof of history is not a consensus architecture, but rather a feature in Trezoa that makes block finalization faster in the proof of stake system.
 
-Understanding how PoH works is not necessary to run a good validator, but a very approachable discussion can be found [in this Medium article](https://medium.com/trezoa-labs/proof-of-history-explained-by-a-water-clock-e682183417b8). Also, the [Trezoa whitepaper](https://trezoa.com/trezoa-whitepaper.pdf) does a good job of explaining the algorithm in an approachable way for the more technically minded.
+Understanding how PoH works is not necessary to run a good validator, but a very approachable discussion can be found [in this Medium article](https://medium.com/trezoa-team/proof-of-history-explained-by-a-water-clock-e682183417b8). Also, the [Trezoa whitepaper](https://trezoa.com/trezoa-whitepaper.pdf) does a good job of explaining the algorithm in an approachable way for the more technically minded.
 
 ## Your Role As A Validator
 

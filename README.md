@@ -6,8 +6,8 @@
 
 [![Trezoa crate](https://img.shields.io/crates/v/trezoa-core.svg)](https://crates.io/crates/trezoa-core)
 [![Trezoa documentation](https://docs.rs/trezoa-core/badge.svg)](https://docs.rs/trezoa-core)
-[![Build status](https://badge.buildkite.com/8cc350de251d61483db98bdfc895b9ea0ac8ffa4a32ee850ed.svg?branch=master)](https://buildkite.com/trezoa-labs/trezoa/builds?branch=master)
-[![codecov](https://codecov.io/gh/trezoa-labs/trezoa/branch/master/graph/badge.svg)](https://codecov.io/gh/trezoa-labs/trezoa)
+[![Build status](https://badge.buildkite.com/8cc350de251d61483db98bdfc895b9ea0ac8ffa4a32ee850ed.svg?branch=master)](https://buildkite.com/trezoa-team/trezoa/builds?branch=master)
+[![codecov](https://codecov.io/gh/trezoa-team/trezoa/branch/master/graph/badge.svg)](https://codecov.io/gh/trezoa-team/trezoa)
 
 # Building
 
@@ -94,7 +94,7 @@ $ cargo +nightly bench
 
 # Release Process
 
-The release process for this project is described [here](RELEASE.md).
+The release process for this trezoa is described [here](RELEASE.md).
 
 # Code coverage
 

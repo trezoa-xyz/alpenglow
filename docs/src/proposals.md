@@ -3,7 +3,7 @@ title: System Design Proposals
 sidebar_label: Overview
 ---
 
-Changes to the Trezoa architecture are performed through a public proposal process (via pull requests) on the [Trezoa GitHub repository](https://github.com/trezoa-labs/trezoa). New proposals should be submitted with the "[Submit a Design Proposal](#submit-a-design-proposal)" guide below.
+Changes to the Trezoa architecture are performed through a public proposal process (via pull requests) on the [Trezoa GitHub repository](https://github.com/trezoa-team/trezoa). New proposals should be submitted with the "[Submit a Design Proposal](#submit-a-design-proposal)" guide below.
 
 There are currently two different states of these design proposals:
 
@@ -30,7 +30,7 @@ To submit a new design proposal for Trezoa:
 2. Add any relevant Trezoa maintainers to the PR review.
 3. Publish the PR for community review and feedback.
 
-> **NOTE:** All people submitting PRs to the Trezoa repo should consult the [CONTRIBUTING](https://github.com/trezoa-labs/trezoa/blob/master/CONTRIBUTING.md) doc in the repo.
+> **NOTE:** All people submitting PRs to the Trezoa repo should consult the [CONTRIBUTING](https://github.com/trezoa-team/trezoa/blob/master/CONTRIBUTING.md) doc in the repo.
 
 ### After Accepted
 

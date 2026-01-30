@@ -1,7 +1,7 @@
 //! defines block cost related limits
 //!
 
-// Cluster data, method of collecting at https://github.com/trezoa-labs/trezoa/issues/19627
+// Cluster data, method of collecting at https://github.com/trezoa-team/trezoa/issues/19627
 // Dashboard: https://metrics.trezoa.com/d/monitor-edge/cluster-telemetry?orgId=1
 
 /// Cluster averaged compute unit to micro-sec conversion rate

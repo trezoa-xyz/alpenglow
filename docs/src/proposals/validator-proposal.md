@@ -11,7 +11,7 @@ verification, software pipelining and concurrent banking. Thus, the TPU was
 born. After topping 100k TPS, we tplit the team into one group working toward
 710k TPS and another to flesh out the validator pipeline. Hence, the TVU was
 born. The current architecture is a consequence of incremental development with
-that ordering and project priorities. It is not a reflection of what we ever
+that ordering and trezoa priorities. It is not a reflection of what we ever
 believed was the most technically elegant cross-section of those technologies.
 In the context of leader rotation, the strong distinction between leading and
 validating is blurred.

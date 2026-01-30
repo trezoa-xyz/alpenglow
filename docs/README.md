@@ -39,7 +39,7 @@ The build script generates static content into the `build` directory and can be 
 ./build.sh
 ```
 
-Running this build script requires **Docker**, and will auto fetch the [trezoalabs/rust](https://hub.docker.com/r/trezoalabs/rust) image from Docker hub to compile the desired version of the [Trezoa CLI](https://docs.trezoa.xyz/cli) from source.
+Running this build script requires **Docker**, and will auto fetch the [trezoateam/rust](https://hub.docker.com/r/trezoateam/rust) image from Docker hub to compile the desired version of the [Trezoa CLI](https://docs.trezoa.xyz/cli) from source.
 
 This build script will also:
 

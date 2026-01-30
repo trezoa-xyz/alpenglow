@@ -64,7 +64,7 @@ killSession
 (
   set -x
   if [[ ! -x baseline-run.sh ]]; then
-    curl https://raw.githubusercontent.com/trezoa-labs/trezoa/v"$baselineVersion"/run.sh -o baseline-run.sh
+    curl https://raw.githubusercontent.com/trezoa-team/trezoa/v"$baselineVersion"/run.sh -o baseline-run.sh
     chmod +x baseline-run.sh
   fi
   tmux new -s abi -d " \
@@ -99,7 +99,7 @@ done
 
 # Start a validator for each version and look for it
 #
-# Once https://github.com/trezoa-labs/trezoa/issues/7738 is retrzved, remove
+# Once https://github.com/trezoa-team/trezoa/issues/7738 is retrzved, remove
 # `--no-snapshot-fetch` when starting the validators
 #
 nodeCount=1

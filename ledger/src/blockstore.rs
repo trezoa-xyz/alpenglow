@@ -3644,7 +3644,7 @@ impl Blockstore {
         }
 
         // If present, delete dummy entries inserted by old software
-        // https://github.com/trezoa-labs/trezoa/blob/bc2b372/ledger/src/blockstore.rs#L2130-L2137
+        // https://github.com/trezoa-team/trezoa/blob/bc2b372/ledger/src/blockstore.rs#L2130-L2137
         let transaction_status_dummy_key = cf::TransactionStatus::as_index(2);
         if self
             .transaction_status_cf
@@ -5243,7 +5243,7 @@ impl Blockstore {
     /// [`cf::Orphans`].
     ///
     /// For more information about the chaining, check the previous discussion here:
-    /// https://github.com/trezoa-labs/trezoa/pull/2253
+    /// https://github.com/trezoa-team/trezoa/pull/2253
     ///
     /// Arguments:
     /// - `db`: the blockstore db that stores both shreds and their metadata.

@@ -3,7 +3,7 @@ const katex = require("rehype-katex");
 module.exports = {
   title: "Trezoa-team",
   tagline:
-    "Trezoa-team is an open source project implementing a new, high-performance, permissionless blockchain.",
+    "Trezoa-team is an open source trezoa implementing a new, high-performance, permissionless blockchain.",
   url: "https://docs.anza.xyz",
   baseUrl: "/",
   favicon: "img/favicon.ico",

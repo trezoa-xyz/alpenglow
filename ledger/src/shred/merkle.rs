@@ -513,7 +513,7 @@ impl<'a> ShredTrait<'a> for ShredData {
         Payload: From<T>,
     {
         let mut payload = Payload::from(payload);
-        // see: https://github.com/trezoa-labs/trezoa/pull/10109
+        // see: https://github.com/trezoa-team/trezoa/pull/10109
         if payload.len() < Self::SIZE_OF_PAYLOAD {
             return Err(Error::InvalidPayloadSize(payload.len()));
         }
@@ -574,7 +574,7 @@ impl<'a> ShredTrait<'a> for ShredCode {
         if !matches!(common_header.shred_variant, ShredVariant::MerkleCode { .. }) {
             return Err(Error::InvalidShredVariant);
         }
-        // see: https://github.com/trezoa-labs/trezoa/pull/10109
+        // see: https://github.com/trezoa-team/trezoa/pull/10109
         if payload.len() < Self::SIZE_OF_PAYLOAD {
             return Err(Error::InvalidPayloadSize(payload.len()));
         }

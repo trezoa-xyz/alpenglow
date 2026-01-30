@@ -18,9 +18,9 @@ $ gcloud auth login
 ```
 If you are running the scripts on a headless machine, you can use curl to issue requests to confirm your auth.
 
-If you are doing it the first time, you might need to set up project
+If you are doing it the first time, you might need to set up trezoa
 ```bash
-gcloud config set project principal-lane-200702
+gcloud config set trezoa principal-lane-200702
 ```
 
 #### AWS

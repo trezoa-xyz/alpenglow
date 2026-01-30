@@ -10,5 +10,5 @@ coverage:
   round: down
   status:
     patch: false
-    project: false
+    trezoa: false
 github_checks: false

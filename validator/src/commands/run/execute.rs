@@ -552,7 +552,7 @@ pub fn execute(
                 SocketAddr::new(rpc_bind_address, rpc_port + 1),
                 // If additional ports are added, +2 needs to be skipped to avoid a conflict with
                 // the websocket port (which is +2) in web3.js This odd port shifting is tracked at
-                // https://github.com/trezoa-labs/trezoa/issues/12250
+                // https://github.com/trezoa-team/trezoa/issues/12250
             )
         }),
         pubsub_config: run_args.pub_sub_config,

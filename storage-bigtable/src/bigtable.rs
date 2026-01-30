@@ -170,7 +170,7 @@ impl BigTableConnection {
 
                 let table_prefix = format!(
                     "projects/{}/instances/{}/tables/",
-                    access_token.project(),
+                    access_token.trezoa(),
                     instance_name
                 );
 

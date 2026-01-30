@@ -405,7 +405,7 @@ full_page_writes = off                 # recover from partial page writes
 max_wal_senders = 0                    # max number of walsender processes
 ```
 
-The sample [postgresql.conf](https://github.com/trezoa-labs/trezoa/blob/7ac43b16d2c766df61ae0a06d7aaf14ba61996ac/accountsdb-plugin-postgres/scripts/postgresql.conf)
+The sample [postgresql.conf](https://github.com/trezoa-team/trezoa/blob/7ac43b16d2c766df61ae0a06d7aaf14ba61996ac/accountsdb-plugin-postgres/scripts/postgresql.conf)
 can be used for reference.
 
 #### Create the Database Instance and the Role
@@ -438,13 +438,13 @@ psql -U trezoa -p 5433 -h 10.138.0.9 -w -d trezoa
 
 #### Create the Schema Objects
 
-Use the [create_schema.sql](https://github.com/trezoa-labs/trezoa/blob/a70eb098f4ae9cd359c1e40bbb7752b3dd61de8d/accountsdb-plugin-postgres/scripts/create_schema.sql)
+Use the [create_schema.sql](https://github.com/trezoa-team/trezoa/blob/a70eb098f4ae9cd359c1e40bbb7752b3dd61de8d/accountsdb-plugin-postgres/scripts/create_schema.sql)
 to create the objects for storing accounts and slots.
 
 Download the script from github:
 
 ```
-wget https://raw.githubusercontent.com/trezoa-labs/trezoa/a70eb098f4ae9cd359c1e40bbb7752b3dd61de8d/accountsdb-plugin-postgres/scripts/create_schema.sql
+wget https://raw.githubusercontent.com/trezoa-team/trezoa/a70eb098f4ae9cd359c1e40bbb7752b3dd61de8d/accountsdb-plugin-postgres/scripts/create_schema.sql
 ```
 
 Then run the script:
@@ -459,7 +459,7 @@ argument mentioned above.
 #### Destroy the Schema Objects
 
 To destroy the database objects, created by `create_schema.sql`, use
-[drop_schema.sql](https://github.com/trezoa-labs/trezoa/blob/a70eb098f4ae9cd359c1e40bbb7752b3dd61de8d/accountsdb-plugin-postgres/scripts/drop_schema.sql).
+[drop_schema.sql](https://github.com/trezoa-team/trezoa/blob/a70eb098f4ae9cd359c1e40bbb7752b3dd61de8d/accountsdb-plugin-postgres/scripts/drop_schema.sql).
 For example,
 
 ```

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Project nits enforced here
+# Trezoa nits enforced here
 #
 set -e
 
@@ -39,7 +39,7 @@ if _ git --no-pager grep -n "${prints[@]/#/-e}" -- "${print_free_tree[@]}"; then
     exit 1
 fi
 
-# Ref: https://github.com/trezoa-labs/trezoa/pull/30843#issuecomment-1480399497
+# Ref: https://github.com/trezoa-team/trezoa/pull/30843#issuecomment-1480399497
 if _ git --no-pager grep -F '.hidden(true)' -- '*.rs'; then
     echo 'use ".hidden(hidden_unless_forced())" instead'
     exit 1
@@ -48,7 +48,7 @@ fi
 # Github Issues should be used to track outstanding work items instead of
 # marking up the code
 #
-# Ref: https://github.com/trezoa-labs/trezoa/issues/6474
+# Ref: https://github.com/trezoa-team/trezoa/issues/6474
 #
 # shellcheck disable=1001
 declare useGithubIssueInsteadOf=(

@@ -20,14 +20,14 @@ tpl() {
     )
     set -x
     rm -rf tpl
-    git clone https://github.com/trezoa-labs/trezoa-program-library.git tpl
+    git clone https://github.com/trezoa-team/trezoa-program-library.git tpl
     # copy toolchain file to use trezoa's rust version
     cp "$TREZOA_DIR"/rust-toolchain.toml tpl/
     cd tpl || exit 1
 
-    project_used_trezoa_version=$(sed -nE 's/trezoa-sdk = \"[>=<~]*(.*)\"/\1/p' <"token/program/Cargo.toml")
-    echo "used trezoa version: $project_used_trezoa_version"
-    if semverGT "$project_used_trezoa_version" "$TREZOA_VER"; then
+    trezoa_used_trezoa_version=$(sed -nE 's/trezoa-sdk = \"[>=<~]*(.*)\"/\1/p' <"token/program/Cargo.toml")
+    echo "used trezoa version: $trezoa_used_trezoa_version"
+    if semverGT "$trezoa_used_trezoa_version" "$TREZOA_VER"; then
       echo "skip"
       return
     fi

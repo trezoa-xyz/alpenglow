@@ -151,7 +151,7 @@ pub(crate) fn print_token_balances(
 mod tests {
     // The following unit tests were written for v1.4 using the ProgramTest framework, passing its
     // BanksClient into the `trezoa-tokens` methods. With the revert to RpcClient in this module
-    // (https://github.com/trezoa-labs/trezoa/pull/13623), that approach was no longer viable.
+    // (https://github.com/trezoa-team/trezoa/pull/13623), that approach was no longer viable.
     // These tests were removed rather than rewritten to avoid accruing technical debt. Once a new
     // rpc/client framework is implemented, they should be restored.
     //
@@ -159,5 +159,5 @@ mod tests {
     // async fn test_process_tpl_token_transfer_amount_allocations()
     // async fn test_check_tpl_token_balances()
     //
-    // https://github.com/trezoa-labs/trezoa/blob/5511d52c6284013a24ced10966d11d8f4585799e/tokens/src/tpl_token.rs#L490-L685
+    // https://github.com/trezoa-team/trezoa/blob/5511d52c6284013a24ced10966d11d8f4585799e/tokens/src/tpl_token.rs#L490-L685
 }

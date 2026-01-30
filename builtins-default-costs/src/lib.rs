@@ -65,7 +65,7 @@ impl BuiltinCost {
 /// of https://github.com/trezoa-xyz/trezoa/issues/2212.  It's also used to
 /// calculate the cost of a transaction which is used in replay to enforce
 /// block cost limits as of
-/// https://github.com/trezoa-labs/trezoa/issues/29595.
+/// https://github.com/trezoa-team/trezoa/issues/29595.
 static BUILTIN_INSTRUCTION_COSTS: std::sync::LazyLock<AHashMap<Pubkey, BuiltinCost>> =
     std::sync::LazyLock::new(|| {
         MIGRATING_BUILTINS_COSTS
