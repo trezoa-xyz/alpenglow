@@ -1083,7 +1083,7 @@ class DocumentFragment {
  *
  * Similar functions for working with MathML nodes exist in mathMLTree.js.
  *
- * TODO: refactor `span` and `anchor` into common superclass when
+ * TODO: refactor `span` and `trezoaanchor` into common superclass when
  * target environments support class inheritance
  */
 
@@ -1241,7 +1241,7 @@ class Span {
 
 }
 /**
- * This node represents an anchor (<a>) element with a hyperlink.  See `span`
+ * This node represents an trezoaanchor (<a>) element with a hyperlink.  See `span`
  * for further details.
  */
 
@@ -5616,15 +5616,15 @@ const makeLineSpan = function makeLineSpan(className, options, thickness) {
   return line;
 };
 /**
- * Makes an anchor with the given href, list of classes, list of children,
+ * Makes an trezoaanchor with the given href, list of classes, list of children,
  * and options.
  */
 
 
 const makeAnchor = function makeAnchor(href, classes, children, options) {
-  const anchor = new Anchor(href, classes, children, options);
-  sizeElementFromChildren(anchor);
-  return anchor;
+  const trezoaanchor = new Anchor(href, classes, children, options);
+  sizeElementFromChildren(trezoaanchor);
+  return trezoaanchor;
 };
 /**
  * Makes a document fragment with the given list of children.
