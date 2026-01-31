@@ -71,7 +71,7 @@ trezoaanchor() {
 
   # Exclude `avm` tests because they don't depend on Trezoa or TRZ
   $cargo test --workspace --exclude avm
-  # serum_dex and mpl-token-metadata are using caret versions of trezoa and TRZ dependencies
+  # serum_dex and tpl-token-metadata are using caret versions of trezoa and TRZ dependencies
   # rather pull and patch those as well, ignore for now
   # (cd tpl && $cargo_build_sbf --features dex metadata stake)
   (cd tpl && $cargo_build_sbf --features stake)
@@ -110,11 +110,11 @@ mango() {
 trezoaplex() {
   (
     set -x
-    rm -rf mpl-token-metadata
-    git clone https://github.com/trezoaplex-foundation/mpl-token-metadata
+    rm -rf tpl-token-metadata
+    git clone https://github.com/trezoaplex-foundation/tpl-token-metadata
     # copy toolchain file to use trezoa's rust version
-    cp "$trezoa_dir"/rust-toolchain.toml mpl-token-metadata/
-    cd mpl-token-metadata
+    cp "$trezoa_dir"/rust-toolchain.toml tpl-token-metadata/
+    cd tpl-token-metadata
     ./configs/program-scripts/dump.sh ./programs/bin
     ROOT_DIR=$(pwd)
     cd programs/token-metadata
